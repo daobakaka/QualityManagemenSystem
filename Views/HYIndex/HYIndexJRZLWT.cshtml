@@ -1,0 +1,185 @@
+﻿@model WebWinMVC.Models.JRZLWTViewModel
+
+@{
+    ViewData["Title"] = "即日质量问题";
+}
+
+<div class="datatable-container">
+    <div class="row">
+        <!-- 表格区域，占据屏幕的全宽度 -->
+            <h2 class="text-center">@Model.AdditionalInfo</h2>
+        <div class="d-flex justify-content-center">
+            <table id ="example" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>序列号</th>
+                        <th>批准日期</th>
+                        <th>车型</th>
+                        <th>旧物料代码</th>
+                        <th>旧物料描述</th>
+                        <th>供应商缩写</th>
+                        <th>供应商名称</th>
+                        <th>案例数量</th>
+                        <th>MIS</th>
+                        <th>故障模式</th>
+                        <th>QE</th>
+                        <th>是否纳入SIL</th>
+                        <th>PQS编号</th>
+                        <th>断点时间</th>
+                        <th>开始时间</th>
+                        <th>备注</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Checklists)
+                    {
+                        <tr>
+                            <td>@item.SerialNumber</td>
+                            <td>@item.ApprovalDate</td>
+                            <td>@item.Model</td>
+                            <td>@item.OldMaterialCode</td>
+                            <td>@item.OldMaterialDescription</td>
+                            <td>@item.SupplierShortCode</td>
+                            <td>@item.ResponsibilitySourceSupplierName</td>
+                            <td>@item.CaseCount</td>
+                            <td>
+                                <span data-toggle="tooltip" title="@item.MIS">
+                                    @(item.MIS.Length > 10? item.MIS.Substring(0, 10) + "..." : item.MIS)
+                                </span>
+                            </td>
+                            <td>
+                                <span data-toggle="tooltip" title="@item.FaultMode">
+                                    @(item.FaultMode.Length > 10 ? item.FaultMode.Substring(0, 10) + "..." : item.FaultMode)
+                                </span>
+                            </td>
+                            <td>@item.QE</td>
+                            <td>@item.IncludedInSIL</td>
+                            <td>@item.PQSNumber</td>
+                            <td>@item.BreakpointTime</td>
+                            <td>@item.StartTime</td>
+                            <td>
+                                <span data-toggle="tooltip" title="@item.Remarks">
+                                    @(@item.Remarks.Length > 10 ? @item.Remarks.Substring(0, 10) + "..." : @item.Remarks)
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+     <!-- 下拉菜单分页 -->
+@*     <div class="row">
+        <div class="col-md-12 text-center">
+            <form method="get" action="@Url.Action("HYIndexJRZLWT", "HYIndex")">
+                <select name="page" onchange="this.form.submit()" class="form-control" style="width: auto; display: inline-block;">
+                    @for (int i = 1; i <= Model.TotalPages; i++)
+                    {
+                        if (i == Model.CurrentPage)
+                        {
+                            <option value="@i" selected="selected">第 @i 页</option>
+                        }
+                        else
+                        {
+                            <option value="@i">第 @i 页</option>
+                        }
+                    }
+                </select>
+            </form>
+        </div>
+    </div> *@
+    <!-- 下侧交互区域 -->
+</div>
+<div class="userInput-container">
+    <div class="row">
+        <!-- 搜索区域，占据屏幕的1/3宽度，且居中对齐 -->
+        <div class="col-md-2 d-flex justify-content-center align-items-center">
+            <div>
+                <h3 class="text-center">详情查询</h3>
+                <form>
+                    <div class="form-group">
+                        <label for="searchByCarNumber">车号查询</label>
+                        <input type="text" class="form-control" id="searchByCarNumber" placeholder="输入车号">
+                    </div>
+                    <div class="form-group">
+                        <label for="searchByMaterialNumber">物料号查询</label>
+                        <input type="text" class="form-control" id="searchByMaterialNumber" placeholder="输入物料号">
+                    </div>
+                    <div class="form-group">
+                        <label for="searchByPQSNumber">PQS编号查询</label>
+                        <input type="text" class="form-control" id="searchByPQSNumber" placeholder="输入PQS编号">
+                    </div>
+                    <button type="submit" class="btn btn-primary">搜索</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- 搜索结果区域，占据屏幕的2/3宽度，且居中对齐 -->
+        <div class="col-md-8 d-flex justify-content-center align-items-center">
+            <div>
+                <h3 class="text-center">搜索结果</h3>
+                <div class="result-container">
+                    <p>这里会显示搜索结果。</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 d-flex justify-content-center align-items-center">
+            <div>
+                <h3 class="text-center">一键处理区域</h3>
+                <form>
+                    <div class="result-container d-flex flex-column align-items-center">
+                        <button type="button" class="btn btn-outline-secondary mb-2" style="width: 5vw;">详情导出</button>
+                        <button type="button" class="btn btn-outline-secondary mb-2" style="width: 5vw;">生成一页纸</button>
+                        <button type="button" class="btn btn-outline-secondary mb-2" style="width: 5vw;">纳入PSQ</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(window).on('load', function () {
+            $('#example').DataTable({
+                "paging": true,
+                "pageLength": 25, // 设置默认每页显示25条记录
+                "ordering": true,
+                "info": true,
+                "searching": true,
+                "initComplete": function () {
+            var api = this.api();
+
+            // 为每列添加筛选下拉菜单
+            api.columns().every(function () {
+                var column = this;
+                var header = $(column.header());
+                var headerText = header.text().trim();
+
+                // 创建一个筛选下拉菜单并添加到表头
+                var select = $('<select class="filter-select"><option value="">' + headerText + '</option></select>')
+                    .appendTo(header)
+                    .on('change', function () {
+                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+                        // 使用 `search` 函数进行精确匹配
+                        column
+                            .search(val ? '^' + val + '$' : '', true, false)
+                            .draw();
+                    });
+
+                // 获取列中唯一的值并填充到下拉菜单
+                column.data().unique().sort().each(function (d) {
+                    // 强制将每个值转换为字符串
+                    var value = d === null ? '' : d.toString();
+                    select.append('<option value="' + value + '">' + value + '</option>');
+                });
+            });
+        }
+                   
+            });
+            $('#example').show();
+        });
+    </script>
+}
+

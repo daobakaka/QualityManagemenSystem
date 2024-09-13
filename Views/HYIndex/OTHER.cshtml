@@ -1,0 +1,547 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
+
+    this module  use for save the code which is not used comtemprory
+*@
+@{
+}
+
+<div id="floatingPanel">
+    <button id="closeButton">&times;</button>
+    <div id="panelContent">
+        This is a floating panel. Drag me around! Press Alt + Q to toggle visibility.
+    </div>
+</div>
+<script>
+    var panel = document.getElementById('floatingPanel');
+    var closeButton = document.getElementById('closeButton');
+    var isDragging = false;
+    var startX, startY, initialLeft, initialTop;
+
+    // Initially hide the panel
+    panel.style.display = 'none';
+
+    // Handle dragging
+    panel.addEventListener('mousedown', function (e) {
+        if (e.target !== closeButton) {
+            isDragging = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            initialLeft = panel.offsetLeft;
+            initialTop = panel.offsetTop;
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', onMouseUp);
+        }
+    });
+
+    function onMouseMove(e) {
+        if (isDragging) {
+            var dx = e.clientX - startX;
+            var dy = e.clientY - startY;
+            panel.style.left = initialLeft + dx + 'px';
+            panel.style.top = initialTop + dy + 'px';
+        }
+    }
+
+    function onMouseUp() {
+        isDragging = false;
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+    }
+
+    // Close button functionality
+    closeButton.addEventListener('click', function () {
+        panel.style.display = 'none';
+    });
+
+    // Hotkey to show or hide the panel
+    document.addEventListener('keydown', function (e) {
+        if (e.altKey && (e.key === 'q' || e.key === 'Q')) {
+            console.log('openORclose');
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            if (panel.style.display !== 'none') {
+                // drawScatterPlot(dataStore.tooltipContentCache,4);
+                PloytTest();
+                e.preventDefault();
+            }
+        }
+    });
+
+    // Function to parse tooltip content cache and plot
+    function drawScatterPlot(contenData, dimension) {
+        const parseDate = (dateStr) => {
+            const year = `20${dateStr.slice(0, 2)}`;
+            const month = dateStr.slice(2, 4);
+            return new Date(year, month - 1); // JavaScript 月份从 0 开始
+        };
+
+        const generateMonthLabels = () => {
+            const labels = [];
+            const ticks = [];
+            const startDate = new Date(2015, 0); // 从2015年1月开始
+            const endDate = new Date(2025, 0);   // 到2025年1月（不包括）
+
+            let currentDate = new Date(startDate);
+
+            while (currentDate < endDate) {
+                const timeStamp = currentDate.getTime();
+                labels.push(`${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`);
+                ticks.push(timeStamp);
+                currentDate.setMonth(currentDate.getMonth() + 1);
+            }
+
+            return { labels, ticks };
+        };
+
+        const { labels: xLabels, ticks: xTicks } = generateMonthLabels();
+
+        const filteredData = contenData
+            .map(item => {
+                const date = parseDate(item.manufacturingMonth);
+                return {
+                    date,
+                    mis: parseFloat(item.mis),
+                    misInterval: parseFloat(item.misInterval)
+                };
+            })
+            .filter(item => item.date.getFullYear() >= 2015)
+            .map(item => ({
+                x: item.date.getTime(),
+                y: item.mis > 100 ? 0 : item.mis,
+                z: item.misInterval
+            }));
+
+        const xValues = filteredData.map(item => {
+            const closestIndex = xTicks.reduce((prev, curr, index) =>
+                Math.abs(curr - item.x) < Math.abs(xTicks[prev] - item.x) ? index : prev, 0);
+            return xTicks[closestIndex];
+        });
+
+        const yValues = filteredData.map(item => item.y);
+        const zValues = filteredData.map(item => item.z);
+
+        if (dimension === 3) {
+            const trace = {
+                x: xValues,
+                y: yValues,
+                z: zValues,
+                mode: 'markers',
+                type: 'scatter3d',
+                marker: {
+                    size: 5,
+                    color: zValues,
+                    colorscale: 'Viridis',
+                    colorbar: {
+                        title: 'MIS 区间'
+                    }
+                }
+            };
+
+            const layout = {
+                title: '三维散点图',
+                scene: {
+                    xaxis: {
+                        title: '制造月',
+                        tickvals: xTicks,
+                        ticktext: xLabels,
+                        range: [Math.min(...xTicks), Math.max(...xTicks)]
+                    },
+                    yaxis: {
+                        title: 'MIS'
+                    },
+                    zaxis: {
+                        title: 'MIS 区间'
+                    }
+                }
+            };
+
+            Plotly.newPlot('panelContent', [trace], layout);
+        } else if (dimension === 2) {
+            // 确保数据范围正确
+            const minMis = Math.min(...yValues);
+            const maxMis = Math.max(...yValues);
+            const minInterval = Math.min(...zValues);
+            const maxInterval = Math.max(...zValues);
+
+            const trace = {
+                x: yValues,
+                y: zValues,
+                mode: 'markers',
+                type: 'scatter',
+                marker: {
+                    size: 5,
+                    color: zValues,
+                    colorscale: 'Viridis',
+                    colorbar: {
+                        title: 'MIS 区间'
+                    }
+                }
+            };
+
+            const layout = {
+                title: '二维散点图',
+                xaxis: {
+                    title: 'MIS',
+                    range: [minMis, maxMis] // 设置 x 轴范围
+                },
+                yaxis: {
+                    title: 'MIS 区间',
+                    range: [minInterval, maxInterval] // 设置 y 轴范围
+                }
+            };
+
+            Plotly.newPlot('panelContent', [trace], layout);
+        } else {
+            console.error('Invalid dimension value. Use 2 for 2D scatter plot or 3 for 3D scatter plot.');
+        }
+    }
+
+    function PloytTest() {
+        const exampleData = Array.from({ length: 100 }, () => ({
+            x: Math.random() * 100,
+            y: Math.random() * 100,
+            z: Math.random() * 100
+        }));
+
+        const trace = {
+            x: exampleData.map(item => item.x),
+            y: exampleData.map(item => item.y),
+            z: exampleData.map(item => item.z),
+            mode: 'markers',
+            type: 'scatter3d',
+            marker: {
+                size: 5,
+                color: exampleData.map(item => item.z),
+                colorscale: 'Viridis',
+                colorbar: {
+                    title: '示例 Z 值'
+                }
+            }
+        };
+
+        const layout = {
+            title: '简单三维散点图',
+            scene: {
+                xaxis: {
+                    title: 'X 轴'
+                },
+                yaxis: {
+                    title: 'Y 轴'
+                },
+                zaxis: {
+                    title: 'Z 轴'
+                }
+            }
+        };
+
+        Plotly.newPlot('panelContent', [trace], layout);
+    }
+
+
+</script>
+@section Scripts {
+    <script>
+        var dataStore = {
+            tooltipContentCache: ''
+        };
+    </script>@* 全局变量模块 *@
+    <script>
+        $(document).ready(function () {
+            jQuery('[data-remote-tooltip]').tooltip({
+                trigger: 'manual',
+                html: true
+            });
+
+            $('.dynamic-tooltip').on('mouseenter', function () {
+                var $this = $(this);
+                var oldMaterialCode = $this.data('old-material-code');
+
+                var $loadingIndicator = $this.find('.loading-indicator');
+                var dateRange = $('#searchByDate').val(); // 获取输入框的值
+
+                // 显示加载指示器
+                $loadingIndicator.show();
+                $.ajax({
+                    url: '/queryAPI/remotetooltip/tooltipdata',
+                    method: 'GET',
+                    data: {
+                        oldMaterialCode: oldMaterialCode,
+                        dateRange: dateRange
+                    },
+                    success: function (data) {
+                        // console.log('Data type:', typeof data); // 检查数据类型
+                        // console.log(data);
+                        dataStore.tooltipContentCache = data;
+                        // 数据是一个数组，迭代所有记录来生成内容
+                        data.sort((a, b) => {
+                            // 这里假设制造月是一个字符串形式的日期，格式是 'YYYYMM'
+                            return b.manufacturingMonth.localeCompare(a.manufacturingMonth);
+                        });
+                        var tooltipContent = data.map(item => `制造月：${item.manufacturingMonth} ；MIS区间：${item.misInterval}；VAN：${item.van}；MIS：${item.mis}；FDP：${item.fdp}`).join('\n');
+
+                        // 更新 tooltip 内容
+                        $this.attr('title', tooltipContent);
+                        $this.tooltip('update');
+
+                        // 隐藏加载指示器
+                        $loadingIndicator.hide();
+                    },
+                    error: function () {
+                        $this.attr('title', 'Error loading data');
+                        $this.tooltip('update');
+
+                        // 隐藏加载指示器
+                        $loadingIndicator.hide();
+                    }
+                });
+            }).on('mouseleave', function () {
+                $(this).tooltip('hide');
+            });
+        });
+    </script>@*  显示remote 执行事件 *@
+    <script>
+        /* 显示datatable 以及用户区域 以及执行查询区域  用户查询表滚轮同步事件  */
+        $(window).on('load', function () {
+            $('#example').DataTable({
+                "paging": true,
+                "pageLength": 25, // 设置默认每页显示25条记录
+                "ordering": true,
+                "info": true,
+                "searching": true,
+                "initComplete": function () {
+                    var api = this.api();
+
+                    // 为每列添加筛选下拉菜单
+                    api.columns().every(function () {
+                        var column = this;
+                        var header = $(column.header());
+                        var headerText = header.text().trim();
+
+                        // 创建一个筛选下拉菜单并添加到表头
+                        var select = $('<select class="filter-select"><option value="">' + headerText + '</option></select>')
+                            .appendTo(header)
+                            .on('change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+                                // 使用 `search` 函数进行精确匹配
+                                column
+                                    .search(val ? '^' + val + '$' : '', true, false)
+                                    .draw();
+                            });
+
+                        // 获取列中唯一的值并填充到下拉菜单
+                        column.data().unique().sort().each(function (d) {
+                            // 强制将每个值转换为字符串
+                            var value = d === null ? '' : d.toString();
+                            select.append('<option value="' + value + '">' + value + '</option>');
+                        });
+                    });
+                }
+            });
+            $('#example').show();
+
+        });
+
+        window.addEventListener('load', function () {
+            // 显示用户输入区域
+            document.querySelector('.userInput-container').style.display = 'block';
+            console.log(`dispaly!!!!!!!!!!!!!!!!!!!!!!!`);
+
+        });
+        console.log(`startMove!!!!!!!!!!!!!!!!!!!!!!!false`);
+        document.querySelector('.custom-container .table tbody').addEventListener('scroll', function () {
+            const thead = document.querySelector('.custom-container .table thead');
+            thead.scrollLeft = this.scrollLeft;
+
+        });
+
+    </script>
+    <script>
+        let isWindowCreated = false;
+        let floatingWindowDiv = null;
+
+        // 创建悬浮窗口
+        function createFloatingWindow() {
+            if (isWindowCreated) return; // 防止重复创建窗口
+            isWindowCreated = true;
+            const windowDiv = document.createElement('div');
+            windowDiv.id = 'floatingWindow';
+            windowDiv.style.position = 'fixed';
+            windowDiv.style.top = '25%'; // 距离视口顶部 25%
+            windowDiv.style.left = '25%'; // 距离视口左侧 25%
+            windowDiv.style.width = '50vw'; // 宽度 50% 视口宽度
+            windowDiv.style.height = '50vh'; // 高度 50% 视口高度
+            windowDiv.style.backgroundColor = 'white';
+            windowDiv.style.border = '3px solid black';
+            windowDiv.style.zIndex = 1000; // 确保悬浮窗口在最上层
+            windowDiv.style.overflow = 'hidden';
+            document.body.appendChild(windowDiv);
+
+            floatingWindowDiv = windowDiv; // 赋值给 floatingWindowDiv
+
+            // 创建并插入图表容器
+            const chartDiv = document.createElement('div');
+            chartDiv.id = 'panelContent';
+            chartDiv.style.width = '100%';
+            chartDiv.style.height = '100%'; // 图表占窗口高度的 80%
+            chartDiv.style.position = 'relative'; // 使图表容器成为定位上下文
+            windowDiv.appendChild(chartDiv);
+
+            // 创建拖拽区域
+            const dragArea = document.createElement('div');
+            dragArea.style.position = 'absolute';
+            dragArea.style.top = '0';
+            dragArea.style.left = '0';
+            dragArea.style.width = '50px'; // 设置宽度和高度为相同的值以创建圆形
+            dragArea.style.height = '50px';
+            dragArea.style.backgroundColor = 'rgba(0.1, 0.1, 0.1, 0.1)'; // 透明背景
+            dragArea.style.cursor = 'move';
+            dragArea.style.borderRadius = '50%'; // 创建圆形
+            windowDiv.appendChild(dragArea);
+
+            // 初始化拖拽功能
+            initializeDrag(dragArea, windowDiv);
+
+            // 绘制 Plotly 图表
+            plotTest([40, 60]);
+        }
+
+        function destroyFloatingWindow() {
+            if (!isWindowCreated) return; // 如果窗口不存在则不做任何操作
+            document.body.removeChild(floatingWindowDiv); // 正确移除窗口
+            floatingWindowDiv = null;
+            isWindowCreated = false;
+        }
+        function plotTest(zHeights) {
+            // 生成示例数据
+            const exampleData = Array.from({ length: 100 }, () => ({
+                x: Math.random() * 100,
+                y: Math.random() * 100,
+                z: Math.random() * 100
+            }));
+
+            const xValues = exampleData.map(item => item.x);
+            const yValues = exampleData.map(item => item.y);
+            const zValues = exampleData.map(item => item.z);
+
+            // 计算 x 和 y 数据的范围
+            const xMin = Math.min(...xValues);
+            const xMax = Math.max(...xValues);
+            const yMin = Math.min(...yValues);
+            const yMax = Math.max(...yValues);
+
+            // 扩展 x 和 y 范围 10%
+            const xRange = xMax - xMin;
+            const yRange = yMax - yMin;
+            const xOffset = xRange * 0.1;
+            const yOffset = yRange * 0.1;
+
+            const xMinExtended = xMin - xOffset;
+            const xMaxExtended = xMax + xOffset;
+            const yMinExtended = yMin - yOffset;
+            const yMaxExtended = yMax + yOffset;
+
+            // 散点图数据
+            const scatterTrace = {
+                x: xValues,
+                y: yValues,
+                z: zValues,
+                mode: 'markers',
+                type: 'scatter3d',
+                marker: {
+                    size: 5,
+                    color: zValues,
+                    colorscale: 'Viridis',
+                    colorbar: {
+                        title: '示例 Z 值'
+                    }
+                }
+            };
+
+            // 创建多个立方体
+            const cubeTraces = zHeights.map(zHeight => ({
+                type: 'mesh3d',
+                x: [xMinExtended, xMaxExtended, xMaxExtended, xMinExtended, xMinExtended, xMaxExtended, xMaxExtended, xMinExtended],
+                y: [yMinExtended, yMinExtended, yMaxExtended, yMaxExtended, yMinExtended, yMinExtended, yMaxExtended, yMaxExtended],
+                z: [zHeight, zHeight, zHeight, zHeight, zHeight, zHeight, zHeight, zHeight],
+                i: [0, 0, 1, 1, 4, 4, 5, 5],
+                j: [1, 2, 2, 3, 5, 6, 6, 7],
+                k: [2, 3, 3, 4, 6, 7, 7, 4],
+                opacity: 0.3,
+                color: 'rgba(0,0,255,0.2)' // 半透明蓝色
+            }));
+
+            // 图表布局
+            const layout = {
+                title: '简单三维散点图与多个立方体',
+                scene: {
+                    xaxis: { title: 'X' },
+                    yaxis: { title: 'Y' },
+                    zaxis: { title: 'Z' },
+                    camera: {
+                        eye: { x: 1.25, y: 1.25, z: 1.25 } // 从第一象限的标准视角观察
+                    }
+                },
+                margin: { t: 50, b: 50 } // 保留上下边距
+            };
+
+            // 配置
+            const config = {
+                displayModeBar: false, // 隐藏工具栏
+                modeBarButtonsToRemove: ['zoom2d', 'pan2d', 'editInChartStudio'], // 移除特定按钮
+                modeBarButtonsToAdd: ['resetScale2d'], // 添加特定按钮
+            };
+
+            // 绘制图表
+            Plotly.newPlot('panelContent', [scatterTrace, ...cubeTraces], layout, config);
+        }
+
+
+
+        // 初始化拖拽功能
+        function initializeDrag(dragArea, windowDiv) {
+            let isDragging = false;
+            let startX, startY, startLeft, startTop;
+
+            dragArea.addEventListener('mousedown', (e) => {
+                e.preventDefault(); // 阻止默认行为，避免可能的跳动
+
+                isDragging = true;
+                const rect = windowDiv.getBoundingClientRect(); // 获取窗口的位置和尺寸
+                startX = e.clientX;
+                startY = e.clientY;
+                startLeft = rect.left;
+                startTop = rect.top;
+
+                document.addEventListener('mousemove', onMouseMove);
+                document.addEventListener('mouseup', onMouseUp);
+            });
+
+            function onMouseMove(e) {
+                if (!isDragging) return;
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+                windowDiv.style.left = `${startLeft + dx}px`;
+                windowDiv.style.top = `${startTop + dy}px`;
+            }
+
+            function onMouseUp() {
+                isDragging = false;
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+            }
+        }
+
+        // 监听键盘事件
+        document.addEventListener('keydown', function (event) {
+            if (event.altKey && event.key === 'q') {
+                if (isWindowCreated) {
+                    destroyFloatingWindow();
+                } else {
+                    createFloatingWindow();
+                }
+            }
+        });
+    </script>
+}

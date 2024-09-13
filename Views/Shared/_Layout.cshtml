@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebWinMVC</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"  />
+    <link rel="stylesheet" href="~/lib/jquery.datatables/1.10.15/Content/Content/DataTables/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebWinMVC.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">上汽红岩质量管理系统</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                 @*        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li> *@
+                        
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="HYIndex" asp-action="HYIndexJRZLWTV91">即日质量问题</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="HYIndex" asp-action="HYIndexTOP">TOP问题</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="HYIndex" asp-action="HYIndex24M">24小时会</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="HYIndex" asp-action="HYIndexWM">质量周例会</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="HYIndex" asp-action="HYIndexQMC">QMC会议</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="HYIndex" asp-action="HYIndexOTHER">其他</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="HYIndex" asp-action="HYIndexMANAGER">管理员</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="HYIndex" asp-action="TESTPAGES">测试</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="user-container">
+  @*       <main role="main" class="pb-3">
+            @RenderBody()
+        </main> *@
+        <main>@RenderBody()</main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - WebWinMVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery.datatables/1.10.15/Content/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/xlsx.full.min.js" asp-append-version="true" ></script>
+    <script src="~/js/jszip.min.js" asp-append-version="true"></script>
+    <script src="~/js/pptxgen.min.js" asp-append-version="true"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+@*     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> *@
+    @* <script src="https://cdn.skypack.dev/three@0.153.0/build/three.module.js"></script> *@
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+@*     @RenderSection("Scripts", required: false) *@
+</body>
+</html>

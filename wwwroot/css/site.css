@@ -1,0 +1,277 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+p {
+    min-height: 1.0em; /* 这将覆盖 site.css 的定义 */
+}
+/*--分隔符自定义表格*/
+.custom-container {
+    display: block; /* 使容器适应内容 */
+    width: 100%; /* 容器宽度 */
+   
+}
+
+.custom-container .table {
+    width: 100%; /* 使表格宽度适应容器 */
+    border-collapse: collapse; /* 合并边框 */
+    table-layout: fixed; /* 固定表格布局 */
+}
+
+    .custom-container .table thead {
+        display: block; /* 使表头块级显示 */
+        width: 100%; /* 使表头宽度适应容器 */
+        overflow:hidden; /* 隐藏滚动条 */
+        text-overflow:clip;
+    }
+
+
+    .custom-container .table tbody {
+        display: block; /* 使表体块级显示 */
+        width: 100%; /* 使表体宽度适应容器 */
+        height: 100%; /* 填充容器高度 */
+        height: 30vh; /* 固定容器高度 */
+        overflow-y: auto; /* 启用垂直滚动 */
+        overflow-x: auto; /* 隐藏横向滚动条 */
+    }
+
+        .custom-container .table thead tr,
+        .custom-container .table tbody tr {
+            display: table;
+            width: 100%; /* 保持表头和表体宽度一致 */
+            table-layout: fixed; /* 固定表头和表体的列宽 */
+        }
+
+    .custom-container .table th,
+    .custom-container .table td {
+        text-align: center;
+        vertical-align: middle; /* 垂直居中对齐 */
+        white-space: nowrap; /* 防止内容换行 */
+        overflow: hidden;
+        text-overflow: clip; /* 超出部分显示省略号 */
+        width: 5vw; /* 固定每列宽度 */
+        box-sizing: border-box; /* 包括内边距和边框在宽度计算中 */
+    }
+
+    .custom-container .table th {
+        font-size: 0.9em; /* 表头字体大小 */
+    }
+
+    .custom-container .table td {
+        font-size: 0.8em; /* 表体字体大小 */
+    }
+
+    /*///------data table--//*/
+    .datatable-container {
+        display: flex;
+        flex-direction: column; /* 垂直排列 */
+        justify-content: center; /* 水平居中 */
+        width: 100%; /* 确保容器宽度为100% */
+    }
+    .datatable-container table.dataTable {
+        margin: 0 auto;
+        width: auto;
+    }
+.datatable-container .table {
+ 
+    table-layout: fixed; /* 固定列宽 */
+    width: 100%; /* 确保表格宽度填满容器 */
+
+}
+
+    .datatable-container .table thead,
+    .datatable-container .table tbody tr {
+        display: table;
+        width:fit-content; /* 保持表头和表体宽度一致 */
+        table-layout:fixed; /* 固定表头和表体的列宽 */
+    }
+
+    .datatable-container .table tbody {
+        display: block;
+        max-height: 40vh; /* 设置表体部分的最大高度，使用视口高度的60% */
+        height: 30vh; /* 固定表体部分的高度，使用视口高度的60% */
+        overflow-y: auto; /* 启用垂直滚动 */
+        overflow-x: hidden; /* 禁止横向滚动 */
+    }
+
+    .datatable-container .table th,
+    .datatable-container .table td {
+        text-align: center;
+        vertical-align: middle;
+        white-space: nowrap; /* 防止内容换行 */
+        overflow: hidden;
+        text-overflow: clip;
+        width: 3vw;  /*固定每列的宽度，使用视口宽度 */     
+        padding: 1vh; /* 使用视口高度的1%作为内边距 */
+    }
+
+    .datatable-container .table th {
+        font-size: 0.8em; /* 保持相对单位 */
+    }
+
+    .datatable-container .table td {
+        font-size: 0.8em; /* 保持相对单位 */
+    }
+    .datatable-container .row {
+        width: 100%;
+        display: block;
+    }
+
+        .datatable-container .row h3,
+        .datatable-container .row p {
+            margin-top: 5px; /* 确保与表格有足够的间距 */
+        }
+
+/*-在dataTtable初始化完成前隐藏表格-*/
+#example {
+    display: none;
+}
+/*/----------筛选选项/*/
+
+table.dataTable thead th {
+    position: relative;
+    padding: 0; /* 去掉默认的内边距 */
+}
+
+    table.dataTable thead th .filter-select {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 80%; /* 下拉菜单占据单元格的80%区域 */
+        height: 100%;
+        box-sizing: border-box;
+        padding: 4px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #fff;
+        z-index: 1; /* 确保下拉菜单在最上层 */
+        opacity: 0; /* 默认隐藏下拉菜单 */
+    }
+
+    /* 显示下拉菜单 */
+    table.dataTable thead th:hover .filter-select {
+        opacity: 1; /* 悬停时显示下拉菜单 */
+    }
+
+.user-container {
+    width: 90%;
+    margin: 0 auto; /* 水平居中 */
+}
+.userInput-container {
+    height: 30vh;
+    display: none;
+/*    align-items: center;
+    justify-content: center*/
+}
+/*/--这里是修改bootstrap 框架默认容器的宽度/*/
+.container {
+    width: 100% !important;
+}
+/*/--局部调整/*/
+.btn-outline-secondary {
+    color: #000000; /* 修改为黑色 */
+}
+/*//动态远程加载模块*/
+.loading-indicator {
+    display: none;
+    position: absolute;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 5px;
+    border: 2px solid #ddd;
+    border-radius: 3px;
+}
+.tooltip-content {
+    background-color: black;
+    color: white;
+    padding: 5px;
+    border-radius: 5px; /* Optional: Adds rounded corners */
+}
+
+    .tooltip-content div {
+        margin-bottom: 5px; /* Optional: Adds spacing between rows */
+    }
+/* Fixed-size panel */
+#floatingPanel {
+    position: fixed;
+    top: 10%;
+    left: 10%;
+    width: 30vw;
+    height: 30vh;
+    background-color: #f0f0f0;
+    border: 2px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Ensures the panel is above other content */
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    box-sizing: border-box;
+    cursor: move; /* Allows dragging */
+    z-index: 10; /* 将面板的层级设置为-1 */
+    display:none;
+}
+
+#closeButton {
+    align-self: flex-end;
+    background: #ccc;
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    line-height: 25px;
+    font-size: 18px;
+    cursor: pointer;
+    margin: -10px -10px 10px 0; /* Position close button inside panel border */
+}
+
+    #closeButton:hover {
+        background: #f00;
+        color: #fff;
+    }
+
+#panelContent {
+    flex-grow: 1;
+}
+/* 隐藏 Plotly 标志 */
+.modebar .plotly-logo {
+    display: none !important;
+}
+/*弹出的模态窗口*/
+/* 自定义模态框宽度和高度 */
+.custom-modal-dialog {
+    width: 20vw; /* 宽度占视口宽度的 20% */
+    height: 55vh; /* 高度占视口高度的 40% */
+    max-width: none; /* 取消默认的最大宽度 */
+    max-height: none; /* 取消默认的最大高度 */
+}
+
+.custom-modal-content {
+    height: 100%; /* 使内容区高度占满对话框 */
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-modal-body {
+    flex: 1; /* 使主体内容区占满剩余空间 */
+    overflow-y: auto; /* 当内容溢出时，允许滚动 */
+}
+
+
