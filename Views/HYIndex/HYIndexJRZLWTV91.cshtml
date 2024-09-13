@@ -26,7 +26,7 @@
                         <th>故障码</th>
                         <th>QE</th>
                         <th>识别故障模式</th>
-                        <th>断点失效</th> 
+                        <th>断点失效</th>
                         <th>已纳入SIL</th>
                         <th>PQS编号</th>
                         <th>断点时间</th>
@@ -44,7 +44,7 @@
 
                             <td>
                                 <span data-toggle="tooltip" title="@item.OldMaterialDescription">
-                                @item.OldMaterialDescription
+                                    @item.OldMaterialDescription
                                 </span>
                             </td>
                             <td>@item.SupplierShortCode</td>
@@ -58,11 +58,11 @@
                             <td>@item.LocationCode</td>
                             <td>@item.FaultCode</td>
                             <td>@item.QE</td>
-                         @*    <td>
-                                <span data-toggle="tooltip" title="@item.IdentifiedFaultMode">
-                                    @item.IdentifiedFaultMode
-                                </span>
-                            </td> *@
+                            @*    <td>
+                        <span data-toggle="tooltip" title="@item.IdentifiedFaultMode">
+                        @item.IdentifiedFaultMode
+                        </span>
+                        </td> *@
                             <td>@item.IdentifiedFaultMode</td>
                             <td>@item.IdentifiedFaultCode</td>
                             <td>@item.IncludedInSIL</td>
@@ -87,29 +87,29 @@
 </div>
 
 <!-- 下侧交互区域 -->
-<div class="userInput-container" >
-        <div class="row">
-            <!-- 搜索区域，占据屏幕的1/3宽度，且居中对齐 -->
-            <div class="col-md-2 d-flex justify-content-center align-items-center">
-                <div>
-                    <h3 class="text-center">详情查询</h3>
-                 <form id="searchForm">
-                        <div class="form-group">
-                        <input type="text" class="form-control" id="searchByCarNumber" placeholder="输入车号或底盘号" style=" margin-top:1vh">
-                        </div>
-                        <div class="form-group">
-                        <input type="text" class="form-control" id="searchByMaterialNumber" placeholder="输入物料号" style=" margin-top:1vh">
-                        </div>
-                        <div class="form-group">
-                        <input type="text" class="form-control" id="searchByPQSNumber" placeholder="输入PQS编号" style=" margin-top:1vh">
-                        </div>
+<div class="userInput-container">
+    <div class="row">
+        <!-- 搜索区域，占据屏幕的1/3宽度，且居中对齐 -->
+        <div class="col-md-2 d-flex justify-content-center align-items-center">
+            <div>
+                <h3 class="text-center">详情查询</h3>
+                <form id="searchForm">
                     <div class="form-group">
-                        <input type="text" class="form-control" id="searchByDate" placeholder="选择日期"  style=" margin-top:1vh">
+                        <input type="text" class="form-control" id="searchByCarNumber" placeholder="输入车号或底盘号" style=" margin-top:1vh">
                     </div>
-                    <button type="button" class="btn btn-outline-secondary mb-2" style="width: 8vw ;margin-top:1.5vh"  onclick="resetFilters()">重置</button>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="searchByMaterialNumber" placeholder="输入物料号" style=" margin-top:1vh">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="searchByPQSNumber" placeholder="输入PQS编号" style=" margin-top:1vh">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="searchByDate" placeholder="选择日期" style=" margin-top:1vh">
+                    </div>
+                    <button type="button" class="btn btn-outline-secondary mb-2" style="width: 8vw ;margin-top:1.5vh" onclick="resetFilters()">重置</button>
                 </form>
-                </div>
             </div>
+        </div>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 // Clear date input by default
@@ -140,7 +140,7 @@
                     let day = String(dateStr.getDate()).padStart(2, '0');
                     return `${year.slice(2)}${month}${day}`;
                 }
-                
+
                 // 无法解析日期
                 return '';
             }
@@ -159,7 +159,7 @@
 
             function formatToTimestamp(dateStr) {
                 let date = parseDate(dateStr);
-                return date ? date.getTime() + 24* 60 * 60 * 1000 - 999 : null;
+                return date ? date.getTime() + 24 * 60 * 60 * 1000 - 999 : null;
             }
 
             function convertToTimestamp(dateStr) {
@@ -259,12 +259,12 @@
         </script>
 
 
-            <!-- 搜索结果区域，占据屏幕的2/3宽度，且居中对齐 -->
-          <div class="col-md-8 d-flex justify-content-center align-items-center">
+        <!-- 搜索结果区域，占据屏幕的2/3宽度，且居中对齐 -->
+        <div class="col-md-8 d-flex justify-content-center align-items-center">
 
             <div class="custom-container">
                 <div class="row">
-                  
+
                     <div class="d-flex justify-content-center">
                         <table id="queryTable" class="table table-bordered table-striped">
                             <thead>
@@ -302,7 +302,7 @@
                                                   data-remote-tooltip="true" title="loading..">
                                                 @item.OldMaterialCode
                                             </span>
-                                            <div class="loading-indicator" >Loading...</div>
+                                            <div class="loading-indicator">Loading...</div>
                                         </td>
 
                                         <td>@item.OldMaterialDescription</td>
@@ -328,24 +328,24 @@
                     </div>
                 </div>
             </div>
-           </div>
-      
+        </div>
 
-            <!-- 一键处理区域 -->
-            <div class="col-md-2 d-flex justify-content-center align-items-center">
-                <div>
-                    <h3 class="text-center">一键处理区域</h3>
-                    <form>
-                        <div class="result-container d-flex flex-column align-items-center">
-                            <button type="button" class="btn btn-outline-secondary mb-2" style="width: 5vw;" onclick="exportTableToExcelQuery()">详情导出</button>
-                            <button type="button" class="btn btn-outline-secondary mb-2" style="width: 5vw;" onclick="exportTableToExcelAnalyse()">清单导出</button>
-                            <button type="button" class="btn btn-outline-secondary mb-2" style="width: 5vw;" onclick="generatePPTOnePage()">生成一页纸</button>
-                            <button type="button" class="btn btn-outline-secondary mb-2" style="width: 5vw;">纳入PSQ</button>
-                        </div>
-                    </form>
-            
-                </div>
+
+        <!-- 一键处理区域 -->
+        <div class="col-md-2 d-flex justify-content-center align-items-center">
+            <div>
+                <h3 class="text-center">一键处理区域</h3>
+                <form>
+                    <div class="result-container d-flex flex-column align-items-center">
+                        <button type="button" class="btn btn-outline-secondary mb-2" style="width: 5vw;" onclick="exportTableToExcelQuery()">详情导出</button>
+                        <button type="button" class="btn btn-outline-secondary mb-2" style="width: 5vw;" onclick="exportTableToExcelAnalyse()">清单导出</button>
+                        <button type="button" class="btn btn-outline-secondary mb-2" style="width: 5vw;" onclick="generatePPTOnePage(dataStoreOnePage.probelmTitle,dataStoreOnePage.problemDescription,dataStoreOnePage.failureSituation)">生成一页纸</button>
+                        <button type="button" class="btn btn-outline-secondary mb-2" style="width: 5vw;">纳入PSQ</button>
+                    </div>
+                </form>
+
             </div>
+        </div>
         <script>
             function exportTableToExcelQuery() {
                 console.log('start to dowmload excel');
@@ -361,30 +361,167 @@
                 XLSX.utils.book_append_sheet(wb, ws, "Sheet1"); // 确保这里是 XLSX
                 XLSX.writeFile(wb, "table_data_analyse.xlsx"); // 确保这里是 XLSX
             }
-            function generatePPTOnePage() {
+            function generatePPTOnePage(titleText, problemDescriptionContents, failureSituationContents) {
                 console.log("start to create PPT");
                 let pres = new PptxGenJS();
-
                 let slide = pres.addSlide();
 
+                // 幻灯片的默认尺寸（宽度和高度以英寸为单位）
+                let slideWidth = 10;  // 默认为 10 英寸
+                let slideHeight = 5.625; // 默认为 5.7 英寸
+
                 // 1. 添加标题框，占幻灯片的1/5
-                let titleText = "文档标题";
-                let titleOpts = { x: 0.5, y: 0.1, w: 8.5, h: 1, fontSize: 24, color: "000000", align: "center" };
+                let titleHeight = 0.6; // 标题的高度
+                let titleOpts = {
+                    x: 0,
+                    y: 0.1,
+                    w: slideWidth,  // 使用整个宽度
+                    h: titleHeight,
+                    fontSize: 24,
+                    color: "000000",
+                    align: "center",
+                    fill: { color: "4682B4" } // 钢蓝色背景
+                };
                 slide.addText(titleText, titleOpts);
 
-                // 2. 计算文本框的高度和起始位置
-                let slideHeight = 6; // 假设幻灯片的高度是 10 英寸，标题框占 1 英寸，所以剩下 9 英寸
-                let sectionHeight = (slideHeight - 1) / 3; // 剩余空间均分成三个部分
-                let yPos = 1.2; // 标题下方的起始位置
+                // 2. 计算文本框的宽度和高度
+                let sectionWidth = slideWidth / 3; // 将宽度均分为 3 部分
+                let problemDescHeight = titleHeight / 2; // “问题描述”框的高度为标题框的一半
+                let failureHeight = titleHeight / 2; // “失效情况”框的高度为标题框的一半
+                let remainingHeight = slideHeight - titleHeight; // 剩余空间高度
+                let yPos = titleHeight + 0.1; // 标题下方的起始位置
 
-                // 3. 添加三个文本框
-                let sectionTitles = ["详细信息", "原本分析", "解决方案"];
-                sectionTitles.forEach((title, index) => {
-                    let textOpts = { x: 0.5, y: yPos + (sectionHeight * index), w: 8.5, h: sectionHeight, fontSize: 18, color: "000000", align: "left" };
-                    slide.addText(title, textOpts);
+                // 3. 固定字段标签（问题描述）
+                let fixedLabels = [
+                    "问题来源：",
+                    "问题定义：",
+                    "问题等级：",
+                    "开启日期：",
+                    "供应商：",
+                    "涉及车型：",
+                    "内部车型：",
+                    "底盘号：",
+                    "生产/购车时间：",
+                    "在库时间：",
+                    "PQS 编号："
+                ];
+
+                // 4. 生成问题描述文本框内容
+                let problemDescriptionText = fixedLabels.map((label, i) => `${label}${problemDescriptionContents[i] || "default"}`).join("\n");
+
+                // 5. 固定字段标签（失效情况）
+                let failureLabels = [
+                    "案例数：",
+                    "失效率（客户）：",
+                    "失效率（车型）：",
+                    "失效率（发动机）：",
+                    "失效区域：",
+                    "失效里程：",
+                    "失效工况：",
+                    "是否按照要求保养：",
+                    "是否要按照要求返修：",
+                    "是否为断点失效产品：",
+                    "是否超边界：",
+                    "严重度：",
+                    "可能性："
+                ];
+
+                // 6. 生成失效情况文本框内容
+                let failureSituationText = failureLabels.map((label, i) => `${label}${failureSituationContents[i] || "default"}`).join("\n");
+
+                // 添加问题描述文本框
+                slide.addText("问题描述", {
+                    x: 0,
+                    y: yPos,
+                    w: sectionWidth, // 宽度设置为幻灯片宽度的1/3
+                    h: problemDescHeight,
+                    fontSize: 18, // 标题字体较大
+                    color: "000000",
+                    align: "center",
+                    fill: { color: "#ADD8E6" } // 淡蓝色背景
+                });
+                // 添加失效情况文本框
+                slide.addText("失效情况", {
+                    x: sectionWidth,
+                    y: yPos,
+                    w: slideWidth / 6, // 宽度设置为幻灯片宽度的1/6
+                    h: failureHeight,
+                    fontSize: 18, // 标题字体较大
+                    color: "000000",
+                    align: "center",
+                    fill: { color: "#ADD8E6" } // 淡蓝色背景
+                });
+                slide.addText("根本原因", {
+                    x: sectionWidth + slideWidth / 6,
+                    y: yPos,
+                    w: (1.5 * slideWidth) / 6, // 宽度设置为幻灯片宽度的1/6
+                    h: failureHeight,
+                    fontSize: 18, // 标题字体较大
+                    color: "000000",
+                    align: "center",
+                    fill: { color: "#ADD8E6" } // 淡蓝色背景
+                });
+                slide.addText("进展及计划", {
+                    x: sectionWidth + slideWidth / 6 + (1.5 * slideWidth) / 6,
+                    y: yPos,
+                    w: (1.5 * slideWidth) / 6, // 宽度设置为幻灯片宽度的1/6
+                    h: failureHeight,
+                    fontSize: 18, // 标题字体较大
+                    color: "000000",
+                    align: "center",
+                    fill: { color: "#ADD8E6" } // 淡蓝色背景
+                });
+                slide.addText("售后方案：\n根本原因：\n原因分析：\n", {
+                    x: sectionWidth + slideWidth / 6,
+                    y: yPos + problemDescHeight,
+                    w: (1.5 * slideWidth) / 6, // 宽度设置为幻灯片宽度的1/6
+                    h: remainingHeight - problemDescHeight,
+                    fontSize: 9, // 内容
+                    color: "000000",
+                    vAlign: "top", // 垂直对齐方式为顶部
+                    // align: "left",
+                });
+                slide.addText("牵头部门：\n遏制措施：\n长期措施：\n下一步计划：", {
+                    x: sectionWidth + slideWidth / 6 + (1.5 * slideWidth) / 6,
+                    y: yPos + problemDescHeight,
+                    w: (1.5 * slideWidth) / 6, // 宽度设置为幻灯片宽度的1/6
+                    h: remainingHeight - problemDescHeight,
+                    fontSize: 9, // 内容
+                    color: "000000",
+                    vAlign: "top", // 垂直对齐方式为顶部
+                    // align: "left",
+                });
+                slide.addText(problemDescriptionText, {
+                    x: 0,
+                    y: yPos + problemDescHeight,
+                    w: sectionWidth,
+                    h: remainingHeight - problemDescHeight, // 保证内容区域不重叠
+                    fontSize: 9, // 内容字体较小
+                    color: "000000",
+                    vAlign: "top", // 垂直对齐方式为顶部
+                    align: "left",
+                    bulletStyle: {
+                        type: 'disc', // 项目符号类型：圆点
+                        size: 10 // 项目符号大小
+                    }
                 });
 
-                // 4. 保存演示文稿
+                slide.addText(failureSituationText, {
+                    x: sectionWidth,
+                    y: yPos + failureHeight,
+                    w: slideWidth / 6,
+                    h: remainingHeight - failureHeight, // 保证内容区域不重叠
+                    fontSize: 9, // 内容字体较小
+                    color: "000000",
+                    vAlign: "top", // 垂直对齐方式为顶部
+                    align: "left",
+                    bulletStyle: {
+                        type: 'disc', // 项目符号类型：圆点
+                        size: 10 // 项目符号大小
+                    }
+                });
+
+                // 7. 保存演示文稿
                 pres.writeFile({ fileName: "example_presentation.pptx" })
                     .then(() => console.log("PPTX 文件已下载"))
                     .catch(err => console.error("生成 PPTX 文件时出错：", err));
@@ -392,8 +529,8 @@
 
 
         </script>  @* 导出模块 *@
-        </div>
     </div>
+</div>
 @* 模块编辑区域 *@
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog custom-modal-dialog" role="document">
@@ -467,10 +604,41 @@
         </div>
     </div>
 </div>
-    @section Scripts {
+@section Scripts {
     <script>
         var dataStore = {
             tooltipContentCache: ''
+        };
+        var dataStoreOnePage = {
+            problemDescription: [
+                "问题来源内容",
+                "问题定义内容",
+                "问题等级内容",
+                "开启日期内容",
+                "供应商内容",
+                "涉及车型内容",
+                "内部车型内容",
+                "底盘号内容",
+                "生产/购车时间内容",
+                "在库时间内容",
+                "PQS 编号内容"
+            ],
+            failureSituation: [
+                "1100",
+                "12%",
+                "0.5%",
+                "0.3%",
+                "内蒙台股",
+                "100000KM",
+                "普通路况",
+                "是",
+                "是",
+                "是或否",
+                "否",
+                "低",
+                "高"
+            ],
+            probelmTitle: "一页纸清单"
         };
     </script>@* 全局变量模块 *@
     <script>
@@ -479,11 +647,11 @@
                 trigger: 'manual',
                 html: true
             });
-          
+
             $('.dynamic-tooltip').on('mouseenter', function () {
                 let $this = $(this);
                 let oldMaterialCode = $this.data('old-material-code');
-            
+
                 let $loadingIndicator = $this.find('.loading-indicator');
                 let dateRange = $('#searchByDate').val(); // 获取输入框的值
 
@@ -492,8 +660,10 @@
                 $.ajax({
                     url: '/queryAPI/remotetooltip/tooltipdata',
                     method: 'GET',
-                    data: { oldMaterialCode: oldMaterialCode, 
-                        dateRange: dateRange },
+                    data: {
+                        oldMaterialCode: oldMaterialCode,
+                        dateRange: dateRange
+                    },
                     success: function (data) {
                         // console.log('Data type:', typeof data); // 检查数据类型
                         // console.log(data);
@@ -526,59 +696,60 @@
             });
         });
     </script>@*  显示remote 执行事件 *@
-    <script>    /* 显示datatable 以及用户区域 以及执行查询区域  用户查询表滚轮同步事件  */
-            $(window).on('load', function () {
-                $('#example').DataTable({
-                    "paging": true,
-                    "pageLength": 25, // 设置默认每页显示25条记录
-                    "ordering": true,
-                    "info": true,
-                    "searching": true,
-                    "initComplete": function () {
-                        let api = this.api();
+    <script>
+        /* 显示datatable 以及用户区域 以及执行查询区域  用户查询表滚轮同步事件  */
+        $(window).on('load', function () {
+            $('#example').DataTable({
+                "paging": true,
+                "pageLength": 25, // 设置默认每页显示25条记录
+                "ordering": true,
+                "info": true,
+                "searching": true,
+                "initComplete": function () {
+                    let api = this.api();
 
-                        // 为每列添加筛选下拉菜单
-                        // api.columns().every(function () {
-                        //     let column = this;
-                        //     let header = $(column.header());
-                        //     let headerText = header.text().trim();
+                    // 为每列添加筛选下拉菜单
+                    // api.columns().every(function () {
+                    //     let column = this;
+                    //     let header = $(column.header());
+                    //     let headerText = header.text().trim();
 
-                        //     // 创建一个筛选下拉菜单并添加到表头
-                        //     let select = $('<select class="filter-select"><option value="">' + headerText + '</option></select>')
-                        //         .appendTo(header)
-                        //         .on('change', function () {
-                        //             let val = $.fn.dataTable.util.escapeRegex($(this).val());
+                    //     // 创建一个筛选下拉菜单并添加到表头
+                    //     let select = $('<select class="filter-select"><option value="">' + headerText + '</option></select>')
+                    //         .appendTo(header)
+                    //         .on('change', function () {
+                    //             let val = $.fn.dataTable.util.escapeRegex($(this).val());
 
-                        //             // 使用 `search` 函数进行精确匹配
-                        //             column
-                        //                 .search(val ? '^' + val + '$' : '', true, false)
-                        //                 .draw();
-                        //         });
+                    //             // 使用 `search` 函数进行精确匹配
+                    //             column
+                    //                 .search(val ? '^' + val + '$' : '', true, false)
+                    //                 .draw();
+                    //         });
 
-                        //     // 获取列中唯一的值并填充到下拉菜单
-                        //     column.data().unique().sort().each(function (d) {
-                        //         // 强制将每个值转换为字符串
-                        //         let value = d === null ? '' : d.toString();
-                        //         select.append('<option value="' + value + '">' + value + '</option>');
-                        //     });
-                        // });
-                    }
-                });
-                $('#example').show();
-
+                    //     // 获取列中唯一的值并填充到下拉菜单
+                    //     column.data().unique().sort().each(function (d) {
+                    //         // 强制将每个值转换为字符串
+                    //         let value = d === null ? '' : d.toString();
+                    //         select.append('<option value="' + value + '">' + value + '</option>');
+                    //     });
+                    // });
+                }
             });
-            
+            $('#example').show();
+
+        });
+
         window.addEventListener('load', function () {
             // 显示用户输入区域
             document.querySelector('.userInput-container').style.display = 'block';
             console.log(`dispaly!!!!!!!!!!!!!!!!!!!!!!!`);
-           
+
         });
         console.log(`startMove!!!!!!!!!!!!!!!!!!!!!!!false`);
         document.querySelector('.custom-container .table tbody').addEventListener('scroll', function () {
             const thead = document.querySelector('.custom-container .table thead');
             thead.scrollLeft = this.scrollLeft;
-        
+
         });
 
     </script>
@@ -688,9 +859,9 @@
             const yValues = processedData.map(item => item.y);
             const zValues = processedData.map(item => item.z);
             const textValues = processedData.map(item => `MIS:${item.original.mis}<br>
-                                                          VAN:${item.original.van}<br>
-                                                          M.O.D:${item.original.manufacturingMonth}<br>
-                                                          FDP:${item.original.fdp}`);
+                                                                  VAN:${item.original.van}<br>
+                                                                  M.O.D:${item.original.manufacturingMonth}<br>
+                                                                  FDP:${item.original.fdp}`);
 
             // 计算 Z 轴的刻度值和标签
             const zTickvals = Array.from({ length: 12 }, (_, i) => i * 4.16);

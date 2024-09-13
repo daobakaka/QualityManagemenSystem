@@ -275,3 +275,54 @@ table.dataTable thead th {
 }
 
 
+/* modal-styles.css */
+
+/* 自定义模态框对话框样式 */
+.custom-modal-dialog {
+    width: 20vw; /* 宽度为视口宽度的 90% */
+    max-width: 20vw; /* 最大宽度为视口宽度的 90% */
+    height: 15vh; /* 高度为视口高度的 20% */
+    max-height: 20vh; /* 最大高度为视口高度的 20% */
+    margin: 0; /* 取消外边距 */
+    display: flex;
+    align-items: center; /* 垂直居中对话框 */
+}
+
+/* 自定义模态框内容样式 */
+.custom-modal-content {
+    height: 100%; /* 高度为对话框的 100% */
+    border: 1px solid #ced4da; /* 灰色边框 */
+    border-radius: 0.375rem; /* 边角圆角 */
+    overflow: hidden; /* 内容溢出隐藏 */
+}
+
+/* 自定义模态框头部样式 */
+.custom-modal-header {
+    background-color: #e9ecef; /* 更浅的灰色背景 */
+    border-bottom: 1px solid #ced4da; /* 灰色边框 */
+    padding: 0.5rem; /* 内边距调整 */
+}
+
+/* 自定义模态框主体样式 */
+.custom-modal-body {
+    color: #495057; /* 深灰色文本 */
+    padding: 0.5rem; /* 内边距调整 */
+    text-align:center;
+}
+
+/* 自定义模态框脚部样式 */
+.custom-modal-footer {
+    background-color: #e9ecef; /* 更浅的灰色背景 */
+    border-top: 1px solid #ced4da; /* 灰色边框 */
+    padding: 0.5rem; /* 内边距调整 */
+    display:none;
+}
+
+/* 自定义按钮样式 */
+.custom-modal-body .btn {
+    font-size: 1rem; /* 调整字体大小 */
+    margin-bottom: 0.5rem; /* 按钮下边距 */
+}
+
+
+

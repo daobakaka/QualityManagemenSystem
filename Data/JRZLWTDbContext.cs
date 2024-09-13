@@ -17,6 +17,8 @@ namespace WebWinMVC.Data
         public DbSet<DailyServiceReviewFormQuery> DailyServiceReviewFormQueries { get; set; }
         public DbSet<DailyQualityIssueChecklistV91Query> DailyQualityIssueChecklistV91Queries { get; set; }
 
+        public DbSet<VehicleBasicInfo> VehicleBasicInfos { get; set; }
+
         // Configure the model with explicit table names
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -28,6 +30,7 @@ namespace WebWinMVC.Data
             modelBuilder.Entity<DailyServiceReviewForm>().ToTable("DailyServiceReviewForms");
             modelBuilder.Entity<DailyServiceReviewFormQuery>().ToTable("DailyServiceReviewFormQueries");
             modelBuilder.Entity<DailyQualityIssueChecklistV91Query>().ToTable("DailyQualityIssueChecklistV91Queries");
+            modelBuilder.Entity<VehicleBasicInfo>().ToTable("VehicleBasicInfos");
         }
     }
 }

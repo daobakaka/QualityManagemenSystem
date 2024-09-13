@@ -21,6 +21,10 @@
       "PackagePath": "staticwebassets\\js\\jszip.min.js"
     },
     {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\js\\plotly.min.js",
+      "PackagePath": "staticwebassets\\js\\plotly.min.js"
+    },
+    {
       "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\js\\pptxgen.min.js",
       "PackagePath": "staticwebassets\\js\\pptxgen.min.js"
     },

@@ -146,3 +146,4 @@ E:\C#\WebWinMVC\WebWinMVC\obj\Debug\net8.0\refint\WebWinMVC.dll
 E:\C#\WebWinMVC\WebWinMVC\obj\Debug\net8.0\WebWinMVC.pdb
 E:\C#\WebWinMVC\WebWinMVC\obj\Debug\net8.0\WebWinMVC.genruntimeconfig.cache
 E:\C#\WebWinMVC\WebWinMVC\obj\Debug\net8.0\ref\WebWinMVC.dll
+E:\C#\WebWinMVC\WebWinMVC\obj\Debug\net8.0\WebWinMVC.sourcelink.json

@@ -3,44 +3,72 @@
   "WorkspaceRootPath": "E:\\C#\\WebWinMVC\\WebWinMVC\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\controllers\\remoteaccesscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:controllers\\remoteaccesscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\views\\hyindex\\testpages.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:views\\hyindex\\testpages.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\wwwroot\\js\\pptxgen.min.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:wwwroot\\js\\pptxgen.min.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\views\\hyindex\\hyindexjrzlwtv91.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:views\\hyindex\\hyindexjrzlwtv91.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\models\\dailyqualityissuechecklistv91query.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:models\\dailyqualityissuechecklistv91query.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\models\\dailyqualityissuechecklistv91.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:models\\dailyqualityissuechecklistv91.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\data\\jrzlwtdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:data\\jrzlwtdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\controllers\\remoteeditcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:controllers\\remoteeditcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\models\\vehiclebasicinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:models\\vehiclebasicinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\controllers\\remotetooltipcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:controllers\\remotetooltipcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\data\\jrzlwtdbcontextinitializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:data\\jrzlwtdbcontextinitializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\itegratedscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:itegratedscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\models\\dailyservicereviewformquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:models\\dailyservicereviewformquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\views\\hyindex\\testpages.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:views\\hyindex\\testpages.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\views\\hyindex\\hyindexjrzlwtv91.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:views\\hyindex\\hyindexjrzlwtv91.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
       "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\models\\dailyqualityissuechecklistv91.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:models\\dailyqualityissuechecklistv91.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\views\\hyindex\\hyindexqmc.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:views\\hyindex\\hyindexqmc.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\wwwroot\\js\\pptxgen.min.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:wwwroot\\js\\pptxgen.min.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\models\\dailyqualityissuechecklistv91query.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:models\\dailyqualityissuechecklistv91query.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\data\\jrzlwtdbcontextinitializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:data\\jrzlwtdbcontextinitializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\migrations\\20240903101334_initialcreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -59,16 +87,8 @@
       "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:models\\errorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\models\\dailyservicereviewformquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:models\\dailyservicereviewformquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\models\\dailyservicereviewform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:models\\dailyservicereviewform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\data\\jrzlwtdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:data\\jrzlwtdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
@@ -83,10 +103,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\views\\hyindex\\hyindexqmc.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:views\\hyindex\\hyindexqmc.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\views\\hyindex\\other.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -111,10 +127,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\views\\hyindex\\hyindexjrzlwt.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:views\\hyindex\\hyindexjrzlwt.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|e:\\c#\\webwinmvc\\webwinmvc\\views\\hyindex\\hyindexmanager.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -180,7 +192,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 1141,
-          "SelectedChildIndex": 45,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -196,7 +208,46 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
+              "Title": "VehicleBasicInfo.cs",
+              "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Models\\VehicleBasicInfo.cs",
+              "RelativeDocumentMoniker": "Models\\VehicleBasicInfo.cs",
+              "ToolTip": "E:\\C#\\WebWinMVC\\WebWinMVC\\Models\\VehicleBasicInfo.cs",
+              "RelativeToolTip": "Models\\VehicleBasicInfo.cs",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAYwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-13T17:47:24.482Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ItegratedScript.cs",
+              "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\ItegratedScript.cs",
+              "RelativeDocumentMoniker": "ItegratedScript.cs",
+              "ToolTip": "E:\\C#\\WebWinMVC\\WebWinMVC\\ItegratedScript.cs",
+              "RelativeToolTip": "ItegratedScript.cs",
+              "ViewState": "AQIAAM8AAAAAAAAAAADwv8UAAAAtAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-13T16:59:33.607Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "RemoteAccessController.cs",
+              "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Controllers\\RemoteAccessController.cs",
+              "RelativeDocumentMoniker": "Controllers\\RemoteAccessController.cs",
+              "ToolTip": "E:\\C#\\WebWinMVC\\WebWinMVC\\Controllers\\RemoteAccessController.cs",
+              "RelativeToolTip": "Controllers\\RemoteAccessController.cs",
+              "ViewState": "AQIAAJoAAAAAAAAAAAAswMIAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-13T16:42:00.527Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
               "Title": "pptxgen.min.js",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\js\\pptxgen.min.js",
               "RelativeDocumentMoniker": "wwwroot\\js\\pptxgen.min.js",
@@ -208,7 +259,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 20,
               "Title": "ErrorViewModel.cs",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Models\\ErrorViewModel.cs",
               "RelativeDocumentMoniker": "Models\\ErrorViewModel.cs",
@@ -220,7 +271,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 23,
               "Title": "SQLQuery2.sql ",
               "DocumentMoniker": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\nvtqbjqa..sql",
               "ToolTip": "SQLQuery2.sql ",
@@ -229,7 +280,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 24,
               "Title": "SQLQuery1.sql ",
               "DocumentMoniker": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\wcuxhnii..sql",
               "ToolTip": "SQLQuery1.sql ",
@@ -238,7 +289,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 17,
               "Title": "20240903101334_InitialCreate.cs",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Migrations\\20240903101334_InitialCreate.cs",
               "RelativeDocumentMoniker": "Migrations\\20240903101334_InitialCreate.cs",
@@ -250,7 +301,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 18,
               "Title": "20240909145941_UpdateNullOptions.cs",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Migrations\\20240909145941_UpdateNullOptions.cs",
               "RelativeDocumentMoniker": "Migrations\\20240909145941_UpdateNullOptions.cs",
@@ -262,7 +313,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 21,
               "Title": "DailyServiceReviewForm.cs",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Models\\DailyServiceReviewForm.cs",
               "RelativeDocumentMoniker": "Models\\DailyServiceReviewForm.cs",
@@ -274,31 +325,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 2,
               "Title": "RemoteEditController.cs",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Controllers\\RemoteEditController.cs",
               "RelativeDocumentMoniker": "Controllers\\RemoteEditController.cs",
               "ToolTip": "E:\\C#\\WebWinMVC\\WebWinMVC\\Controllers\\RemoteEditController.cs",
               "RelativeToolTip": "Controllers\\RemoteEditController.cs",
-              "ViewState": "AQIAAA0AAAAAAAAAAAAAwDgAAAANAAAA",
+              "ViewState": "AQIAABIAAAAAAAAAAAAIwDgAAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-09T06:48:47.276Z"
+              "WhenOpened": "2024-09-09T06:48:47.276Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 1,
               "Title": "JRZLWTDbContext.cs",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Data\\JRZLWTDbContext.cs",
               "RelativeDocumentMoniker": "Data\\JRZLWTDbContext.cs",
               "ToolTip": "E:\\C#\\WebWinMVC\\WebWinMVC\\Data\\JRZLWTDbContext.cs",
               "RelativeToolTip": "Data\\JRZLWTDbContext.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAAAAAAAA",
+              "ViewState": "AQIAAAoAAAAAAAAAAAAAwCAAAABRAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-09T06:40:26.201Z"
+              "WhenOpened": "2024-09-09T06:40:26.201Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 26,
               "Title": "OTHER.cshtml",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Views\\HYIndex\\OTHER.cshtml",
               "RelativeDocumentMoniker": "Views\\HYIndex\\OTHER.cshtml",
@@ -310,20 +363,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 7,
               "Title": "TESTPAGES.cshtml",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Views\\HYIndex\\TESTPAGES.cshtml",
               "RelativeDocumentMoniker": "Views\\HYIndex\\TESTPAGES.cshtml",
               "ToolTip": "E:\\C#\\WebWinMVC\\WebWinMVC\\Views\\HYIndex\\TESTPAGES.cshtml",
               "RelativeToolTip": "Views\\HYIndex\\TESTPAGES.cshtml",
-              "ViewState": "AQIAAAwAAAAAAAAAAAAAAHkAAAAbAAAA",
+              "ViewState": "AQIAACwAAAAAAAAAAAAswEYAAAB+AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-09-08T09:46:26.808Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 34,
               "Title": "HYIndexOTHER.cshtml",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Views\\HYIndex\\HYIndexOTHER.cshtml",
               "RelativeDocumentMoniker": "Views\\HYIndex\\HYIndexOTHER.cshtml",
@@ -335,7 +388,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 28,
               "Title": "RenderJRZLWT.cshtml",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Views\\HYIndex\\RenderJRZLWT.cshtml",
               "RelativeDocumentMoniker": "Views\\HYIndex\\RenderJRZLWT.cshtml",
@@ -347,7 +400,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 15,
               "Title": "DailyQualityIssueChecklistV91Query.cs",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Models\\DailyQualityIssueChecklistV91Query.cs",
               "RelativeDocumentMoniker": "Models\\DailyQualityIssueChecklistV91Query.cs",
@@ -359,19 +412,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 11,
               "Title": "DailyQualityIssueChecklistV91.cs",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Models\\DailyQualityIssueChecklistV91.cs",
               "RelativeDocumentMoniker": "Models\\DailyQualityIssueChecklistV91.cs",
               "ToolTip": "E:\\C#\\WebWinMVC\\WebWinMVC\\Models\\DailyQualityIssueChecklistV91.cs",
               "RelativeToolTip": "Models\\DailyQualityIssueChecklistV91.cs",
-              "ViewState": "AQIAAAoAAAAAAAAAAAAUwA0AAAA1AAAA",
+              "ViewState": "AQIAAAoAAAAAAAAAAAA0wA0AAAA1AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-07T05:29:57.401Z"
+              "WhenOpened": "2024-09-07T05:29:57.401Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 22,
               "Title": "bootstrap.js",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
               "RelativeDocumentMoniker": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
@@ -383,7 +437,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 36,
               "Title": "bootstrap.bundle.min.js",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
               "RelativeDocumentMoniker": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
@@ -395,7 +449,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 38,
               "Title": "bootstrap.min.js",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
               "RelativeDocumentMoniker": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
@@ -407,7 +461,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 39,
               "Title": "bootstrap.min.css.map",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
               "RelativeDocumentMoniker": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
@@ -419,7 +473,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 37,
               "Title": "bootstrap.min.css",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
               "RelativeDocumentMoniker": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
@@ -431,7 +485,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 6,
               "Title": "DailyServiceReviewFormQuery.cs",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Models\\DailyServiceReviewFormQuery.cs",
               "RelativeDocumentMoniker": "Models\\DailyServiceReviewFormQuery.cs",
@@ -439,47 +493,51 @@
               "RelativeToolTip": "Models\\DailyServiceReviewFormQuery.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAARAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-06T17:28:52.243Z"
+              "WhenOpened": "2024-09-06T17:28:52.243Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 4,
               "Title": "RemoteTooltipController.cs",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Controllers\\RemoteTooltipController.cs",
               "RelativeDocumentMoniker": "Controllers\\RemoteTooltipController.cs",
               "ToolTip": "E:\\C#\\WebWinMVC\\WebWinMVC\\Controllers\\RemoteTooltipController.cs",
               "RelativeToolTip": "Controllers\\RemoteTooltipController.cs",
-              "ViewState": "AQIAADYAAAAAAAAAAAAIwBIAAAAbAAAA",
+              "ViewState": "AQIAABAAAAAAAAAAAAAAwEQAAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-06T17:22:45.685Z"
+              "WhenOpened": "2024-09-06T17:22:45.685Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 10,
               "Title": "site.js",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\js\\site.js",
               "RelativeDocumentMoniker": "wwwroot\\js\\site.js",
               "ToolTip": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\js\\site.js",
               "RelativeToolTip": "wwwroot\\js\\site.js",
-              "ViewState": "AQIAAAAAAAAAAAAAAADwvwAAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2024-09-06T14:46:32.824Z"
+              "WhenOpened": "2024-09-06T14:46:32.824Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 8,
               "Title": "HYIndexJRZLWTV91.cshtml",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Views\\HYIndex\\HYIndexJRZLWTV91.cshtml",
               "RelativeDocumentMoniker": "Views\\HYIndex\\HYIndexJRZLWTV91.cshtml",
               "ToolTip": "E:\\C#\\WebWinMVC\\WebWinMVC\\Views\\HYIndex\\HYIndexJRZLWTV91.cshtml",
               "RelativeToolTip": "Views\\HYIndex\\HYIndexJRZLWTV91.cshtml",
-              "ViewState": "AQIAAIYBAAAAAAAAAAAAANYBAAAAAAAA",
+              "ViewState": "AQIAAIUCAAAAAAAAAAAAAF8BAAAvAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-06T13:54:30.024Z"
+              "WhenOpened": "2024-09-06T13:54:30.024Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 30,
               "Title": "HomeController.cs",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
@@ -491,7 +549,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 13,
               "Title": "HYIndexQMC.cshtml",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Views\\HYIndex\\HYIndexQMC.cshtml",
               "RelativeDocumentMoniker": "Views\\HYIndex\\HYIndexQMC.cshtml",
@@ -499,11 +557,12 @@
               "RelativeToolTip": "Views\\HYIndex\\HYIndexQMC.cshtml",
               "ViewState": "AQIAAAAAAAAAAAAAAADwvwgAAAAGAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-03T09:52:35.497Z"
+              "WhenOpened": "2024-09-03T09:52:35.497Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 33,
               "Title": "HYIndexTOP.cshtml",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Views\\HYIndex\\HYIndexTOP.cshtml",
               "RelativeDocumentMoniker": "Views\\HYIndex\\HYIndexTOP.cshtml",
@@ -515,7 +574,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 42,
+              "DocumentIndex": 45,
               "Title": "_ViewStart.cshtml",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Views\\_ViewStart.cshtml",
               "RelativeDocumentMoniker": "Views\\_ViewStart.cshtml",
@@ -527,7 +586,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 42,
               "Title": "_ViewImports.cshtml",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Views\\_ViewImports.cshtml",
               "RelativeDocumentMoniker": "Views\\_ViewImports.cshtml",
@@ -539,7 +598,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 40,
+              "DocumentIndex": 43,
               "Title": "_ValidationScriptsPartial.cshtml",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
               "RelativeDocumentMoniker": "Views\\Shared\\_ValidationScriptsPartial.cshtml",
@@ -551,7 +610,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 32,
               "Title": "HYIndexMANAGER.cshtml",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Views\\HYIndex\\HYIndexMANAGER.cshtml",
               "RelativeDocumentMoniker": "Views\\HYIndex\\HYIndexMANAGER.cshtml",
@@ -563,7 +622,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 27,
               "Title": "HYIndexWM.cshtml",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Views\\HYIndex\\HYIndexWM.cshtml",
               "RelativeDocumentMoniker": "Views\\HYIndex\\HYIndexWM.cshtml",
@@ -575,7 +634,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 29,
               "Title": "HYIndexController.cs",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Controllers\\HYIndexController.cs",
               "RelativeDocumentMoniker": "Controllers\\HYIndexController.cs",
@@ -587,7 +646,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 19,
               "Title": "JRZLWTViewModel.cs",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Models\\JRZLWTViewModel.cs",
               "RelativeDocumentMoniker": "Models\\JRZLWTViewModel.cs",
@@ -599,7 +658,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 25,
               "Title": "appsettings.json",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
@@ -611,7 +670,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 40,
               "Title": "Program.cs",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
@@ -623,7 +682,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 16,
               "Title": "JRZLWTDbContextInitializer.cs",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Data\\JRZLWTDbContextInitializer.cs",
               "RelativeDocumentMoniker": "Data\\JRZLWTDbContextInitializer.cs",
@@ -641,13 +700,14 @@
               "RelativeDocumentMoniker": "wwwroot\\css\\site.css",
               "ToolTip": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\css\\site.css",
               "RelativeToolTip": "wwwroot\\css\\site.css",
-              "ViewState": "AQIAAFQAAAAAAAAAAAAAAG0AAAASAAAA",
+              "ViewState": "AQIAABsBAAAAAAAAAAAswDUBAAAWAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-09-02T11:40:05.183Z"
+              "WhenOpened": "2024-09-02T11:40:05.183Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 31,
               "Title": "HYIndexJRZLWT.cshtml",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Views\\HYIndex\\HYIndexJRZLWT.cshtml",
               "RelativeDocumentMoniker": "Views\\HYIndex\\HYIndexJRZLWT.cshtml",
@@ -659,7 +719,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 35,
               "Title": "HYIndex24M.cshtml",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Views\\HYIndex\\HYIndex24M.cshtml",
               "RelativeDocumentMoniker": "Views\\HYIndex\\HYIndex24M.cshtml",
@@ -671,7 +731,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 41,
+              "DocumentIndex": 44,
               "Title": "Privacy.cshtml",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Views\\Home\\Privacy.cshtml",
               "RelativeDocumentMoniker": "Views\\Home\\Privacy.cshtml",
@@ -683,7 +743,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 41,
               "Title": "Index.cshtml",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Views\\Home\\Index.cshtml",
               "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
@@ -695,13 +755,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 12,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "E:\\C#\\WebWinMVC\\WebWinMVC\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
               "ToolTip": "E:\\C#\\WebWinMVC\\WebWinMVC\\Views\\Shared\\_Layout.cshtml",
               "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AQIAADwAAAAAAAAAAAAAAE4AAAAHAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEYAAAA7AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-08-24T07:17:11.271Z",
               "EditorCaption": ""

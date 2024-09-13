@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "dmARjCtv7Wb7pWK2lfNm59Cy4kLAZLHqHY8J6A+Ip1I=",
+  "Hash": "fk3eVbbV7fXydQXWjp/gsoFPdym9A2/MaSkooozf+8c=",
   "Source": "WebWinMVC",
   "BasePath": "_content/WebWinMVC",
   "Mode": "Default",
@@ -129,6 +129,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\jszip.min.js"
+    },
+    {
+      "Identity": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\js\\plotly.min.js",
+      "SourceId": "WebWinMVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\",
+      "BasePath": "_content/WebWinMVC",
+      "RelativePath": "js/plotly.min.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\plotly.min.js"
     },
     {
       "Identity": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\js\\pptxgen.min.js",

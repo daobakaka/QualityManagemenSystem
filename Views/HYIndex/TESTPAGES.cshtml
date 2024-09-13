@@ -12,78 +12,166 @@
             <div class="result-container d-flex flex-column align-items-center">
                 <button type="button" class="btn btn-outline-secondary mb-2" style="width: 5vw;" onclick="exportTableToExcelQuery()">详情导出</button>
                 <button type="button" class="btn btn-outline-secondary mb-2" style="width: 5vw;" onclick="exportTableToExcelAnalyse()">清单导出</button>
-                <button type="button" class="btn btn-outline-secondary mb-2" style="width: 5vw;" onclick="generatePPTOnePage(dataStoreOnePage.probelmTitle,dataStoreOnePage.problemDescription,dataStoreOnePage.failureSituation)">生成一页纸</button>
+                <button type="button" class="btn btn-outline-secondary mb-2" style="width: 5vw;" onclick="showOnePageModal()">生成一页纸</button>
                 <button type="button" class="btn btn-outline-secondary mb-2" style="width: 5vw;">纳入PSQ</button>
             </div>
         </form>
 
     </div>
 </div>
+<!-- 选项模态框 -->
+<!-- Modal -->
+<div class="modal fade" id="optionsModalOP" tabindex="-1" aria-labelledby="optionsModalLabelOP" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="btn btn-outline-secondary w-100 mb-2" onclick="showDailyQualityModalOP()">即日质量问题</button>
+                <button type="button" class="btn btn-outline-secondary w-100 mb-2" onclick="generatePPT('TOP问题')">TOP问题</button>
+                <button type="button" class="btn btn-outline-secondary w-100 mb-2" onclick="generatePPT('24小时问题')">24小时问题</button>
+                <button type="button" class="btn btn-outline-secondary w-100 mb-2" onclick="openServiceCenterModalOP()">服务中心问题</button>
+                <button type="button" class="btn btn-outline-secondary w-100 mb-2" onclick="openServiceCenterModalOP()">其他问题</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Service Center Modal -->
+<div class="modal fade" id="serviceCenterModalOP" tabindex="-1" aria-labelledby="serviceCenterModalLabelOP" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal header removed -->
+            <div class="modal-body">
+                <form id="serviceCenterFormOP">
+                    <input type="text" class="form-control" id="caseNumberOP" placeholder="输入案例数" required style="margin-top: 1vh;">
+                    <input type="text" class="form-control" id="customerVehicleNumberOP" placeholder="输入客户车辆数" required style="margin-top: 1vh;">
+                    <input type="text" class="form-control" id="materialNumberOP" placeholder="输入物料号" required style="margin-top: 1vh;">
+                    <input type="text" class="form-control" id="queryDateOP" placeholder="查询日期" required style="margin-top: 1vh;">
+                    <input type="text" class="form-control" id="faultModeOP" placeholder="输入故障模式" required style="margin-top: 1vh;">
+                    <input type="text" class="form-control" id="faultCodeOP" placeholder="输入故障码(可选)" required style="margin-top: 1vh;">
+                </form>
+                <button type="button" class="btn btn-outline-secondary mb-2" style="margin-top: 2vh; display: block; margin-left: auto; margin-right: auto;"
+                        onclick="generateServiceCenterReportOP()">
+                    生成报告
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Daily Quality Modal -->
+<div class="modal fade" id="dailyQualityModalOP" tabindex="-1" aria-labelledby="dailyQualityModalLabelOP" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal header removed -->
+            <div class="modal-body">
+                <form id="dailyQualityFormOP">
+                    <input type="text" class="form-control" id="materialNumberOP" placeholder="输入物料号" required style="margin-top: 1vh;">
+                    <input type="text" class="form-control" id="queryDateOP" placeholder="查询日期(可选)" style="margin-top: 1vh;">
+                    <input type="text" class="form-control" id="faultModeOP" placeholder="输入故障模式(可选)" style="margin-top: 1vh;">
+                    <input type="text" class="form-control" id="faultCodeOP" placeholder="输入故障码(可选)" style="margin-top: 1vh;">
+                    <input type="text" class="form-control" id="breakpointTimeOP" placeholder="断点时间(可选)" style="margin-top: 1vh;">
+                    <input type="text" class="form-control" id="vehicleNumberOP" placeholder="输入车号或底盘号(可选)" style="margin-top: 1vh;">
+                </form>
+                <button type="button" class="btn btn-outline-secondary mb-2" style="margin-top: 2vh; display: block; margin-left: auto; margin-right: auto;"
+                        onclick="generatePPTOnePage(dataStoreOnePage.textTitleOP,dataStoreOnePage.pageMode.DAILY_QUALITY, dataStoreOnePage.problemDescription, dataStoreOnePage.failureSituation)">
+                    生成报告
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
- var dataStoreOnePage = {
-            problemDescription: [
-                "问题来源内容",
-                "问题定义内容",
-                "问题等级内容",
-                "开启日期内容",
-                "供应商内容",
-                "涉及车型内容",
-                "内部车型内容",
-                "底盘号内容",
-                "生产/购车时间内容",
-                "在库时间内容",
-                "PQS 编号内容"
-            ],
-            failureSituation: [
-                "1100",
-                "12%",
-                "0.5%",
-                "0.3%",
-                "内蒙台股",
-                "100000KM",
-                "普通路况",
-                "是",
-                "是",
-                "是或否",
-                "否",
-                "低",
-                "高"
-            ],
-            probelmTitle: "一页纸清单"
-        };
-</script>
-<script>
-    function generatePPTOnePage(titleText, problemDescriptionContents, failureSituationContents) {
-        console.log("start to create PPT");
+    var dataStoreOnePage = {
+        problemDescription: [
+            "问题来源内容",
+            "问题定义内容",
+            "问题等级内容",
+            "开启日期内容",
+            "供应商内容",
+            "涉及车型内容",
+            "内部车型内容",
+            "底盘号内容",
+            "生产/购车时间内容",
+            "在库时间内容",
+            "PQS 编号内容"
+        ],
+        failureSituation: [
+            "1100",
+            "12%",
+            "0.5%",
+            "0.3%",
+            "内蒙台股",
+            "100000KM",
+            "普通路况",
+            "是",
+            "是",
+            "是或否",
+            "否",
+            "低",
+            "高"
+        ],
+        textTitleOP: "一页纸",
+            pageMode: {
+            DAILY_QUALITY: '即日质量问题',
+            TOP_ISSUES: 'TOP问题',
+            TWENTY_FOUR_HOURS: '24小时问题',
+            SERVICE_CENTER: '服务中心问题',
+            OTHER_ISSUES: '其他问题'
+        },
+    };
+    var optionsModalOP;
+    function showOnePageModal() {
+         optionsModalOP = new bootstrap.Modal(document.getElementById('optionsModalOP'));
+        optionsModalOP.show();
+    }
+
+    function openServiceCenterModalOP() {
+        let serviceCenterModalOP = new bootstrap.Modal(document.getElementById('serviceCenterModalOP'));
+        serviceCenterModalOP.show();     
+        optionsModalOP.hide();
+    }
+
+    function showDailyQualityModalOP() {
+        let dailyQualityModalOP = new bootstrap.Modal(document.getElementById('dailyQualityModalOP'));
+        dailyQualityModalOP.show();
+        optionsModalOP.hide();
+    }
+
+
+    function generatePPTOnePage(titleText,modal, problemDescriptionContents, failureSituationContents) {
+        console.log("start to create PPT " + titleText + dataStoreOnePage.textTitleOP);
+        let pageMode = dataStoreOnePage.pageMode;
+        // 创建PPTX文档
         let pres = new PptxGenJS();
         let slide = pres.addSlide();
 
         // 幻灯片的默认尺寸（宽度和高度以英寸为单位）
-        let slideWidth = 10;  // 默认为 10 英寸
-        let slideHeight = 5.625; // 默认为 5.7 英寸
+        let slideWidth = 10;
+        let slideHeight = 5.625;
 
-        // 1. 添加标题框，占幻灯片的1/5
-        let titleHeight = 0.6; // 标题的高度
+        // 1. 添加标题框
+        let titleHeight = 0.6;
         let titleOpts = {
             x: 0,
             y: 0.1,
-            w: slideWidth,  // 使用整个宽度
+            w: slideWidth,
             h: titleHeight,
             fontSize: 24,
             color: "000000",
             align: "center",
-            fill: { color: "4682B4" } // 钢蓝色背景
+            fill: { color: "4682B4" }
         };
         slide.addText(titleText, titleOpts);
 
         // 2. 计算文本框的宽度和高度
-        let sectionWidth = slideWidth / 3; // 将宽度均分为 3 部分
-        let problemDescHeight = titleHeight / 2; // “问题描述”框的高度为标题框的一半
-        let failureHeight = titleHeight / 2; // “失效情况”框的高度为标题框的一半
-        let remainingHeight = slideHeight - titleHeight; // 剩余空间高度
-        let yPos = titleHeight+0.1; // 标题下方的起始位置
+        let sectionWidth = slideWidth / 3;
+        let problemDescHeight = titleHeight / 2;
+        let failureHeight = titleHeight / 2;
+        let remainingHeight = slideHeight - titleHeight;
+        let yPos = titleHeight + 0.1;
 
-        // 3. 固定字段标签（问题描述）
+        // 3. 固定字段标签
         let fixedLabels = [
             "问题来源：",
             "问题定义：",
@@ -97,11 +185,6 @@
             "在库时间：",
             "PQS 编号："
         ];
-
-        // 4. 生成问题描述文本框内容
-        let problemDescriptionText = fixedLabels.map((label, i) => `${label}${problemDescriptionContents[i] || "default"}`).join("\n");
-
-        // 5. 固定字段标签（失效情况）
         let failureLabels = [
             "案例数：",
             "失效率（客户）：",
@@ -118,115 +201,144 @@
             "可能性："
         ];
 
-        // 6. 生成失效情况文本框内容
-        let failureSituationText = failureLabels.map((label, i) => `${label}${failureSituationContents[i] || "default"}`).join("\n");
+        // 根据 titleText 设置问题描述和失效情况内容
+        let problemDescriptionText, failureSituationText;
 
-        // 添加问题描述文本框
+        switch (modal) {
+            case pageMode.DAILY_QUALITY:
+                problemDescriptionText = fixedLabels.map((label, i) => `${label}${problemDescriptionContents[i] || "default"}`).join("\n");
+                failureSituationText = failureLabels.map((label, i) => `${label}${failureSituationContents[i] || "default"}`).join("\n");
+                break;
+            case pageMode.TOP_ISSUES:
+                // 可以根据需要定义 TOP问题的内容
+                problemDescriptionText = fixedLabels.map((label, i) => `${label}${problemDescriptionContents[i] || "default"}`).join("\n");
+                failureSituationText = failureLabels.map((label, i) => `${label}${failureSituationContents[i] || "default"}`).join("\n");
+                break;
+            case pageMode.TWENTY_FOUR_HOURS:
+                // 可以根据需要定义 24小时问题的内容
+                problemDescriptionText = fixedLabels.map((label, i) => `${label}${problemDescriptionContents[i] || "default"}`).join("\n");
+                failureSituationText = failureLabels.map((label, i) => `${label}${failureSituationContents[i] || "default"}`).join("\n");
+                break;
+            case pageMode.SERVICE_CENTER:
+                // 可以根据需要定义 服务中心问题的内容
+                problemDescriptionText = fixedLabels.map((label, i) => `${label}${problemDescriptionContents[i] || "default"}`).join("\n");
+                failureSituationText = failureLabels.map((label, i) => `${label}${failureSituationContents[i] || "default"}`).join("\n");
+                break;
+            case pageMode.OTHER_ISSUES:
+                // 可以根据需要定义 其他问题的内容
+                problemDescriptionText = fixedLabels.map((label, i) => `${label}${problemDescriptionContents[i] || "default"}`).join("\n");
+                failureSituationText = failureLabels.map((label, i) => `${label}${failureSituationContents[i] || "default"}`).join("\n");
+                break;
+            default:
+                // 默认处理
+                problemDescriptionText = fixedLabels.map((label, i) => `${label}${problemDescriptionContents[i] || "default"}`).join("\n");
+                failureSituationText = failureLabels.map((label, i) => `${label}${failureSituationContents[i] || "default"}`).join("\n");
+                break;
+        }
+
+        // 添加文本框
         slide.addText("问题描述", {
             x: 0,
             y: yPos,
-            w: sectionWidth, // 宽度设置为幻灯片宽度的1/3
+            w: sectionWidth,
             h: problemDescHeight,
-            fontSize: 18, // 标题字体较大
+            fontSize: 18,
             color: "000000",
             align: "center",
-            fill: { color: "#ADD8E6" } // 淡蓝色背景
+            fill: { color: "#ADD8E6" }
         });
-        // 添加失效情况文本框
         slide.addText("失效情况", {
             x: sectionWidth,
             y: yPos,
-            w: slideWidth / 6, // 宽度设置为幻灯片宽度的1/6
+            w: slideWidth / 6,
             h: failureHeight,
-            fontSize: 18, // 标题字体较大
+            fontSize: 18,
             color: "000000",
             align: "center",
-            fill: { color: "#ADD8E6" } // 淡蓝色背景
+            fill: { color: "#ADD8E6" }
         });
         slide.addText("根本原因", {
             x: sectionWidth + slideWidth / 6,
             y: yPos,
-            w: (1.5*slideWidth) / 6, // 宽度设置为幻灯片宽度的1/6
+            w: (1.5 * slideWidth) / 6,
             h: failureHeight,
-            fontSize: 18, // 标题字体较大
+            fontSize: 18,
             color: "000000",
             align: "center",
-            fill: { color: "#ADD8E6" } // 淡蓝色背景
+            fill: { color: "#ADD8E6" }
         });
         slide.addText("进展及计划", {
             x: sectionWidth + slideWidth / 6 + (1.5 * slideWidth) / 6,
             y: yPos,
-            w: (1.5 * slideWidth) / 6, // 宽度设置为幻灯片宽度的1/6
+            w: (1.5 * slideWidth) / 6,
             h: failureHeight,
-            fontSize: 18, // 标题字体较大
+            fontSize: 18,
             color: "000000",
             align: "center",
-            fill: { color: "#ADD8E6" } // 淡蓝色背景
+            fill: { color: "#ADD8E6" }
         });
         slide.addText("售后方案：\n根本原因：\n原因分析：\n", {
-            x: sectionWidth + slideWidth / 6 ,
+            x: sectionWidth + slideWidth / 6,
             y: yPos + problemDescHeight,
-            w: (1.5 * slideWidth) / 6, // 宽度设置为幻灯片宽度的1/6
+            w: (1.5 * slideWidth) / 6,
             h: remainingHeight - problemDescHeight,
-            fontSize: 9, // 内容
+            fontSize: 9,
             color: "000000",
-            vAlign: "top", // 垂直对齐方式为顶部
-           // align: "left",
+            vAlign: "top",
         });
         slide.addText("牵头部门：\n遏制措施：\n长期措施：\n下一步计划：", {
             x: sectionWidth + slideWidth / 6 + (1.5 * slideWidth) / 6,
             y: yPos + problemDescHeight,
-            w: (1.5 * slideWidth) / 6, // 宽度设置为幻灯片宽度的1/6
+            w: (1.5 * slideWidth) / 6,
             h: remainingHeight - problemDescHeight,
-            fontSize: 9, // 内容
+            fontSize: 9,
             color: "000000",
-            vAlign: "top", // 垂直对齐方式为顶部
-            // align: "left",
+            vAlign: "top",
         });
         slide.addText(problemDescriptionText, {
             x: 0,
             y: yPos + problemDescHeight,
             w: sectionWidth,
-            h: remainingHeight - problemDescHeight , // 保证内容区域不重叠
-            fontSize: 9, // 内容字体较小
+            h: remainingHeight - problemDescHeight,
+            fontSize: 9,
             color: "000000",
-            vAlign: "top", // 垂直对齐方式为顶部
+            vAlign: "top",
             align: "left",
             bulletStyle: {
-                type: 'disc', // 项目符号类型：圆点
-                size: 10 // 项目符号大小
+                type: 'disc',
+                size: 10
             }
         });
 
-        slide.addText(failureSituationText,  {
+        slide.addText(failureSituationText, {
             x: sectionWidth,
             y: yPos + failureHeight,
             w: slideWidth / 6,
-            h: remainingHeight - failureHeight, // 保证内容区域不重叠
-            fontSize: 9, // 内容字体较小
+            h: remainingHeight - failureHeight,
+            fontSize: 9,
             color: "000000",
-            vAlign: "top", // 垂直对齐方式为顶部
+            vAlign: "top",
             align: "left",
             bulletStyle: {
-                type: 'disc', // 项目符号类型：圆点
-                size: 10 // 项目符号大小
+                type: 'disc',
+                size: 10
             }
         });
 
-        // 7. 保存演示文稿
+        // 保存演示文稿
         pres.writeFile({ fileName: "example_presentation.pptx" })
             .then(() => console.log("PPTX 文件已下载"))
             .catch(err => console.error("生成 PPTX 文件时出错：", err));
     }
 
     // 示例调用
- 
+
 
 </script>  @* 导出模块 *@
 
 @section Scripts {
     <script>
-   
+
     </script>
 
-    }
+}
