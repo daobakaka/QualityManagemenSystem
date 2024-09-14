@@ -25,14 +25,17 @@
                         <th>部位码</th>
                         <th>故障码</th>
                         <th>QE</th>
+                        <th>SFCIA</th>
                         <th>识别故障模式</th>
+                        <th>断点次数</th>
                         <th>断点失效</th>
                         <th>已纳入SIL</th>
                         <th>PQS编号</th>
                         <th>断点时间</th>
-                        <th>开启时间</th>
+                        <th>立项时间</th>
                         <th>备注</th>
-                        <th>服务识别准确</th>
+                        <th>VID</th>
+
                         <th>操作</th> <!-- 新增操作列 -->
                     </tr>
                 </thead>
@@ -58,13 +61,10 @@
                             <td>@item.LocationCode</td>
                             <td>@item.FaultCode</td>
                             <td>@item.QE</td>
-                            @*    <td>
-                        <span data-toggle="tooltip" title="@item.IdentifiedFaultMode">
-                        @item.IdentifiedFaultMode
-                        </span>
-                        </td> *@
+                            <td>@item.ServiceFaultIdentificationAccurate</td>
                             <td>@item.IdentifiedFaultMode</td>
-                            <td>@item.IdentifiedFaultCode</td>
+                            <td>@item.BreakdownCount</td>
+                            <td>@item.IsBreakdownInvalid</td>
                             <td>@item.IncludedInSIL</td>
                             <td>@item.PQSNumber</td>
                             <td>@item.BreakpointTime</td>
@@ -74,7 +74,7 @@
                                     @(item.Remarks.Length > 10 ? item.Remarks.Substring(0, 10) + "..." : item.Remarks)
                                 </span>
                             </td>
-                            <td>@item.ServiceFaultIdentificationAccurate</td>
+                            <td>@item.ProjectIdentifier</td>
                             <td>
                                 <button class="btn btn-primary btn-sm edit-btn" data-id="@item.ID" data-bs-toggle="modal" data-bs-target="#editModal">编辑</button>
                             </td>
@@ -286,8 +286,8 @@
                                     <th>部位码</th>
                                     <th>故障码</th>
                                     <th>PQS编号</th>
-                                    <th>立项车号</th>
-                                    <th>立项底盘号</th>
+                                    <th>VAN</th>
+                                    <th>VIN</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -319,8 +319,8 @@
                                         <td>@item.LocationCode</td>
                                         <td>@item.FaultCode</td>
                                         <td>@item.PQSNumber</td>
-                                        <td>@item.ProjectVehicleNumber</td>
-                                        <td>@item.ProjectChassisNumber</td>
+                                        <td>@item.VAN</td>
+                                        <td>@item.VIN</td>
                                     </tr>
                                 }
                             </tbody>
@@ -533,15 +533,16 @@
 </div>
 @* 模块编辑区域 *@
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog custom-modal-dialog" role="document">
-        <div class="modal-content custom-modal-content">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal header (for dragging) -->
             <div class="modal-header">
                 <h5 class="modal-title" id="editModalLabel" style="text-align: center; width: 100%;">XXX编辑记录</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="editForm" method="post">
-                <div class="modal-body custom-modal-body">
-                    <!-- 隐藏字段 -->
+            <div class="modal-body">
+                <form id="editForm" method="post">
+                    <!-- Hidden fields -->
                     <input type="hidden" id="editId" name="ID" />
                     <input type="hidden" id="editOldMaterialCode" name="OldMaterialCode" />
                     <input type="hidden" id="editOldMaterialDescription" name="OldMaterialDescription" />
@@ -556,54 +557,50 @@
                     <input type="hidden" id="editLocationCode" name="LocationCode" />
                     <input type="hidden" id="editFaultCode" name="FaultCode" />
                     <input type="hidden" id="editQE" name="QE" />
-                    @* <input type="hidden" id="editIdentifiedFaultCode" name="IdentifiedFaultCode" /> *@
 
-                    <!-- 显示字段 -->
+                    <!-- Display fields -->
                     <div class="form-group">
-                        <label for="IdentifiedFaultMode">识别故障模式</label>
-                        <input type="text" class="form-control" name="IdentifiedFaultMode" value="" />
+                        <input type="text" class="form-control" name="ServiceFaultIdentificationAccurate" placeholder="SFCIA" required style="margin-top: 1vh;" />
                     </div>
                     <div class="form-group">
-                        <label for="IdentifiedFaultCode">断点失效</label> @* 暂时用识别故障码代替 *@
-                        <input type="text" class="form-control" name="IdentifiedFaultCode" value="" />
-                    </div>
-                    @*      <div class="form-group">
-                    <label for="IdentifiedFaultMode">识别故障模式</label>
-                    <input type="text" class="form-control" name="IdentifiedFaultMode" value="" />
-                    </div> *@
-                    <div class="form-group">
-                        <label for="IncludedInSIL">是否已纳入SIL</label>
-                        <input type="text" class="form-control" name="IncludedInSIL" value="" />
+                        <input type="text" class="form-control" name="IdentifiedFaultMode" placeholder="识别故障模式" required style="margin-top: 1vh;" />
                     </div>
                     <div class="form-group">
-                        <label for="PQSNumber">PQS编号</label>
-                        <input type="text" class="form-control" name="PQSNumber" value="" />
+                        <input type="text" class="form-control" name="BreakdownCount" placeholder="断点次数" required style="margin-top: 1vh;" />
                     </div>
                     <div class="form-group">
-                        <label for="BreakpointTime">断点时间</label>
-                        <input type="text" class="form-control" name="BreakpointTime" value="" />
+                        <input type="text" class="form-control" name="IsBreakdownInvalid" placeholder="断点失效" required style="margin-top: 1vh;" />
                     </div>
                     <div class="form-group">
-                        <label for="StartTime">开启时间</label>
-                        <input type="text" class="form-control" name="StartTime" value="" />
+                        <input type="text" class="form-control" name="IncludedInSIL" placeholder="已纳入SIL" required style="margin-top: 1vh;" />
                     </div>
                     <div class="form-group">
-                        <label for="Remarks">备注</label>
-                        <input type="text" class="form-control" name="Remarks" value="" />
+                        <input type="text" class="form-control" name="PQSNumber" placeholder="PQS编号" required style="margin-top: 1vh;" />
                     </div>
                     <div class="form-group">
-                        <label for="ServiceFaultIdentificationAccurate">服务故障原因识别是否准确</label>
-                        <input type="text" class="form-control" name="ServiceFaultIdentificationAccurate" value="" />
+                        <input type="text" class="form-control" name="BreakpointTime" placeholder="断点时间" required style="margin-top: 1vh;" />
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                    <button type="submit" class="btn btn-primary">保存更改</button>
-                </div>
-            </form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="StartTime" placeholder="立项时间" required style="margin-top: 1vh;" />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="Remarks" placeholder="备注" required style="margin-top: 1vh;" />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="ProjectIdentifier" placeholder="VID" required style="margin-top: 1vh;" />
+                    </div>
+                    <button type="submit" class="btn btn-outline-secondary mb-2" style="margin-top: 2vh; display: block; margin-left: auto; margin-right: auto;">
+                        保存更改
+                    </button>
+                </form>
+                    <!-- Save changes button placed directly in the modal body -->                  
+      
+            </div>
         </div>
     </div>
 </div>
+
+
 @section Scripts {
     <script>
         var dataStore = {
@@ -988,7 +985,7 @@
                 document.removeEventListener('mouseup', onMouseUp);
             }
         }
-
+       
         // 监听键盘事件
         document.addEventListener('keydown', function (event) {
             if (event.altKey && (event.key === 'q' || event.key === 'Q')) {
@@ -1035,6 +1032,11 @@
                     modal.style.top = (e.clientY + offset[1]) + 'px';
                 }
             });
+
+            $('#editModal').on('hidden.bs.modal', function () {
+                // Reset the form when modal is hidden
+                $('#editForm')[0].reset();
+            });//取消输入框刷新功能
 
             $('.edit-btn').on('click', function () {
                 let id = $(this).data('id');

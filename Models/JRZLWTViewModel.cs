@@ -11,6 +11,9 @@
 
         public List<DailyServiceReviewFormQuery> DailyServiceReviewFormQueries { get; set; } = new List<DailyServiceReviewFormQuery>();
 
+        public List<VehicleBasicInfo> VehicleBasicInfos { get; set; } =new List<VehicleBasicInfo>();
+        public List<BreakpointAnalysisTable> BreakpointAnalysisTables { get; set; } = new List<BreakpointAnalysisTable>();       
+
 
         //add properties for pages
         public Dictionary<string, string> JRZLWTV91Headers { get; set; } = default!;

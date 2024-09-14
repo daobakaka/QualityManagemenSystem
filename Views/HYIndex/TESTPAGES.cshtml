@@ -72,10 +72,16 @@
                     <input type="text" class="form-control" id="breakpointTimeOP" placeholder="断点时间(可选)" style="margin-top: 1vh;">
                     <input type="text" class="form-control" id="vehicleNumberOP" placeholder="输入车号或底盘号(可选)" style="margin-top: 1vh;">
                 </form>
+                <div style="display:flex;">
                 <button type="button" class="btn btn-outline-secondary mb-2" style="margin-top: 2vh; display: block; margin-left: auto; margin-right: auto;"
                         onclick="generatePPTOnePage(dataStoreOnePage.textTitleOP,dataStoreOnePage.pageMode.DAILY_QUALITY, dataStoreOnePage.problemDescription, dataStoreOnePage.failureSituation)">
-                    生成报告
+                    一页纸
                 </button>
+                <button type="button" class="btn btn-outline-secondary mb-2" style="margin-top: 2vh; display: block; margin-left: auto; margin-right: auto;"
+                        onclick="generatePPTOnePage(dataStoreOnePage.textTitleOP,dataStoreOnePage.pageMode.DAILY_QUALITY, dataStoreOnePage.problemDescription, dataStoreOnePage.failureSituation)">
+                    纳入SIL
+                </button>
+            </div>
             </div>
         </div>
     </div>

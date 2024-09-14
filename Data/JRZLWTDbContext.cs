@@ -10,14 +10,14 @@ namespace WebWinMVC.Data
         {
         }
 
-        // DbSets for each table in the same database
+        // DbSets for each table in the database
         public DbSet<DailyQualityIssueChecklist> DailyQualityIssueChecklists { get; set; }
         public DbSet<DailyQualityIssueChecklistV91> DailyQualityIssueChecklistV91s { get; set; }
         public DbSet<DailyServiceReviewForm> DailyServiceReviewForms { get; set; }
         public DbSet<DailyServiceReviewFormQuery> DailyServiceReviewFormQueries { get; set; }
         public DbSet<DailyQualityIssueChecklistV91Query> DailyQualityIssueChecklistV91Queries { get; set; }
-
         public DbSet<VehicleBasicInfo> VehicleBasicInfos { get; set; }
+        public DbSet<BreakpointAnalysisTable> BreakpointAnalysisTables { get; set; } // Add this line
 
         // Configure the model with explicit table names
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -31,6 +31,7 @@ namespace WebWinMVC.Data
             modelBuilder.Entity<DailyServiceReviewFormQuery>().ToTable("DailyServiceReviewFormQueries");
             modelBuilder.Entity<DailyQualityIssueChecklistV91Query>().ToTable("DailyQualityIssueChecklistV91Queries");
             modelBuilder.Entity<VehicleBasicInfo>().ToTable("VehicleBasicInfos");
+            modelBuilder.Entity<BreakpointAnalysisTable>().ToTable("BreakpointAnalysisTables"); // Add this line
         }
     }
 }

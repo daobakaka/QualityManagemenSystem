@@ -110,14 +110,16 @@ namespace WebWinMVC
             Map(m => m.LocationCode).Name("部位码");
             Map(m => m.FaultCode).Name("故障码");
             Map(m => m.IdentifiedFaultMode).Name("识别故障模式");
-            Map(m => m.IdentifiedFaultCode).Name("识别故障码");
+            Map(m => m.BreakdownCount).Name("断点次数");
             Map(m => m.QE).Name("QE");
             Map(m => m.IncludedInSIL).Name("是否已纳入SIL");
             Map(m => m.PQSNumber).Name("PQS编号");
             Map(m => m.BreakpointTime).Name("断点时间");
-            Map(m => m.StartTime).Name("开启时间");
+            Map(m => m.StartTime).Name("立项时间");
             Map(m => m.Remarks).Name("备注");
             Map(m => m.ServiceFaultIdentificationAccurate).Name("服务故障识别是否准确");
+            Map(m => m.IsBreakdownInvalid).Name("断点失效");
+            Map(m => m.ProjectIdentifier).Name("立项车号或底盘号"); // 新映射
         }
     }
 
@@ -277,9 +279,50 @@ namespace WebWinMVC
             Map(m => m.LocationCode).Name("部位码");
             Map(m => m.FaultCode).Name("故障码");
             Map(m => m.PQSNumber).Name("PQS编号");
-            Map(m => m.ProjectVehicleNumber).Name("立项车号");
-            Map(m => m.ProjectChassisNumber).Name("立项底盘号");
+            Map(m => m.VAN).Name("VAN");
+            Map(m => m.VAN).Name("VIN");
+        }
+    }
 
+
+
+
+public class VehicleBasicInfoMap : ClassMap<VehicleBasicInfo>
+    {
+        public VehicleBasicInfoMap()
+        {
+            // Map CSV columns to properties of the VehicleBasicInfo class
+            Map(m => m.ShortVin).Name("底盘号");
+            Map(m => m.VIN).Name("VIN");
+            Map(m => m.VAN).Name("VAN");
+            Map(m => m.FDP).Name("FDP");
+            Map(m => m.AnnouncementModel).Name("公告");
+            Map(m => m.ProductionDate).Name("生产日期");
+            Map(m => m.SalesDate).Name("销售时间");
+            Map(m => m.EngineNumber).Name("发动机编号");
+            Map(m => m.ClaimDate).Name("出保时间");
+            Map(m => m.ExportStatus).Name("是否出口车");
+            Map(m => m.EngineModel).Name("发动机型号");
+            Map(m => m.SsvaOrSva).Name("SSVA/SVA编号");
+            Map(m => m.InternalAnnouncemen).Name("内部公告");
+            Map(m => m.SeriesDescription).Name("车系描述");
+            Map(m => m.ProductionMouth).Name("制造月");
+            Map(m => m.Series).Name("车型");
+            Map(m => m.Emissions).Name("排放");
+        }
+    }
+
+    public class BreakpointAnalysisTableMap : ClassMap<BreakpointAnalysisTable>
+    {
+        public BreakpointAnalysisTableMap()
+        {
+            Map(m => m.MaterialCode).Name("物料号");
+            Map(m => m.LocationCode).Name("部位码");
+            Map(m => m.FaultCode).Name("故障码");
+            Map(m => m.BreakpointTime).Name("断点时间");
+            Map(m => m.PQSNumber).Name("PQS编号");
+            Map(m => m.VAN).Name("VAN");
+            Map(m => m.VAN).Name("VIN");
         }
     }
 

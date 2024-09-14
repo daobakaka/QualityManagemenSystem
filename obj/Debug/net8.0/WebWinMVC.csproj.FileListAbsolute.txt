@@ -130,6 +130,7 @@ E:\C#\WebWinMVC\WebWinMVC\obj\Debug\net8.0\WebWinMVC.csproj.CoreCompileInputs.ca
 E:\C#\WebWinMVC\WebWinMVC\obj\Debug\net8.0\WebWinMVC.MvcApplicationPartsAssemblyInfo.cache
 E:\C#\WebWinMVC\WebWinMVC\obj\Debug\net8.0\WebWinMVC.RazorAssemblyInfo.cache
 E:\C#\WebWinMVC\WebWinMVC\obj\Debug\net8.0\WebWinMVC.RazorAssemblyInfo.cs
+E:\C#\WebWinMVC\WebWinMVC\obj\Debug\net8.0\WebWinMVC.sourcelink.json
 E:\C#\WebWinMVC\WebWinMVC\obj\Debug\net8.0\staticwebassets.build.json
 E:\C#\WebWinMVC\WebWinMVC\obj\Debug\net8.0\staticwebassets.development.json
 E:\C#\WebWinMVC\WebWinMVC\obj\Debug\net8.0\staticwebassets\msbuild.WebWinMVC.Microsoft.AspNetCore.StaticWebAssets.props
@@ -146,4 +147,3 @@ E:\C#\WebWinMVC\WebWinMVC\obj\Debug\net8.0\refint\WebWinMVC.dll
 E:\C#\WebWinMVC\WebWinMVC\obj\Debug\net8.0\WebWinMVC.pdb
 E:\C#\WebWinMVC\WebWinMVC\obj\Debug\net8.0\WebWinMVC.genruntimeconfig.cache
 E:\C#\WebWinMVC\WebWinMVC\obj\Debug\net8.0\ref\WebWinMVC.dll
-E:\C#\WebWinMVC\WebWinMVC\obj\Debug\net8.0\WebWinMVC.sourcelink.json

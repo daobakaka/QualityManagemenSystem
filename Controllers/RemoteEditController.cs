@@ -36,7 +36,7 @@ namespace WebWinMVC.Controllers
                     existingRecord.LocationCode = model.LocationCode;
                     existingRecord.FaultCode = model.FaultCode;
                     existingRecord.IdentifiedFaultMode = model.IdentifiedFaultMode;
-                    existingRecord.IdentifiedFaultCode = model.IdentifiedFaultCode;
+                    existingRecord.BreakdownCount = model.BreakdownCount;
                     existingRecord.QE = model.QE;
                     existingRecord.IncludedInSIL = model.IncludedInSIL;
                     existingRecord.PQSNumber = model.PQSNumber;
@@ -44,6 +44,8 @@ namespace WebWinMVC.Controllers
                     existingRecord.StartTime = model.StartTime;
                     existingRecord.Remarks = model.Remarks;
                     existingRecord.ServiceFaultIdentificationAccurate = model.ServiceFaultIdentificationAccurate;
+                    existingRecord.IsBreakdownInvalid = model.IsBreakdownInvalid;
+                    existingRecord.ProjectIdentifier =  model.ProjectIdentifier;
 
                     // 保存更改
                     _context.SaveChanges();

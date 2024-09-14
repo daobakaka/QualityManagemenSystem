@@ -21,19 +21,28 @@ namespace WebWinMVC.Data
                 serviceProvider.GetRequiredService<DbContextOptions<JRZLWTDbContext>>()))
             {
                 // Initialize each DbSet
-                InitializeDailyQualityIssueChecklist(context, 5000, DataOperation.Replace);
+               // InitializeDailyQualityIssueChecklist(context, 5000, DataOperation.Replace);
                 InitializeDailyQualityIssueChecklistV91(context, 5000, DataOperation.Replace);
                 InitializeDailyQualityIssueChecklistV91Queries(context, 5000, DataOperation.Replace);
                 //InitializeDailyServiceReviewForm(context);
                 // InitializeDailyServiceReviewFormQuery(context);
                 InitializeDailyServiceReviewFormQuery(context, 5000, DataOperation.Update);
+                InitializeVehicleBasicInfo(context, 5000, DataOperation.Replace);
+                InitializeBreakpointAnalysisTable(context, 5000, DataOperation.Update);
 
-            }
+                }
         }
 
 
         private static void InitializeDailyQualityIssueChecklistV91(JRZLWTDbContext context, int batchSize, DataOperation operation)
         {
+            var filePath = "C:\\Users\\Administrator\\Desktop\\HYQE\\DailyQualityIssueChecklistV91\\1.csv";
+            if (!File.Exists(filePath))
+            {
+                // 如果文件不存在，则记录日志或输出消息（可选），然后退出方法
+                Console.WriteLine($"文件不存在: {filePath}");
+                return;
+            }
             switch (operation)
             {
                 case DataOperation.Replace:
@@ -53,7 +62,7 @@ namespace WebWinMVC.Data
                     throw new ArgumentException("Invalid operation type");
             }
 
-            var filePath = "C:\\Users\\Administrator\\Desktop\\HYQE\\DailyQualityIssueChecklistV91.csv";
+        
             var recordsBatch = new List<DailyQualityIssueChecklistV91>();
 
             using (var reader = new StreamReader(filePath))
@@ -89,6 +98,13 @@ namespace WebWinMVC.Data
         }
         private static void InitializeDailyQualityIssueChecklistV91Queries(JRZLWTDbContext context, int batchSize, DataOperation operation)
         {
+            var filePath = "C:\\Users\\Administrator\\Desktop\\HYQE\\DailyQualityIssueChecklistV91Queries\\1.csv";
+            if (!File.Exists(filePath))
+            {
+                // 如果文件不存在，则记录日志或输出消息（可选），然后退出方法
+                Console.WriteLine($"文件不存在: {filePath}");
+                return;
+            }
             switch (operation)
             {
                 case DataOperation.Replace:
@@ -108,7 +124,7 @@ namespace WebWinMVC.Data
                     throw new ArgumentException("Invalid operation type");
             }
 
-            var filePath = "C:\\Users\\Administrator\\Desktop\\HYQE\\DailyQualityIssueChecklistV91Queries.csv";
+      
             var recordsBatch = new List<DailyQualityIssueChecklistV91Query>();
 
             using (var reader = new StreamReader(filePath))
@@ -144,6 +160,13 @@ namespace WebWinMVC.Data
         }
         private static void InitializeDailyServiceReviewForm(JRZLWTDbContext context, int batchSize, DataOperation operation)
         {
+            var filePath = "C:\\Users\\Administrator\\Desktop\\HYQE\\DailyServiceReviewForm\\1.csv";
+            if (!File.Exists(filePath))
+            {
+                // 如果文件不存在，则记录日志或输出消息（可选），然后退出方法
+                Console.WriteLine($"文件不存在: {filePath}");
+                return;
+            }
             switch (operation)
             {
                 case DataOperation.Replace:
@@ -163,7 +186,7 @@ namespace WebWinMVC.Data
                     throw new ArgumentException("Invalid operation type");
             }
 
-            var filePath = "C:\\Users\\Administrator\\Desktop\\HYQE\\DailyServiceReviewForm.csv";
+        
             var recordsBatch = new List<DailyServiceReviewForm>();
 
             using (var reader = new StreamReader(filePath))
@@ -200,6 +223,13 @@ namespace WebWinMVC.Data
         }
         private static void InitializeDailyServiceReviewFormQuery(JRZLWTDbContext context, int size, DataOperation operation)
         {
+            var filePath = "C:\\Users\\Administrator\\Desktop\\HYQE\\DailyServiceReviewFormQueries\\1.csv";
+            if (!File.Exists(filePath))
+            {
+                // 如果文件不存在，则记录日志或输出消息（可选），然后退出方法
+                Console.WriteLine($"文件不存在: {filePath}");
+                return;
+            }
             switch (operation)
             {
                 case DataOperation.Replace:
@@ -219,7 +249,7 @@ namespace WebWinMVC.Data
                     throw new ArgumentException("Invalid operation type");
             }
 
-            var filePath = "C:\\Users\\Administrator\\Desktop\\HYQE\\DailyServiceReviewFormQueries.csv";
+        
             var batchSize = size; // 每批处理的记录数
             var recordsBatch = new List<DailyServiceReviewFormQuery>();
 
@@ -256,6 +286,13 @@ namespace WebWinMVC.Data
         }
         private static void InitializeDailyServiceReviewFormQuery(JRZLWTDbContext context, bool xlsx)
         {
+            var filePath = "C:\\Users\\Administrator\\Desktop\\HYQE\\DailyServiceReviewFormQueries\\1.csv";
+            if (!File.Exists(filePath))
+            {
+                // 如果文件不存在，则记录日志或输出消息（可选），然后退出方法
+                Console.WriteLine($"文件不存在: {filePath}");
+                return;
+            }
             if (context.DailyServiceReviewFormQueries.Count() > 600)
             {
                 return; // 数据库中已有足够的数据，退出初始化
@@ -266,7 +303,7 @@ namespace WebWinMVC.Data
                 context.SaveChanges(); // 清空数据库中的现有数据
             }
 
-            var filePath = "C:\\Users\\Administrator\\Desktop\\HYQE\\DailyServiceReviewFormQueries.xlsx";
+      
             var batchSize = 1000; // 每次处理的记录数
             var records = new List<DailyServiceReviewFormQuery>();
 
@@ -309,6 +346,13 @@ namespace WebWinMVC.Data
         }
         private static void InitializeDailyQualityIssueChecklist(JRZLWTDbContext context, int batchSize, DataOperation operation)
         {
+            var filePath = "C:\\Users\\Administrator\\Desktop\\HYQE\\DailyQualityIssueChecklist.csv";
+            if (!File.Exists(filePath))
+            {
+                // 如果文件不存在，则记录日志或输出消息（可选），然后退出方法
+                Console.WriteLine($"文件不存在: {filePath}");
+                return;
+            }
             switch (operation)
             {
                 case DataOperation.Replace:
@@ -328,7 +372,7 @@ namespace WebWinMVC.Data
                     throw new ArgumentException("Invalid operation type");
             }
 
-            var filePath = "C:\\Users\\Administrator\\Desktop\\HYQE\\DailyQualityIssueChecklist.csv";
+        
             var recordsBatch = new List<DailyQualityIssueChecklist>();
 
             using (var reader = new StreamReader(filePath))
@@ -362,5 +406,136 @@ namespace WebWinMVC.Data
                 }
             }
         }
+        private static void InitializeVehicleBasicInfo(JRZLWTDbContext context, int batchSize, DataOperation operation)
+        {
+            var filePath = "C:\\Users\\Administrator\\Desktop\\HYQE\\VehicleBasicInfo\\1.csv";
+            if (!File.Exists(filePath))
+            {
+                // 如果文件不存在，则记录日志或输出消息（可选），然后退出方法
+                Console.WriteLine($"文件不存在: {filePath}");
+                return;
+            }
+            switch (operation)
+            {
+                case DataOperation.Replace:
+                    // 如果数据库中已有数据，则清空
+                    if (context.VehicleBasicInfos.Any())
+                    {
+                        context.VehicleBasicInfos.RemoveRange(context.VehicleBasicInfos);
+                        context.SaveChanges();
+                    }
+                    break;
+
+                case DataOperation.Update:
+                    // 保持现有数据，无需清空
+                    break;
+
+                default:
+                    throw new ArgumentException("Invalid operation type");
+            }
+
+          
+            var recordsBatch = new List<VehicleBasicInfo>();
+
+            using (var reader = new StreamReader(filePath))
+            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+            {
+                csv.Context.RegisterClassMap<VehicleBasicInfoMap>();
+
+                // Read the CSV file row by row
+                while (csv.Read())
+                {
+                    var record = csv.GetRecord<VehicleBasicInfo>();
+                    recordsBatch.Add(record);
+
+                    // Check if we've reached the batch size
+                    if (recordsBatch.Count >= batchSize)
+                    {
+                        // Save the current batch to the database
+                        context.VehicleBasicInfos.AddRange(recordsBatch);
+                        context.SaveChanges();
+
+                        // Clear the list for the next batch
+                        recordsBatch.Clear();
+                    }
+                }
+
+                // Save any remaining records
+                if (recordsBatch.Count > 0)
+                {
+                    context.VehicleBasicInfos.AddRange(recordsBatch);
+                    context.SaveChanges();
+                }
+            }
+        }
+
+
+        private static void InitializeBreakpointAnalysisTable(JRZLWTDbContext context, int batchSize, DataOperation operation)
+        {
+
+            var filePath = "C:\\Users\\Administrator\\Desktop\\HYQE\\BreakpointAnalysisTable\\1.csv";
+            if (!File.Exists(filePath))
+            {
+                // 如果文件不存在，则记录日志或输出消息（可选），然后退出方法
+                Console.WriteLine($"文件不存在: {filePath}");
+                return;
+            }
+
+
+            switch (operation)
+            {
+                case DataOperation.Replace:
+                    // 如果数据库中已有数据，则清空
+                    if (context.BreakpointAnalysisTables.Any())
+                    {
+                        context.BreakpointAnalysisTables.RemoveRange(context.BreakpointAnalysisTables);
+                        context.SaveChanges();
+                    }
+                    break;
+
+                case DataOperation.Update:
+                    // 保持现有数据，无需清空
+                    break;
+
+                default:
+                    throw new ArgumentException("Invalid operation type");
+            }
+
+
+            var recordsBatch = new List<BreakpointAnalysisTable>();
+
+            using (var reader = new StreamReader(filePath))
+            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+            {
+                csv.Context.RegisterClassMap<BreakpointAnalysisTableMap>();
+
+                // 逐行读取 CSV 文件
+                while (csv.Read())
+                {
+                    var record = csv.GetRecord<BreakpointAnalysisTable>();
+                    recordsBatch.Add(record);
+
+                    // 检查是否达到了批量大小
+                    if (recordsBatch.Count >= batchSize)
+                    {
+                        // 将当前批次保存到数据库
+                        context.BreakpointAnalysisTables.AddRange(recordsBatch);
+                        context.SaveChanges();
+
+                        // 清空列表以准备下一批数据
+                        recordsBatch.Clear();
+                    }
+                }
+
+                // 保存任何剩余的记录
+                if (recordsBatch.Count > 0)
+                {
+                    context.BreakpointAnalysisTables.AddRange(recordsBatch);
+                    context.SaveChanges();
+                }
+            }
+        }
+
+
     }
 }
