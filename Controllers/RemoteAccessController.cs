@@ -3,6 +3,7 @@ using WebWinMVC.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Irony.Parsing;
 
 namespace WebWinMVC.Controllers
 {
@@ -20,11 +21,11 @@ namespace WebWinMVC.Controllers
         [HttpGet("dailyqualitydata")]
         public async Task<IActionResult> GetDailyQualityData(
             [FromQuery] string oldMaterialCode,
-            [FromQuery] string dateRange = "",
+            [FromQuery] string ApprovalDate = "",
             [FromQuery] string faultMode = "",
             [FromQuery] string faultCode = "",
-            [FromQuery] string breakpointTime = "",
-            [FromQuery] string vehicleNumber = "")
+            [FromQuery] string ManufacturingMonth = "",
+            [FromQuery] string VehicleIdentification = "")
         {
             if (string.IsNullOrEmpty(oldMaterialCode))
             {
@@ -33,15 +34,18 @@ namespace WebWinMVC.Controllers
 
             // 初始化查询
             var query = _context.DailyServiceReviewFormQueries
-                .Where(e => e.OldMaterialCode == oldMaterialCode);
-
+                .Where(e => e.OldMaterialCode == oldMaterialCode)
+                .Where(e => e.ServiceCategory == "售前维修" || e.ServiceCategory == "质保服务")
+                .Where(e => e.ResponsibilitySourceIdentifier == "是")
+                .Where(e => e.RepairMethod == "更换" || e.RepairMethod == "维修")
+                .Where(e => e.MaterialType == "物料");
             // 用于存储处理后的日期
             string? startDateStr = null;
             string? endDateStr = null;
 
-            if (!string.IsNullOrEmpty(dateRange))
+            if (!string.IsNullOrEmpty(ApprovalDate))
             {
-                var dates = dateRange.Split('-');
+                var dates = ApprovalDate.Split('-');
 
                 if (dates.Length == 1)
                 {
@@ -81,15 +85,20 @@ namespace WebWinMVC.Controllers
             // 处理故障码
             if (!string.IsNullOrEmpty(faultCode))
             {
-                query = query.Where(e => e.FaultCode.Contains(faultCode));
+                Console.WriteLine(faultCode); // 打印调试信息
+
+                // 使用 % 通配符来进行 LIKE 查询
+                var faultCodePattern = $"%{faultCode}%";
+                query = query.Where(e => EF.Functions.Like(e.FaultCode, faultCodePattern));
             }
 
             // 处理断点时间
-            if (!string.IsNullOrEmpty(breakpointTime))
+            if (!string.IsNullOrEmpty(ManufacturingMonth))
             {
-                if (DateTime.TryParseExact(breakpointTime, "yyMMdd", null, System.Globalization.DateTimeStyles.None, out var parsedBreakpointDate))
+                if (DateTime.TryParseExact(ManufacturingMonth, "yyMMdd", null, System.Globalization.DateTimeStyles.None, out var parsedBreakpointDate))
                 {
-                    // 转换为YYYYMM格式
+                    // 将传入的日期增加一个月，即模糊认为 在制造月的后面
+                    parsedBreakpointDate.AddMonths(1);
                     var yearMonthStr = parsedBreakpointDate.ToString("yyyyMM");
                     var cutoffDate = new DateTime(2030, 1, 1); // 设置截止日期为2030年
                     var cutoffYearMonth = cutoffDate.ToString("yyyyMM");
@@ -104,10 +113,27 @@ namespace WebWinMVC.Controllers
                 }
             }
 
-            // 处理车辆号
-            if (!string.IsNullOrEmpty(vehicleNumber))
+            if (!string.IsNullOrEmpty(VehicleIdentification))
             {
-                query = query.Where(e => e.VAN.Contains(vehicleNumber)||e.VIN.Contains(vehicleNumber));
+                // 分隔字符串并去除空格
+                //  Console.WriteLine("++++++++++++++++++++++++++++++++++++++" + VehicleIdentification);
+                var vehicleNumbers = VehicleIdentification.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                //  Console.WriteLine("++++++++++++++++++++++++++++++++++++++" + vehicleNumbers);
+                // 查询所有对应的 FDP 码
+                // 从数据库中查询所有数据到内存
+                var allData = await query
+                    .ToListAsync(); // 使用 ToListAsync() 来加载数据到内存中
+
+                // 在内存中筛选对应的 FDP 码
+                var fdpCodes = allData
+                    .Where(e => vehicleNumbers.Any(vn => e.VAN.Contains(vn) || e.VIN.Contains(vn)))
+                    .Select(e => e.FDP)
+                    .Distinct()
+                    .ToList(); // 这里使用 ToList()，因为数据已在内存中
+
+
+                // 基于 FDP 码进行 OR 筛选
+                query = query.Where(e => fdpCodes.Contains(e.FDP));
             }
 
             // 获取数据
@@ -127,7 +153,9 @@ namespace WebWinMVC.Controllers
                     e.DrivingMileageKM,
                     e.FaultDescription,
                     e.FaultCode,
-                    
+                    e.FaultCodeDescription,
+                    e.FilteredVehicleModel,
+
                 })
                 .ToListAsync();
 
@@ -139,8 +167,9 @@ namespace WebWinMVC.Controllers
             return Ok(data);
         }
 
+
         [HttpGet("vehiclebasicinfodata")]
-        public async Task<IActionResult> GetVehicleBasicInfoData([FromQuery] string fdp = "")
+        public async Task<IActionResult> GetVehicleBasicInfoData([FromQuery] string VehicleIdentification = "")
         {
             // 定义默认日期范围
             DateTime defaultStartDate = new DateTime(2015, 1, 1);
@@ -149,50 +178,47 @@ namespace WebWinMVC.Controllers
             // 初始化查询
             var query = _context.VehicleBasicInfos.AsQueryable();
 
-            // 筛选FDP
-            if (!string.IsNullOrEmpty(fdp))
+            // 如果提供了 VehicleIdentification，则进行筛选
+            if (!string.IsNullOrEmpty(VehicleIdentification))
             {
-                query = query.Where(v => v.FDP.Contains(fdp));
+                // 分隔字符串并去除空格
+                var vehicleNumbers = VehicleIdentification.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                // 从数据库中查询所有数据到内存
+                var allData = await query.ToListAsync(); // 使用 ToListAsync() 来加载数据到内存中
+
+                // 在内存中筛选对应的 FDP 码
+                var fdpCodes = allData
+                    .Where(e => vehicleNumbers.Any(vn => e.VAN.Contains(vn) || e.VIN.Contains(vn)))
+                    .Select(e => e.FDP)
+                    .Distinct()
+                    .ToList(); // 这里使用 ToList()，因为数据已在内存中
+
+                // 基于 FDP 码进行 OR 筛选
+                query = query.Where(e => fdpCodes.Contains(e.FDP));
             }
 
             // 获取所有数据
-            var allData = await query.ToListAsync();
+            var filteredData = await query.ToListAsync();
 
-            // 筛选销售日期在2015年到2030年之间
-            var filteredData = allData
-                .Where(v => DateTime.TryParse(v.SalesDate, out var salesDateValue) &&
+            // 满足FDP的行数
+            int totalFdpCount = filteredData.Count;
+
+            // 满足销售日期在2015年到2030年之间的行数
+            int filteredDateCount = filteredData
+                .Count(v => DateTime.TryParse(v.SalesDate, out var salesDateValue) &&
                             salesDateValue >= defaultStartDate &&
-                            salesDateValue <= defaultEndDate)
-                .Select(v => new
-                {
-                    v.ID,
-                    v.ShortVin,
-                    v.VIN,
-                    v.VAN,
-                    v.FDP,
-                    v.AnnouncementModel,
-                    v.ProductionDate,
-                    v.SalesDate,
-                    v.EngineNumber,
-                    v.ClaimDate,
-                    v.ExportStatus,
-                    v.EngineModel,
-                    v.SsvaOrSva,
-                    v.InternalAnnouncemen,
-                    v.SeriesDescription,
-                    v.ProductionMouth,
-                    v.Series,
-                    v.Emissions
-                });
+                            salesDateValue <= defaultEndDate);
 
-            if (!filteredData.Any())
+            // 返回结果
+            var result = new
             {
-                return NotFound("No data found for the provided FDP.");
-            }
+                TotalFdpCount = totalFdpCount,
+                FilteredDateCount = filteredDateCount
+            };
 
-            return Ok(filteredData);
+            return Ok(result);
         }
-
 
     }
 }

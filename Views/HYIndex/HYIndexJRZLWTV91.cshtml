@@ -593,8 +593,8 @@
                         保存更改
                     </button>
                 </form>
-                    <!-- Save changes button placed directly in the modal body -->                  
-      
+                <!-- Save changes button placed directly in the modal body -->
+
             </div>
         </div>
     </div>
@@ -856,9 +856,9 @@
             const yValues = processedData.map(item => item.y);
             const zValues = processedData.map(item => item.z);
             const textValues = processedData.map(item => `MIS:${item.original.mis}<br>
-                                                                  VAN:${item.original.van}<br>
-                                                                  M.O.D:${item.original.manufacturingMonth}<br>
-                                                                  FDP:${item.original.fdp}`);
+                                                                          VAN:${item.original.van}<br>
+                                                                          M.O.D:${item.original.manufacturingMonth}<br>
+                                                                          FDP:${item.original.fdp}`);
 
             // 计算 Z 轴的刻度值和标签
             const zTickvals = Array.from({ length: 12 }, (_, i) => i * 4.16);
@@ -985,7 +985,7 @@
                 document.removeEventListener('mouseup', onMouseUp);
             }
         }
-       
+
         // 监听键盘事件
         document.addEventListener('keydown', function (event) {
             if (event.altKey && (event.key === 'q' || event.key === 'Q')) {

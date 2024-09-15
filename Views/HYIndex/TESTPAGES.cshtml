@@ -25,6 +25,10 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel" style="text-align: center; width: 100%;">问题来源</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
                 <button type="button" class="btn btn-outline-secondary w-100 mb-2" onclick="showDailyQualityModalOP()">即日质量问题</button>
                 <button type="button" class="btn btn-outline-secondary w-100 mb-2" onclick="generatePPT('TOP问题')">TOP问题</button>
                 <button type="button" class="btn btn-outline-secondary w-100 mb-2" onclick="generatePPT('24小时问题')">24小时问题</button>
@@ -41,13 +45,17 @@
         <div class="modal-content">
             <!-- Modal header removed -->
             <div class="modal-body">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel" style="text-align: center; width: 100%;">服务中心问题</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
                 <form id="serviceCenterFormOP">
-                    <input type="text" class="form-control" id="caseNumberOP" placeholder="输入案例数" required style="margin-top: 1vh;">
-                    <input type="text" class="form-control" id="customerVehicleNumberOP" placeholder="输入客户车辆数" required style="margin-top: 1vh;">
-                    <input type="text" class="form-control" id="materialNumberOP" placeholder="输入物料号" required style="margin-top: 1vh;">
-                    <input type="text" class="form-control" id="queryDateOP" placeholder="查询日期" required style="margin-top: 1vh;">
-                    <input type="text" class="form-control" id="faultModeOP" placeholder="输入故障模式" required style="margin-top: 1vh;">
-                    <input type="text" class="form-control" id="faultCodeOP" placeholder="输入故障码(可选)" required style="margin-top: 1vh;">
+                    <input type="text" class="form-control" id="caseNumberOPS" placeholder="输入案例数" required style="margin-top: 1vh;">
+                    <input type="text" class="form-control" id="customerVehicleNumberOPS" placeholder="输入客户车辆数" required style="margin-top: 1vh;">
+                    <input type="text" class="form-control" id="materialNumberOPS" placeholder="输入物料号" required style="margin-top: 1vh;">
+                    <input type="text" class="form-control" id="queryDateOPS" placeholder="查询日期" required style="margin-top: 1vh;">
+                    <input type="text" class="form-control" id="faultModeOPS" placeholder="输入故障模式" required style="margin-top: 1vh;">
+                    <input type="text" class="form-control" id="faultCodeOPS" placeholder="输入故障码(可选)" required style="margin-top: 1vh;">
                 </form>
                 <button type="button" class="btn btn-outline-secondary mb-2" style="margin-top: 2vh; display: block; margin-left: auto; margin-right: auto;"
                         onclick="generateServiceCenterReportOP()">
@@ -64,17 +72,24 @@
         <div class="modal-content">
             <!-- Modal header removed -->
             <div class="modal-body">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel" style="text-align: center; width: 100%;">即日质量问题</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    
+                </div>
+                <!-- Error message container -->
                 <form id="dailyQualityFormOP">
-                    <input type="text" class="form-control" id="materialNumberOP" placeholder="输入物料号" required style="margin-top: 1vh;">
-                    <input type="text" class="form-control" id="queryDateOP" placeholder="查询日期(可选)" style="margin-top: 1vh;">
-                    <input type="text" class="form-control" id="faultModeOP" placeholder="输入故障模式(可选)" style="margin-top: 1vh;">
-                    <input type="text" class="form-control" id="faultCodeOP" placeholder="输入故障码(可选)" style="margin-top: 1vh;">
-                    <input type="text" class="form-control" id="breakpointTimeOP" placeholder="断点时间(可选)" style="margin-top: 1vh;">
-                    <input type="text" class="form-control" id="vehicleNumberOP" placeholder="输入车号或底盘号(可选)" style="margin-top: 1vh;">
+                    <input type="text" class="form-control" id="materialNumberOP" name="OldMaterialCode" placeholder="输入物料号" required style="margin-top: 1vh;">
+                    <input type="text" class="form-control" id="queryDateOP" name="ApprovalDate" placeholder="审核通过日期(可选)" style="margin-top: 1vh;">
+                    <input type="text" class="form-control" id="faultCodeOP" name="FaultCode" placeholder="输入故障码(可选)" style="margin-top: 1vh;">
+                    <input type="text" class="form-control" id="breakpointTimeOP" name="ManufacturingMonth" placeholder="断点时间(可选)" style="margin-top: 1vh;">
+                    <input type="text" class="form-control" id="vehicleNumberOP" name="VehicleIdentification" placeholder="输入车号或底盘号(可选)" style="margin-top: 1vh;">
+                    <input type="text" class="form-control" id="faultModeOP" name="FaultDescription" placeholder="输入故障描述(可选)" style="margin-top: 1vh;">
+                    <input type="text" class="form-control" id="failureConditionOP" name="FailureConditionOP" placeholder="输入失效工况(可选)" style="margin-top: 1vh;">
                 </form>
                 <div style="display:flex;">
                 <button type="button" class="btn btn-outline-secondary mb-2" style="margin-top: 2vh; display: block; margin-left: auto; margin-right: auto;"
-                        onclick="generatePPTOnePage(dataStoreOnePage.textTitleOP,dataStoreOnePage.pageMode.DAILY_QUALITY, dataStoreOnePage.problemDescription, dataStoreOnePage.failureSituation)">
+                            onclick="submitFormAndGeneratePPT(dataStoreOnePage.pageMode.DAILY_QUALITY)">
                     一页纸
                 </button>
                 <button type="button" class="btn btn-outline-secondary mb-2" style="margin-top: 2vh; display: block; margin-left: auto; margin-right: auto;"
@@ -86,6 +101,11 @@
         </div>
     </div>
 </div>
+<!-- Error message container -->
+<div id="error-message" style="display:none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color: transparent; border: none; font-size: 18px;"></div>
+
+
 
 <script>
     var dataStoreOnePage = {
@@ -103,16 +123,16 @@
             "PQS 编号内容"
         ],
         failureSituation: [
-            "1100",
-            "12%",
-            "0.5%",
-            "0.3%",
-            "内蒙台股",
-            "100000KM",
-            "普通路况",
+            "0",
+            "0",
+            "0",
+            "0",
+            "0",
+            "0",
+            "0",
             "是",
             "是",
-            "是或否",
+            "0",
             "否",
             "低",
             "高"
@@ -125,6 +145,7 @@
             SERVICE_CENTER: '服务中心问题',
             OTHER_ISSUES: '其他问题'
         },
+        contentOPCache: {}, // 修正了这里的错误
     };
     var optionsModalOP;
     function showOnePageModal() {
@@ -146,6 +167,7 @@
 
 
     function generatePPTOnePage(titleText,modal, problemDescriptionContents, failureSituationContents) {
+        titleText = `市场重点问题 (${dataStoreOnePage.problemDescription[1]} 问题)`;
         console.log("start to create PPT " + titleText + dataStoreOnePage.textTitleOP);
         let pageMode = dataStoreOnePage.pageMode;
         // 创建PPTX文档
@@ -168,6 +190,7 @@
             align: "center",
             fill: { color: "4682B4" }
         };
+
         slide.addText(titleText, titleOpts);
 
         // 2. 计算文本框的宽度和高度
@@ -188,7 +211,7 @@
             "内部车型：",
             "底盘号：",
             "生产/购车时间：",
-            "在库时间：",
+            "生产/销售数量：",
             "PQS 编号："
         ];
         let failureLabels = [
@@ -332,9 +355,15 @@
         });
 
         // 保存演示文稿
-        pres.writeFile({ fileName: "example_presentation.pptx" })
-            .then(() => console.log("PPTX 文件已下载"))
-            .catch(err => console.error("生成 PPTX 文件时出错：", err));
+        console.log("开始下载 PPTX 文件...");
+        pres.writeFile({
+            fileName: `(${dataStoreOnePage.problemDescription[1]} ${dataStoreOnePage.problemDescription[7]})` // 输出为带 VID 的文件
+        }).then(() => {
+            console.log("PPTX 文件已下载");
+        }).catch(err => {
+            console.error("生成 PPTX 文件时出错：", err);
+        });
+
     }
 
     // 示例调用
@@ -345,6 +374,135 @@
 @section Scripts {
     <script>
 
+        function submitFormAndGeneratePPT(modalOP) {
+            let formData = $('#dailyQualityFormOP').serialize(); // 获取表单数据
+
+            // 从表单字段中获取 vehicleIdentification 的值
+            let vehicleIdentification = $('#vehicleNumberOP').val();
+           
+
+            // 发起两个 AJAX 请求
+            let qualityDataRequest = $.ajax({
+                url: '/queryAPI/RemoteAccess/dailyqualitydata',
+                type: 'GET',
+                data: formData
+            });
+
+            let vehicleBasicInfoRequest = $.ajax({
+                url: '/queryAPI/RemoteAccess/vehiclebasicinfodata',
+                type: 'GET',
+                data: { VehicleIdentification: vehicleIdentification } // 发送表单字段值作为查询参数
+            });
+
+            // 使用 $.when() 等待两个请求都完成
+            $.when(qualityDataRequest, vehicleBasicInfoRequest).done(function (qualityDataResponse, vehicleBasicInfoResponse) {
+                // 处理 dailyqualitydata 请求的成功回调
+                let qualityData = qualityDataResponse[0];
+                dataStoreOnePage.contentOPCache = qualityData;
+
+                // 假设 qualityData 是一个包含数据的数组，取第一个对象作为示例
+                let data = qualityData[0];
+
+                // 更新 problemDescription 数组
+                dataStoreOnePage.problemDescription[0] = modalOP; // 即日质量问题
+                //问题定义
+                let faultmodeDescriptionOP = $('#faultModeOP').val() || data.faultCodeDescription;
+                dataStoreOnePage.problemDescription[1] = `${data.province}${data.filteredVehicleModel}车${faultmodeDescriptionOP}`;
+                //根据表单提交的情况
+                let requestDate = new Date();
+                dataStoreOnePage.problemDescription[3] = requestDate.toISOString().split('T')[0].replace(/-/g, '/'); // 格式为YYYY/MM/DD
+                dataStoreOnePage.problemDescription[4] = data.responsibilitySourceSupplierName; // 供应商名称
+                dataStoreOnePage.problemDescription[5] = `${data.vehicleType}（${data.fdp}）`;//车型
+                dataStoreOnePage.problemDescription[6] = data.internalModelCode; // internalModelCode
+                dataStoreOnePage.problemDescription[7] = `${data.van}(${data.vin.slice(-8)})`; // 车号 + (VIN 的后 8 位)
+                let manufacturingDate = data.manufacturingMonth;
+                let salesDate = new Date(parseInt(data.salesDate, 10) * 86400000 + new Date(1899, 11, 30).getTime()); // 转换 salesDate 为日期
+                manufacturingDate = `${manufacturingDate.substring(0, 4)}/${manufacturingDate.substring(4, 6)}/01`; // 格式为 yyyy/mm/dd
+                salesDate = `${salesDate.getFullYear()}/${('0' + (salesDate.getMonth() + 1)).slice(-2)}/${('0' + salesDate.getDate()).slice(-2)}`; // 格式为 yyyy/mm/dd
+                dataStoreOnePage.problemDescription[8] = `${manufacturingDate}, ${salesDate}`; // 制造月和销售日期
+
+                // 更新 failureSituation 数组
+                dataStoreOnePage.failureSituation[0] = qualityData.length; // 返回数组的长度
+                dataStoreOnePage.failureSituation[1] = (qualityData.length / 100*100).toFixed(1) + '%';
+                dataStoreOnePage.failureSituation[2] = (qualityData.length / 1000*100).toFixed(1) + '%';
+                dataStoreOnePage.failureSituation[3] = (qualityData.length / 1200*100).toFixed(1) + '%';
+                dataStoreOnePage.failureSituation[4] = data.outboundServiceLocation; // outboundServiceLocation
+                dataStoreOnePage.failureSituation[5] = `${data.drivingMileageKM} KM`;//失效里程
+                let failureConditionOP = $('#failureConditionOP').val() || "NA";
+                dataStoreOnePage.failureSituation[6] = failureConditionOP;  //如果表单传入了失效工况则有失效工况，如果未传入则显示NA
+                // 处理 vehiclebasicinfodata 请求的成功回调
+
+                dataStoreOnePage.failureSituation[9] = $('#breakpointTimeOP').val() ? "是" : "否";//判断是否断点失效产品
+
+                let vehicleInfo = vehicleBasicInfoResponse[0];
+                dataStoreOnePage.problemDescription[9] = `${vehicleInfo.totalFdpCount} / ${vehicleInfo.filteredDateCount}`; // 生产总数 / 销售总数
+                console.log(dataStoreOnePage.contentOPCache);
+                console.log(dataStoreOnePage.problemDescription); // 查看更新后的 problemDescription 数组
+                console.log(dataStoreOnePage.failureSituation); // 查看更新后的 failureSituation 数组
+                console.log('Vehicle Basic Info Data:', vehicleInfo);
+                // 可以在这里处理 vehicleInfo 数据，比如更新页面或其他操作
+                //生成一页纸报告
+
+                generatePPTOnePage(dataStoreOnePage.problemDescription[1], modalOP, dataStoreOnePage.problemDescription, dataStoreOnePage.failureSituation)
+    
+               
+
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                let errorMessage = '请求失败，请稍后再试。';
+                if (jqXHR.status === 404) {
+                    errorMessage = '未找到查询结果，请重新检查查询条件。';
+                } else if (jqXHR.status === 400) {
+                    errorMessage = '请求参数错误，请重新输入。';
+                } else if (jqXHR.status === 500) {
+                    errorMessage = '服务器错误，请稍后再试。';
+                }
+                $('#error-message').text(errorMessage).show();
+                setTimeout(function () {
+                    $('#error-message').fadeOut();
+                }, 2000);
+                console.error('请求失败:', textStatus, errorThrown);
+            });
+      
+        }
+
+   
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const modalHeader = document.querySelectorAll('.modal-header');
+            modalHeader.forEach(header => {
+                let isDragging = false;
+                let offset = [0, 0];
+                const modal = header.closest('.modal-content');
+
+                header.addEventListener('mousedown', (e) => {
+                    isDragging = true;
+                    offset = [
+                        modal.offsetLeft - e.clientX,
+                        modal.offsetTop - e.clientY
+                    ];
+                });
+
+                document.addEventListener('mouseup', () => {
+                    isDragging = false;
+                });
+
+                document.addEventListener('mousemove', (e) => {
+                    if (isDragging) {
+                        modal.style.left = (e.clientX + offset[0]) + 'px';
+                        modal.style.top = (e.clientY + offset[1]) + 'px';
+                    }
+                });
+            });
+
+            // Reset the form when modal is hidden
+            const modals = ['#serviceCenterModalOP', '#dailyQualityModalOP'];
+            modals.forEach(selector => {
+                $(selector).on('hidden.bs.modal', function () {
+                    $(this).find('form')[0].reset();
+                });
+            });
+        });
     </script>
 
 }
