@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Irony.Parsing;
+using System.Reflection.Emit;
+using System.Diagnostics;
 
 namespace WebWinMVC.Controllers
 {
@@ -12,6 +14,7 @@ namespace WebWinMVC.Controllers
     public class RemoteAccessController : ControllerBase
     {
         private readonly JRZLWTDbContext _context;
+       // private readonly TaskCompletionSource<bool> _fdpCodesInitialized = new TaskCompletionSource<bool>();
 
         public RemoteAccessController(JRZLWTDbContext context)
         {
@@ -31,14 +34,17 @@ namespace WebWinMVC.Controllers
             {
                 return BadRequest("Invalid OldMaterialCode");
             }
-
-            // 初始化查询
+             var _fdpCodes = new HashSet<string>();
+            _fdpCodes.Clear();
             var query = _context.DailyServiceReviewFormQueries
                 .Where(e => e.OldMaterialCode == oldMaterialCode)
                 .Where(e => e.ServiceCategory == "售前维修" || e.ServiceCategory == "质保服务")
                 .Where(e => e.ResponsibilitySourceIdentifier == "是")
                 .Where(e => e.RepairMethod == "更换" || e.RepairMethod == "维修")
                 .Where(e => e.MaterialType == "物料");
+
+
+           
             // 用于存储处理后的日期
             string? startDateStr = null;
             string? endDateStr = null;
@@ -112,30 +118,49 @@ namespace WebWinMVC.Controllers
                     return BadRequest("Invalid breakpointTime format. Expected format is YYMMDD.");
                 }
             }
+           //放到这里可以减少筛选量
 
             if (!string.IsNullOrEmpty(VehicleIdentification))
             {
-                // 分隔字符串并去除空格
-                //  Console.WriteLine("++++++++++++++++++++++++++++++++++++++" + VehicleIdentification);
                 var vehicleNumbers = VehicleIdentification.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                //  Console.WriteLine("++++++++++++++++++++++++++++++++++++++" + vehicleNumbers);
-                // 查询所有对应的 FDP 码
-                // 从数据库中查询所有数据到内存
+                //Console.WriteLine("++++++++++++++++++++++++++++++++++++++" + vehicleNumbers);
+                //for (int i = 0; i < vehicleNumbers.Length; i++)
+                //{
+                //    Console.WriteLine("++++++++++++++++++++++++++++++++++++++" + vehicleNumbers[i]);
+
+                //}
+                //查询所有对应的 FDP 码
+                //从数据库中查询所有数据到内存
                 var allData = await query
                     .ToListAsync(); // 使用 ToListAsync() 来加载数据到内存中
 
                 // 在内存中筛选对应的 FDP 码
-                var fdpCodes = allData
-                    .Where(e => vehicleNumbers.Any(vn => e.VAN.Contains(vn) || e.VIN.Contains(vn)))
-                    .Select(e => e.FDP)
-                    .Distinct()
-                    .ToList(); // 这里使用 ToList()，因为数据已在内存中
-
-
-                // 基于 FDP 码进行 OR 筛选
-                query = query.Where(e => fdpCodes.Contains(e.FDP));
+                foreach (var fdpCode in allData
+                  .Where(e => vehicleNumbers.Any(vn => e.VAN.Contains(vn) || e.VIN.Contains(vn)))
+                 .Select(e => e.FDP))
+                {
+                    _fdpCodes.Add(fdpCode); // HashSet 会自动去重
+                }
+                foreach (string fdpCode in _fdpCodes)
+                {
+                    Console.WriteLine("++++++start++not empty to add HASEt" + fdpCode);
+                }
+                query = query.Where(e => _fdpCodes.Contains(e.FDP));
             }
+            else
+            {
+                var tempData = await query.ToListAsync();
+                foreach (var fdpCode in tempData.Select(e => e.FDP))
+                {
+                    _fdpCodes.Add(fdpCode); // HashSet 自动处理重复
 
+                }
+                foreach (string fdpCode in _fdpCodes)
+                {
+                    Console.WriteLine("++++++start++is empty    to add HASEt" + fdpCode);
+                }
+            }
+            var filteredInfo = await GetFilteredVehicleBasicInfoData(_fdpCodes,ManufacturingMonth);
             // 获取数据
             var data = await query
                 .Select(e => new
@@ -164,13 +189,71 @@ namespace WebWinMVC.Controllers
                 return NotFound("No data found for the provided parameters.");
             }
 
-            return Ok(data);
+            return Ok(new
+            {
+                Data = data,
+                FilteredInfo = filteredInfo // 包括从 GetFilteredVehicleBasicInfoData 返回的结果
+            });
         }
+        private async Task<dynamic> GetFilteredVehicleBasicInfoData(HashSet<string> _fdpCodes,string ManufacturingMonth)
+        {
+            // 定义默认日期范围
+            DateTime defaultStartDate = new DateTime(2015, 1, 1);
+            DateTime defaultEndDate = new DateTime(2030, 12, 31);
 
+            // 初始化查询
+            var query = _context.VehicleBasicInfos.AsQueryable();
+
+            query = query.Where(e => _fdpCodes.Contains(e.FDP));
+
+            if (!string.IsNullOrEmpty(ManufacturingMonth))
+            {
+                if (DateTime.TryParseExact(ManufacturingMonth, "yyMMdd", null, System.Globalization.DateTimeStyles.None, out var parsedBreakpointDate))
+                {
+                    // 将传入的日期增加一个月，即模糊认为 在制造月的后面
+                    parsedBreakpointDate.AddMonths(1);
+                    var yearMonthStr = parsedBreakpointDate.ToString("yyyyMM");
+                    var cutoffDate = new DateTime(2030, 1, 1); // 设置截止日期为2030年
+                    var cutoffYearMonth = cutoffDate.ToString("yyyyMM");
+
+                    // 筛选制造月大于等于传入的年份和月份，并且不超过2030年
+                    query = query.Where(e => string.Compare(e.ProductionMouth, yearMonthStr) >= 0 &&
+                                             string.Compare(e.ProductionMouth, cutoffYearMonth) <= 0);
+                }
+                else
+                {
+                    return BadRequest("Invalid breakpointTime format. Expected format is YYMMDD.");
+                }
+            }
+
+
+            // 获取所有数据
+            var filteredData = await query.ToListAsync();
+
+            // 满足FDP的行数
+            int totalFdpCount = filteredData.Count;
+
+            // 满足销售日期在2015年到2030年之间的行数
+            int filteredDateCount = filteredData
+                .Count(v => DateTime.TryParse(v.SalesDate, out var salesDateValue) &&
+                            salesDateValue >= defaultStartDate &&
+                            salesDateValue <= defaultEndDate);
+
+            // 返回结果
+            return new
+            {
+                TotalFdpCount = totalFdpCount,
+                FilteredDateCount = filteredDateCount
+            };
+        }
 
         [HttpGet("vehiclebasicinfodata")]
         public async Task<IActionResult> GetVehicleBasicInfoData([FromQuery] string VehicleIdentification = "")
         {
+                return Ok("VehicleIdentification"+ VehicleIdentification);
+
+
+            var _fdpCodes = new HashSet<string>();
             // 定义默认日期范围
             DateTime defaultStartDate = new DateTime(2015, 1, 1);
             DateTime defaultEndDate = new DateTime(2030, 12, 31);
@@ -182,21 +265,37 @@ namespace WebWinMVC.Controllers
             if (!string.IsNullOrEmpty(VehicleIdentification))
             {
                 // 分隔字符串并去除空格
+                //  Console.WriteLine("++++++++++++++++++++++++++++++++++++++" + VehicleIdentification);
+                _fdpCodes.Clear();
                 var vehicleNumbers = VehicleIdentification.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                Console.WriteLine("++++++++++++++++++++++++++++++++++++++" + vehicleNumbers);
+                for (int i = 0; i < vehicleNumbers.Length; i++)
+                {
+                    Console.WriteLine("++++++++++++++++++++++++++++++++++++++" + vehicleNumbers[i]);
 
-                // 从数据库中查询所有数据到内存
-                var allData = await query.ToListAsync(); // 使用 ToListAsync() 来加载数据到内存中
+                }
+                //查询所有对应的 FDP 码
+                //从数据库中查询所有数据到内存
+                var allData = await query
+                    .ToListAsync(); // 使用 ToListAsync() 来加载数据到内存中
 
                 // 在内存中筛选对应的 FDP 码
-                var fdpCodes = allData
-                    .Where(e => vehicleNumbers.Any(vn => e.VAN.Contains(vn) || e.VIN.Contains(vn)))
-                    .Select(e => e.FDP)
-                    .Distinct()
-                    .ToList(); // 这里使用 ToList()，因为数据已在内存中
+                foreach (var fdpCode in allData
+                  .Where(e => vehicleNumbers.Any(vn => e.VAN.Contains(vn) || e.VIN.Contains(vn)))
+                 .Select(e => e.FDP))
+                {
+                    _fdpCodes.Add(fdpCode); // HashSet 会自动去重
+                }
 
-                // 基于 FDP 码进行 OR 筛选
-                query = query.Where(e => fdpCodes.Contains(e.FDP));
+                query = query.Where(e => _fdpCodes.Contains(e.FDP));
             }
+
+            foreach (string fdpCode in _fdpCodes)
+            {
+                Console.WriteLine("++++++start to add HASEt"+fdpCode);
+            }
+            query = query.Where(e => _fdpCodes.Contains(e.FDP));
+            
 
             // 获取所有数据
             var filteredData = await query.ToListAsync();
@@ -216,7 +315,7 @@ namespace WebWinMVC.Controllers
                 TotalFdpCount = totalFdpCount,
                 FilteredDateCount = filteredDateCount
             };
-
+            Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++++++"+result.TotalFdpCount+"and"+result.FilteredDateCount);
             return Ok(result);
         }
 

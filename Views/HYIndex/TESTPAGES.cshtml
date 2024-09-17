@@ -8,14 +8,14 @@
 <div class="col-md-2 d-flex justify-content-center align-items-center">
     <div>
         <h3 class="text-center">一键处理区域</h3>
-        <form>
+        
             <div class="result-container d-flex flex-column align-items-center">
                 <button type="button" class="btn btn-outline-secondary mb-2" style="width: 5vw;" onclick="exportTableToExcelQuery()">详情导出</button>
                 <button type="button" class="btn btn-outline-secondary mb-2" style="width: 5vw;" onclick="exportTableToExcelAnalyse()">清单导出</button>
                 <button type="button" class="btn btn-outline-secondary mb-2" style="width: 5vw;" onclick="showOnePageModal()">生成一页纸</button>
                 <button type="button" class="btn btn-outline-secondary mb-2" style="width: 5vw;">纳入PSQ</button>
             </div>
-        </form>
+        
 
     </div>
 </div>
@@ -112,15 +112,15 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
         problemDescription: [
             "问题来源内容",
             "问题定义内容",
-            "问题等级内容",
+            "NA",
             "开启日期内容",
             "供应商内容",
             "涉及车型内容",
             "内部车型内容",
             "底盘号内容",
             "生产/购车时间内容",
-            "在库时间内容",
-            "PQS 编号内容"
+            "NA",
+            "NA"
         ],
         failureSituation: [
             "0",
@@ -398,10 +398,50 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
             $.when(qualityDataRequest, vehicleBasicInfoRequest).done(function (qualityDataResponse, vehicleBasicInfoResponse) {
                 // 处理 dailyqualitydata 请求的成功回调
                 let qualityData = qualityDataResponse[0];
-                dataStoreOnePage.contentOPCache = qualityData;
+                dataStoreOnePage.contentOPCache = qualityData.data
+              //  console.log(qualityData);
 
+                // 处理 vehicleIdentification
+                let vehicleNumbersArray = [];
+                let matchingRows = [];
+                let data;
+
+                if (vehicleIdentification) {
+                    // 将车号或 VIN 分割成数组，去掉空白
+                    vehicleNumbersArray = vehicleIdentification.split(' ').filter(id => id.trim() !== '');
+                  
+
+                    // 遍历 qualityData 检查 VAN 或 VIN
+                    vehicleNumbersArray.forEach(id => {
+                        // 首先检查 VAN
+                        qualityData.data.forEach((item, index) => {
+                            if (matchingRows.includes(index)) return; // 避免重复处理
+
+                            if (item.van === id) {
+                                matchingRows.push(index);
+                            }
+                        });
+
+                        // 然后检查 VIN
+                        qualityData.data.forEach((item, index) => {
+                            if (matchingRows.includes(index)) return; // 避免重复处理
+
+                            if (item.vin && item.vin.slice(-8) === id) {
+                                matchingRows.push(index);
+                            }
+                        });
+                    });
+
+                    data = qualityData.data[matchingRows[0]];
+                    console.log(vehicleNumbersArray);
+                    console.log(matchingRows);
+                }
+                else { 
+                
+                    data = qualityData.data[0];
+                
+                }
                 // 假设 qualityData 是一个包含数据的数组，取第一个对象作为示例
-                let data = qualityData[0];
 
                 // 更新 problemDescription 数组
                 dataStoreOnePage.problemDescription[0] = modalOP; // 即日质量问题
@@ -412,9 +452,26 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                 let requestDate = new Date();
                 dataStoreOnePage.problemDescription[3] = requestDate.toISOString().split('T')[0].replace(/-/g, '/'); // 格式为YYYY/MM/DD
                 dataStoreOnePage.problemDescription[4] = data.responsibilitySourceSupplierName; // 供应商名称
-                dataStoreOnePage.problemDescription[5] = `${data.vehicleType}（${data.fdp}）`;//车型
+                if (!vehicleIdentification)
+                    dataStoreOnePage.problemDescription[5] = `${data.vehicleType}（${data.fdp}）`;//车型
+                else { 
+                    let fdpList = matchingRows.map(rowIndex => qualityData.data[rowIndex].fdp).filter(fdp => fdp).join(', ');
+                    dataStoreOnePage.problemDescription[5] = `${data.vehicleType}（${fdpList}）`;//车型
+                }
                 dataStoreOnePage.problemDescription[6] = data.internalModelCode; // internalModelCode
-                dataStoreOnePage.problemDescription[7] = `${data.van}(${data.vin.slice(-8)})`; // 车号 + (VIN 的后 8 位)
+                if (!vehicleIdentification) {
+                    dataStoreOnePage.problemDescription[7] = `${data.van}(${data.vin.slice(-8)})`; // 默认处理
+                } else {
+                    // 获取所有匹配行的 van 和 vin（后 8 位），格式化为 "van(vin)"，用逗号分隔
+                    let vanVinList = matchingRows.map(rowIndex => {
+                        let item = qualityData.data[rowIndex];
+                        return `${item.van}(${item.vin ? item.vin.slice(-8) : ''})`;
+                    }).filter(vanVin => vanVin.trim() !== '').join(', ');
+
+                    // 更新 problemDescription[7]
+                    dataStoreOnePage.problemDescription[7] = vanVinList;
+                }
+
                 let manufacturingDate = data.manufacturingMonth;
                 let salesDate = new Date(parseInt(data.salesDate, 10) * 86400000 + new Date(1899, 11, 30).getTime()); // 转换 salesDate 为日期
                 manufacturingDate = `${manufacturingDate.substring(0, 4)}/${manufacturingDate.substring(4, 6)}/01`; // 格式为 yyyy/mm/dd
@@ -422,10 +479,10 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                 dataStoreOnePage.problemDescription[8] = `${manufacturingDate}, ${salesDate}`; // 制造月和销售日期
 
                 // 更新 failureSituation 数组
-                dataStoreOnePage.failureSituation[0] = qualityData.length; // 返回数组的长度
-                dataStoreOnePage.failureSituation[1] = (qualityData.length / 100*100).toFixed(1) + '%';
-                dataStoreOnePage.failureSituation[2] = (qualityData.length / 1000*100).toFixed(1) + '%';
-                dataStoreOnePage.failureSituation[3] = (qualityData.length / 1200*100).toFixed(1) + '%';
+                dataStoreOnePage.failureSituation[0] = qualityData.data.length; // 返回数组的长度
+                dataStoreOnePage.failureSituation[1] = (qualityData.data.length / 100*100).toFixed(1) + '%';
+                dataStoreOnePage.failureSituation[2] = (qualityData.data.length / 1000*100).toFixed(1) + '%';
+                dataStoreOnePage.failureSituation[3] = (qualityData.data.length / 1200*100).toFixed(1) + '%';
                 dataStoreOnePage.failureSituation[4] = data.outboundServiceLocation; // outboundServiceLocation
                 dataStoreOnePage.failureSituation[5] = `${data.drivingMileageKM} KM`;//失效里程
                 let failureConditionOP = $('#failureConditionOP').val() || "NA";
@@ -434,7 +491,7 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
 
                 dataStoreOnePage.failureSituation[9] = $('#breakpointTimeOP').val() ? "是" : "否";//判断是否断点失效产品
 
-                let vehicleInfo = vehicleBasicInfoResponse[0];
+                let vehicleInfo = qualityData.filteredInfo;
                 dataStoreOnePage.problemDescription[9] = `${vehicleInfo.totalFdpCount} / ${vehicleInfo.filteredDateCount}`; // 生产总数 / 销售总数
                 console.log(dataStoreOnePage.contentOPCache);
                 console.log(dataStoreOnePage.problemDescription); // 查看更新后的 problemDescription 数组
@@ -496,13 +553,13 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
             });
 
             // Reset the form when modal is hidden
-            const modals = ['#serviceCenterModalOP', '#dailyQualityModalOP'];
+            const modals = ['#serviceCenterModalOP', '#dailyQualityModalOP', '#editModal'];
             modals.forEach(selector => {
                 $(selector).on('hidden.bs.modal', function () {
                     $(this).find('form')[0].reset();
                 });
             });
         });
-    </script>
+    </script>@* 表单拖拽和重置功能 *@
 
 }
