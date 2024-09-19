@@ -15,6 +15,9 @@
         public List<BreakpointAnalysisTable> BreakpointAnalysisTables { get; set; } = new List<BreakpointAnalysisTable>();       
 
 
+        public List<SILSimulationTable> SILSimulationTables { get; set; }= new List<SILSimulationTable>();
+
+
         //add properties for pages
         public Dictionary<string, string> JRZLWTV91Headers { get; set; } = default!;
 

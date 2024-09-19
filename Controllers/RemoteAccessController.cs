@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Irony.Parsing;
 using System.Reflection.Emit;
 using System.Diagnostics;
+using WebWinMVC.Models;
 
 namespace WebWinMVC.Controllers
 {
@@ -46,11 +47,12 @@ namespace WebWinMVC.Controllers
 
            
             // 用于存储处理后的日期
-            string? startDateStr = null;
-            string? endDateStr = null;
+    
 
             if (!string.IsNullOrEmpty(ApprovalDate))
             {
+                string? startDateStr = null;
+                string? endDateStr = null;
                 var dates = ApprovalDate.Split('-');
 
                 if (dates.Length == 1)
@@ -317,6 +319,192 @@ namespace WebWinMVC.Controllers
             };
             Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++++++"+result.TotalFdpCount+"and"+result.FilteredDateCount);
             return Ok(result);
+        }
+
+
+        [HttpGet("dailyqualitydataforsil")]
+        public async Task<IActionResult> GetDailyQualityDataForSIL(
+        [FromQuery] string oldMaterialCode,
+        [FromQuery] string VehicleIdentification,
+        [FromQuery] string ApprovalDate = "",
+        [FromQuery] string faultMode = "",
+        [FromQuery] string faultCode = "",
+        [FromQuery] string ManufacturingMonth = "")
+        {
+            // 验证输入
+            if (string.IsNullOrEmpty(oldMaterialCode) || string.IsNullOrEmpty(VehicleIdentification))
+            {
+                return BadRequest("Invalid input parameters.");
+            }
+            Console.WriteLine("++++++++++++++++++++======================================" + VehicleIdentification);
+            var query = _context.DailyServiceReviewFormQueries
+                .Where(e => e.OldMaterialCode == oldMaterialCode)
+                .Where(e => e.ServiceCategory == "售前维修" || e.ServiceCategory == "质保服务")
+                .Where(e => e.ResponsibilitySourceIdentifier == "是")
+                .Where(e => e.RepairMethod == "更换" || e.RepairMethod == "维修")
+                .Where(e => e.MaterialType == "物料")
+                .Where(e => e.VAN.Contains(VehicleIdentification) || e.VIN.Contains(VehicleIdentification));
+
+
+            if (!string.IsNullOrEmpty(ApprovalDate))
+            {
+                string? startDateStr = null;
+                string? endDateStr = null;
+                var dates = ApprovalDate.Split('-');
+
+                if (dates.Length == 1)
+                {
+                    // 只有一个日期，作为开始日期
+                    if (DateTime.TryParseExact(dates[0], "yyMMdd", null, System.Globalization.DateTimeStyles.None, out var startDate))
+                    {
+                        startDateStr = startDate.ToString("yyyy-MM-dd"); // 转换为 yyyy-MM-dd 格式
+                    }
+                }
+                else if (dates.Length == 2)
+                {
+                    // 有开始和结束日期
+                    if (DateTime.TryParseExact(dates[0], "yyMMdd", null, System.Globalization.DateTimeStyles.None, out var startDate) &&
+                        DateTime.TryParseExact(dates[1], "yyMMdd", null, System.Globalization.DateTimeStyles.None, out var endDate))
+                    {
+                        startDateStr = startDate.ToString("yyyy-MM-dd"); // 转换为 yyyy-MM-dd 格式
+                        endDateStr = endDate.ToString("yyyy-MM-dd");     // 转换为 yyyy-MM-dd 格式
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(startDateStr))
+                {
+                    if (!string.IsNullOrEmpty(endDateStr))
+                    {
+                        query = query.Where(e => e.ApprovalDate.CompareTo(startDateStr) >= 0 &&
+                                                 e.ApprovalDate.CompareTo(endDateStr) <= 0);
+                    }
+                    else
+                    {
+                        query = query.Where(e => e.ApprovalDate.CompareTo(startDateStr) == 0);
+                    }
+                }
+            }
+            // 处理故障模式
+            // 处理故障码
+            if (!string.IsNullOrEmpty(faultCode))
+            {
+                Console.WriteLine(faultCode); // 打印调试信息
+
+                // 使用 % 通配符来进行 LIKE 查询
+                var faultCodePattern = $"%{faultCode}%";
+                query = query.Where(e => EF.Functions.Like(e.FaultCode, faultCodePattern));
+            }
+            // 处理断点时间
+            if (!string.IsNullOrEmpty(ManufacturingMonth))
+            {
+                if (DateTime.TryParseExact(ManufacturingMonth, "yyMMdd", null, System.Globalization.DateTimeStyles.None, out var parsedBreakpointDate))
+                {
+                    // 将传入的日期增加一个月，即模糊认为 在制造月的后面
+                    parsedBreakpointDate.AddMonths(1);
+                    var yearMonthStr = parsedBreakpointDate.ToString("yyyyMM");
+                    var cutoffDate = new DateTime(2030, 1, 1); // 设置截止日期为2030年
+                    var cutoffYearMonth = cutoffDate.ToString("yyyyMM");
+
+                    // 筛选制造月大于等于传入的年份和月份，并且不超过2030年
+                    query = query.Where(e => string.Compare(e.ManufacturingMonth, yearMonthStr) >= 0 &&
+                                             string.Compare(e.ManufacturingMonth, cutoffYearMonth) <= 0);
+                }
+                else
+                {
+                    return BadRequest("Invalid breakpointTime format. Expected format is YYMMDD.");
+                }
+            }
+
+            // 获取数据
+            var data = await query
+                .Select(e => new
+                {
+                    e.ServiceOrder,
+                    e.WorkOrderCreationDate,
+                    e.Province,
+                    e.ServiceStationName,
+                    e.VAN,
+                    e.VIN,
+                    e.OldMaterialCode,
+                    e.OldMaterialDescription,
+                    e.Quantity,
+                    e.LocationCode,
+                    e.LocationCodeDescription,
+                    e.FaultCode,
+                    e.FaultCodeDescription,
+                    e.FaultDescription,
+                    e.DrivingMileageKM,
+                    e.FDP,
+                    e.VehicleType,
+                    e.SalesDate
+                })
+                .ToListAsync();
+
+            // 确保有数据并只选择第一项
+            var firstData = data.FirstOrDefault();
+            if (firstData == null)
+            {
+                return NotFound("No data found for the provided parameters.");
+            }
+
+            // 创建要插入的数据对象
+            var newData = new SILSimulationTable
+            {
+                LocationCode = firstData.LocationCode ?? "NIL",
+                OldMaterialCode = firstData.OldMaterialCode ?? "NIL",
+                Province = firstData.Province ?? "NIL",
+                FailurePartCount = "0", // 确保为0
+                FaultCode = firstData.FaultCode ?? "NIL",
+                FaultCodeDescription = firstData.FaultCodeDescription ??"NIL",
+                LocationCodeDescription = firstData.LocationCodeDescription ??"NIL",
+                OldMaterialCodeDescription=firstData.OldMaterialDescription ??"NIL",
+                Title = $"F100-{(firstData.LocationCodeDescription ?? "NIL")}-{(firstData.OldMaterialDescription ?? "NIL")}-{(firstData.FaultCodeDescription ?? "NIL")}",
+                VehicleModel = firstData.VehicleType ?? "NIL",
+                PurchaseTime = firstData.SalesDate ?? "NIL",
+                FaultTime = firstData.WorkOrderCreationDate ?? "NIL",
+                RepairTime = firstData.WorkOrderCreationDate ?? "NIL",
+                VAN = firstData.VAN ?? "NIL",
+                ChassisNumber = firstData.VIN ?? "NIL",
+                Inspector = firstData.ServiceStationName ?? "NIL",
+                City = firstData.ServiceStationName ?? "NIL",
+                InitialFaultAnalysis = firstData.FaultDescription ?? "NIL",
+                RepairProcessAndEffect = firstData.FaultDescription ?? "NIL",
+                FaultLevel = "正常", // 直接初始化为NIL
+                Reporter = firstData.ServiceStationName, // 初始化
+                ReporterPhone = "02365892314", // 初始化
+                TTF = "0",
+                //ResponsiblePerson ="郭鹏飞",
+                //ResponsibleDepartment="采购部"
+                Manager = "向东",
+                Creator = "向东",
+                StartTime = DateTime.Now.ToString("yyMMdd"),// 设置开始时间为当前时间，格式为YYMMDD
+                StageStatus = "执行中",
+                Status = "0/6",
+                PreventiveMeasures = "维修或更换",
+                VehicleStatus="终端",
+                InspectorPhone="13072333842",
+                FaultDescription=firstData.FaultDescription??"NIL",
+
+            };
+
+            // 将新数据保存到数据库
+            await _context.SILSimulationTables.AddAsync(newData);
+            await _context.SaveChangesAsync();
+
+            // 获取当前生成的 ID
+            var currentId = newData.ID;
+
+            // 更新通知单号和 PSQ编号
+            newData.NotificationNumber = $"{DateTime.UtcNow.Ticks}-{currentId}"; // 使用时间戳和 ID
+            newData.PSQNumber = "MD" + newData.NotificationNumber; // PSQ编号为 "MD" + 通知单号
+
+            // 再次保存更改
+            await _context.SaveChangesAsync();
+
+            return Ok(new
+            {
+                Data = newData,
+            });
         }
 
     }

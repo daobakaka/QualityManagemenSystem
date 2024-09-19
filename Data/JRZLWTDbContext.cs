@@ -19,6 +19,8 @@ namespace WebWinMVC.Data
         public DbSet<VehicleBasicInfo> VehicleBasicInfos { get; set; }
         public DbSet<BreakpointAnalysisTable> BreakpointAnalysisTables { get; set; } // Add this line
 
+        public DbSet<SILSimulationTable> SILSimulationTables { get; set; }
+
         // Configure the model with explicit table names
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,6 +34,7 @@ namespace WebWinMVC.Data
             modelBuilder.Entity<DailyQualityIssueChecklistV91Query>().ToTable("DailyQualityIssueChecklistV91Queries");
             modelBuilder.Entity<VehicleBasicInfo>().ToTable("VehicleBasicInfos");
             modelBuilder.Entity<BreakpointAnalysisTable>().ToTable("BreakpointAnalysisTables"); // Add this line
+            modelBuilder.Entity<SILSimulationTable>().ToTable(" SILSimulationTables");
         }
     }
 }

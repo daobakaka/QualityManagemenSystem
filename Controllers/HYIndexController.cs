@@ -43,12 +43,12 @@ namespace WebWinMVC.Controllers
         {
             var checklistsV91 = _context.DailyQualityIssueChecklistV91s.OrderBy(c => c.ID).ToList();
             var checklistsV91Queries = _context.DailyQualityIssueChecklistV91Queries.OrderBy(c => c.ID).ToList();
-            var dailyServiceReviewForms = _context.DailyServiceReviewForms.OrderBy(c => c.ID).ToList();
-            var dailyServiceReviewFormsQueries = _context.DailyServiceReviewFormQueries.OrderBy(c => c.ID).ToList();
+            //var dailyServiceReviewForms = _context.DailyServiceReviewForms.OrderBy(c => c.ID).ToList();
+           // var dailyServiceReviewFormsQueries = _context.DailyServiceReviewFormQueries.OrderBy(c => c.ID).ToList();
             var viewModel = new JRZLWTViewModel
             {
-                DailyServiceReviewForms = dailyServiceReviewForms,
-                DailyServiceReviewFormQueries = dailyServiceReviewFormsQueries,
+              //  DailyServiceReviewForms = dailyServiceReviewForms,
+               // DailyServiceReviewFormQueries = dailyServiceReviewFormsQueries,
                 ChecklistV91s = checklistsV91,
                 ChecklistV91Queries = checklistsV91Queries,
                 AdditionalInfo = "即日质量问题清单",
@@ -59,6 +59,22 @@ namespace WebWinMVC.Controllers
             };
 
             return View(viewModel);
+        }
+
+
+        public IActionResult HYIndexSIL()
+        {
+            var sILSimulationTables = _context.SILSimulationTables.OrderBy(c => c.ID).ToList();
+            var viewMOdel = new JRZLWTViewModel
+            {
+
+                SILSimulationTables = sILSimulationTables,
+
+            }
+             ;
+            
+            return View(viewMOdel);
+
         }
         public IActionResult HYIndexTOP()
         {
@@ -80,6 +96,7 @@ namespace WebWinMVC.Controllers
             return View();
 
         }
+     
         public IActionResult HYIndexOTHER()
         {
             return View();

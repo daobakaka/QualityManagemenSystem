@@ -1,0 +1,473 @@
+﻿@model WebWinMVC.Models.JRZLWTViewModel
+
+@{
+    ViewData["Title"] = "SIL";
+}
+
+<div class="text-center" style="background-color: #5F9EA0; padding: 3vh;width: 100%; height: 8vh; display: flex; align-items: center; justify-content: center;">
+    <h1 class="display-4" style="color: white; margin: 0;">SIL管理系统</h1>
+</div>
+
+
+<div>
+    <div class="row no-gutters" style="margin: auto;">
+        <!-- 左侧菜单 -->
+
+        <div class="col-md-2 col-lg-2" style="height: 100vh; background-color: #343a40;">
+            <ul class="list-group">
+                <!-- 系统首页 -->
+                <li class="list-group-item text-white text-center" style="background-color: transparent; padding: 0; margin: 3vh 0 0 0; border-color: transparent; font-size: 1rem; position: relative;">
+                    系统首页
+                </li>
+
+                <!-- 系统管理 -->
+                <li class="list-group-item text-white text-center" style="background-color: transparent; padding: 0; margin: 3vh 0 0 0; border-color: transparent; font-size: 1rem; position: relative;">
+                    <a style="color: white; font-size: 1rem; text-decoration: none;" data-bs-toggle="collapse" href="#collapseSysAdmin" role="button" aria-expanded="false" aria-controls="collapseSysAdmin">
+                        系统管理
+                    </a>
+                    <span class="toggle-icon" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">+</span>
+                    <div class="collapse" id="collapseSysAdmin">
+                        <div class="card card-body" style="background-color: transparent; border-color: transparent; color: white;">
+                            角色管理<br>
+                            用户管理<br>
+                            新产品通知维护<br>
+                            故障模式通知维护
+                        </div>
+                    </div>
+                </li>
+
+                <!-- 质量管理 -->
+                <li class="list-group-item text-white text-center" style="background-color: transparent; padding: 0; margin: 3vh 0 0 0; border-color: transparent; font-size: 1rem; position: relative;">
+                    <a style="color: white; font-size: 1rem; text-decoration: none;" data-bs-toggle="collapse" href="#collapseQuality" role="button" aria-expanded="false" aria-controls="collapseQuality">
+                        质量管理
+                    </a>
+                    <span class="toggle-icon" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">+</span>
+                    <div class="collapse" id="collapseQuality">
+                        <div class="card card-body" style="background-color: transparent; border-color: transparent; color: white;">
+                            通知维护<br>
+                            通知查询<br>
+                            旧件通知
+                        </div>
+                    </div>
+                </li>
+
+                <!-- 项目管理 -->
+                <li class="list-group-item text-white text-center" style="background-color: transparent; padding: 0; margin: 3vh 0 0 0; border-color: transparent; font-size: 1rem; position: relative;">
+                    <a style="color: white; font-size: 1rem; text-decoration: none;" data-bs-toggle="collapse" href="#collapseProject" role="button" aria-expanded="false" aria-controls="collapseProject">
+                        项目管理
+                    </a>
+                    <span class="toggle-icon" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">+</span>
+                    <div class="collapse" id="collapseProject">
+                        <div class="card card-body" style="background-color: transparent; border-color: transparent; color: white;">
+                            通知确认<br>
+                            项目维护<br>
+                            项目步骤<br>
+                            项目查询
+                        </div>
+                    </div>
+                </li>
+
+                <!-- 报表导出 -->
+                <li class="list-group-item text-white text-center" style="background-color: transparent; padding: 0; margin: 3vh 0 0 0; border-color: transparent; font-size: 1rem; position: relative;">
+                    <a style="color: white; font-size: 1rem; text-decoration: none;" data-bs-toggle="collapse" href="#collapseReport" role="button" aria-expanded="false" aria-controls="collapseReport">
+                        报表导出
+                    </a>
+                    <span class="toggle-icon" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">+</span>
+                    <div class="collapse" id="collapseReport">
+                        <div class="card card-body" style="background-color: transparent; border-color: transparent; color: white;">
+                            项目报表<br>
+                            通知报表
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+
+
+        <!-- 右侧内容 -->
+        <div class="col-md-10 col-lg-10">
+            <div class="row" style="height: 5vh;"></div>
+
+            <div class="search-container mb-4">
+                <div class="row">
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" placeholder="部位码">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" placeholder="故障码">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" placeholder="项目">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" placeholder="状态">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" placeholder="管理人">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" placeholder="失效零件">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" placeholder="待处理人">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" placeholder="创建时间">
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-container mb-3">
+                <div class="d-flex justify-content-center">
+                    <div style="padding: 2vh 0;">
+                        <div class="btn-group" role="group">
+                            <button type="button" id="basicInfoButton" class="btn btn-outline-secondary mx-5" data-bs-toggle="modal" data-bs-target="#infoModal">基本信息</button>
+                            <button type="button" class="btn btn-success mx-5">责任人</button>
+                            <button type="button" class="btn btn-warning mx-5">项目计划</button>
+                            <button type="button" class="btn btn-warning mx-5">阶段计划</button>
+                            <button type="button" class="btn btn-danger mx-5">强制关闭</button>
+                            <button type="button" class="btn btn-info mx-5">阶段提交</button>
+                            <button type="button" class="btn btn-info mx-5">项目驳回</button>
+                            <button type="button" class="btn btn-danger mx-5">项目总结</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="custom-container">
+                <div class="row">
+                    <div class="d-flex justify-content-center">
+                        <table id="projectTableSIL" class="table table-bordered table-striped" style="overflow: auto;">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <input type="checkbox" id="selectAll">
+                                    </th>
+                                    <th>项目编码</th>
+                                    <th>项目名称</th>
+                                    <th>通知单</th>
+                                    <th>状态</th>
+                                    <th>报警状态</th>
+                                    <th>阶段状态</th>
+                                    <th>部位码</th>
+                                    <th>失效零件</th>
+                                    <th>责任人</th>
+                                    <th>责任部门</th>
+                                    <th>管理人</th>
+                                    <th>创建人</th>
+                                    <th>开始时间</th>
+                                    <th>TTF</th>
+                                    <th>待处理人</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.SILSimulationTables)
+                                {
+                                    <tr data-fault-code="@item.FaultCode"
+                                        data-fault-description="@item.FaultDescription"
+                                        data-old-material-code="@item.OldMaterialCode"
+                                        data-reporter="@item.Reporter"
+                                        data-reporter-phone="@item.ReporterPhone"
+                                        data-initial-fault-analysis="@item.InitialFaultAnalysis"
+                                        data-repair-process-and-effect="@item.RepairProcessAndEffect"
+                                        data-inspector="@item.Inspector"
+                                        data-inspector-phone="@item.InspectorPhone"
+                                        data-repair-time="@item.RepairTime"
+                                        data-van="@item.VAN"
+                                        data-chassis-number="@item.ChassisNumber"
+                                        data-vehicle-model="@item.VehicleModel"
+                                        data-purchase-time="@item.PurchaseTime"
+                                        data-fault-time="@item.FaultTime"
+                                        data-vehicle-status="@item.VehicleStatus"
+                                        data-preventive-measures="@item.PreventiveMeasures"
+                                        data-project-type="@item.ProjectType"
+                                        data-province="@item.Province"  
+                                        data-city="@item.City"
+                                        data-location-code-description="@item.LocationCodeDescription"
+                                        data-old-material-code-description="@item.OldMaterialCodeDescription"
+                                        data-fault-code-description="@item.FaultCodeDescription">
+
+                                        <td>
+                                            <input type="checkbox" class="rowSelect">
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-link p-0" onclick="showPQSModal(this)">@item.PSQNumber</button>
+                                        </td>
+                                        <td>
+                                            <div style="text-overflow: ellipsis;" title="@item.Title">
+                                                @item.Title
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-link p-0" onclick="showNotificationModal(this)">@item.NotificationNumber</button>
+                                        </td>
+                                        <td>@item.Status</td>
+                                        <td>@item.FaultLevel</td>
+                                        <td>@item.StageStatus</td>
+                                        <td>@item.LocationCode</td>
+                                        <td>@item.FailurePartCount</td>
+                                        <td>@item.ResponsiblePerson</td>
+                                        <td>@item.ResponsibleDepartment</td>
+                                        <td>@item.Manager</td>
+                                        <td>@item.Creator</td>
+                                        <td>@item.StartTime</td>
+                                        <td>@item.TTF</td>
+                                        <td>@item.PendingPerson</td>
+                                    </tr>
+                                }
+                            </tbody>
+
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模态框 -->
+            <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" style="max-width: 60%;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="infoModalLabel">故障信息</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="faultDescription" class="form-label">故障描述</label>
+                                <textarea class="form-control" id="faultDescription" rows="3" readonly></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="mitigationMeasures" class="form-label">遏制措施</label>
+                                <textarea class="form-control" id="mitigationMeasures" rows="3" readonly></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="repairProcess" class="form-label">维修经过与效果</label>
+                                <textarea class="form-control" id="repairProcess" rows="3" readonly></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- PQS编号模态框 -->
+            <div class="modal fade" id="pqsModal" tabindex="-1" aria-labelledby="pqsModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="pqsModalLabel">PQS编号详情</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="reporterInfo" class="form-label">报告人</label>
+                                <input type="text" class="form-control" id="reporterInfo" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="reporterPhoneInfo" class="form-label">报告人电话</label>
+                                <input type="text" class="form-control" id="reporterPhoneInfo" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="initialFaultAnalysisInfo" class="form-label">初步故障分析</label>
+                                <textarea class="form-control" id="initialFaultAnalysisInfo" rows="3" readonly></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="inspectorInfo" class="form-label">检查员</label>
+                                <input type="text" class="form-control" id="inspectorInfo" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="inspectorPhoneInfo" class="form-label">检查员电话</label>
+                                <input type="text" class="form-control" id="inspectorPhoneInfo" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="repairTimeInfo" class="form-label">维修时间</label>
+                                <input type="text" class="form-control" id="repairTimeInfo" readonly>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NotificationNumber模态框 -->
+            <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="notificationModalLabel">NotificationNumber详情</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="vanInfo" class="form-label">VAN</label>
+                                <input type="text" class="form-control" id="vanInfo" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="chassisNumberInfo" class="form-label">底盘号码</label>
+                                <input type="text" class="form-control" id="chassisNumberInfo" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="vehicleModelInfo" class="form-label">车辆型号</label>
+                                <input type="text" class="form-control" id="vehicleModelInfo" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="purchaseTimeInfo" class="form-label">购买时间</label>
+                                <input type="text" class="form-control" id="purchaseTimeInfo" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="faultTimeInfo" class="form-label">故障时间</label>
+                                <input type="text" class="form-control" id="faultTimeInfo" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="vehicleStatusInfo" class="form-label">车辆状态</label>
+                                <input type="text" class="form-control" id="vehicleStatusInfo" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="preventiveMeasuresInfo" class="form-label">遏制措施</label>
+                                <textarea class="form-control" id="preventiveMeasuresInfo" rows="3" readonly></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="projectTypeInfo" class="form-label">项目类型</label>
+                                <input type="text" class="form-control" id="projectTypeInfo" readonly>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#project-menu').on('show.bs.collapse', function () {
+                $(this).prev().find("i").removeClass("fa-chevron-down").addClass("fa-chevron-up");
+            }).on('hide.bs.collapse', function () {
+                $(this).prev().find("i").removeClass("fa-chevron-up").addClass("fa-chevron-down");
+            });
+
+            $('#selectAll').change(function () {
+                $('.rowSelect').prop('checked', this.checked);
+            });
+
+            $('.collapse').on('show.bs.collapse', function () {
+                $(this).siblings('span.toggle-icon').text('-'); // 显示减号
+            }).on('hide.bs.collapse', function () {
+                $(this).siblings('span.toggle-icon').text('+'); // 显示加号
+            });
+        });
+                    document.querySelector('.custom-container .table tbody').addEventListener('scroll', function () {
+                        const thead = document.querySelector('.custom-container .table thead');
+                        thead.scrollLeft = this.scrollLeft;
+
+                    });
+    </script>
+    <script>
+ 
+        $(document).ready(function () {
+            $('#selectAll').change(function () {
+                $('.rowSelect').prop('checked', this.checked);
+            });
+
+            $('#basicInfoButton').click(function () {
+                const checkedCheckboxes = $('.rowSelect:checked');
+
+                // 确保只选中一行
+                if (checkedCheckboxes.length === 1) {
+                    const $row = checkedCheckboxes.closest('tr'); // 获取当前行
+
+                    // 从当前行的 data-* 属性中获取值
+                    const faultDescription = $row.data('fault-description') || "NIL";
+                    const preventiveMeasures = $row.data('preventive-measures') || "NIL";
+                    const repairProcessAndEffect = $row.data('repair-process-and-effect') || "NIL";
+
+                    // 更新模态框中的文本框
+                    $('#faultDescription').val(faultDescription);
+                    $('#mitigationMeasures').val(preventiveMeasures);
+                    $('#repairProcess').val(repairProcessAndEffect);
+
+                    // 显示模态框
+                    $('#infoModal').modal('show');
+                } else {
+                    alert("请只选中一行进行查看。"); // 提示用户
+                    // 这里不需要关闭模态框，因为它不会被打开
+                    return; // 终止后续代码执行
+                }
+            });
+
+            // 关闭模态框时重置输入框（可选）
+            $('#infoModal').on('hidden.bs.modal', function () {
+                $('#faultDescription').val('');
+                $('#mitigationMeasures').val('');
+                $('#repairProcess').val('');
+            });
+        });
+
+
+    </script> @* 获取立项数据库信息 *@
+    <script>
+                    function showNotificationModal(button) {
+                        const $row = $(button).closest('tr');
+
+                        // 从当前行的 data-* 属性中获取值
+                        const van = $row.data('van');
+                        const chassisNumber = $row.data('chassis-number');
+                        const vehicleModel = $row.data('vehicle-model');
+                        const purchaseTime = $row.data('purchase-time');
+                        const faultTime = $row.data('fault-time');
+                        const vehicleStatus = $row.data('vehicle-status');
+                        const preventiveMeasures = $row.data('preventive-measures');
+                        const projectType = $row.data('project-type');
+
+                        // 更新模态框中的文本框
+                        $('#vanInfo').val(van);
+                        $('#chassisNumberInfo').val(chassisNumber);
+                        $('#vehicleModelInfo').val(vehicleModel);
+                        $('#purchaseTimeInfo').val(purchaseTime);
+                        $('#faultTimeInfo').val(faultTime);
+                        $('#vehicleStatusInfo').val(vehicleStatus);
+                        $('#preventiveMeasuresInfo').val(preventiveMeasures);
+                        $('#projectTypeInfo').val(projectType);
+
+                        // 显示模态框
+                        $('#notificationModal').modal('show');
+                    }
+
+                    function showPQSModal(button) {
+                        const $row = $(button).closest('tr');
+
+                        // 从当前行的 data-* 属性中获取值
+                        const reporter = $row.data('reporter');
+                        const reporterPhone = $row.data('reporter-phone');
+                        const initialFaultAnalysis = $row.data('initial-fault-analysis');
+                        const repairProcessAndEffect = $row.data('repair-process-and-effect');
+                        const inspector = $row.data('inspector');
+                        const inspectorPhone = $row.data('inspector-phone');
+                        const repairTime = $row.data('repair-time');
+
+                        // 更新模态框中的文本框
+                        $('#reporterInfo').val(reporter);
+                        $('#reporterPhoneInfo').val(reporterPhone);
+                        $('#initialFaultAnalysisInfo').val(initialFaultAnalysis);
+                        $('#repairProcessInfo').val(repairProcessAndEffect);
+                        $('#inspectorInfo').val(inspector);
+                        $('#inspectorPhoneInfo').val(inspectorPhone);
+                        $('#repairTimeInfo').val(repairTime);
+
+                        // 显示模态框
+                        $('#pqsModal').modal('show');
+                    }
+                </script>
+
+
+}

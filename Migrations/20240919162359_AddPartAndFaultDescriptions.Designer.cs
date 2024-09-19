@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebWinMVC.Data;
 
@@ -10,9 +11,11 @@ using WebWinMVC.Data;
 namespace WebWinMVC.Migrations
 {
     [DbContext(typeof(JRZLWTDbContext))]
-    partial class JRZLWTDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240919162359_AddPartAndFaultDescriptions")]
+    partial class AddPartAndFaultDescriptions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -741,9 +744,6 @@ namespace WebWinMVC.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OldMaterialCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OldMaterialCodeDescription")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PSQNumber")

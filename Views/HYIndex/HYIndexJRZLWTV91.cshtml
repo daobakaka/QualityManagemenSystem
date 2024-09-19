@@ -109,7 +109,7 @@
                 <button type="button" class="btn btn-outline-secondary mb-2" style="width: 8vw ;margin-top:1.5vh" onclick="resetFilters()">重置</button>
             </div>
         </div>
- 
+
 
 
         <!-- 搜索结果区域，占据屏幕的2/3宽度，且居中对齐 -->
@@ -185,7 +185,7 @@
 
 
         <!-- 一键处理区域 -->
-        <div class="col-md-2 d-flex justify-content-center align-items-center">           
+        <div class="col-md-2 d-flex justify-content-center align-items-center">
 
             <div class="result-container d-flex flex-column align-items-center">
                 <button type="button" class="btn btn-outline-secondary mb-2" style="width: 5vw;" onclick="exportTableToExcelAnalyse()">清单导出</button>
@@ -339,7 +339,7 @@
                         一页纸
                     </button>
                     <button type="button" class="btn btn-outline-secondary mb-2" style="margin-top: 2vh; display: block; margin-left: auto; margin-right: auto;"
-                            onclick="generatePPTOnePage(dataStoreOnePage.textTitleOP,dataStoreOnePage.pageMode.DAILY_QUALITY, dataStoreOnePage.problemDescription, dataStoreOnePage.failureSituation)">
+                            onclick="submitToSIL()">
                         纳入SIL
                     </button>
                 </div>
@@ -395,7 +395,7 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
             },
             contentOPCache: {}, // 修正了这里的错误
         };
-        
+
     </script>@* 全局变量模块 *@
     <script>
         $(document).ready(function () {
@@ -429,7 +429,7 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                             // 这里假设制造月是一个字符串形式的日期，格式是 'YYYYMM'
                             return b.manufacturingMonth.localeCompare(a.manufacturingMonth);
                         });
-                        let tooltipContent = data.map(item => `制造月：${item.manufacturingMonth} ；MIS区间：${item.misInterval}；VAN：${item.van}；MIS：${item.mis}；FDP：${item.fdp}；故障描述：${item.faultDescription
+                        let tooltipContent = data.map(item => `制造月：${item.manufacturingMonth} ；MIS区间：${item.misInterval}；VAN：${item.van}；MIS：${item.mis}；CODE：${item.faultCodeDescription}；FDP：${item.fdp}；故障描述：${item.faultDescription
                             }`).join('\n');
 
                         // 更新 tooltip 内容
@@ -615,9 +615,10 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
             const yValues = processedData.map(item => item.y);
             const zValues = processedData.map(item => item.z);
             const textValues = processedData.map(item => `MIS:${item.original.mis}<br>
-                                                                                  VAN:${item.original.van}<br>
-                                                                                  M.O.D:${item.original.manufacturingMonth}<br>
-                                                                                  FDP:${item.original.fdp}`);
+                                                                                          VAN:${item.original.van}<br>
+                                                                                          M.O.D:${item.original.manufacturingMonth}<br>
+                                                                                          FDP:${item.original.fdp}<br>
+                                                                                          C.D:${item.original.faultCodeDescription}`);
 
             // 计算 Z 轴的刻度值和标签
             const zTickvals = Array.from({ length: 12 }, (_, i) => i * 4.16);
@@ -914,7 +915,7 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
 
 
         function filterTable() {
-           // console.log(`Start filtering...`);
+            // console.log(`Start filtering...`);
             let carNumber = document.getElementById('searchByCarNumber').value.toLowerCase().trim();
             let materialNumber = document.getElementById('searchByMaterialNumber').value.toLowerCase().trim();
             let pqsNumber = document.getElementById('searchByPQSNumber').value.toLowerCase().trim();
@@ -990,7 +991,7 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
 
                 rows[i].style.display = showRow ? '' : 'none';
             }
-          //  console.log(`Filtering done.`);
+            //  console.log(`Filtering done.`);
         }
 
         function resetFilters() {
@@ -1430,6 +1431,39 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
 
 
     </script> @* 一页纸报告赋值逻辑 *@
+    <script>
+        function submitToSIL() {
+            let formData = $('#dailyQualityFormOP').serialize(); // 获取表单数据
+
+            // 发起 AJAX 请求
+            $.ajax({
+                url: '/queryAPI/RemoteAccess/dailyqualitydataforsil',
+                type: 'GET', // 或 'POST'，根据需要
+                data: formData,
+                success: function (response) {
+                    // 处理成功回调
+                    console.log('成功纳入SIL:', response);
+                    // 在这里可以执行其他操作，例如显示成功消息等
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    let errorMessage = '请求失败，请稍后再试。';
+                    if (jqXHR.status === 404) {
+                        errorMessage = '未找到查询结果，请重新检查查询条件。';
+                    } else if (jqXHR.status === 400) {
+                        errorMessage = '请求参数错误，请重新输入。';
+                    } else if (jqXHR.status === 500) {
+                        errorMessage = '服务器错误，请稍后再试。';
+                    }
+                    $('#error-message').text(errorMessage).show();
+                    setTimeout(function () {
+                        $('#error-message').fadeOut();
+                    }, 2000);
+                    console.error('请求失败:', textStatus, errorThrown);
+                }
+            });
+        }
+
+    </script> @* SIL逻辑 *@
 
 
 }

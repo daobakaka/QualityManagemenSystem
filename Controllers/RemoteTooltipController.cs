@@ -25,14 +25,24 @@ namespace WebWinMVC.Controllers
             }
 
             // 初始化查询
-            var query = _context.DailyServiceReviewFormQueries.Where(e => e.OldMaterialCode == oldMaterialCode);
+            var query = _context.DailyServiceReviewFormQueries
+               .Where(e => e.OldMaterialCode == oldMaterialCode)
+               .Where(e => e.ServiceCategory == "售前维修" || e.ServiceCategory == "质保服务")
+               .Where(e => e.ResponsibilitySourceIdentifier == "是")
+               .Where(e => e.RepairMethod == "更换" || e.RepairMethod == "维修")
+               .Where(e => e.MaterialType == "物料");
+
 
             // 用于存储处理后的日期
-            string ?startDateStr = null;
-            string ?endDateStr = null;
+
 
             if (!string.IsNullOrEmpty(dateRange))
             {
+                // 用于存储处理后的日期
+                string? startDateStr = null;
+                string? endDateStr = null;
+
+
                 var dates = dateRange.Split('-');
 
                 if (dates.Length == 1)
@@ -76,13 +86,14 @@ namespace WebWinMVC.Controllers
                     e.VAN,
                     e.MIS,
                     e.FDP,
+                    e.FaultCodeDescription,
                     e.FaultDescription,
                 })
                 .ToListAsync();
 
             if (!data.Any())
             {
-                return NotFound($"No data found for the provided OldMaterialCode, and the processed date range is: {startDateStr ?? "N/A"} to {endDateStr ?? "N/A"}");
+                return NotFound($"No data found for the provided OldMaterialCode, and the processed date range is: NONE");
             }
 
             return Ok(data);

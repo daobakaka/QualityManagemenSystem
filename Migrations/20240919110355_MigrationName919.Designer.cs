@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebWinMVC.Data;
 
@@ -10,9 +11,11 @@ using WebWinMVC.Data;
 namespace WebWinMVC.Migrations
 {
     [DbContext(typeof(JRZLWTDbContext))]
-    partial class JRZLWTDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240919110355_MigrationName919")]
+    partial class MigrationName919
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -707,9 +710,6 @@ namespace WebWinMVC.Migrations
                     b.Property<string>("FaultCode")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FaultCodeDescription")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("FaultDescription")
                         .HasColumnType("nvarchar(max)");
 
@@ -731,9 +731,6 @@ namespace WebWinMVC.Migrations
                     b.Property<string>("LocationCode")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LocationCodeDescription")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Manager")
                         .HasColumnType("nvarchar(max)");
 
@@ -741,9 +738,6 @@ namespace WebWinMVC.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OldMaterialCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OldMaterialCodeDescription")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PSQNumber")
