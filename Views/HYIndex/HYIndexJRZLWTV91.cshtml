@@ -424,12 +424,13 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                         // console.log('Data type:', typeof data); // 检查数据类型
                         // console.log(data);
                         dataStore.tooltipContentCache = data;
+                       // console.log(dataStore.tooltipContentCache);
                         // 数据是一个数组，迭代所有记录来生成内容
                         data.sort((a, b) => {
                             // 这里假设制造月是一个字符串形式的日期，格式是 'YYYYMM'
                             return b.manufacturingMonth.localeCompare(a.manufacturingMonth);
                         });
-                        let tooltipContent = data.map(item => `制造月：${item.manufacturingMonth} ；MIS区间：${item.misInterval}；VAN：${item.van}；MIS：${item.mis}；CODE：${item.faultCodeDescription}；FDP：${item.fdp}；故障描述：${item.faultDescription
+                        let tooltipContent = data.map(item => `制造月：${item.manufacturingMonth} ；MIS区间：${item.misInterval}；VAN：${item.van}；MIS：${item.mis}；CODE：${item.faultCodeDescription}；FDP：${item.fdp}；S.D：${item.salesDate}；故障描述：${item.faultDescription
                             }`).join('\n');
 
                         // 更新 tooltip 内容
@@ -587,6 +588,20 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                 const maxYear = 2026;
                 return mapToRange((year - yearOffset) / (maxYear - minYear) * 50, 0, 50);
             };
+            const mapSalesDateToRange = (dateStr) => {
+                const year = parseInt(dateStr.substring(0, 4), 10); // 提取年份
+                const yearOffset = 2015; // 基准年份
+                const minYear = 2015; // 最小年份
+                const maxYear = 2026; // 最大年份
+
+                // 检查年份是否在有效范围内
+                if (year < minYear || year > maxYear) {
+                    return 50; // 如果不在范围内，返回默认值
+                }
+
+                return mapToRange((year - yearOffset) / (maxYear - minYear) * 50, 0, 50); // 映射到 0 到 50 的范围
+            };
+
 
             // 解析和处理数据
             const processedData = data
@@ -596,17 +611,23 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                 })
                 .map(item => {
                     let x = parseFloat(item.mis);
-                    let y = parseFloat(item.van.substring(2)); // 去掉前两位
+                    let y = mapSalesDateToRange(item.salesDate); // 将销售日期映射到 Y 轴
+                    let z = mapDateToRange(item.manufacturingMonth);
+                    let noiseX = (Math.random() - 0.5) * 2; // X方向噪声
+                    let noiseY = (Math.random() - 0.5) * 2; // Y方向噪声
+                    let noiseZ = (Math.random() - 0.5) * 2; // Z方向噪声
 
+                    // 更新 X, Y, Z 值
+                    x += noiseX;
+                    y += noiseY;
+                    z += noiseZ;
                     // 处理 X 轴数据，保持在 0 到 50 的范围内
                     x = x > 50 ? 0 : x;
                     x = mapToRange(x, 0, 50);
-
-                    // 处理 Y 轴数据，映射到 0 到 50 的范围内
-                    y = mapToRange(y, 0, 50);
+           
 
                     // 处理 Z 轴数据
-                    const z = mapDateToRange(item.manufacturingMonth);
+                 
 
                     return { x, y, z, original: item };
                 });
@@ -615,18 +636,23 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
             const yValues = processedData.map(item => item.y);
             const zValues = processedData.map(item => item.z);
             const textValues = processedData.map(item => `MIS:${item.original.mis}<br>
-                                                                                          VAN:${item.original.van}<br>
-                                                                                          M.O.D:${item.original.manufacturingMonth}<br>
-                                                                                          FDP:${item.original.fdp}<br>
-                                                                                          C.D:${item.original.faultCodeDescription}`);
-
+                                                          VAN:${item.original.van}<br>
+                                                          M.O.D:${item.original.manufacturingMonth}<br>
+                                                          S.D:${item.original.salesDate}<br>
+                                                          FDP:${item.original.fdp}<br>
+                                                          F.C.D:${item.original.faultCodeDescription}`);
+            // 打印值
+            // console.log('X Values:', xValues);
+            // console.log('Y Values:', yValues);
+            // console.log('Z Values:', zValues);
             // 计算 Z 轴的刻度值和标签
             const zTickvals = Array.from({ length: 12 }, (_, i) => i * 4.16);
             const zTicktext = Array.from({ length: 12 }, (_, i) => 2015 + i).map(year => year.toString());
 
             // 计算 Y 轴的刻度值和标签
-            const yTickvals = Array.from({ length: 10 }, (_, i) => 70000000 + i * 1000000);
-            const yTicktext = yTickvals.map(val => val.toString());
+            const yTickvals = Array.from({ length: 12 }, (_, i) => i * 4.16); // 根据需要调整范围
+            const yTicktext = Array.from({ length: 12 }, (_, i) => 2015 + i).map(year => year.toString());
+
 
             // 绘制图表
             plotChart(xValues, yValues, zValues, textValues, zTickvals, zTicktext, yTickvals, yTicktext);
@@ -635,6 +661,14 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
         // 绘制图表
         // 绘制图表
         function plotChart(xValues, yValues, zValues, textValues, zTickvals, zTicktext, yTickvals, yTicktext) {
+
+            const colorsForA = zValues.map(z => {
+                const r = Math.round((1 - z / 50) * 255);
+                const g = Math.round((1 - (50 - z) / 50) * 255);
+                const b = Math.round((1 - (50 - z) / 50) * 255);
+                return `rgb(${r}, ${g}, ${b})`;
+            });
+           
             const scatterTrace = {
                 x: xValues,
                 y: yValues,
@@ -644,15 +678,16 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                 marker: {
                     size: 5,
                     color: zValues,
-                    colorscale: 'Viridis',
+                    colorscale: [[0, 'green'], [0.5, 'yellow'], [1, 'red']],
                     colorbar: {
-                        title: 'Z 值'
-                    }
+                        title: 'M.O.D'
+                    },
+                    opacity: 0.5,
                 },
                 text: textValues,
                 hoverinfo: 'text',
                 hoverlabel: {
-                    align: 'center',
+                    align: 'left',
                     bgcolor: 'rgba(0,255,255,0.7)',
                     font: {
                         family: 'Arial, sans-serif',
@@ -671,26 +706,30 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                 i: [0, 0, 1, 1, 4, 4, 5, 5],
                 j: [1, 2, 2, 3, 5, 6, 6, 7],
                 k: [2, 3, 3, 4, 6, 7, 7, 4],
-                opacity: 0.3,
+                opacity: 0.1,
                 color: 'rgba(0,0,255,0.2)', // 半透明蓝色
-                text: [zHeight, zHeight, zHeight, zHeight, zHeight, zHeight, zHeight, zHeight].map(z => `Z: ${z}`),
-                hoverinfo: 'text'
+                hoverinfo: 'none', // 取消鼠标提示
+                // text: [zHeight, zHeight, zHeight, zHeight, zHeight, zHeight, zHeight, zHeight].map(z => `Z: ${z}`),
+                // hoverinfo: 'text'
+                showlegend: false, // 不显示图例
             }));
 
             // 图表布局
             const layout = {
-                title: '三维散点图与多个立方体',
+                title: '质量问题散点分析图',
                 scene: {
                     xaxis: { title: 'MIS' },
                     yaxis: {
-                        title: 'VAN',
+                        title: 'S.D',
                         tickvals: yTickvals,
-                        ticktext: yTicktext
+                        ticktext: yTicktext,
+                        range: [0, 50] // 固定 Y 轴范围
                     },
                     zaxis: {
                         title: 'M.O.D',
                         tickvals: zTickvals,
-                        ticktext: zTicktext
+                        ticktext: zTicktext,
+                        range: [0, 50] // 固定 Y 轴范围
                     },
                     camera: {
                         eye: { x: 1.25, y: 1.25, z: 1.25 }

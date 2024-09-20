@@ -14,6 +14,7 @@ namespace WebWinMVC.Controllers
             _logger = logger;
             _context = context;
         }
+
         public IActionResult HYIndexJRZLWT()
         {
             var checklists = _context.DailyQualityIssueChecklists

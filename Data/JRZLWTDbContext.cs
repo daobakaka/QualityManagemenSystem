@@ -20,6 +20,7 @@ namespace WebWinMVC.Data
         public DbSet<BreakpointAnalysisTable> BreakpointAnalysisTables { get; set; } // Add this line
 
         public DbSet<SILSimulationTable> SILSimulationTables { get; set; }
+        public DbSet<UserAuthentication> userAuthentications { get; set; }
 
         // Configure the model with explicit table names
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -35,6 +36,7 @@ namespace WebWinMVC.Data
             modelBuilder.Entity<VehicleBasicInfo>().ToTable("VehicleBasicInfos");
             modelBuilder.Entity<BreakpointAnalysisTable>().ToTable("BreakpointAnalysisTables"); // Add this line
             modelBuilder.Entity<SILSimulationTable>().ToTable(" SILSimulationTables");
+            modelBuilder.Entity<UserAuthentication>().ToTable("userAuthentications");
         }
     }
 }

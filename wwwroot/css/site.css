@@ -324,5 +324,13 @@ table.dataTable thead th {
     margin-bottom: 0.5rem; /* 按钮下边距 */
 }
 
-
+/*散点图控制似乎并不起作用
+*/
+.hoverlabel {
+    max-width: 50px; /* 设置最大宽度 */
+    width:50px;
+    overflow: hidden; /* 超出部分隐藏 */
+    white-space: nowrap; /* 不换行 */
+    text-overflow: ellipsis; /* 超出部分用省略号表示 */
+}
 

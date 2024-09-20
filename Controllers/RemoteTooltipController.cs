@@ -88,6 +88,7 @@ namespace WebWinMVC.Controllers
                     e.FDP,
                     e.FaultCodeDescription,
                     e.FaultDescription,
+                    e.SalesDate,
                 })
                 .ToListAsync();
 

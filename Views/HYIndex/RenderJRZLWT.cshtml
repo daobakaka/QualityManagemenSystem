@@ -87,3 +87,251 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
     });
 </script> @*  使用threejs的相关逻辑 *@
+<script>
+    let isWindowCreated = false;
+    let floatingWindowDiv = null;
+
+
+    // 创建悬浮窗口
+    function createFloatingWindow() {
+        if (isWindowCreated) return; // 防止重复创建窗口
+        isWindowCreated = true;
+
+        // 创建悬浮窗口
+        const windowDiv = document.createElement('div');
+        windowDiv.id = 'floatingWindow';
+        windowDiv.style.position = 'fixed';
+        windowDiv.style.top = '25%';
+        windowDiv.style.left = '25%';
+        windowDiv.style.width = '50vw';
+        windowDiv.style.height = '50vh';
+        windowDiv.style.backgroundColor = 'white';
+        windowDiv.style.border = '3px solid black';
+        windowDiv.style.zIndex = 1000;
+        windowDiv.style.overflow = 'hidden';
+        document.body.appendChild(windowDiv);
+
+        floatingWindowDiv = windowDiv; // 赋值给 floatingWindowDiv
+
+        // 创建并插入图表容器
+        const chartDiv = document.createElement('div');
+        chartDiv.id = 'panelContent';
+        chartDiv.style.width = '100%';
+        chartDiv.style.height = '100%';
+        chartDiv.style.position = 'relative';
+        windowDiv.appendChild(chartDiv);
+
+        // 创建拖拽区域
+        const dragArea = document.createElement('div');
+        dragArea.style.position = 'absolute';
+        dragArea.style.top = '0';
+        dragArea.style.left = '0';
+        dragArea.style.width = '50px';
+        dragArea.style.height = '50px';
+        dragArea.style.backgroundColor = 'rgba(0.1, 0.1, 0.1, 0.1)';
+        dragArea.style.cursor = 'move';
+        dragArea.style.borderRadius = '50%';
+        windowDiv.appendChild(dragArea);
+
+        // 初始化拖拽功能
+        initializeDrag(dragArea, windowDiv);
+
+        // 处理数据并绘制图表
+        plotData(dataStore.tooltipContentCache);
+    }
+
+    // 销毁悬浮窗口
+    function destroyFloatingWindow() {
+        if (!isWindowCreated) return;
+        document.body.removeChild(floatingWindowDiv);
+        floatingWindowDiv = null;
+        isWindowCreated = false;
+    }
+
+    // 处理数据并绘制图表
+    function plotData(data) {
+        // 定义函数将值映射到指定范围
+        const mapToRange = (value, min, max) => {
+            if (value < min) return min;
+            if (value > max) return max;
+            return value;
+        };
+
+        // 定义函数将制造日期映射到 0 到 50 的范围
+        const mapDateToRange = (dateStr) => {
+            const year = parseInt(dateStr.substring(0, 4), 10);
+            const yearOffset = 2015;
+            const minYear = 2015;
+            const maxYear = 2026;
+            return mapToRange((year - yearOffset) / (maxYear - minYear) * 50, 0, 50);
+        };
+
+        // 解析和处理数据
+        const processedData = data
+            .filter(item => {
+                const manufacturingYear = parseInt(item.manufacturingMonth.substring(0, 4), 10);
+                return manufacturingYear >= 2015 && manufacturingYear <= 2026;
+            })
+            .map(item => {
+                let x = parseFloat(item.mis);
+                let y = parseFloat(item.van.substring(2)); // 去掉前两位
+
+                // 处理 X 轴数据，保持在 0 到 50 的范围内
+                x = x > 50 ? 0 : x;
+                x = mapToRange(x, 0, 50);
+
+                // 处理 Y 轴数据，映射到 0 到 50 的范围内
+                y = mapToRange(y, 0, 50);
+
+                // 处理 Z 轴数据
+                const z = mapDateToRange(item.manufacturingMonth);
+
+                return { x, y, z, original: item };
+            });
+
+        const xValues = processedData.map(item => item.x);
+        const yValues = processedData.map(item => item.y);
+        const zValues = processedData.map(item => item.z);
+        const textValues = processedData.map(item => `MIS:${item.original.mis}<br>
+                                                                                              VAN:${item.original.van}<br>
+                                                                                              M.O.D:${item.original.manufacturingMonth}<br>
+                                                                                              FDP:${item.original.fdp}<br>
+                                                                                              F.C.D:${item.original.faultCodeDescription}`);
+
+        // 计算 Z 轴的刻度值和标签
+        const zTickvals = Array.from({ length: 12 }, (_, i) => i * 4.16);
+        const zTicktext = Array.from({ length: 12 }, (_, i) => 2015 + i).map(year => year.toString());
+
+        // 计算 Y 轴的刻度值和标签
+        const yTickvals = Array.from({ length: 10 }, (_, i) => 70000000 + i * 1000000);
+        const yTicktext = yTickvals.map(val => val.toString());
+
+        // 绘制图表
+        plotChart(xValues, yValues, zValues, textValues, zTickvals, zTicktext, yTickvals, yTicktext);
+    }
+
+    // 绘制图表
+    // 绘制图表
+    function plotChart(xValues, yValues, zValues, textValues, zTickvals, zTicktext, yTickvals, yTicktext) {
+        const scatterTrace = {
+            x: xValues,
+            y: yValues,
+            z: zValues,
+            mode: 'markers',
+            type: 'scatter3d',
+            marker: {
+                size: 5,
+                color: zValues,
+                colorscale: 'Viridis',
+                colorbar: {
+                    title: 'Z 值'
+                }
+            },
+            text: textValues,
+            hoverinfo: 'text',
+            hoverlabel: {
+                align: 'center',
+                bgcolor: 'rgba(0,255,255,0.7)',
+                font: {
+                    family: 'Arial, sans-serif',
+                    size: 12,
+                    color: '#000000'
+                }
+            }
+        };
+
+        // 示例立方体
+        const cubeTraces = [10, 30].map(zHeight => ({
+            type: 'mesh3d',
+            x: [0, 50, 50, 0, 0, 50, 50, 0],
+            y: [0, 0, 50, 50, 0, 0, 50, 50],
+            z: [zHeight, zHeight, zHeight, zHeight, zHeight, zHeight, zHeight, zHeight],
+            i: [0, 0, 1, 1, 4, 4, 5, 5],
+            j: [1, 2, 2, 3, 5, 6, 6, 7],
+            k: [2, 3, 3, 4, 6, 7, 7, 4],
+            opacity: 0.3,
+            color: 'rgba(0,0,255,0.2)', // 半透明蓝色
+            text: [zHeight, zHeight, zHeight, zHeight, zHeight, zHeight, zHeight, zHeight].map(z => `Z: ${z}`),
+            hoverinfo: 'text'
+        }));
+
+        // 图表布局
+        const layout = {
+            title: '三维散点图与多个立方体',
+            scene: {
+                xaxis: { title: 'MIS' },
+                yaxis: {
+                    title: 'VAN',
+                    tickvals: yTickvals,
+                    ticktext: yTicktext
+                },
+                zaxis: {
+                    title: 'M.O.D',
+                    tickvals: zTickvals,
+                    ticktext: zTicktext
+                },
+                camera: {
+                    eye: { x: 1.25, y: 1.25, z: 1.25 }
+                }
+            },
+            margin: { t: 50, b: 50 }
+        };
+
+        // 配置
+        const config = {
+            displayModeBar: false,
+            modeBarButtonsToRemove: ['zoom2d', 'pan2d', 'editInChartStudio'],
+            modeBarButtonsToAdd: ['resetScale2d']
+        };
+
+        // 绘制图表
+        Plotly.newPlot('panelContent', [scatterTrace, ...cubeTraces], layout, config);
+    }
+
+
+
+    // 初始化拖拽功能
+    function initializeDrag(dragArea, windowDiv) {
+        let isDragging = false;
+        let startX, startY, startLeft, startTop;
+
+        dragArea.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+
+            isDragging = true;
+            const rect = windowDiv.getBoundingClientRect();
+            startX = e.clientX;
+            startY = e.clientY;
+            startLeft = rect.left;
+            startTop = rect.top;
+
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', onMouseUp);
+        });
+
+        function onMouseMove(e) {
+            if (!isDragging) return;
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+            windowDiv.style.left = `${startLeft + dx}px`;
+            windowDiv.style.top = `${startTop + dy}px`;
+        }
+
+        function onMouseUp() {
+            isDragging = false;
+            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('mouseup', onMouseUp);
+        }
+    }
+
+    // 监听键盘事件
+    document.addEventListener('keydown', function (event) {
+        if (event.altKey && (event.key === 'q' || event.key === 'Q')) {
+            if (isWindowCreated) {
+                destroyFloatingWindow();
+            } else {
+                createFloatingWindow();
+            }
+        }
+    });
+</script>@*  数据图形化区域 *@

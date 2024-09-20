@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "fk3eVbbV7fXydQXWjp/gsoFPdym9A2/MaSkooozf+8c=",
+  "Hash": "I6YP+1IQvet4Nk5lusN1GGkbOZ665wxUFbiZf9tikBE=",
   "Source": "WebWinMVC",
   "BasePath": "_content/WebWinMVC",
   "Mode": "Default",
@@ -5867,6 +5867,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Identity": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\pictures\\1.jpg",
+      "SourceId": "WebWinMVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\",
+      "BasePath": "_content/WebWinMVC",
+      "RelativePath": "pictures/1.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\pictures\\1.jpg"
     }
   ]
 }
