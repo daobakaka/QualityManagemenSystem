@@ -119,7 +119,7 @@ p {
         white-space: nowrap; /* 防止内容换行 */
         overflow: hidden;
         text-overflow: clip;
-        width: 3vw;  /*固定每列的宽度，使用视口宽度 */     
+        width: 2.5vw;  /*固定每列的宽度，使用视口宽度 */     
         padding: 1vh; /* 使用视口高度的1%作为内边距 */
     }
 

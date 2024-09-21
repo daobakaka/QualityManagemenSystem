@@ -19,7 +19,9 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1" style="pointer-events: none; opacity: 0.5;" id="login-sucess">
+                    <ul class="navbar-nav flex-grow-1"
+                        style="@(ViewBag.IsLoggedIn != null && (bool)ViewBag.IsLoggedIn ? "pointer-events: auto; opacity: 1;" : "pointer-events: none; opacity: 0.5;")"
+                        id="login-sucess">
                  @*        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
@@ -53,6 +55,20 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="HYIndex" asp-action="TESTPAGES">测试</a>
+                        </li>                  
+                    </ul>
+                    <ul class="navbar-nav ml-auto" style="pointer-events: auto; opacity: 1;">
+                        <li class="nav-item">
+                            <span class="nav-link text-dark font-weight-bold">
+                                @if (ViewBag.Name != null)
+                                {
+                                    <span>欢迎 - @ViewBag.Name</span>
+                                }
+                                else
+                                {
+                                    <span>请登录</span>
+                                }
+                            </span>
                         </li>
                     </ul>
                 </div>

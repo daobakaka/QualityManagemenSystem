@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Security.Claims;
 using WebWinMVC.Data;
 using WebWinMVC.Models;
 
@@ -17,6 +20,15 @@ namespace WebWinMVC.Controllers
 
         public IActionResult Index()
         {
+
+            HttpContext.Session.Clear();
+           
+            //ViewBag.Username = HttpContext.Session.GetString("Username");
+            //ViewBag.Name = HttpContext.Session.GetString("Name");
+            //ViewBag.Role = HttpContext.Session.GetString("Role");
+            //ViewBag.Group = HttpContext.Session.GetString("Group");
+            //ViewBag.Phone = HttpContext.Session.GetString("Phone");
+
             return View();
         }
 
@@ -24,7 +36,7 @@ namespace WebWinMVC.Controllers
         {
             return View();
         }
-        public IActionResult Login(UserAuthentication model)
+        public async Task<IActionResult> Login(UserAuthentication model)
         {
             if (ModelState.IsValid)
             {
@@ -39,8 +51,34 @@ namespace WebWinMVC.Controllers
                     // 验证密码
                     if (user.Password == model.Password) // 替换为哈希验证逻辑
                     {
-                        Console.WriteLine("密码验证成功，登录成功。");
+                        HttpContext.Session.SetString("Username", user.Username??"NIL");
+                        HttpContext.Session.SetString("Name", user.Name ?? "NIL");
+                        HttpContext.Session.SetString("Role", user.Role ?? "NIL");
+                        HttpContext.Session.SetString("Group", user.Group ?? "NIL");
+                        HttpContext.Session.SetString("Phone", user.Phone ?? "NIL");
+                        Console.WriteLine($"密码验证成功，登录成功。{user.Username}+{HttpContext.Session.GetString("Username")}+{HttpContext.Session.GetString("Name")}" +
+                              $"+{HttpContext.Session.GetString("Role")}+{HttpContext.Session.GetString("Group")}+{HttpContext.Session.GetString("Phone")}");
+
                         TempData["IsLoggedIn"] = true; // 登录成功
+                        HttpContext.Session.SetString("IsLoggedIn", "true"); // 登录成功，设置 IsLoggedIn 为 true
+
+                        // 添加身份认证到 Cookie 中
+
+                       
+                        var claims = new List<Claim>
+                                {
+                              new Claim(ClaimTypes.Name, user.Username),
+                                };
+
+                        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        var authProperties = new AuthenticationProperties
+                        {
+                            IsPersistent = false // 保持登录状态
+                        };
+
+                        // 登录用户，创建 Cookie
+                         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+                       // await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
                         return RedirectToAction("HYIndexJRZLWTV91", "HYIndex");
                     }
                     else

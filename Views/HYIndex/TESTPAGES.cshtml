@@ -1,7 +1,9 @@
 ﻿@model WebWinMVC.Models.JRZLWTViewModel
+
 @{
     var pageTitle = "测试";
     ViewData["Title"] = pageTitle;
+    ViewBag.IsLoggedIn = true;
 }
 @* 需要的信息： 部位码  旧物料号 故障码  标题(自动生成) 省份 地级市 失效件数量 故障等级 故障描述 信息提报人(QE) 提报人电话(QE电话)// 故障原因初步分析 维修经过与效果 检修人(服务站)
 检修人电话(数据库) 检修时间（工单创建日期）//VAN { 底盘号 车型 购车时间 故障时间(工单创建日期)  车辆状态（终端默认-送车 库存 PDI 终端）//遏制措施   新建项目 
@@ -9,6 +11,8 @@
 
 @* PQS立项界面：项目编码 项目名称 通知单 状态 报警状态 阶段状态 部位码 失效零件 责任人 责任部门  管理人 创建人 开始时间 TTF(0) 待处理人 *@
 
+
+<div>欢迎 - @Context.Session.GetString("Username")</div>
 <div class="custom-container">
     <div class="row">
         <div class="d-flex justify-content-center">

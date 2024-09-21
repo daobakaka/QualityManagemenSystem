@@ -2,6 +2,12 @@
 
 @{
     ViewData["Title"] = "SIL";
+    ViewBag.Username = @Context.Session.GetString("Username");
+    ViewBag.Name = @Context.Session.GetString("Name");
+    ViewBag.Role = @Context.Session.GetString("Role");
+    ViewBag.Group = @Context.Session.GetString("Group");
+    ViewBag.Phone = @Context.Session.GetString("Phone");
+    ViewBag.IsLoggedIn = true;
 }
 
 <div class="text-center" style="background-color: #5F9EA0; padding: 3vh;width: 100%; height: 8vh; display: flex; align-items: center; justify-content: center;">
@@ -184,7 +190,7 @@
                                         data-vehicle-status="@item.VehicleStatus"
                                         data-preventive-measures="@item.PreventiveMeasures"
                                         data-project-type="@item.ProjectType"
-                                        data-province="@item.Province"  
+                                        data-province="@item.Province"
                                         data-city="@item.City"
                                         data-location-code-description="@item.LocationCodeDescription"
                                         data-old-material-code-description="@item.OldMaterialCodeDescription"
@@ -347,75 +353,75 @@
             </div>
 
 
-@section Scripts {
-    <script>
-        $(document).ready(function () {
-            $('#project-menu').on('show.bs.collapse', function () {
-                $(this).prev().find("i").removeClass("fa-chevron-down").addClass("fa-chevron-up");
-            }).on('hide.bs.collapse', function () {
-                $(this).prev().find("i").removeClass("fa-chevron-up").addClass("fa-chevron-down");
-            });
+            @section Scripts {
+                <script>
+                    $(document).ready(function () {
+                        $('#project-menu').on('show.bs.collapse', function () {
+                            $(this).prev().find("i").removeClass("fa-chevron-down").addClass("fa-chevron-up");
+                        }).on('hide.bs.collapse', function () {
+                            $(this).prev().find("i").removeClass("fa-chevron-up").addClass("fa-chevron-down");
+                        });
 
-            $('#selectAll').change(function () {
-                $('.rowSelect').prop('checked', this.checked);
-            });
+                        $('#selectAll').change(function () {
+                            $('.rowSelect').prop('checked', this.checked);
+                        });
 
-            $('.collapse').on('show.bs.collapse', function () {
-                $(this).siblings('span.toggle-icon').text('-'); // 显示减号
-            }).on('hide.bs.collapse', function () {
-                $(this).siblings('span.toggle-icon').text('+'); // 显示加号
-            });
-        });
+                        $('.collapse').on('show.bs.collapse', function () {
+                            $(this).siblings('span.toggle-icon').text('-'); // 显示减号
+                        }).on('hide.bs.collapse', function () {
+                            $(this).siblings('span.toggle-icon').text('+'); // 显示加号
+                        });
+                    });
                     document.querySelector('.custom-container .table tbody').addEventListener('scroll', function () {
                         const thead = document.querySelector('.custom-container .table thead');
                         thead.scrollLeft = this.scrollLeft;
 
                     });
-    </script>
-    <script>
- 
-        $(document).ready(function () {
-            $('#selectAll').change(function () {
-                $('.rowSelect').prop('checked', this.checked);
-            });
+                </script>
+                <script>
 
-            $('#basicInfoButton').click(function () {
-                const checkedCheckboxes = $('.rowSelect:checked');
+                    $(document).ready(function () {
+                        $('#selectAll').change(function () {
+                            $('.rowSelect').prop('checked', this.checked);
+                        });
 
-                // 确保只选中一行
-                if (checkedCheckboxes.length === 1) {
-                    const $row = checkedCheckboxes.closest('tr'); // 获取当前行
+                        $('#basicInfoButton').click(function () {
+                            const checkedCheckboxes = $('.rowSelect:checked');
 
-                    // 从当前行的 data-* 属性中获取值
-                    const faultDescription = $row.data('fault-description') || "NIL";
-                    const preventiveMeasures = $row.data('preventive-measures') || "NIL";
-                    const repairProcessAndEffect = $row.data('repair-process-and-effect') || "NIL";
+                            // 确保只选中一行
+                            if (checkedCheckboxes.length === 1) {
+                                const $row = checkedCheckboxes.closest('tr'); // 获取当前行
 
-                    // 更新模态框中的文本框
-                    $('#faultDescription').val(faultDescription);
-                    $('#mitigationMeasures').val(preventiveMeasures);
-                    $('#repairProcess').val(repairProcessAndEffect);
+                                // 从当前行的 data-* 属性中获取值
+                                const faultDescription = $row.data('fault-description') || "NIL";
+                                const preventiveMeasures = $row.data('preventive-measures') || "NIL";
+                                const repairProcessAndEffect = $row.data('repair-process-and-effect') || "NIL";
 
-                    // 显示模态框
-                    $('#infoModal').modal('show');
-                } else {
-                    alert("请只选中一行进行查看。"); // 提示用户
-                    // 这里不需要关闭模态框，因为它不会被打开
-                    return; // 终止后续代码执行
-                }
-            });
+                                // 更新模态框中的文本框
+                                $('#faultDescription').val(faultDescription);
+                                $('#mitigationMeasures').val(preventiveMeasures);
+                                $('#repairProcess').val(repairProcessAndEffect);
 
-            // 关闭模态框时重置输入框（可选）
-            $('#infoModal').on('hidden.bs.modal', function () {
-                $('#faultDescription').val('');
-                $('#mitigationMeasures').val('');
-                $('#repairProcess').val('');
-            });
-        });
+                                // 显示模态框
+                                $('#infoModal').modal('show');
+                            } else {
+                                alert("请只选中一行进行查看。"); // 提示用户
+                                // 这里不需要关闭模态框，因为它不会被打开
+                                return; // 终止后续代码执行
+                            }
+                        });
+
+                        // 关闭模态框时重置输入框（可选）
+                        $('#infoModal').on('hidden.bs.modal', function () {
+                            $('#faultDescription').val('');
+                            $('#mitigationMeasures').val('');
+                            $('#repairProcess').val('');
+                        });
+                    });
 
 
-    </script> @* 获取立项数据库信息 *@
-    <script>
+                </script> @* 获取立项数据库信息 *@
+                <script>
                     function showNotificationModal(button) {
                         const $row = $(button).closest('tr');
 
@@ -470,4 +476,4 @@
                 </script>
 
 
-}
+            }

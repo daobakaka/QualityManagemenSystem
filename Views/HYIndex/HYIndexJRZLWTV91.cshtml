@@ -1,9 +1,13 @@
 ﻿@model WebWinMVC.Models.JRZLWTViewModel
-
 @{
     ViewData["Title"] = "即日质量问题";
+    ViewBag.Username = @Context.Session.GetString("Username");
+    ViewBag.Name = @Context.Session.GetString("Name");
+    ViewBag.Role = @Context.Session.GetString("Role");
+    ViewBag.Group = @Context.Session.GetString("Group");
+    ViewBag.Phone = @Context.Session.GetString("Phone");
+    ViewBag.IsLoggedIn = true;
 }
-
 <div class="datatable-container">
     <div class="row">
         <!-- 表格区域，占据屏幕的全宽度 -->
@@ -42,44 +46,73 @@
                 <tbody>
                     @foreach (var item in Model.ChecklistV91s)
                     {
-                        <tr>
-                            <td>@item.OldMaterialCode</td>
+                        // 定义一个布尔变量来决定是否渲染该行
+                        bool shouldRender = false;
 
-                            <td>
-                                <span data-toggle="tooltip" title="@item.OldMaterialDescription">
-                                    @item.OldMaterialDescription
-                                </span>
-                            </td>
-                            <td>@item.SupplierShortCode</td>
-                            <td>@item.ResponsibilitySourceSupplierName</td>
-                            <td>@item.MIS3</td>
-                            <td>@item.MIS6</td>
-                            <td>@item.MIS12</td>
-                            <td>@item.MIS24</td>
-                            <td>@item.MIS36</td>
-                            <td>@item.SMT</td>
-                            <td>@item.LocationCode</td>
-                            <td>@item.FaultCode</td>
-                            <td>@item.QE</td>
-                            <td>@item.ServiceFaultIdentificationAccurate</td>
-                            <td>@item.IdentifiedFaultMode</td>
-                            <td>@item.BreakdownCount</td>
-                            <td>@item.IsBreakdownInvalid</td>
-                            <td>@item.IncludedInSIL</td>
-                            <td>@item.PQSNumber</td>
-                            <td>@item.BreakpointTime</td>
-                            <td>@item.StartTime</td>
-                            <td>
-                                <span data-toggle="tooltip" title="@item.Remarks">
-                                    @(item.Remarks.Length > 10 ? item.Remarks.Substring(0, 10) + "..." : item.Remarks)
-                                </span>
-                            </td>
-                            <td>@item.ProjectIdentifier</td>
-                            <td>
-                                <button class="btn btn-primary btn-sm edit-btn" data-id="@item.ID" data-bs-toggle="modal" data-bs-target="#editModal">编辑</button>
-                            </td>
-                        </tr>
+                        // 情况1: Role 为 A 或 B，显示所有数据
+                        if (ViewBag.Role == "A" || ViewBag.Role == "B")
+                        {
+                            shouldRender = true;
+                        }
+                        // 情况2: Role 为 C，且 Group 为 1 或 2
+                        else if (ViewBag.Role == "C" && ((string)ViewBag.Group == "1" || (string)ViewBag.Group == "2"))
+                        {
+                            var qesForFilter = Model.UserAuthentications
+                            .Where(u => u.Group == ViewBag.Group)
+                            .Select(u => u.Name)
+                            .ToList();
+                        
+                            // 如果当前行的 QE 值属于数据库中的查询结果，显示该行
+                            shouldRender = qesForFilter.Contains(item.QE);
+                           // Console.WriteLine(item.QE + "+++" +"+++" + shouldRender);
+                        }
+                        // 情况3: Role 为 D，显示所有 QE 为当前用户的行
+                        else if (ViewBag.Role == "D" && item.QE == ViewBag.Name)
+                        {
+                            shouldRender = true;
+                        }
+
+                        // 根据 shouldRender 的值来渲染该行
+                        if (shouldRender)
+                        {
+                            <tr>
+                                <td>@item.OldMaterialCode</td>
+                                <td><span data-toggle="tooltip" title="@item.OldMaterialDescription">@item.OldMaterialDescription</span></td>
+                                <td>@item.SupplierShortCode</td>
+                                <td>@item.ResponsibilitySourceSupplierName</td>
+                                <td>@item.MIS3</td>
+                                <td>@item.MIS6</td>
+                                <td>@item.MIS12</td>
+                                <td>@item.MIS24</td>
+                                <td>@item.MIS36</td>
+                                <td>@item.SMT</td>
+                                <td>@item.LocationCode</td>
+                                <td>@item.FaultCode</td>
+                                <td>@item.QE</td>
+                                <td>@item.ServiceFaultIdentificationAccurate</td>
+                                <td>@item.IdentifiedFaultMode</td>
+                                <td>@item.BreakdownCount</td>
+                                <td>@item.IsBreakdownInvalid</td>
+                                <td>@item.IncludedInSIL</td>
+                                <td>@item.PQSNumber</td>
+                                <td>@item.BreakpointTime</td>
+                                <td>@item.StartTime</td>
+                                <td>@item.Remarks</td>
+                                <td>@item.ProjectIdentifier</td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(item.ServiceFaultIdentificationAccurate))
+                                    {
+                                        <button class="btn btn-success btn-sm edit-btn" data-id="@item.ID" data-bs-toggle="modal" data-bs-target="#editModal">编辑</button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-primary btn-sm edit-btn" data-id="@item.ID" data-bs-toggle="modal" data-bs-target="#editModal">编辑</button>
+                                    }
+                                </td>
+                            </tr>
+                        }
                     }
+
                 </tbody>
             </table>
         </div>
@@ -183,7 +216,7 @@
             </div>
         </div>
 
-
+       
         <!-- 一键处理区域 -->
         <div class="col-md-2 d-flex justify-content-center align-items-center">
 
@@ -424,7 +457,7 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                         // console.log('Data type:', typeof data); // 检查数据类型
                         // console.log(data);
                         dataStore.tooltipContentCache = data;
-                       // console.log(dataStore.tooltipContentCache);
+                        // console.log(dataStore.tooltipContentCache);
                         // 数据是一个数组，迭代所有记录来生成内容
                         data.sort((a, b) => {
                             // 这里假设制造月是一个字符串形式的日期，格式是 'YYYYMM'
@@ -460,36 +493,15 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                 "paging": true,
                 "pageLength": 25, // 设置默认每页显示25条记录
                 "ordering": true,
+                "order": [], // 禁用初始排序
+                "columnDefs": [
+                    { "orderable": false, "targets": 0 } // 禁用第3列的排序
+                ],
                 "info": true,
                 "searching": true,
                 "initComplete": function () {
                     let api = this.api();
-
-                    // 为每列添加筛选下拉菜单
-                    // api.columns().every(function () {
-                    //     let column = this;
-                    //     let header = $(column.header());
-                    //     let headerText = header.text().trim();
-
-                    //     // 创建一个筛选下拉菜单并添加到表头
-                    //     let select = $('<select class="filter-select"><option value="">' + headerText + '</option></select>')
-                    //         .appendTo(header)
-                    //         .on('change', function () {
-                    //             let val = $.fn.dataTable.util.escapeRegex($(this).val());
-
-                    //             // 使用 `search` 函数进行精确匹配
-                    //             column
-                    //                 .search(val ? '^' + val + '$' : '', true, false)
-                    //                 .draw();
-                    //         });
-
-                    //     // 获取列中唯一的值并填充到下拉菜单
-                    //     column.data().unique().sort().each(function (d) {
-                    //         // 强制将每个值转换为字符串
-                    //         let value = d === null ? '' : d.toString();
-                    //         select.append('<option value="' + value + '">' + value + '</option>');
-                    //     });
-                    // });
+                   // api.column(12).search('@Html.Raw(ViewBag.Name)').draw(); // 这里的'默认值'可以替换为你想要的初始搜索条件
                 }
             });
             $('#example').show();
@@ -624,10 +636,10 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                     // 处理 X 轴数据，保持在 0 到 50 的范围内
                     x = x > 50 ? 0 : x;
                     x = mapToRange(x, 0, 50);
-           
+
 
                     // 处理 Z 轴数据
-                 
+
 
                     return { x, y, z, original: item };
                 });
@@ -636,11 +648,11 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
             const yValues = processedData.map(item => item.y);
             const zValues = processedData.map(item => item.z);
             const textValues = processedData.map(item => `MIS:${item.original.mis}<br>
-                                                          VAN:${item.original.van}<br>
-                                                          M.O.D:${item.original.manufacturingMonth}<br>
-                                                          S.D:${item.original.salesDate}<br>
-                                                          FDP:${item.original.fdp}<br>
-                                                          F.C.D:${item.original.faultCodeDescription}`);
+                                                                  VAN:${item.original.van}<br>
+                                                                  M.O.D:${item.original.manufacturingMonth}<br>
+                                                                  S.D:${item.original.salesDate}<br>
+                                                                  FDP:${item.original.fdp}<br>
+                                                                  F.C.D:${item.original.faultCodeDescription}`);
             // 打印值
             // console.log('X Values:', xValues);
             // console.log('Y Values:', yValues);
@@ -668,7 +680,7 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                 const b = Math.round((1 - (50 - z) / 50) * 255);
                 return `rgb(${r}, ${g}, ${b})`;
             });
-           
+
             const scatterTrace = {
                 x: xValues,
                 y: yValues,

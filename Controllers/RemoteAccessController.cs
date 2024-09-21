@@ -471,19 +471,19 @@ namespace WebWinMVC.Controllers
                 RepairProcessAndEffect = firstData.FaultDescription ?? "NIL",
                 FaultLevel = "正常", // 直接初始化为NIL
                 Reporter = firstData.ServiceStationName, // 初始化
-                ReporterPhone = "02365892314", // 初始化
+                ReporterPhone = HttpContext.Session.GetString("Phone"), // 初始化
                 TTF = "0",
                 //ResponsiblePerson ="郭鹏飞",
                 //ResponsibleDepartment="采购部"
-                Manager = "向东",
-                Creator = "向东",
+                Manager = HttpContext.Session.GetString("Name"),
+                Creator = HttpContext.Session.GetString("Name"),
                 StartTime = DateTime.Now.ToString("yyMMdd"),// 设置开始时间为当前时间，格式为YYMMDD
                 StageStatus = "执行中",
                 Status = "0/6",
                 PreventiveMeasures = "维修或更换",
                 VehicleStatus="终端",
-                InspectorPhone="13072333842",
-                FaultDescription=firstData.FaultDescription??"NIL",
+                InspectorPhone= "02365892154",
+                FaultDescription =firstData.FaultDescription??"NIL",
 
             };
 

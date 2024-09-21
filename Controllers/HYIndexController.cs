@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WebWinMVC.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebWinMVC.Controllers
 {
+    [Authorize]
     public class HYIndexController : Controller
     {
         private readonly ILogger<HYIndexController> _logger;
@@ -15,43 +17,24 @@ namespace WebWinMVC.Controllers
             _context = context;
         }
 
-        public IActionResult HYIndexJRZLWT()
-        {
-            var checklists = _context.DailyQualityIssueChecklists
-                .OrderBy(c => c.ID) // 按照ID排序
-                .ToList();
-            var checklistsV91 = _context.DailyQualityIssueChecklistV91s.OrderBy(c => c.ID).ToList();
-            var checklistsV91Queries=_context.DailyQualityIssueChecklistV91Queries.OrderBy(c => c.ID).ToList();
-            var dailyServiceReviewForms = _context.DailyServiceReviewForms.OrderBy(c => c.ID).ToList();
-            var dailyServiceReviewFormsQueries=_context.DailyServiceReviewFormQueries.OrderBy(c => c.ID).ToList();
-            var viewModel = new JRZLWTViewModel
-            {
-                Checklists = checklists,
-                DailyServiceReviewForms=dailyServiceReviewForms,
-                DailyServiceReviewFormQueries=dailyServiceReviewFormsQueries,
-                ChecklistV91s=checklistsV91,
-                ChecklistV91Queries=checklistsV91Queries,
-                AdditionalInfo = "即日质量问题清单",
-                //other configration
-                JRZLWTV91Headers=HeaderMappingUtil.GetHeaderMapping<DailyQualityIssueChecklistV91Map>(),//添加映射
-
-
-            };
-
-            return View(viewModel);
-        }
+       
         public IActionResult HYIndexJRZLWTV91()
         {
+           if(string.IsNullOrEmpty( HttpContext.Session.GetString("Username")))
+                return RedirectToAction("Index", "Home");
             var checklistsV91 = _context.DailyQualityIssueChecklistV91s.OrderBy(c => c.ID).ToList();
             var checklistsV91Queries = _context.DailyQualityIssueChecklistV91Queries.OrderBy(c => c.ID).ToList();
+            var userAuthentications   =_context.userAuthentications.OrderBy(c => c.ID).ToList();
             //var dailyServiceReviewForms = _context.DailyServiceReviewForms.OrderBy(c => c.ID).ToList();
-           // var dailyServiceReviewFormsQueries = _context.DailyServiceReviewFormQueries.OrderBy(c => c.ID).ToList();
-            var viewModel = new JRZLWTViewModel
+            // var dailyServiceReviewFormsQueries = _context.DailyServiceReviewFormQueries.OrderBy(c => c.ID).ToList();
+    
+             var viewModel = new JRZLWTViewModel
             {
               //  DailyServiceReviewForms = dailyServiceReviewForms,
                // DailyServiceReviewFormQueries = dailyServiceReviewFormsQueries,
                 ChecklistV91s = checklistsV91,
                 ChecklistV91Queries = checklistsV91Queries,
+                UserAuthentications = userAuthentications,
                 AdditionalInfo = "即日质量问题清单",
                 //other configration
                 //JRZLWTV91Headers = HeaderMappingUtil.GetHeaderMapping<DailyQualityIssueChecklistV91Map>(),//添加映射
@@ -65,6 +48,10 @@ namespace WebWinMVC.Controllers
 
         public IActionResult HYIndexSIL()
         {
+            //viewBag 赋值模块
+
+            //--
+
             var sILSimulationTables = _context.SILSimulationTables.OrderBy(c => c.ID).ToList();
             var viewMOdel = new JRZLWTViewModel
             {
@@ -111,7 +98,10 @@ namespace WebWinMVC.Controllers
 
         public IActionResult TESTPAGES()
         {
+            
+
             var checklistsV91 = _context.DailyQualityIssueChecklistV91s.OrderBy(c => c.ID).ToList();
+
             var viewModel = new JRZLWTViewModel
             {
               
@@ -124,7 +114,31 @@ namespace WebWinMVC.Controllers
             };
             return View(viewModel);
         }
+        public IActionResult HYIndexJRZLWT()
+        {
+            var checklists = _context.DailyQualityIssueChecklists
+                .OrderBy(c => c.ID) // 按照ID排序
+                .ToList();
+            var checklistsV91 = _context.DailyQualityIssueChecklistV91s.OrderBy(c => c.ID).ToList();
+            var checklistsV91Queries = _context.DailyQualityIssueChecklistV91Queries.OrderBy(c => c.ID).ToList();
+            var dailyServiceReviewForms = _context.DailyServiceReviewForms.OrderBy(c => c.ID).ToList();
+            var dailyServiceReviewFormsQueries = _context.DailyServiceReviewFormQueries.OrderBy(c => c.ID).ToList();
+            var viewModel = new JRZLWTViewModel
+            {
+                Checklists = checklists,
+                DailyServiceReviewForms = dailyServiceReviewForms,
+                DailyServiceReviewFormQueries = dailyServiceReviewFormsQueries,
+                ChecklistV91s = checklistsV91,
+                ChecklistV91Queries = checklistsV91Queries,
+                AdditionalInfo = "即日质量问题清单",
+                //other configration
+                JRZLWTV91Headers = HeaderMappingUtil.GetHeaderMapping<DailyQualityIssueChecklistV91Map>(),//添加映射
 
+
+            };
+
+            return View(viewModel);
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

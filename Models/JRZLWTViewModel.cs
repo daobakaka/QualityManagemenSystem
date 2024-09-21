@@ -17,6 +17,8 @@
 
         public List<SILSimulationTable> SILSimulationTables { get; set; }= new List<SILSimulationTable>();
 
+        public List<UserAuthentication> UserAuthentications { get; set; } = new List<UserAuthentication>();
+
 
         //add properties for pages
         public Dictionary<string, string> JRZLWTV91Headers { get; set; } = default!;
