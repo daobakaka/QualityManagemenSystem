@@ -50,6 +50,7 @@ E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\System.Composition.Runtime.dll
 E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\System.Composition.TypedParts.dll
 E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
 E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\System.Drawing.Common.dll
+E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\System.Formats.Asn1.dll
 E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
 E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\System.IO.Packaging.dll
 E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\System.Memory.Data.dll

@@ -1,0 +1,1253 @@
+{
+  "Files": [
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\obj\\Release\\net8.0\\win-x64\\scopedcss\\projectbundle\\WebWinMVC.bundle.scp.css",
+      "PackagePath": "staticwebassets\\WebWinMVC.bundle.scp.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\favicon.ico",
+      "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\js\\chart.js",
+      "PackagePath": "staticwebassets\\js\\chart.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\js\\jszip.min.js",
+      "PackagePath": "staticwebassets\\js\\jszip.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\js\\plotly.min.js",
+      "PackagePath": "staticwebassets\\js\\plotly.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\js\\pptxgen.min.js",
+      "PackagePath": "staticwebassets\\js\\pptxgen.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\js\\site.js",
+      "PackagePath": "staticwebassets\\js\\site.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\js\\xlsx.full.min.js",
+      "PackagePath": "staticwebassets\\js\\xlsx.full.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "PackagePath": "staticwebassets\\lib\\bootstrap"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\LICENSE.md"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\.nupkg.metadata",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\.nupkg.metadata"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\.signature.p7s",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\.signature.p7s"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\autoFill.bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\autoFill.bootstrap.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\autoFill.bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\autoFill.bootstrap.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\autoFill.bootstrap4.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\autoFill.bootstrap4.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\autoFill.bootstrap4.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\autoFill.bootstrap4.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\autoFill.dataTables.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\autoFill.dataTables.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\autoFill.dataTables.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\autoFill.dataTables.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\autoFill.foundation.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\autoFill.foundation.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\autoFill.foundation.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\autoFill.foundation.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\autoFill.jqueryui.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\autoFill.jqueryui.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\autoFill.jqueryui.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\autoFill.jqueryui.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\autoFill.semanticui.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\autoFill.semanticui.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\autoFill.semanticui.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\autoFill.semanticui.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\buttons.bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\buttons.bootstrap.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\buttons.bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\buttons.bootstrap.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\buttons.bootstrap4.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\buttons.bootstrap4.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\buttons.bootstrap4.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\buttons.bootstrap4.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\buttons.dataTables.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\buttons.dataTables.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\buttons.dataTables.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\buttons.dataTables.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\buttons.foundation.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\buttons.foundation.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\buttons.foundation.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\buttons.foundation.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\buttons.jqueryui.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\buttons.jqueryui.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\buttons.jqueryui.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\buttons.jqueryui.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\buttons.semanticui.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\buttons.semanticui.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\buttons.semanticui.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\buttons.semanticui.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\colReorder.bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\colReorder.bootstrap.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\colReorder.bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\colReorder.bootstrap.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\colReorder.bootstrap4.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\colReorder.bootstrap4.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\colReorder.bootstrap4.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\colReorder.bootstrap4.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\colReorder.dataTables.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\colReorder.dataTables.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\colReorder.dataTables.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\colReorder.dataTables.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\colReorder.foundation.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\colReorder.foundation.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\colReorder.foundation.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\colReorder.foundation.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\colReorder.jqueryui.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\colReorder.jqueryui.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\colReorder.jqueryui.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\colReorder.jqueryui.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\colReorder.semanticui.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\colReorder.semanticui.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\colReorder.semanticui.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\colReorder.semanticui.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\common.scss",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\common.scss"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\dataTables.bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\dataTables.bootstrap.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\dataTables.bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\dataTables.bootstrap.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\dataTables.bootstrap4.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\dataTables.bootstrap4.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\dataTables.bootstrap4.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\dataTables.bootstrap4.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\dataTables.foundation.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\dataTables.foundation.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\dataTables.foundation.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\dataTables.foundation.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\dataTables.jqueryui.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\dataTables.jqueryui.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\dataTables.jqueryui.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\dataTables.jqueryui.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\dataTables.material.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\dataTables.material.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\dataTables.material.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\dataTables.material.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\dataTables.semanticui.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\dataTables.semanticui.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\dataTables.semanticui.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\dataTables.semanticui.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\dataTables.uikit.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\dataTables.uikit.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\dataTables.uikit.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\dataTables.uikit.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedColumns.bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedColumns.bootstrap.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedColumns.bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedColumns.bootstrap.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedColumns.bootstrap4.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedColumns.bootstrap4.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedColumns.bootstrap4.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedColumns.bootstrap4.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedColumns.dataTables.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedColumns.dataTables.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedColumns.dataTables.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedColumns.dataTables.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedColumns.foundation.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedColumns.foundation.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedColumns.foundation.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedColumns.foundation.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedColumns.jqueryui.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedColumns.jqueryui.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedColumns.jqueryui.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedColumns.jqueryui.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedColumns.semanticui.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedColumns.semanticui.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedColumns.semanticui.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedColumns.semanticui.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedHeader.bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedHeader.bootstrap.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedHeader.bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedHeader.bootstrap.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedHeader.bootstrap4.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedHeader.bootstrap4.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedHeader.bootstrap4.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedHeader.bootstrap4.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedHeader.dataTables.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedHeader.dataTables.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedHeader.dataTables.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedHeader.dataTables.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedHeader.foundation.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedHeader.foundation.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedHeader.foundation.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedHeader.foundation.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedHeader.jqueryui.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedHeader.jqueryui.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedHeader.jqueryui.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedHeader.jqueryui.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedHeader.semanticui.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedHeader.semanticui.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedHeader.semanticui.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\fixedHeader.semanticui.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\jquery.dataTables.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\jquery.dataTables.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\jquery.dataTables.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\jquery.dataTables.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\jquery.dataTables_themeroller.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\jquery.dataTables_themeroller.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\keyTable.bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\keyTable.bootstrap.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\keyTable.bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\keyTable.bootstrap.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\keyTable.bootstrap4.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\keyTable.bootstrap4.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\keyTable.bootstrap4.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\keyTable.bootstrap4.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\keyTable.dataTables.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\keyTable.dataTables.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\keyTable.dataTables.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\keyTable.dataTables.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\keyTable.foundation.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\keyTable.foundation.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\keyTable.foundation.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\keyTable.foundation.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\keyTable.jqueryui.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\keyTable.jqueryui.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\keyTable.jqueryui.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\keyTable.jqueryui.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\keyTable.semanticui.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\keyTable.semanticui.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\keyTable.semanticui.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\keyTable.semanticui.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\mixins.scss",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\mixins.scss"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\responsive.bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\responsive.bootstrap.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\responsive.bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\responsive.bootstrap.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\responsive.bootstrap4.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\responsive.bootstrap4.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\responsive.bootstrap4.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\responsive.bootstrap4.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\responsive.dataTables.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\responsive.dataTables.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\responsive.dataTables.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\responsive.dataTables.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\responsive.foundation.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\responsive.foundation.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\responsive.foundation.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\responsive.foundation.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\responsive.jqueryui.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\responsive.jqueryui.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\responsive.jqueryui.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\responsive.jqueryui.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\responsive.semanticui.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\responsive.semanticui.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\responsive.semanticui.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\responsive.semanticui.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowGroup.bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowGroup.bootstrap.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowGroup.bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowGroup.bootstrap.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowGroup.bootstrap4.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowGroup.bootstrap4.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowGroup.bootstrap4.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowGroup.bootstrap4.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowGroup.dataTables.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowGroup.dataTables.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowGroup.dataTables.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowGroup.dataTables.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowGroup.foundation.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowGroup.foundation.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowGroup.foundation.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowGroup.foundation.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowGroup.jqueryui.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowGroup.jqueryui.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowGroup.jqueryui.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowGroup.jqueryui.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowGroup.semanticui.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowGroup.semanticui.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowGroup.semanticui.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowGroup.semanticui.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowReorder.bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowReorder.bootstrap.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowReorder.bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowReorder.bootstrap.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowReorder.bootstrap4.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowReorder.bootstrap4.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowReorder.bootstrap4.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowReorder.bootstrap4.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowReorder.dataTables.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowReorder.dataTables.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowReorder.dataTables.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowReorder.dataTables.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowReorder.foundation.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowReorder.foundation.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowReorder.foundation.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowReorder.foundation.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowReorder.jqueryui.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowReorder.jqueryui.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowReorder.jqueryui.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowReorder.jqueryui.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowReorder.semanticui.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowReorder.semanticui.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowReorder.semanticui.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\rowReorder.semanticui.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\scroller.bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\scroller.bootstrap.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\scroller.bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\scroller.bootstrap.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\scroller.bootstrap4.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\scroller.bootstrap4.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\scroller.bootstrap4.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\scroller.bootstrap4.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\scroller.dataTables.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\scroller.dataTables.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\scroller.dataTables.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\scroller.dataTables.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\scroller.foundation.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\scroller.foundation.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\scroller.foundation.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\scroller.foundation.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\scroller.jqueryui.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\scroller.jqueryui.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\scroller.jqueryui.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\scroller.jqueryui.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\scroller.semanticui.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\scroller.semanticui.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\scroller.semanticui.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\scroller.semanticui.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\select.bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\select.bootstrap.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\select.bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\select.bootstrap.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\select.bootstrap4.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\select.bootstrap4.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\select.bootstrap4.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\select.bootstrap4.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\select.dataTables.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\select.dataTables.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\select.dataTables.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\select.dataTables.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\select.foundation.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\select.foundation.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\select.foundation.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\select.foundation.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\select.jqueryui.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\select.jqueryui.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\select.jqueryui.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\select.jqueryui.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\select.semanticui.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\select.semanticui.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\select.semanticui.min.css",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\select.semanticui.min.css"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\semanticui.scss",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\semanticui.scss"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\images\\details_close.png",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\images\\details_close.png"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\images\\details_open.png",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\images\\details_open.png"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\images\\sort_asc.png",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\images\\sort_asc.png"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\images\\sort_asc_disabled.png",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\images\\sort_asc_disabled.png"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\images\\sort_both.png",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\images\\sort_both.png"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\images\\sort_desc.png",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\images\\sort_desc.png"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\images\\sort_desc_disabled.png",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\images\\sort_desc_disabled.png"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\swf\\flashExport.swf",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\swf\\flashExport.swf"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\autoFill.bootstrap.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\autoFill.bootstrap.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\autoFill.bootstrap.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\autoFill.bootstrap.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\autoFill.bootstrap4.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\autoFill.bootstrap4.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\autoFill.bootstrap4.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\autoFill.bootstrap4.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\autoFill.foundation.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\autoFill.foundation.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\autoFill.foundation.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\autoFill.foundation.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\autoFill.jqueryui.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\autoFill.jqueryui.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\autoFill.jqueryui.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\autoFill.jqueryui.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\autoFill.semanticui.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\autoFill.semanticui.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\autoFill.semanticui.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\autoFill.semanticui.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.bootstrap.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.bootstrap.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.bootstrap.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.bootstrap.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.bootstrap4.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.bootstrap4.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.bootstrap4.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.bootstrap4.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.colVis.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.colVis.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.colVis.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.colVis.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.flash.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.flash.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.flash.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.flash.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.foundation.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.foundation.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.foundation.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.foundation.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.html5.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.html5.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.html5.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.html5.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.jqueryui.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.jqueryui.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.jqueryui.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.jqueryui.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.print.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.print.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.print.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.print.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.semanticui.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.semanticui.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.semanticui.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\buttons.semanticui.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.autoFill.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.autoFill.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.autoFill.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.autoFill.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.bootstrap.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.bootstrap.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.bootstrap.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.bootstrap.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.bootstrap4.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.bootstrap4.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.bootstrap4.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.bootstrap4.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.buttons.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.buttons.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.buttons.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.buttons.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.colReorder.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.colReorder.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.colReorder.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.colReorder.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.fixedColumns.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.fixedColumns.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.fixedColumns.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.fixedColumns.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.fixedHeader.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.fixedHeader.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.fixedHeader.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.fixedHeader.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.foundation.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.foundation.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.foundation.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.foundation.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.jqueryui.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.jqueryui.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.jqueryui.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.jqueryui.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.keyTable.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.keyTable.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.keyTable.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.keyTable.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.material.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.material.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.material.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.material.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.responsive.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.responsive.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.responsive.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.responsive.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.rowGroup.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.rowGroup.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.rowGroup.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.rowGroup.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.rowReorder.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.rowReorder.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.rowReorder.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.rowReorder.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.scroller.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.scroller.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.scroller.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.scroller.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.select.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.select.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.select.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.select.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.semanticui.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.semanticui.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.semanticui.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.semanticui.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.uikit.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.uikit.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.uikit.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\dataTables.uikit.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\jquery.dataTables.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\jquery.dataTables.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\jquery.dataTables.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\jquery.dataTables.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\responsive.bootstrap.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\responsive.bootstrap.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\responsive.bootstrap.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\responsive.bootstrap.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\responsive.bootstrap4.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\responsive.bootstrap4.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\responsive.bootstrap4.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\responsive.bootstrap4.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\responsive.foundation.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\responsive.foundation.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\responsive.foundation.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\responsive.foundation.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\responsive.jqueryui.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\responsive.jqueryui.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\responsive.jqueryui.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\responsive.jqueryui.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\responsive.semanticui.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\responsive.semanticui.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\responsive.semanticui.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\responsive.semanticui.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\jquery.datatables.1.10.15.nupkg",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\jquery.datatables.1.10.15.nupkg"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\jquery.datatables.1.10.15.nupkg.sha512",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\jquery.datatables.1.10.15.nupkg.sha512"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery.datatables\\1.10.15\\jquery.datatables.nuspec",
+      "PackagePath": "staticwebassets\\lib\\jquery.datatables\\1.10.15\\jquery.datatables.nuspec"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery\\LICENSE.txt"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.js"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
+    },
+    {
+      "Id": "E:\\C#\\WebWinMVC\\WebWinMVC\\wwwroot\\pictures\\1.jpg",
+      "PackagePath": "staticwebassets\\pictures\\1.jpg"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\win-x64\\staticwebassets\\msbuild.WebWinMVC.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\win-x64\\staticwebassets\\msbuild.build.WebWinMVC.props",
+      "PackagePath": "build\\WebWinMVC.props"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\win-x64\\staticwebassets\\msbuild.buildMultiTargeting.WebWinMVC.props",
+      "PackagePath": "buildMultiTargeting\\WebWinMVC.props"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\win-x64\\staticwebassets\\msbuild.buildTransitive.WebWinMVC.props",
+      "PackagePath": "buildTransitive\\WebWinMVC.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - WebWinMVC</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"  />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/jquery.datatables/1.10.15/Content/Content/DataTables/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WebWinMVC.styles.css" asp-append-version="true" />
@@ -22,14 +22,14 @@
                     <ul class="navbar-nav flex-grow-1"
                         style="@(ViewBag.IsLoggedIn != null && (bool)ViewBag.IsLoggedIn ? "pointer-events: auto; opacity: 1;" : "pointer-events: none; opacity: 0.5;")"
                         id="login-sucess">
-                 @*        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        @*        <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li> *@
-                        
-                        <li class="nav-item" >
+
+                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="HYIndex" asp-action="HYIndexJRZLWTV91">即日质量问题</a>
                         </li>
                         <li class="nav-item">
@@ -55,7 +55,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="HYIndex" asp-action="TESTPAGES">测试</a>
-                        </li>                  
+                        </li>
                     </ul>
                     <ul class="navbar-nav ml-auto" style="pointer-events: auto; opacity: 1;">
                         <li class="nav-item">
@@ -76,8 +76,8 @@
         </nav>
     </header>
     <div class="user-container">
-  @*       <main role="main" class="pb-3">
-            @RenderBody()
+        @*       <main role="main" class="pb-3">
+        @RenderBody()
         </main> *@
         <main>@RenderBody()</main>
     </div>
@@ -91,12 +91,12 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/jquery.datatables/1.10.15/Content/Scripts/DataTables/jquery.dataTables.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/js/xlsx.full.min.js" asp-append-version="true" ></script>
+    <script src="~/js/xlsx.full.min.js" asp-append-version="true"></script>
     <script src="~/js/jszip.min.js" asp-append-version="true"></script>
     <script src="~/js/pptxgen.min.js" asp-append-version="true"></script>
     <script src="~/js/plotly.min.js" asp-append-version="true"></script>
-   @*  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> *@
-@*     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> *@
+    @*  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> *@
+    @*     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> *@
     @* <script src="https://cdn.skypack.dev/three@0.153.0/build/three.module.js"></script> *@
     <script>
         $(function () {
@@ -104,6 +104,6 @@
         });
     </script>
     @await RenderSectionAsync("Scripts", required: false)
-@*     @RenderSection("Scripts", required: false) *@
+    @*     @RenderSection("Scripts", required: false) *@
 </body>
 </html>

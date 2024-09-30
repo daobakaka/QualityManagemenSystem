@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\Users\Administrator\Desktop\WebPackageHY</_PublishTargetUrl>
+    <History>True|2024-09-30T13:24:04.4978038Z||;True|2024-09-30T20:40:22.8070454+08:00||;True|2024-09-23T13:29:56.7766913+08:00||;True|2024-09-22T16:58:43.5194146+08:00||;True|2024-09-22T14:22:38.5410997+08:00||;</History>
+    <LastFailureDetails />
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="JRZLWTConnection">
+      <Value>Server=%28localdb%29\mssqllocaldb%3bDatabase=JRZKWTWebWinMVC%3bTrusted_Connection=True%3bMultipleActiveResultSets=true</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+  <ItemGroup>
+    <EFMigrations Include="WebWinMVC.Data.JRZLWTDbContext">
+      <Value>Server=%28localdb%29\mssqllocaldb%3bDatabase=JRZKWTWebWinMVC%3bTrusted_Connection=True%3bMultipleActiveResultSets=true</Value>
+    </EFMigrations>
+  </ItemGroup>
+</Project>

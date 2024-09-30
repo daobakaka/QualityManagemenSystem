@@ -8,116 +8,122 @@
     ViewBag.Phone = @Context.Session.GetString("Phone");
     ViewBag.IsLoggedIn = true;
 }
-<div class="datatable-container">
-    <div class="row">
-        <!-- 表格区域，占据屏幕的全宽度 -->
-        <h2 class="text-center">@Model.AdditionalInfo</h2>
-        <div class="d-flex justify-content-center">
-            <table id="example" class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>旧物料代码</th>
-                        <th>旧物料描述</th>
-                        <th>供应商短代码</th>
-                        <th>供应商名称</th>
-                        <th>3MIS</th>
-                        <th>6MIS</th>
-                        <th>12MIS</th>
-                        <th>24MIS</th>
-                        <th>36MIS</th>
-                        <th>SMT</th>
-                        <th>部位码</th>
-                        <th>故障码</th>
-                        <th>QE</th>
-                        <th>SFCIA</th>
-                        <th>识别故障模式</th>
-                        <th>断点次数</th>
-                        <th>断点失效</th>
-                        <th>已纳入SIL</th>
-                        <th>PQS编号</th>
-                        <th>断点时间</th>
-                        <th>立项时间</th>
-                        <th>备注</th>
-                        <th>VID</th>
-
-                        <th>操作</th> <!-- 新增操作列 -->
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.ChecklistV91s)
-                    {
-                        // 定义一个布尔变量来决定是否渲染该行
-                        bool shouldRender = false;
-
-                        // 情况1: Role 为 A 或 B，显示所有数据
-                        if (ViewBag.Role == "A" || ViewBag.Role == "B")
-                        {
-                            shouldRender = true;
-                        }
-                        // 情况2: Role 为 C，且 Group 为 1 或 2
-                        else if (ViewBag.Role == "C" && ((string)ViewBag.Group == "1" || (string)ViewBag.Group == "2"))
-                        {
-                            var qesForFilter = Model.UserAuthentications
-                            .Where(u => u.Group == ViewBag.Group)
-                            .Select(u => u.Name)
-                            .ToList();
-                        
-                            // 如果当前行的 QE 值属于数据库中的查询结果，显示该行
-                            shouldRender = qesForFilter.Contains(item.QE);
-                           // Console.WriteLine(item.QE + "+++" +"+++" + shouldRender);
-                        }
-                        // 情况3: Role 为 D，显示所有 QE 为当前用户的行
-                        else if (ViewBag.Role == "D" && item.QE == ViewBag.Name)
-                        {
-                            shouldRender = true;
-                        }
-
-                        // 根据 shouldRender 的值来渲染该行
-                        if (shouldRender)
-                        {
+<div>
+    <h2 class="responsive-heading">@Model.AdditionalInfo</h2>
+</div>
+<!-- 第一个表格（已经添加 data-label） -->
+<div style="display:block;">
+    <div class="justify-content-center align-items-center">
+        <div class="datatable-container">
+            <div class="row">
+                <div class="d-flex justify-content-center">
+                    <table id="example" class="table table-bordered table-striped">
+                        <thead>
                             <tr>
-                                <td>@item.OldMaterialCode</td>
-                                <td><span data-toggle="tooltip" title="@item.OldMaterialDescription">@item.OldMaterialDescription</span></td>
-                                <td>@item.SupplierShortCode</td>
-                                <td>@item.ResponsibilitySourceSupplierName</td>
-                                <td>@item.MIS3</td>
-                                <td>@item.MIS6</td>
-                                <td>@item.MIS12</td>
-                                <td>@item.MIS24</td>
-                                <td>@item.MIS36</td>
-                                <td>@item.SMT</td>
-                                <td>@item.LocationCode</td>
-                                <td>@item.FaultCode</td>
-                                <td>@item.QE</td>
-                                <td>@item.ServiceFaultIdentificationAccurate</td>
-                                <td>@item.IdentifiedFaultMode</td>
-                                <td>@item.BreakdownCount</td>
-                                <td>@item.IsBreakdownInvalid</td>
-                                <td>@item.IncludedInSIL</td>
-                                <td>@item.PQSNumber</td>
-                                <td>@item.BreakpointTime</td>
-                                <td>@item.StartTime</td>
-                                <td>@item.Remarks</td>
-                                <td>@item.ProjectIdentifier</td>
-                                <td>
-                                    @if (!string.IsNullOrEmpty(item.ServiceFaultIdentificationAccurate))
-                                    {
-                                        <button class="btn btn-success btn-sm edit-btn" data-id="@item.ID" data-bs-toggle="modal" data-bs-target="#editModal">编辑</button>
-                                    }
-                                    else
-                                    {
-                                        <button class="btn btn-primary btn-sm edit-btn" data-id="@item.ID" data-bs-toggle="modal" data-bs-target="#editModal">编辑</button>
-                                    }
-                                </td>
+                                <th>旧物料代码</th>
+                                <th>旧物料描述</th>
+                                <th>供应商短代码</th>
+                                <th>供应商名称</th>
+                                <th>3MIS</th>
+                                <th>6MIS</th>
+                                <th>12MIS</th>
+                                <th>24MIS</th>
+                                <th>36MIS</th>
+                                <th>SMT</th>
+                                <th>部位码</th>
+                                <th>故障码</th>
+                                <th>QE</th>
+                                <th>SFCIA</th>
+                                <th>识别故障模式</th>
+                                <th>断点次数</th>
+                                <th>断点失效</th>
+                                <th>已纳入SIL</th>
+                                <th>PQS编号</th>
+                                <th>断点时间</th>
+                                <th>立项时间</th>
+                                <th>备注</th>
+                                <th>VID</th>
+                                <th>操作</th> <!-- 新增操作列 -->
                             </tr>
-                        }
-                    }
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ChecklistV91s)
+                            {
+                                // 定义一个布尔变量来决定是否渲染该行
+                                bool shouldRender = false;
 
-                </tbody>
-            </table>
+                                // 情况1: Role 为 A 或 B，显示所有数据
+                                if (ViewBag.Role == "A" || ViewBag.Role == "B")
+                                {
+                                    shouldRender = true;
+                                }
+                                // 情况2: Role 为 C，且 Group 为 1 或 2
+                                else if (ViewBag.Role == "C" && ((string)ViewBag.Group == "1" || (string)ViewBag.Group == "2"))
+                                {
+                                    var qesForFilter = Model.UserAuthentications
+                                    .Where(u => u.Group == ViewBag.Group)
+                                    .Select(u => u.Name)
+                                    .ToList();
+
+                                    // 如果当前行的 QE 值属于数据库中的查询结果，显示该行
+                                    shouldRender = qesForFilter.Contains(item.QE);
+                                }
+                                // 情况3: Role 为 D，显示所有 QE 为当前用户的行
+                                else if (ViewBag.Role == "D" && item.QE == ViewBag.Name)
+                                {
+                                    shouldRender = true;
+                                }
+
+                                // 根据 shouldRender 的值来渲染该行
+                                if (shouldRender)
+                                {
+                                    <tr>
+                                        <td data-label="旧物料代码">@item.OldMaterialCode</td>
+                                        <td data-label="旧物料描述">
+                                            <span data-toggle="tooltip" title="@item.OldMaterialDescription">@item.OldMaterialDescription</span>
+                                        </td>
+                                        <td data-label="供应商短代码">@item.SupplierShortCode</td>
+                                        <td data-label="供应商名称">@item.ResponsibilitySourceSupplierName</td>
+                                        <td data-label="3MIS">@item.MIS3</td>
+                                        <td data-label="6MIS">@item.MIS6</td>
+                                        <td data-label="12MIS">@item.MIS12</td>
+                                        <td data-label="24MIS">@item.MIS24</td>
+                                        <td data-label="36MIS">@item.MIS36</td>
+                                        <td data-label="SMT">@item.SMT</td>
+                                        <td data-label="部位码">@item.LocationCode</td>
+                                        <td data-label="故障码">@item.FaultCode</td>
+                                        <td data-label="QE">@item.QE</td>
+                                        <td data-label="SFCIA">@item.ServiceFaultIdentificationAccurate</td>
+                                        <td data-label="识别故障模式">@item.IdentifiedFaultMode</td>
+                                        <td data-label="断点次数">@item.BreakdownCount</td>
+                                        <td data-label="断点失效">@item.IsBreakdownInvalid</td>
+                                        <td data-label="已纳入SIL">@item.IncludedInSIL</td>
+                                        <td data-label="PQS编号">@item.PQSNumber</td>
+                                        <td data-label="断点时间">@item.BreakpointTime</td>
+                                        <td data-label="立项时间">@item.StartTime</td>
+                                        <td data-label="备注">@item.Remarks</td>
+                                        <td data-label="VID">@item.ProjectIdentifier</td>
+                                        <td data-label="操作">
+                                            @if (!string.IsNullOrEmpty(item.ServiceFaultIdentificationAccurate))
+                                            {
+                                                <button class="btn btn-success btn-sm edit-btn" data-id="@item.ID" data-bs-toggle="modal" data-bs-target="#editModal">编辑</button>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn btn-primary btn-sm edit-btn" data-id="@item.ID" data-bs-toggle="modal" data-bs-target="#editModal">编辑</button>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
 
 <!-- 下侧交互区域 -->
 <div class="userInput-container">
@@ -139,7 +145,7 @@
                         <input type="text" class="form-control" id="searchByDate" placeholder="选择日期" style=" margin-top:1vh">
                     </div>
                 </form>
-                <button type="button" class="btn btn-outline-secondary mb-2" style="width: 8vw ;margin-top:1.5vh" onclick="resetFilters()">重置</button>
+                <button type="button" class="btn btn-outline-secondary mb-2" style="width: 100% ;margin-top:1.5vh" onclick="resetFilters()">重置</button>
             </div>
         </div>
 
@@ -147,10 +153,8 @@
 
         <!-- 搜索结果区域，占据屏幕的2/3宽度，且居中对齐 -->
         <div class="col-md-8 d-flex justify-content-center align-items-center">
-
             <div class="custom-container">
                 <div class="row">
-
                     <div class="d-flex justify-content-center">
                         <table id="queryTable" class="table table-bordered table-striped">
                             <thead>
@@ -180,9 +184,9 @@
                                 @foreach (var item in Model.ChecklistV91Queries)
                                 {
                                     <tr>
-                                        <td>@item.ApprovalDate</td>
-                                        <td>@item.VehicleModel</td>
-                                        <td>
+                                        <td data-label="日期">@item.ApprovalDate</td>
+                                        <td data-label="车型">@item.VehicleModel</td>
+                                        <td data-label="旧物料">
                                             <span class="dynamic-tooltip"
                                                   data-old-material-code="@item.OldMaterialCode"
                                                   data-remote-tooltip="true" title="loading..">
@@ -190,23 +194,22 @@
                                             </span>
                                             <div class="loading-indicator">Loading...</div>
                                         </td>
-
-                                        <td>@item.OldMaterialDescription</td>
-                                        <td>@item.SupplierShortCode</td>
-                                        <td>@item.ResponsibilitySourceSupplierName</td>
-                                        <td>@item.CaseCount</td>
-                                        <td>@item.AccumulatedCaseCount</td>
-                                        <td>@item.MIS3</td>
-                                        <td>@item.MIS6</td>
-                                        <td>@item.MIS12</td>
-                                        <td>@item.MIS24</td>
-                                        <td>@item.MIS36</td>
-                                        <td>@item.SMT</td>
-                                        <td>@item.LocationCode</td>
-                                        <td>@item.FaultCode</td>
-                                        <td>@item.PQSNumber</td>
-                                        <td>@item.VAN</td>
-                                        <td>@item.VIN</td>
+                                        <td data-label="描述">@item.OldMaterialDescription</td>
+                                        <td data-label="短代码">@item.SupplierShortCode</td>
+                                        <td data-label="供应商">@item.ResponsibilitySourceSupplierName</td>
+                                        <td data-label="案例数">@item.CaseCount</td>
+                                        <td data-label="累计案例数">@item.AccumulatedCaseCount</td>
+                                        <td data-label="3MIS">@item.MIS3</td>
+                                        <td data-label="6MIS">@item.MIS6</td>
+                                        <td data-label="12MIS">@item.MIS12</td>
+                                        <td data-label="24MIS">@item.MIS24</td>
+                                        <td data-label="36MIS">@item.MIS36</td>
+                                        <td data-label="SMT">@item.SMT</td>
+                                        <td data-label="部位码">@item.LocationCode</td>
+                                        <td data-label="故障码">@item.FaultCode</td>
+                                        <td data-label="PQS编号">@item.PQSNumber</td>
+                                        <td data-label="VAN">@item.VAN</td>
+                                        <td data-label="VIN">@item.VIN</td>
                                     </tr>
                                 }
                             </tbody>
@@ -216,16 +219,16 @@
             </div>
         </div>
 
+
        
         <!-- 一键处理区域 -->
         <div class="col-md-2 d-flex justify-content-center align-items-center">
 
             <div class="result-container d-flex flex-column align-items-center">
-                <button type="button" class="btn btn-outline-secondary mb-2" style="width: 5vw;" onclick="exportTableToExcelAnalyse()">清单导出</button>
-                <button type="button" class="btn btn-outline-secondary mb-2" style="width: 5vw;" onclick="exportTableToExcelQuery()">查询导出</button>
-                <button type="button" class="btn btn-outline-secondary mb-2" style="width: 5vw;" onclick="showOnePageModal()">立项</button>
+                <button type="button" class="btn btn-outline-secondary mb-2" style="width: 100%;" onclick="exportTableToExcelAnalyse()">清单导出</button>
+                <button type="button" class="btn btn-outline-secondary mb-2" style="width: 100%;" onclick="exportTableToExcelQuery()">查询导出</button>
+                <button type="button" class="btn btn-outline-secondary mb-2" style="width: 100%;" onclick="showOnePageModal()">立项</button>
             </div>
-
 
         </div>
     </div>
@@ -499,10 +502,32 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                 ],
                 "info": true,
                 "searching": true,
+               "language": {
+                    "lengthMenu": "显示 _MENU_ 条记录", // 自定义每页显示条数的文本
+                "search": "查询:", // 自定义搜索框的标签
+                "info": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项", // 自定义表格信息的文本
+                "infoEmpty": "显示第 0 至 0 项结果，共 0 项", // 当表格为空时显示的文本
+                "infoFiltered": "(由 _MAX_ 项结果过滤)", // 当表格被过滤时显示的文本
+                "paginate": {
+                    "first": "首页", // 自定义“首页”按钮的文本
+                    "last": "末页", // 自定义“末页”按钮的文本
+                    "next": "下一页", // 自定义“下一页”按钮的文本
+                    "previous": "上一页" // 自定义“上一页”按钮的文本
+                },
+                "zeroRecords": "没有匹配的记录", // 当搜索结果为空时显示的文本
+                "emptyTable": "表中数据为空", // 当表格没有数据时显示的文本
+                "loadingRecords": "加载中...", // 数据加载时显示的文本
+                "processing": "处理中...", // 数据处理时显示的文本
+                "aria": {
+                    "sortAscending": ": 以升序排列此列",
+                    "sortDescending": ": 以降序排列此列"
+                }
+            },
                 "initComplete": function () {
                     let api = this.api();
                    // api.column(12).search('@Html.Raw(ViewBag.Name)').draw(); // 这里的'默认值'可以替换为你想要的初始搜索条件
                 }
+
             });
             $('#example').show();
 
@@ -515,11 +540,44 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
 
         });
         console.log(`startMove!!!!!!!!!!!!!!!!!!!!!!!false`);
+        // 对于 .custom-container
         document.querySelector('.custom-container .table tbody').addEventListener('scroll', function () {
+            const tbody = this;
             const thead = document.querySelector('.custom-container .table thead');
-            thead.scrollLeft = this.scrollLeft;
 
+            // 获取最大可滚动距离
+            const maxScrollLeft = tbody.scrollWidth - tbody.clientWidth;
+            // 定义滚动限制为90%
+            const scrollLimit = maxScrollLeft * 0.98;
+
+            // 如果当前滚动位置超过限制，固定滚动位置
+            if (tbody.scrollLeft > scrollLimit) {
+                tbody.scrollLeft = scrollLimit;
+            }
+
+            // 同步表头滚动
+            thead.scrollLeft = tbody.scrollLeft;
         });
+
+        // 对于 .datatable-container
+        document.querySelector('.datatable-container .table tbody').addEventListener('scroll', function () {
+            const tbody = this;
+            const thead = document.querySelector('.datatable-container .table thead');
+
+            // 获取最大可滚动距离
+            const maxScrollLeft = tbody.scrollWidth - tbody.clientWidth;
+            // 定义滚动限制为90%
+            const scrollLimit = maxScrollLeft * 0.98;
+
+            // 如果当前滚动位置超过限制，固定滚动位置
+            if (tbody.scrollLeft > scrollLimit) {
+                tbody.scrollLeft = scrollLimit;
+            }
+
+            // 同步表头滚动
+            thead.scrollLeft = tbody.scrollLeft;
+        });
+
 
     </script> @* datatable 用于编辑的表格 *@
     <script>
@@ -536,10 +594,10 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
             const windowDiv = document.createElement('div');
             windowDiv.id = 'floatingWindow';
             windowDiv.style.position = 'fixed';
-            windowDiv.style.top = '25%';
-            windowDiv.style.left = '25%';
-            windowDiv.style.width = '50vw';
-            windowDiv.style.height = '50vh';
+            windowDiv.style.top = '10%';
+            windowDiv.style.left = '10%';
+            windowDiv.style.width = '80vw';
+            windowDiv.style.height = '80vh';
             windowDiv.style.backgroundColor = 'white';
             windowDiv.style.border = '3px solid black';
             windowDiv.style.zIndex = 1000;
@@ -1092,13 +1150,6 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
             // 写入 Excel 文件
             XLSX.writeFile(wb, '即日质量问题查询.xlsx');
         }
-
-
-
-
-
-
-
         function exportTableToExcelAnalyse() {
             console.log("start to download excel for QE");
             let wb = XLSX.utils.book_new(); // 确保这里是 XLSX
