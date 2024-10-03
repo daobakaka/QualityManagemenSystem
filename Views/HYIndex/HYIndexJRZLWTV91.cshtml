@@ -244,6 +244,7 @@
             </div>
             <div class="modal-body">
                 <form id="editForm" method="post">
+                    @Html.AntiForgeryToken() <!-- 添加防伪令牌 -->
                     <!-- Hidden fields -->
                     <input type="hidden" id="editId" name="ID" />
                     <input type="hidden" id="editOldMaterialCode" name="OldMaterialCode" />
@@ -259,48 +260,50 @@
                     <input type="hidden" id="editLocationCode" name="LocationCode" />
                     <input type="hidden" id="editFaultCode" name="FaultCode" />
                     <input type="hidden" id="editQE" name="QE" />
-
+                    <input type="hidden" id="editRowVersion" name="RowVersion" /> <!-- 使用 RowVersion -->
                     <!-- Display fields -->
                     <div class="form-group">
-                        <input type="text" class="form-control" name="ServiceFaultIdentificationAccurate" placeholder="SFCIA" required style="margin-top: 1vh;" />
+                        <input type="text" class="form-control" name="ServiceFaultIdentificationAccurate" id="editServiceFaultIdentificationAccurate" placeholder="SFCIA" required style="margin-top: 1vh;" />
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="IdentifiedFaultMode" placeholder="识别故障模式" required style="margin-top: 1vh;" />
+                        <input type="text" class="form-control" name="IdentifiedFaultMode" id="editIdentifiedFaultMode" placeholder="识别故障模式" required style="margin-top: 1vh;" />
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="BreakdownCount" placeholder="断点次数" required style="margin-top: 1vh;" />
+                        <input type="text" class="form-control" name="BreakdownCount" id="editBreakdownCount" placeholder="断点次数" required style="margin-top: 1vh;" />
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="IsBreakdownInvalid" placeholder="断点失效" required style="margin-top: 1vh;" />
+                        <input type="text" class="form-control" name="IsBreakdownInvalid" id="editIsBreakdownInvalid" placeholder="断点失效" required style="margin-top: 1vh;" />
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="IncludedInSIL" placeholder="已纳入SIL" required style="margin-top: 1vh;" />
+                        <input type="text" class="form-control" name="IncludedInSIL" id="editIncludedInSIL" placeholder="已纳入SIL" required style="margin-top: 1vh;" />
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="PQSNumber" placeholder="PQS编号" required style="margin-top: 1vh;" />
+                        <input type="text" class="form-control" name="PQSNumber" id="editPQSNumber" placeholder="PQS编号" required style="margin-top: 1vh;" />
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="BreakpointTime" placeholder="断点时间" required style="margin-top: 1vh;" />
+                        <input type="text" class="form-control" name="BreakpointTime" id="editBreakpointTime" placeholder="断点时间" required style="margin-top: 1vh;" />
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="StartTime" placeholder="立项时间" required style="margin-top: 1vh;" />
+                        <input type="text" class="form-control" name="StartTime" id="editStartTime" placeholder="立项时间" required style="margin-top: 1vh;" />
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="Remarks" placeholder="备注" required style="margin-top: 1vh;" />
+                        <input type="text" class="form-control" name="Remarks" id="editRemarks" placeholder="备注" required style="margin-top: 1vh;" />
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="ProjectIdentifier" placeholder="VID" required style="margin-top: 1vh;" />
+                        <input type="text" class="form-control" name="ProjectIdentifier" id="editProjectIdentifier" placeholder="VID" required style="margin-top: 1vh;" />
                     </div>
                     <button type="submit" class="btn btn-outline-secondary mb-2" style="margin-top: 2vh; display: block; margin-left: auto; margin-right: auto;">
                         保存更改
                     </button>
                 </form>
-                <!-- Save changes button placed directly in the modal body -->
-
+                <!-- 并发冲突提示 -->
+                <div id="concurrencyConflict" class="alert alert-danger" style="display:none; margin-top: 1vh;">
+                    <strong>并发冲突：</strong>该记录已被其他用户修改。请刷新并重新编辑。
+                </div>
             </div>
         </div>
     </div>
-</div>
+
 <!-- 选项模态框 -->
 <!-- Modal -->
 <div class="modal fade" id="optionsModalOP" tabindex="-1" aria-labelledby="optionsModalLabelOP" aria-hidden="true">
@@ -866,67 +869,6 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
             }
         });
     </script>@*  数据图形化区域 *@
-    <script>
-        $(document).ready(function () { // 确保 DOM 加载完成后执行代码
-
-            function convertKeysToLowerCase(data) {
-                const result = {};
-                for (const key in data) {
-                    if (data.hasOwnProperty(key)) {
-                        result[key.toLowerCase()] = data[key];
-                    }
-                }
-                return result;
-            }
-
-            $('.edit-btn').on('click', function () {
-                let id = $(this).data('id');
-                $.get('/RemoteEdit/GetDetails', { id: id }, function (data) {
-                    data = convertKeysToLowerCase(data);
-                    if (data.success !== false) {
-                        $('#editId').val(data.id || "0");
-                        $('#editOldMaterialCode').val(data.oldmaterialcode || "0");
-                        $('#editOldMaterialDescription').val(data.oldmaterialdescription || "0");
-                        $('#editSupplierShortCode').val(data.suppliershortcode || "0");
-                        $('#editResponsibilitySourceSupplierName').val(data.responsibilitysourcesuppliername || "NA");
-                        $('#editMIS3').val(data.mis3 || "0");
-                        $('#editMIS6').val(data.mis6 || "0");
-                        $('#editMIS12').val(data.mis12 || "0");
-                        $('#editMIS24').val(data.mis24 || "0");
-                        $('#editMIS36').val(data.mis36 || "0");
-                        $('#editSMT').val(data.smt || "NA");
-                        $('#editLocationCode').val(data.locationcode || "NA");
-                        $('#editFaultCode').val(data.faultcode || "NA");
-                        $('#editQE').val(data.qe || "NA");
-                        // $('#editIdentifiedFaultCode').val(data.identifiedfaultcode || "NA");
-                        $('#editModal').modal('show');
-                    } else {
-                        alert(data.message);
-                    }
-                }).fail(function () {
-                    alert('请求失败');
-                });
-            });
-
-            $('#editForm').on('submit', function (e) {
-                e.preventDefault();
-                let formData = $(this).serialize();
-                console.log(formData);
-                $.post('/RemoteEdit/Edit', formData, function (response) {
-                    if (response.success) {
-                        $('#editModal').modal('hide');
-                        location.reload();
-                    } else {
-                        alert(response.message);
-                    }
-                }).fail(function () {
-                    alert('提交失败');
-                });
-            });
-
-        });
-
-    </script>@*  即日质量问题编辑区域 *@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const modalHeader = document.querySelectorAll('.modal-header');
@@ -1561,6 +1503,68 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
         }
 
     </script> @* SIL逻辑 *@
+    <script>
+             $(document).ready(function () { // 确保 DOM 加载完成后执行代码
 
+                function convertKeysToLowerCase(data) {
+                    const result = {};
+                    for (const key in data) {
+                        if (data.hasOwnProperty(key)) {
+                            result[key.toLowerCase()] = data[key];
+                        }
+                    }
+                    return result;
+                }
+                //事件绑定
+            $(document).on('click', '.edit-btn', function () {
+                    console.log("开始编辑");
+                    let id = $(this).data('id');
+                    $.get('/RemoteEdit/GetDetails', { id: id }, function (data) {
+                        data = convertKeysToLowerCase(data);
+                        if (data.success !== false) {
+                            $('#editId').val(data.id || "0");
+                            $('#editOldMaterialCode').val(data.oldmaterialcode || "0");
+                            $('#editOldMaterialDescription').val(data.oldmaterialdescription || "0");
+                            $('#editSupplierShortCode').val(data.suppliershortcode || "0");
+                            $('#editResponsibilitySourceSupplierName').val(data.responsibilitysourcesuppliername || "NA");
+                            $('#editMIS3').val(data.mis3 || "0");
+                            $('#editMIS6').val(data.mis6 || "0");
+                            $('#editMIS12').val(data.mis12 || "0");
+                            $('#editMIS24').val(data.mis24 || "0");
+                            $('#editMIS36').val(data.mis36 || "0");
+                            $('#editSMT').val(data.smt || "NA");
+                            $('#editLocationCode').val(data.locationcode || "NA");
+                            $('#editFaultCode').val(data.faultcode || "NA");
+                            $('#editQE').val(data.qe || "NA");
+                            $('#editRowVersion').val(data.rowversion || "NA"); // 填充 RowVersion
+                            // $('#editIdentifiedFaultCode').val(data.identifiedfaultcode || "NA");
+                            $('#editModal').modal('show');
+                        } else {
+                            alert(data.message);
+                        }
+                    }).fail(function () {
+                        alert('请求失败');
+                    });
+                });
+
+                $('#editForm').on('submit', function (e) {
+                    e.preventDefault();
+                    let formData = $(this).serialize();
+                    console.log(formData);
+                    $.post('/RemoteEdit/Edit', formData, function (response) {
+                        if (response.success) {
+                            $('#editModal').modal('hide');
+                            location.reload();
+                        } else {
+                            alert(response.message);
+                        }
+                    }).fail(function () {
+                        alert('提交失败');
+                    });
+                });
+
+             });
+
+        </script>@*  即日质量问题编辑区域 *@
 
 }
