@@ -3,6 +3,11 @@
 @{
     var pageTitle = "测试";
     ViewData["Title"] = pageTitle;
+    ViewBag.Username = @Context.Session.GetString("Username");
+    ViewBag.Name = @Context.Session.GetString("Name");
+    ViewBag.Role = @Context.Session.GetString("Role");
+    ViewBag.Group = @Context.Session.GetString("Group");
+    ViewBag.Phone = @Context.Session.GetString("Phone");
     ViewBag.IsLoggedIn = true;
 }
 @* 需要的信息： 部位码  旧物料号 故障码  标题(自动生成) 省份 地级市 失效件数量 故障等级 故障描述 信息提报人(QE) 提报人电话(QE电话)// 故障原因初步分析 维修经过与效果 检修人(服务站)

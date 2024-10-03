@@ -1,10 +1,15 @@
 ﻿@{
     var pageTilte = "24小时会议";
     ViewData["Title"] = pageTilte;
+    ViewBag.Username = @Context.Session.GetString("Username");
+    ViewBag.Name = @Context.Session.GetString("Name");
+    ViewBag.Role = @Context.Session.GetString("Role");
+    ViewBag.Group = @Context.Session.GetString("Group");
+    ViewBag.Phone = @Context.Session.GetString("Phone");
+    ViewBag.IsLoggedIn = true;
+
 }
 
 <div class="text-center">
     <h1 class="display-4">@pageTilte</h1>
-    <p></p>
-    <p> <a href="https://www.baidu.com">百度</a></p>
 </div>

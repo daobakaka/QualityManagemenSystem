@@ -24,7 +24,14 @@ namespace WebWinMVC.Data
 
         // Configure the model with explicit table names
         protected override void OnModelCreating(ModelBuilder modelBuilder)
+
+
         {
+            modelBuilder.Entity<DailyQualityIssueChecklistV91>()
+         .Property(e => e.RowVersion)
+         .IsRowVersion(); // 确保 RowVersion 被配置为行版本
+
+
             base.OnModelCreating(modelBuilder);
 
             // Set table names to match DbSet properties
@@ -39,4 +46,5 @@ namespace WebWinMVC.Data
             modelBuilder.Entity<UserAuthentication>().ToTable("userAuthentications");
         }
     }
+
 }

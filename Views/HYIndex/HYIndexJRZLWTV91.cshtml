@@ -239,7 +239,7 @@
         <div class="modal-content">
             <!-- Modal header (for dragging) -->
             <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel" style="text-align: center; width: 100%;">XXX编辑记录</h5>
+                <h5 class="modal-title" id="editModalLabel" style="text-align: center; width: 100%;">@ViewBag.Name 编辑记录</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -384,8 +384,8 @@
     </div>
 </div>
 <!-- Error message container -->
-<div id="error-message" style="display:none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color: transparent; border: none; font-size: 18px;"></div>
+@* <div id="error-message" style="display:none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color: transparent; border: none; font-size: 18px;"></div> *@
 
 @section Scripts {
     <script>
@@ -706,11 +706,11 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
             const yValues = processedData.map(item => item.y);
             const zValues = processedData.map(item => item.z);
             const textValues = processedData.map(item => `MIS:${item.original.mis}<br>
-                                                                  VAN:${item.original.van}<br>
-                                                                  M.O.D:${item.original.manufacturingMonth}<br>
-                                                                  S.D:${item.original.salesDate}<br>
-                                                                  FDP:${item.original.fdp}<br>
-                                                                  F.C.D:${item.original.faultCodeDescription}`);
+                                                          VAN:${item.original.van}<br>
+                                                          M.O.D:${item.original.manufacturingMonth}<br>
+                                                          S.D:${item.original.salesDate}<br>
+                                                          FDP:${item.original.fdp}<br>
+                                                          F.C.D:${item.original.faultCodeDescription}`);
             // 打印值
             // console.log('X Values:', xValues);
             // console.log('Y Values:', yValues);
@@ -1522,10 +1522,8 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                 } else if (jqXHR.status === 500) {
                     errorMessage = '服务器错误，请稍后再试。';
                 }
-                $('#error-message').text(errorMessage).show();
-                setTimeout(function () {
-                    $('#error-message').fadeOut();
-                }, 2000);
+                alert(errorMessage);
+             
                 console.error('请求失败:', textStatus, errorThrown);
             });
 
@@ -1556,10 +1554,7 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                     } else if (jqXHR.status === 500) {
                         errorMessage = '服务器错误，请稍后再试。';
                     }
-                    $('#error-message').text(errorMessage).show();
-                    setTimeout(function () {
-                        $('#error-message').fadeOut();
-                    }, 2000);
+                    alert(errorMessage);
                     console.error('请求失败:', textStatus, errorThrown);
                 }
             });

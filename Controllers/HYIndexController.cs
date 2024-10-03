@@ -51,7 +51,8 @@ namespace WebWinMVC.Controllers
             //viewBag 赋值模块
 
             //--
-
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("Username")))
+                return RedirectToAction("Index", "Home");
             var sILSimulationTables = _context.SILSimulationTables.OrderBy(c => c.ID).ToList();
             var viewMOdel = new JRZLWTViewModel
             {
@@ -66,39 +67,55 @@ namespace WebWinMVC.Controllers
         }
         public IActionResult HYIndexTOP()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("Username")))
+                return RedirectToAction("Index", "Home");
             return View();
 
         }
         public IActionResult HYIndex24M()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("Username")))
+                return RedirectToAction("Index", "Home");
             return View();
 
         }
         public IActionResult HYIndexWM()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("Username")))
+                return RedirectToAction("Index", "Home");
             return View();
 
         }
         public IActionResult HYIndexQMC()
+
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("Username")))
+                return RedirectToAction("Index", "Home");
             return View();
 
         }
      
         public IActionResult HYIndexOTHER()
+
         {
+
             return View();
 
         }
         public IActionResult HYIndexMANAGER()
+
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("Username")))
+                return RedirectToAction("Index", "Home");
+
             return View();
 
         }
 
         public IActionResult TESTPAGES()
         {
-            
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("Username")))
+                return RedirectToAction("Index", "Home");
 
             var checklistsV91 = _context.DailyQualityIssueChecklistV91s.OrderBy(c => c.ID).ToList();
 

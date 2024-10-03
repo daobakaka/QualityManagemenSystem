@@ -14,7 +14,7 @@ namespace WebWinMVC
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
         options.LoginPath = "/Home/Index"; // 未登录用户将重定向到此路径
         options.Cookie.Expiration = null;
     });
@@ -22,7 +22,7 @@ namespace WebWinMVC
             // 添加Session服务
             builder.Services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromMinutes(5); // 设置 Session 超时时间为 30 分钟
+                options.IdleTimeout = TimeSpan.FromMinutes(30); // 设置 Session 超时时间为 30 分钟
                 options.Cookie.HttpOnly = true; // 使 cookie 只能通过 HTTP 访问
                 options.Cookie.IsEssential = true; // 保证即使用户不同意 Cookie 也启用
                 options.Cookie.HttpOnly = true;

@@ -148,3 +148,8 @@ E:\C#\WebWinMVC\WebWinMVC\obj\Debug\net8.0\refint\WebWinMVC.dll
 E:\C#\WebWinMVC\WebWinMVC\obj\Debug\net8.0\WebWinMVC.pdb
 E:\C#\WebWinMVC\WebWinMVC\obj\Debug\net8.0\WebWinMVC.genruntimeconfig.cache
 E:\C#\WebWinMVC\WebWinMVC\obj\Debug\net8.0\ref\WebWinMVC.dll
+E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\Hangfire.AspNetCore.dll
+E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\Hangfire.Core.dll
+E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\Hangfire.NetCore.dll
+E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\Hangfire.SqlServer.dll
+E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\Newtonsoft.Json.dll

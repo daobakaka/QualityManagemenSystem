@@ -1,4 +1,6 @@
-﻿namespace WebWinMVC.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace WebWinMVC.Models
 {
     public class DailyQualityIssueChecklistV91
     {
@@ -27,6 +29,9 @@
         public string StartTime { get; set; } = default!;
         public string Remarks { get; set; } = default!;
         public string ProjectIdentifier { get; set; } = default!;
+
+        [Timestamp]
+        public byte[] RowVersion { get; set; } = default!;
 
     }
 }

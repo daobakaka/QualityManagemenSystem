@@ -1,9 +1,13 @@
 ﻿@{
     ViewData["Title"] = "HY PAGE";
+    ViewBag.Username = @Context.Session.GetString("Username");
+    ViewBag.Name = @Context.Session.GetString("Name");
+    ViewBag.Role = @Context.Session.GetString("Role");
+    ViewBag.Group = @Context.Session.GetString("Group");
+    ViewBag.Phone = @Context.Session.GetString("Phone");
+    ViewBag.IsLoggedIn = true;
 }
 
 <div class="text-center">
-    <h1 class="display-4">上汽红岩即日质量问题数据清洗问题</h1>
-    <p></p>
-    <p> <a href="https://www.baidu.com">百度</a></p>
+    <h1 class="display-4">每周质量问题</h1>
 </div>

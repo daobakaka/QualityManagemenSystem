@@ -1,10 +1,390 @@
-﻿@{
-    var pageTilte = "管理员";
-    ViewData["Title"] = pageTilte;
+﻿@model WebWinMVC.Models.JRZLWTViewModel
+
+@{
+    var pageTitle = "管理员";
+    ViewData["Title"] = pageTitle;
+    ViewBag.Username = Context.Session.GetString("Username");
+    ViewBag.Name = Context.Session.GetString("Name");
+    ViewBag.Role = Context.Session.GetString("Role");
+    ViewBag.Group = Context.Session.GetString("Group");
+    ViewBag.Phone = Context.Session.GetString("Phone");
+    ViewBag.IsLoggedIn = true;
 }
 
-<div class="text-center">
-    <h1 class="display-4">@pageTilte</h1>
-    <p></p>
-    <p> <a href="https://www.baidu.com">百度</a></p>
+<div class="upload-container">
+    <div class="text-center mb-4">
+        <h1 class="responsive-heading">@pageTitle</h1>
+    </div>
+
+    <!-- 上传模块列表 -->
+    <div class="upload-modules">
+        <!-- 模块列表开始 -->
+        <!-- 1. 上传 BreakpointAnalysisTable -->
+        <div class="card mb-4">
+            <div class="card-header" >
+                <h2 style ="font-size: 18px;">上传断点分析表</h2>
+            </div>
+            <div class="card-body">
+                <!-- 上传表单 -->
+                <form class="upload-form" data-upload-type="BreakpointAnalysisTable" enctype="multipart/form-data" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+                        <label>选择要上传的文件（断点分析表）：</label>
+                        <input type="file" class="file-input form-control-file" required />
+                        <small class="form-text text-muted">支持最大文件大小：200MB。</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>选择操作类型：</label>
+                        <div>
+                            <div class="form-check">
+                                <input type="radio" id="replace-BreakpointAnalysisTable" name="operation-BreakpointAnalysisTable" value="Replace" class="form-check-input" checked />
+                                <label class="form-check-label" for="replace-BreakpointAnalysisTable">替换</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" id="update-BreakpointAnalysisTable" name="operation-BreakpointAnalysisTable" value="Update" class="form-check-input" />
+                                <label class="form-check-label" for="update-BreakpointAnalysisTable">更新</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 上传文件按钮，初始禁用 -->
+                    <button type="button" class="submit-button btn btn-outline-secondary mb-2" style="width: 20%; margin-top:1.5vh" disabled>提交</button>
+
+                    <!-- 进度条 -->
+                    <div class="progress mt-3" style="display: none;">
+                        <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- 2. 上传 DailyServiceReviewForms -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h2 style="font-size: 18px;">上传每日服务审查单</h2>
+            </div>
+            <div class="card-body">
+                <!-- 上传表单 -->
+                <form class="upload-form" data-upload-type="DailyServiceReviewForms" enctype="multipart/form-data" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+                        <label>选择要上传的文件（每日服务审查单）：</label>
+                        <input type="file" class="file-input form-control-file" required />
+                        <small class="form-text text-muted">支持最大文件大小：200MB。</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>选择操作类型：</label>
+                        <div>
+                            <div class="form-check">
+                                <input type="radio" id="replace-DailyServiceReviewForms" name="operation-DailyServiceReviewForms" value="Replace" class="form-check-input" checked />
+                                <label class="form-check-label" for="replace-DailyServiceReviewForms">替换</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" id="update-DailyServiceReviewForms" name="operation-DailyServiceReviewForms" value="Update" class="form-check-input" />
+                                <label class="form-check-label" for="update-DailyServiceReviewForms">更新</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 上传文件按钮，初始禁用 -->
+                    <button type="button" class="submit-button btn btn-outline-secondary mb-2" style="width: 20%; margin-top:1.5vh" disabled>提交</button>
+
+                    <!-- 进度条 -->
+                    <div class="progress mt-3" style="display: none;">
+                        <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- 3. 上传 DailyServiceReviewFormQueries -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h2 style="font-size: 18px;">上传每日服务审查单查询</h2>
+            </div>
+            <div class="card-body">
+                <!-- 上传表单 -->
+                <form class="upload-form" data-upload-type="DailyServiceReviewFormQueries" enctype="multipart/form-data" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+                        <label>选择要上传的文件（每日服务审查单查询）：</label>
+                        <input type="file" class="file-input form-control-file" required />
+                        <small class="form-text text-muted">支持最大文件大小：200MB。</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>选择操作类型：</label>
+                        <div>
+                            <div class="form-check">
+                                <input type="radio" id="replace-DailyServiceReviewFormQueries" name="operation-DailyServiceReviewFormQueries" value="Replace" class="form-check-input" checked />
+                                <label class="form-check-label" for="replace-DailyServiceReviewFormQueries">替换</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" id="update-DailyServiceReviewFormQueries" name="operation-DailyServiceReviewFormQueries" value="Update" class="form-check-input" />
+                                <label class="form-check-label" for="update-DailyServiceReviewFormQueries">更新</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 上传文件按钮，初始禁用 -->
+                    <button type="button" class="submit-button btn btn-outline-secondary mb-2" style="width: 20%; margin-top:1.5vh" disabled>提交</button>
+
+                    <!-- 进度条 -->
+                    <div class="progress mt-3" style="display: none;">
+                        <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- 4. 上传 DailyQualityIssueChecklistV91s -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h2 style="font-size: 18px;">上传每日质量问题清单 V91</h2>
+            </div>
+            <div class="card-body">
+                <!-- 上传表单 -->
+                <form class="upload-form" data-upload-type="DailyQualityIssueChecklistV91s" enctype="multipart/form-data" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+                        <label>选择要上传的文件（每日质量问题清单 V91）：</label>
+                        <input type="file" class="file-input form-control-file" required />
+                        <small class="form-text text-muted">支持最大文件大小：200MB。</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>选择操作类型：</label>
+                        <div>
+                            <div class="form-check">
+                                <input type="radio" id="replace-DailyQualityIssueChecklistV91s" name="operation-DailyQualityIssueChecklistV91s" value="Replace" class="form-check-input" checked />
+                                <label class="form-check-label" for="replace-DailyQualityIssueChecklistV91s">替换</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" id="update-DailyQualityIssueChecklistV91s" name="operation-DailyQualityIssueChecklistV91s" value="Update" class="form-check-input" />
+                                <label class="form-check-label" for="update-DailyQualityIssueChecklistV91s">更新</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 上传文件按钮，初始禁用 -->
+                    <button type="button" class="submit-button btn btn-outline-secondary mb-2" style="width: 20%; margin-top:1.5vh" disabled>提交</button>
+
+                    <!-- 进度条 -->
+                    <div class="progress mt-3" style="display: none;">
+                        <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- 5. 上传 DailyQualityIssueChecklistV91Queries -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h2 style="font-size: 18px;">上传每日质量问题清单 V91 查询</h2>
+            </div>
+            <div class="card-body">
+                <!-- 上传表单 -->
+                <form class="upload-form" data-upload-type="DailyQualityIssueChecklistV91Queries" enctype="multipart/form-data" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+                        <label>选择要上传的文件（每日质量问题清单 V91 查询）：</label>
+                        <input type="file" class="file-input form-control-file" required />
+                        <small class="form-text text-muted">支持最大文件大小：200MB。</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>选择操作类型：</label>
+                        <div>
+                            <div class="form-check">
+                                <input type="radio" id="replace-DailyQualityIssueChecklistV91Queries" name="operation-DailyQualityIssueChecklistV91Queries" value="Replace" class="form-check-input" checked />
+                                <label class="form-check-label" for="replace-DailyQualityIssueChecklistV91Queries">替换</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" id="update-DailyQualityIssueChecklistV91Queries" name="operation-DailyQualityIssueChecklistV91Queries" value="Update" class="form-check-input" />
+                                <label class="form-check-label" for="update-DailyQualityIssueChecklistV91Queries">更新</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 上传文件按钮，初始禁用 -->
+                    <button type="button" class="submit-button btn btn-outline-secondary mb-2" style="width: 20%; margin-top:1.5vh" disabled>提交</button>
+
+                    <!-- 进度条 -->
+                    <div class="progress mt-3" style="display: none;">
+                        <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- 6. 上传 VehicleBasicInfos -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h2 style="font-size: 18px;">上传车辆基本信息</h2>
+            </div>
+            <div class="card-body">
+                <!-- 上传表单 -->
+                <form class="upload-form" data-upload-type="VehicleBasicInfos" enctype="multipart/form-data" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+                        <label>选择要上传的文件（车辆基本信息）：</label>
+                        <input type="file" class="file-input form-control-file" required />
+                        <small class="form-text text-muted">支持最大文件大小：200MB。</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>选择操作类型：</label>
+                        <div>
+                            <div class="form-check">
+                                <input type="radio" id="replace-VehicleBasicInfos" name="operation-VehicleBasicInfos" value="Replace" class="form-check-input" checked />
+                                <label class="form-check-label" for="replace-VehicleBasicInfos">替换</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" id="update-VehicleBasicInfos" name="operation-VehicleBasicInfos" value="Update" class="form-check-input" />
+                                <label class="form-check-label" for="update-VehicleBasicInfos">更新</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 上传文件按钮，初始禁用 -->
+                    <button type="button" class="submit-button btn btn-outline-secondary mb-2" style="width: 20%; margin-top:1.5vh" disabled>提交</button>
+
+                    <!-- 进度条 -->
+                    <div class="progress mt-3" style="display: none;">
+                        <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- 模块列表结束 -->
+    </div>
 </div>
+
+<!-- 引用必要的脚本 -->
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            const maxFileSize = 200 * 1024 * 1024; // 200MB
+
+            // 当文件选择变化时
+            $('.file-input').on('change', function () {
+                const $form = $(this).closest('form');
+                const file = this.files[0];
+                const $submitButton = $form.find('.submit-button');
+
+                if (!file) {
+                    $submitButton.prop('disabled', true);
+                    return;
+                }
+
+                // 验证文件大小
+                if (file.size > maxFileSize) {
+                    alert("文件大小超过200MB，请选择较小的文件。");
+                    $(this).val(''); // 清空文件输入
+                    $submitButton.prop('disabled', true);
+                    return;
+                }
+
+                $submitButton.prop('disabled', false); // 启用提交按钮
+            });
+
+            // 当点击提交按钮时
+            $('.submit-button').on('click', function () {
+                const $form = $(this).closest('form');
+                const uploadType = $form.data('upload-type');
+
+                // 获取操作类型
+                const operation = $form.find(`input[name="operation-${uploadType}"]:checked`).val();
+
+                // 获取文件输入
+                const fileInput = $form.find('.file-input')[0].files[0];
+                if (!fileInput) {
+                    alert("请先选择一个文件。");
+                    return;
+                }
+
+                // 创建一个 FormData 对象来处理表单数据（仅包含文件）
+                const formData = new FormData();
+                formData.append('file', fileInput);
+
+                // 获取 Anti-Forgery Token 并添加到 FormData
+                const token = $('input[name="__RequestVerificationToken"]').val();
+                formData.append('__RequestVerificationToken', token);
+
+                // 根据 uploadType 构建相应的 URL
+                const urlMap = {
+                    'BreakpointAnalysisTable': '/api/FileUpload/uploadBreakpointAnalysisTable',
+                    'DailyServiceReviewForms': '/api/FileUpload/uploadDailyServiceReviewForms',
+                    'DailyServiceReviewFormQueries': '/api/FileUpload/uploadDailyServiceReviewFormQueries',
+                    'DailyQualityIssueChecklistV91s': '/api/FileUpload/uploadDailyQualityIssueChecklistV91s',
+                    'DailyQualityIssueChecklistV91Queries': '/api/FileUpload/uploadDailyQualityIssueChecklistV91Queries',
+                    'VehicleBasicInfos': '/api/FileUpload/uploadVehicleBasicInfos'
+                };
+
+                const url = urlMap[uploadType] + `?operation=${operation}`;
+
+                const $progress = $form.find('.progress');
+                const $progressBar = $form.find('.progress-bar');
+                const $submitButton = $(this);
+
+                // 显示进度条并重置
+                $progress.show();
+                $progressBar.css('width', '0%').attr('aria-valuenow', 0).text('0%');
+
+                // 禁用提交按钮，防止重复提交
+                $submitButton.prop('disabled', true).text('上传中...');
+
+                // 发送 AJAX 请求
+                $.ajax({
+                    xhr: function () {
+                        const xhr = new window.XMLHttpRequest();
+                        // 上传进度事件
+                        xhr.upload.addEventListener("progress", function (evt) {
+                            if (evt.lengthComputable) {
+                                const percentComplete = Math.round((evt.loaded / evt.total) * 100);
+                                $progressBar.css('width', percentComplete + '%').attr('aria-valuenow', percentComplete).text(percentComplete + '%');
+                            }
+                        }, false);
+                        return xhr;
+                    },
+                    url: url,
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        console.log("上传成功:", response);
+                        alert("文件上传成功！");
+                        // 完成后将进度条设置为100%
+                        $progressBar.css('width', '100%').attr('aria-valuenow', 100).text('100%');
+                        setTimeout(function () {
+                            $progress.hide(); // 隐藏进度条
+                            // 重置提交按钮
+                            $submitButton.prop('disabled', false).text('提交');
+                            // 重置表单
+                            $form[0].reset();
+                        }, 500);
+                    },
+                    error: function (xhr) {
+                        console.error("上传失败:", xhr);
+                        alert("上传失败: " + (xhr.responseJSON?.title || "未知错误"));
+                        // 上传失败后重置进度条
+                        $progressBar.css('width', '0%').attr('aria-valuenow', 0).text('0%');
+                        $progress.hide();
+                        // 重置提交按钮
+                        $submitButton.prop('disabled', false).text('提交');
+                    }
+                });
+            });
+        });
+    </script>
+}
