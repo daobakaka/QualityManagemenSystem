@@ -335,7 +335,7 @@ table.dataTable thead th {
             .datatable-container .table tbody {
                 display: block; /* 使表体块级显示 */
                 width: 100%; /* 使表体宽度适应容器 */
-                height: 35vh; /* 固定容器高度 */
+                height: 31vh; /* 固定容器高度 */
                 overflow-y: auto; /* 启用垂直滚动 */
                 overflow-x: auto; /* 启用横向滚动 */
             }
@@ -360,7 +360,8 @@ table.dataTable thead th {
             }
 
             .datatable-container .table th {
-                font-size: 0.8em; /* 表头字体大小 */
+                font-size: 0.9em; /* 表头字体大小 */
+                height:2.5vh!important;
                 width: 7vw !important;
             }
 

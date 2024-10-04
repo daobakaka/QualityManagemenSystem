@@ -18,7 +18,7 @@
             <div class="row">
                 <div class="d-flex justify-content-center">
                     <table id="example" class="table table-bordered table-striped">
-                        <thead>
+                        <thead style="margin-top:0.3vh; ">
                             <tr>
                                 <th>旧物料代码</th>
                                 <th>旧物料描述</th>
@@ -303,6 +303,7 @@
             </div>
         </div>
     </div>
+ </div>
 
 <!-- 选项模态框 -->
 <!-- Modal -->
@@ -1125,6 +1126,7 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
         function generatePPTOnePage(titleText, modal, problemDescriptionContents, failureSituationContents) {
             titleText = `市场重点问题 (${dataStoreOnePage.problemDescription[1]} 问题)`;
             console.log("start to create PPT " + titleText + dataStoreOnePage.textTitleOP);
+            alert("开始生成一页纸报告");
             let pageMode = dataStoreOnePage.pageMode;
             // 创建PPTX文档
             let pres = new PptxGenJS();
@@ -1312,12 +1314,14 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
 
             // 保存演示文稿
             console.log("开始下载 PPTX 文件...");
+            alert("一页纸文件已生成");
             pres.writeFile({
                 fileName: `(${dataStoreOnePage.problemDescription[1]} ${dataStoreOnePage.problemDescription[7]})` // 输出为带 VID 的文件
             }).then(() => {
                 console.log("PPTX 文件已下载");
             }).catch(err => {
                 console.error("生成 PPTX 文件时出错：", err);
+                alert("生成报告出错");
             });
 
         }
@@ -1485,6 +1489,7 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                 success: function (response) {
                     // 处理成功回调
                     console.log('成功纳入SIL:', response);
+                    alert("成功纳入SIL");
                     // 在这里可以执行其他操作，例如显示成功消息等
                 },
                 error: function (jqXHR, textStatus, errorThrown) {

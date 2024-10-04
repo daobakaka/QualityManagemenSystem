@@ -318,7 +318,7 @@ namespace WebWinMVC
     {
         public BreakpointAnalysisTableMap()
         {
-            Map(m => m.MaterialCode).Name("物料号");
+            Map(m => m.MaterialCode).Name("旧物料代码");
             Map(m => m.LocationCode).Name("部位码");
             Map(m => m.FaultCode).Name("故障码");
             Map(m => m.BreakpointTime).Name("断点时间");
@@ -563,7 +563,7 @@ namespace WebWinMVC
         {
             return new Dictionary<string, string>
         {
-            { "物料号", nameof(BreakpointAnalysisTable.MaterialCode) },
+            { "旧物料代码", nameof(BreakpointAnalysisTable.MaterialCode) },
             { "部位码", nameof(BreakpointAnalysisTable.LocationCode) },
             { "故障码", nameof(BreakpointAnalysisTable.FaultCode) },
             { "断点时间", nameof(BreakpointAnalysisTable.BreakpointTime) },
