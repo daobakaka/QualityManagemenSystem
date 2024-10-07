@@ -21,6 +21,13 @@ namespace WebWinMVC.Data
 
         public DbSet<SILSimulationTable> SILSimulationTables { get; set; }
         public DbSet<UserAuthentication> userAuthentications { get; set; }
+        /// <summary>
+        /// add temp DBmodel
+        /// </summary>
+        /// <param name="modelBuilder"></param>
+        /// 
+        public DbSet<DailyQualityIssueChecklistV91Temp> dailyQualityIssueChecklistV91Temps { get; set; }
+        public DbSet<DailyQualityIssueChecklistV91QueryTemp> dailyQualityIssueChecklistV91QueryTemps { get; set; }
 
         // Configure the model with explicit table names
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -44,6 +51,8 @@ namespace WebWinMVC.Data
             modelBuilder.Entity<BreakpointAnalysisTable>().ToTable("BreakpointAnalysisTables"); // Add this line
             modelBuilder.Entity<SILSimulationTable>().ToTable(" SILSimulationTables");
             modelBuilder.Entity<UserAuthentication>().ToTable("userAuthentications");
+            modelBuilder.Entity<DailyQualityIssueChecklistV91Temp>().ToTable("dailyQualityIssueChecklistV91Temps");
+            modelBuilder.Entity<DailyQualityIssueChecklistV91QueryTemp>().ToTable("dailyQualityIssueChecklistV91QueryTemps");
         }
     }
 

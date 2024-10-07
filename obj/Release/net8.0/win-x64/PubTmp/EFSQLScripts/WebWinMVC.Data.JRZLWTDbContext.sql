@@ -2850,3 +2850,110 @@ GO
 COMMIT;
 GO
 
+BEGIN TRANSACTION;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241003103734_AddRowVersion'
+)
+BEGIN
+    ALTER TABLE [DailyQualityIssueChecklistV91s] ADD [RowVersion] rowversion NOT NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241003103734_AddRowVersion'
+)
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20241003103734_AddRowVersion', N'8.0.8');
+END;
+GO
+
+COMMIT;
+GO
+
+BEGIN TRANSACTION;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241007143726_AddDescriptionToYourEntity'
+)
+BEGIN
+    CREATE TABLE [dailyQualityIssueChecklistV91QueryTemps] (
+        [ID] int NOT NULL IDENTITY,
+        [ApprovalDate] nvarchar(max) NULL,
+        [VehicleModel] nvarchar(max) NULL,
+        [OldMaterialCode] nvarchar(max) NULL,
+        [OldMaterialDescription] nvarchar(max) NULL,
+        [SupplierShortCode] nvarchar(max) NULL,
+        [ResponsibilitySourceSupplierName] nvarchar(max) NULL,
+        [CaseCount] nvarchar(max) NULL,
+        [AccumulatedCaseCount] nvarchar(max) NULL,
+        [MIS3] nvarchar(max) NULL,
+        [MIS6] nvarchar(max) NULL,
+        [MIS12] nvarchar(max) NULL,
+        [MIS24] nvarchar(max) NULL,
+        [MIS36] nvarchar(max) NULL,
+        [SMT] nvarchar(max) NULL,
+        [LocationCode] nvarchar(max) NULL,
+        [FaultCode] nvarchar(max) NULL,
+        [PQSNumber] nvarchar(max) NULL,
+        [VAN] nvarchar(max) NULL,
+        [VIN] nvarchar(max) NULL,
+        CONSTRAINT [PK_dailyQualityIssueChecklistV91QueryTemps] PRIMARY KEY ([ID])
+    );
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241007143726_AddDescriptionToYourEntity'
+)
+BEGIN
+    CREATE TABLE [dailyQualityIssueChecklistV91Temps] (
+        [ID] int NOT NULL IDENTITY,
+        [OldMaterialCode] nvarchar(max) NOT NULL,
+        [OldMaterialDescription] nvarchar(max) NOT NULL,
+        [SupplierShortCode] nvarchar(max) NOT NULL,
+        [ResponsibilitySourceSupplierName] nvarchar(max) NOT NULL,
+        [MIS3] nvarchar(max) NOT NULL,
+        [MIS6] nvarchar(max) NOT NULL,
+        [MIS12] nvarchar(max) NOT NULL,
+        [MIS24] nvarchar(max) NOT NULL,
+        [MIS36] nvarchar(max) NOT NULL,
+        [SMT] nvarchar(max) NOT NULL,
+        [LocationCode] nvarchar(max) NOT NULL,
+        [FaultCode] nvarchar(max) NOT NULL,
+        [QE] nvarchar(max) NOT NULL,
+        [ServiceFaultIdentificationAccurate] nvarchar(max) NOT NULL,
+        [IdentifiedFaultMode] nvarchar(max) NOT NULL,
+        [BreakdownCount] nvarchar(max) NOT NULL,
+        [IsBreakdownInvalid] nvarchar(max) NOT NULL,
+        [IncludedInSIL] nvarchar(max) NOT NULL,
+        [PQSNumber] nvarchar(max) NOT NULL,
+        [BreakpointTime] nvarchar(max) NOT NULL,
+        [StartTime] nvarchar(max) NOT NULL,
+        [Remarks] nvarchar(max) NOT NULL,
+        [ProjectIdentifier] nvarchar(max) NOT NULL,
+        CONSTRAINT [PK_dailyQualityIssueChecklistV91Temps] PRIMARY KEY ([ID])
+    );
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241007143726_AddDescriptionToYourEntity'
+)
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20241007143726_AddDescriptionToYourEntity', N'8.0.8');
+END;
+GO
+
+COMMIT;
+GO
+

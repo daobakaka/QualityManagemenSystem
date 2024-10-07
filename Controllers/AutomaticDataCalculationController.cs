@@ -16,7 +16,7 @@ namespace WebWinMVC.Controllers
     {
         private readonly JRZLWTDbContext _context;
         private readonly ILogger<AutomaticDataCalculationController> _logger;
-       
+
 
         public AutomaticDataCalculationController(ILogger<AutomaticDataCalculationController> logger, JRZLWTDbContext context)
         {
@@ -54,6 +54,8 @@ namespace WebWinMVC.Controllers
             try
             {
                 List<PivotResult> resultsToStore = new List<PivotResult>();
+                var resultToStoreQuery = new List<PivotResult>();
+                var resultsToStoreReal=new List<PivotResult>();
                 var duplicateMaterialCodes = new List<PivotResult>();
 
                 IQueryable<DailyServiceReviewFormQuery> query = _context.DailyServiceReviewFormQueries.AsNoTracking()
@@ -61,7 +63,7 @@ namespace WebWinMVC.Controllers
                     .Where(e => e.ResponsibilitySourceIdentifier == "是")
                     .Where(e => (e.RepairMethod == "更换" || e.RepairMethod == "维修"))
                     .Where(e => e.MaterialType == "物料")
-                    .Where(e => e.ApprovalDate == "2024-09-01");
+                    .Where(e => e.ApprovalDate == "2024-09-01" || e.ApprovalDate == "2024-09-02" || e.ApprovalDate == "2024-09-03");
                 //|| e.ApprovalDate == "2024-09-02" || e.ApprovalDate == "2024-09-03"
 
                 _logger.LogInformation($"总计数量为：{query.ToList().Count}");
@@ -77,12 +79,12 @@ namespace WebWinMVC.Controllers
                 _logger.LogInformation($"使用固定车型列表，车型数量: {vehicleTypes.Count}");
 
                 var misSteps = new List<int> { 3, 6, 12, 24, 36 };
-                var pivotResults = new List<PivotResult>();
 
                 foreach (var vehicle in vehicleTypes)
                 {
                     _logger.LogInformation($"开始处理车型: {vehicle}");
                     HashSet<string> collectedMaterialCodes = new HashSet<string>();
+                    resultsToStore.Clear();//每次筛选不同车型的时候先清空内容
                     foreach (var step in misSteps)
                     {
                         _logger.LogInformation($"开始处理MIS步骤: {step}");
@@ -190,45 +192,42 @@ namespace WebWinMVC.Controllers
 
                             });
                         }
-                        // 确保 resultsToStore 已经被填充
-                        if (resultsToStore != null && resultsToStore.Any())
-                        {
-                            // 使用 LINQ 进行分组和累加
-                            var aggregatedResults = resultsToStore
-                                .GroupBy(r => r.OldMaterialCode)
-                                .Select(g =>
-                                {
-                                    var first = g.First();
-
-                                    // 累加 MIS 字段
-                                    int totalMIS3 = g.Sum(r => int.TryParse(r.MIS3, out var mis3) ? mis3 : 0);
-                                    int totalMIS6 = g.Sum(r => int.TryParse(r.MIS6, out var mis6) ? mis6 : 0);
-                                    int totalMIS12 = g.Sum(r => int.TryParse(r.MIS12, out var mis12) ? mis12 : 0);
-                                    int totalMIS24 = g.Sum(r => int.TryParse(r.MIS24, out var mis24) ? mis24 : 0);
-                                    int totalMIS36 = g.Sum(r => int.TryParse(r.MIS36, out var mis36) ? mis36 : 0);
-
-                                    // 更新第一个实例的 MIS 字段
-                                    first.MIS3 = totalMIS3.ToString();
-                                    first.MIS6 = totalMIS6.ToString();
-                                    first.MIS12 = totalMIS12.ToString();
-                                    first.MIS24 = totalMIS24.ToString();
-                                    first.MIS36 = totalMIS36.ToString();
-
-                                    // 如果需要累加其他字段，如 CaseCount，可以在此处处理
-                                    // 例如，累加 CaseCount:
-                                    // first.CaseCount = g.Sum(r => int.TryParse(r.CaseCount, out var cc) ? cc : 0).ToString();
-
-                                    return first;//保留第一个实例，其他不符合要求的删除
-                                })
-                                .ToList();
-
-                            // 替换原始的 resultsToStore
-                            resultsToStore = aggregatedResults;
-                        }
-
-
                     }
+                    // 确保 resultsToStore 已经被填充，执行累加逻辑
+                    if (resultsToStore != null && resultsToStore.Any())
+                    {
+                        // 使用 LINQ 进行分组和累加
+                        var aggregatedResults = resultsToStore
+                            .GroupBy(r => r.OldMaterialCode)
+                            .Select(g =>
+                            {
+                                var first = g.First();                               
+                                // 累加 MIS 字段
+                                int totalMIS3 = g.Sum(r => int.TryParse(r.MIS3, out var mis3) ? mis3 : 0);
+                                int totalMIS6 = g.Sum(r => int.TryParse(r.MIS6, out var mis6) ? mis6 : 0);
+                                int totalMIS12 = g.Sum(r => int.TryParse(r.MIS12, out var mis12) ? mis12 : 0);
+                                int totalMIS24 = g.Sum(r => int.TryParse(r.MIS24, out var mis24) ? mis24 : 0);
+                                int totalMIS36 = g.Sum(r => int.TryParse(r.MIS36, out var mis36) ? mis36 : 0);
 
+                                // 更新第一个实例的 MIS 字段                                
+                                first.MIS3 = totalMIS3.ToString();
+                                first.MIS6 = totalMIS6.ToString();
+                                first.MIS12 = totalMIS12.ToString();
+                                first.MIS24 = totalMIS24.ToString();
+                                first.MIS36 = totalMIS36.ToString();
+
+                                // 如果需要累加其他字段，如 CaseCount，可以在此处处理
+                                // 例如，累加 CaseCount:
+                                // first.CaseCount = g.Sum(r => int.TryParse(r.CaseCount, out var cc) ? cc : 0).ToString();
+
+                                return first;//保留第一个实例，其他不符合要求的删除
+                            })
+                            .ToList();
+
+                        // 替换原始的 resultsToStore
+                        resultsToStore = aggregatedResults;
+                    }
+                    //执行case 数计算逻辑
                     if (collectedMaterialCodes.Any())
                     {
                         _logger.LogInformation("开始批量计算 MIS36cal");
@@ -238,8 +237,8 @@ namespace WebWinMVC.Controllers
                         var mis36calResults = await query
                  .Where(q => q.FilteredVehicleModel != null && // 确保 FilteredVehicleModel 不为 null
                              q.FilteredVehicleModel == vehicle &&
-                              !string.IsNullOrEmpty(q.OldMaterialCode) && 
-                              collectedMaterialCodes.Contains(q.OldMaterialCode)&& // 确保 OldMaterialCode 不为 null 或空
+                              !string.IsNullOrEmpty(q.OldMaterialCode) &&
+                              collectedMaterialCodes.Contains(q.OldMaterialCode) && // 确保 OldMaterialCode 不为 null 或空
                              (q.MISInterval == "0.0" || q.MISInterval == "3.0" || q.MISInterval == "6.0" ||
                               q.MISInterval == "12.0" || q.MISInterval == "24.0" || q.MISInterval == "36.0"))
                  .GroupBy(q => q.OldMaterialCode!)
@@ -256,599 +255,1450 @@ namespace WebWinMVC.Controllers
                             {
                                 result.CaseCount = mis36cal.ToString();
                             }
-                          
+
                         }
                     }
+                    //执行查询储存表逻辑
+                    foreach (var item in resultsToStore)
+                    { 
+                    resultToStoreQuery.Add(item);//添加用于查询的筛选车型表
+                    
+                    }
+                    resultsToStore.Clear();//末尾清空储存表
+                }
 
-                } 
 
 
+                //-------------------------------------------------------------------------车型单次筛选完成
 
+                _logger.LogInformation("+++++++++++++++++++++++++++++++++++++++++打印查询每日查询列表" + resultsToStore.Count.ToString());
+                foreach (var result in resultToStoreQuery)
+                {
+
+                    resultsToStore.Add(result);//将resultToStore 重新赋值
+                    // 打印每个物料号的信息
+                    _logger.LogInformation($"物料号: {result.OldMaterialCode}, " +
+                                           $"断点时间: {result.BreakPointTime}, " +
+                                           $"断点次数: {result.BreakPointNum}, " +
+                                           $"车型: {result.VehicleModel}, " +
+                                           //$"审批日期: {result.ApprovalDate}, " +
+                                           //$"物料描述: {result.OldMaterialDescription}, " +
+                                           //$"供应商短代码: {result.SupplierShortCode}, " +
+                                           //$"责任源供应商: {result.ResponsibilitySourceSupplierName}, " +
+                                           $"案例数: {result.CaseCount}, " +
+                                           $"MIS3: {result.MIS3}, " +
+                                           $"MIS6: {result.MIS6}, " +
+                                           $"MIS12: {result.MIS12}, " +
+                                           $"MIS24: {result.MIS24}, " +
+                                           $"MIS36: {result.MIS36}, " +
+                                           //$"CumulativeCaseCount: {result.CumulativeCaseCount}, " +
+                                           //$"SMT: {result.SMT}, " +
+                                           //$"位置代码: {result.LocationCode}, " +
+                                           $"故障代码: {result.FaultCode}");
+                }
+                //执行完全累加逻辑！用于最终表的生成
+                if (resultsToStore != null && resultsToStore.Any())
+                {
+                    // 使用 LINQ 进行分组和累加
+                    var aggregatedResults = resultsToStore
+                        .GroupBy(r => r.OldMaterialCode)
+                        .Select(g =>
+                        {
+                            var first = g.First();
+                            // 累加 MIS 字段
+                            int totalMIS3 = g.Sum(r => int.TryParse(r.MIS3, out var mis3) ? mis3 : 0);
+                            int totalMIS6 = g.Sum(r => int.TryParse(r.MIS6, out var mis6) ? mis6 : 0);
+                            int totalMIS12 = g.Sum(r => int.TryParse(r.MIS12, out var mis12) ? mis12 : 0);
+                            int totalMIS24 = g.Sum(r => int.TryParse(r.MIS24, out var mis24) ? mis24 : 0);
+                            int totalMIS36 = g.Sum(r => int.TryParse(r.MIS36, out var mis36) ? mis36 : 0);
+                            //--因为车型不一样 所以这里需要执行整体累计逻辑
+                            int totalCase = g.Sum(r => int.TryParse(r.CaseCount, out var caseCount) ? caseCount : 0);
+
+                            // 更新第一个实例的 MIS 字段                                
+                            first.MIS3 = totalMIS3.ToString();
+                            first.MIS6 = totalMIS6.ToString();
+                            first.MIS12 = totalMIS12.ToString();
+                            first.MIS24 = totalMIS24.ToString();
+                            first.MIS36 = totalMIS36.ToString();
+                            //添加整体累加逻辑
+                            first.CaseCount = totalCase.ToString();
+                            // 如果需要累加其他字段，如 CaseCount，可以在此处处理
+                            // 例如，累加 CaseCount:
+                            // first.CaseCount = g.Sum(r => int.TryParse(r.CaseCount, out var cc) ? cc : 0).ToString();
+
+                            return first;//保留第一个实例，其他不符合要求的删除
+                        })
+                        .ToList();
+
+                    // 替换原始的 resultsToStore
+                    resultsToStore = aggregatedResults;
+                }
                 //完成后处理断点分散问题
 
 
                 _logger.LogInformation("+++++++++++++++++++++++++++++++++++++++++初始常规计算已完成" + resultsToStore.Count.ToString());
 
-                    foreach (var result in resultsToStore)
+                foreach (var result in resultsToStore)
+                {
+                    // 打印每个物料号的信息
+                    _logger.LogInformation($"物料号: {result.OldMaterialCode}, " +
+                                           $"断点时间: {result.BreakPointTime}, " +
+                                           $"断点次数: {result.BreakPointNum}, " +
+                                           //$"车型: {result.VehicleModel}, " +
+                                           //$"审批日期: {result.ApprovalDate}, " +
+                                           //$"物料描述: {result.OldMaterialDescription}, " +
+                                           //$"供应商短代码: {result.SupplierShortCode}, " +
+                                           //$"责任源供应商: {result.ResponsibilitySourceSupplierName}, " +
+                                           $"案例数: {result.CaseCount}, " +
+                                           $"MIS3: {result.MIS3}, " +
+                                           $"MIS6: {result.MIS6}, " +
+                                           $"MIS12: {result.MIS12}, " +
+                                           $"MIS24: {result.MIS24}, " +
+                                           $"MIS36: {result.MIS36}, " +
+                                           //$"CumulativeCaseCount: {result.CumulativeCaseCount}, " +
+                                           //$"SMT: {result.SMT}, " +
+                                           //$"位置代码: {result.LocationCode}, " +
+                                           $"故障代码: {result.FaultCode}");
+                }
+
+
+
+
+
+                var breakpoints = await _context.BreakpointAnalysisTables.AsNoTracking().ToListAsync();
+                // 为所有断点时间转换为统一的 YYYY-MM-DD 格式
+                var convertedBreakpoints = breakpoints
+                    .Select(b => new
                     {
-                        // 打印每个物料号的信息
-                        _logger.LogInformation($"物料号: {result.OldMaterialCode}, " +
-                                               $"断点时间: {result.BreakPointTime}, " +
-                                               $"断点次数: {result.BreakPointNum}, " +
-                                               //$"车型: {result.VehicleModel}, " +
-                                               //$"审批日期: {result.ApprovalDate}, " +
-                                               //$"物料描述: {result.OldMaterialDescription}, " +
-                                               //$"供应商短代码: {result.SupplierShortCode}, " +
-                                               //$"责任源供应商: {result.ResponsibilitySourceSupplierName}, " +
-                                               $"案例数: {result.CaseCount}, " +
-                                               $"MIS3: {result.MIS3}, " +
-                                               $"MIS6: {result.MIS6}, " +
-                                               $"MIS12: {result.MIS12}, " +
-                                               $"MIS24: {result.MIS24}, " +
-                                               $"MIS36: {result.MIS36}, " +
-                                               //$"CumulativeCaseCount: {result.CumulativeCaseCount}, " +
-                                               //$"SMT: {result.SMT}, " +
-                                               //$"位置代码: {result.LocationCode}, " +
-                                               $"故障代码: {result.FaultCode}");
-                    }
+                        OldMaterialCode = b.MaterialCode,
+                        BreakpointTime = b.BreakpointTime ?? "0", // YYMMDD 格式
+                        ConvertedDate = DateTime.TryParseExact(b.BreakpointTime, "yyMMdd", null, System.Globalization.DateTimeStyles.None, out var startDate)
+                            ? startDate.ToString("yyyy-MM-dd")
+                            : null
+                    })
+                    .ToList();
 
 
 
-
-
-                    var breakpoints = await _context.BreakpointAnalysisTables.AsNoTracking().ToListAsync();
-                    // 为所有断点时间转换为统一的 YYYY-MM-DD 格式
-                    var convertedBreakpoints = breakpoints
-                        .Select(b => new
-                        {
-                            OldMaterialCode = b.MaterialCode,
-                            BreakpointTime = b.BreakpointTime ?? "0", // YYMMDD 格式
-                            ConvertedDate = DateTime.TryParseExact(b.BreakpointTime, "yyMMdd", null, System.Globalization.DateTimeStyles.None, out var startDate)
-                                ? startDate.ToString("yyyy-MM-dd")
-                                : null
-                        })
+                foreach (var result in resultsToStore.ToList()) // 使用 ToList() 以避免在遍历中修改集合
+                {
+                    // 获取与物料号对应的所有断点
+                    var relevantBreakpoints = convertedBreakpoints
+                        .Where(b => b.OldMaterialCode == result.OldMaterialCode)
                         .ToList();
 
-
-
-                    foreach (var result in resultsToStore.ToList()) // 使用 ToList() 以避免在遍历中修改集合
+                    // 如果有相关的断点，则增加对应的实例
+                    if (relevantBreakpoints.Any())
                     {
-                        // 获取与物料号对应的所有断点
-                        var relevantBreakpoints = convertedBreakpoints
-                            .Where(b => b.OldMaterialCode == result.OldMaterialCode)
-                            .ToList();
-
-                        // 如果有相关的断点，则增加对应的实例
-                        if (relevantBreakpoints.Any())
+                        foreach (var breakpoint in relevantBreakpoints)
                         {
-                            foreach (var breakpoint in relevantBreakpoints)
+                            // 创建新的实例，属性与原始结果相同
+                            var newResult = new PivotResult
                             {
-                                // 创建新的实例，属性与原始结果相同
-                                var newResult = new PivotResult
-                                {
-                                    Order = result.Order, // 假设 Order 属性需要保留
-                                    ApprovalDate = result.ApprovalDate,
-                                    VehicleModel = result.VehicleModel,
-                                    OldMaterialCode = result.OldMaterialCode,
-                                    OldMaterialDescription = result.OldMaterialDescription,
-                                    SupplierShortCode = result.SupplierShortCode,
-                                    ResponsibilitySourceSupplierName = result.ResponsibilitySourceSupplierName,
-                                    CaseCount = result.CaseCount,
-                                    CumulativeCaseCount = result.CumulativeCaseCount,
-                                    MIS3 = result.MIS3,
-                                    MIS6 = result.MIS6,
-                                    MIS12 = result.MIS12,
-                                    MIS24 = result.MIS24,
-                                    MIS36 = result.MIS36,
-                                    SMT = result.SMT,
-                                    LocationCode = result.LocationCode,
-                                    FaultCode = result.FaultCode,
-                                    BreakPointNum = (relevantBreakpoints.IndexOf(breakpoint) + 1).ToString(), // 断点编号从1开始
-                                    BreakPointTime = breakpoint.ConvertedDate,
-                                };
+                                Order = result.Order, // 假设 Order 属性需要保留
+                                ApprovalDate = result.ApprovalDate,
+                                VehicleModel = result.VehicleModel,
+                                OldMaterialCode = result.OldMaterialCode,
+                                OldMaterialDescription = result.OldMaterialDescription,
+                                SupplierShortCode = result.SupplierShortCode,
+                                ResponsibilitySourceSupplierName = result.ResponsibilitySourceSupplierName,
+                                CaseCount = result.CaseCount,
+                                CumulativeCaseCount = result.CumulativeCaseCount,
+                                MIS3 = result.MIS3,
+                                MIS6 = result.MIS6,
+                                MIS12 = result.MIS12,
+                                MIS24 = result.MIS24,
+                                MIS36 = result.MIS36,
+                                SMT = result.SMT,
+                                LocationCode = result.LocationCode,
+                                FaultCode = result.FaultCode,
+                                BreakPointNum = (relevantBreakpoints.IndexOf(breakpoint) + 1).ToString(), // 断点编号从1开始
+                                BreakPointTime = breakpoint.ConvertedDate,
+                            };
 
-                                // 添加新的实例到结果列表中
-                                resultsToStore.Add(newResult);
-                            }
+                            // 添加新的实例到结果列表中
+                            resultsToStore.Add(newResult);
                         }
                     }
+                }
 
-                
-                        // 假设 duplicateMaterialCodes 已经初始化
-                        _logger.LogInformation("+++++++++++++++++++++++++++++++++++++++++添加断点重复项已经完毕" + resultsToStore.Count.ToString());
-                        var seenMaterialCodes = new HashSet<string>(); // 用于跟踪已经添加的物料号
 
-                        foreach (var duplicate in resultsToStore.ToList()) // 使用 ToList() 避免在遍历时修改集合
+                // 假设 duplicateMaterialCodes 已经初始化
+                _logger.LogInformation("+++++++++++++++++++++++++++++++++++++++++添加断点重复项已经完毕" + resultsToStore.Count.ToString());
+                var seenMaterialCodes = new HashSet<string>(); // 用于跟踪已经添加的物料号
+
+                foreach (var duplicate in resultsToStore.ToList()) // 使用 ToList() 避免在遍历时修改集合
+                {
+                    // 查找所有与当前 duplicate.OldMaterialCode 相同的物料号
+                    var duplicates = resultsToStore.Where(r => r.OldMaterialCode == duplicate.OldMaterialCode).ToList();
+
+                    // 如果存在重复项并且该物料号尚未被添加过
+                    if (duplicates.Count > 1 && !seenMaterialCodes.Contains(duplicate.OldMaterialCode))
+                    {
+                        duplicateMaterialCodes.AddRange(duplicates);
+                        seenMaterialCodes.Add(duplicate.OldMaterialCode); // 标记为已添加
+                    }
+
+                    // 从 resultsToStore 中移除这些重复项
+
+                }
+                resultsToStore.RemoveAll(r => seenMaterialCodes.Contains(r.OldMaterialCode));
+                _logger.LogInformation("+++++++++++++++++++++++++++++++++++++++++++重复断点列表已经生成" + duplicateMaterialCodes.Count.ToString());
+                _logger.LogInformation("+++++++++++++++++++++++++++++++++++++++++++剩余不需要进行断点处理的列表" + resultsToStore.Count.ToString());
+                _logger.LogInformation("+++++++++++++++++++++++++++++++++++++++++++开始打印重复的列表");
+                foreach (var result in duplicateMaterialCodes)
+                {
+                    // 打印每个物料号的信息
+                    _logger.LogInformation($"物料号: {result.OldMaterialCode}, " +
+                                           $"断点时间: {result.BreakPointTime}, " +
+                                           $"断点次数: {result.BreakPointNum}, " +
+                                           //$"车型: {result.VehicleModel}, " +
+                                           //$"审批日期: {result.ApprovalDate}, " +
+                                           //$"物料描述: {result.OldMaterialDescription}, " +
+                                           //$"供应商短代码: {result.SupplierShortCode}, " +
+                                           //$"责任源供应商: {result.ResponsibilitySourceSupplierName}, " +
+                                           $"案例数: {result.CaseCount}, " +
+                                           $"MIS3: {result.MIS3}, " +
+                                           $"MIS6: {result.MIS6}, " +
+                                           $"MIS12: {result.MIS12}, " +
+                                           $"MIS24: {result.MIS24}, " +
+                                           $"MIS36: {result.MIS36}, " +
+                                           //$"CumulativeCaseCount: {result.CumulativeCaseCount}, " +
+                                           //$"SMT: {result.SMT}, " +
+                                           //$"位置代码: {result.LocationCode}, " +
+                                           $"故障代码: {result.FaultCode}");
+                    //将重复列表的项来进行清零，便于后续断点分离的计算
+                    result.CaseCount = "-1";//当case count =-1，时，代表系统未进入，后期，直接抛弃，不会重新设立为新问题
+                    //if(result.MIS3!="0")
+                    //result.MIS3 = "0";
+                    //else
+                    //result.MIS3 = "NIL";
+                    //if (result.MIS6 != "0")
+                    //    result.MIS6 = "0";
+                    //else
+                    //    result.MIS3 = "NIL";
+                    //result.MIS12 = "0";
+                    //result.MIS24 = "0";
+                    //result.MIS36 =  "0";
+                }
+
+
+                // 假设 duplicateMaterialCodes 已经被正确填充
+                foreach (var result in duplicateMaterialCodes)
+                {
+                    // 获取与物料号对应的所有断点
+                    var relevantBreakpoints = convertedBreakpoints
+                        .Where(b => b.OldMaterialCode == result.OldMaterialCode)
+                        .ToList();
+                    _logger.LogInformation($"物料号{result.OldMaterialCode}++++++++++++++++++++++++++综合个数{relevantBreakpoints.Count}");
+                    //这是储存的每个物料号的断点的数量，至少应该是1个，重复列表才会是两个
+
+
+                    if (relevantBreakpoints.Any())
+
+                    {
+                        var queryCode = query.Where(b => b.OldMaterialCode == result.OldMaterialCode);//定义一个特定的物料查询号
+                        int mis3, mis6, mis12, mis24, mis36;
+                        mis3 = mis6 = mis12 = mis24 = mis36 = 0;
+                        foreach (var queryItem in queryCode)//用手写6次断点几乎涵盖所有情况，每次遍历物料号就可以写入下面 BreakPointNum对应的值进入duplicateMaterialCodes表
                         {
-                            // 查找所有与当前 duplicate.OldMaterialCode 相同的物料号
-                            var duplicates = resultsToStore.Where(r => r.OldMaterialCode == duplicate.OldMaterialCode).ToList();
-
-                            // 如果存在重复项并且该物料号尚未被添加过
-                            if (duplicates.Count > 1 && !seenMaterialCodes.Contains(duplicate.OldMaterialCode))
+                            string manufactureMonth = queryItem.ManufacturingMonth ?? "0";
+                            if (relevantBreakpoints.Count == 1)
                             {
-                                duplicateMaterialCodes.AddRange(duplicates);
-                                seenMaterialCodes.Add(duplicate.OldMaterialCode); // 标记为已添加
-                            }
+                                string startDateStr1 = relevantBreakpoints[0].ConvertedDate ?? "0";
+                               // _logger.LogInformation("找到断点为1");
 
-                            // 从 resultsToStore 中移除这些重复项
-
-                        }
-                        resultsToStore.RemoveAll(r => seenMaterialCodes.Contains(r.OldMaterialCode));
-                        _logger.LogInformation("+++++++++++++++++++++++++++++++++++++++++++重复断点列表已经生成" + duplicateMaterialCodes.Count.ToString());
-                        _logger.LogInformation("+++++++++++++++++++++++++++++++++++++++++++剩余不需要进行断点处理的列表" + resultsToStore.Count.ToString());
-
-
-
-
-                        // 假设 duplicateMaterialCodes 已经被正确填充
-                        foreach (var result in duplicateMaterialCodes)
-                        {
-                            // 获取与物料号对应的所有断点
-                            var relevantBreakpoints = convertedBreakpoints
-                                .Where(b => b.OldMaterialCode == result.OldMaterialCode)
-                                .ToList();
-                            //这是储存的每个物料号的断点的数量，至少应该是两个
-                            if (relevantBreakpoints.Any())
-                            {
-
-                                int mis3, mis6, mis12, mis24, mis36;
-                                mis3 = mis6 = mis12 = mis24 = mis36 = 0;
-                                foreach (var queryItem in query)//用手写6次断点几乎涵盖所有情况，每次遍历物料号就可以写入下面 BreakPointNum对应的值进入duplicateMaterialCodes表
+                                if (result.BreakPointNum == "1")
                                 {
-                                    string manufactureMonth = queryItem.ManufacturingMonth ?? "0";
-                                    if (relevantBreakpoints.Count == 2)
+
+                                    //断点时间大于等于制造月,断点前产品
+                                    if (startDateStr1.CompareTo(manufactureMonth) >= 0)
                                     {
-                                        string startDateStr1 = relevantBreakpoints[1].ConvertedDate ?? "0";
-                                        // string startDateStr2 = relevantBreakpoints[2].ConvertedDate ?? "0";
 
-                                        if (result.BreakPointNum == "1")
+                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
                                         {
-
-                                            //断点时间大于等于制造月,断点前产品
-                                            if (startDateStr1.CompareTo(manufactureMonth) >= 0)
-                                            {
-                                                if (result.MIS3 != "0") { mis3++; result.MIS3 = mis3.ToString(); }
-                                                else if (result.MIS6 != "0") { mis6++; result.MIS6 = mis6.ToString(); }
-                                                else if (result.MIS12 != "0") { mis12++; result.MIS12 = mis12.ToString(); }
-                                                else if (result.MIS24 != "0") { mis24++; result.MIS24 = mis24.ToString(); }
-                                                else if (result.MIS36 != "0") { mis36++; result.MIS36 = mis36.ToString(); }
-
-                                            }
+                                            
+                                            
+                                                mis3++;
+                                           
+                                        }
+                                        else if (queryItem.MISInterval == "6.0")
+                                        {
+                                            mis6++;
+                                      
+                                      
 
                                         }
-                                        else  //断点时间小于制造月，断点之后产品，断点失效
+                                        else if (queryItem.MISInterval == "12.0")
                                         {
-                                            if (startDateStr1.CompareTo(manufactureMonth) < 0)
-                                            {
-                                                if (result.MIS3 != "0") { mis3++; result.MIS3 = mis3.ToString(); }
-                                                else if (result.MIS6 != "0") { mis6++; result.MIS6 = mis6.ToString(); }
-                                                else if (result.MIS12 != "0") { mis12++; result.MIS12 = mis12.ToString(); }
-                                                else if (result.MIS24 != "0") { mis24++; result.MIS24 = mis24.ToString(); }
-                                                else if (result.MIS36 != "0") { mis36++; result.MIS36 = mis36.ToString(); }
-                                            }
-
+                                            mis12++;
+                                           
+                                             
 
                                         }
+                                        else if (queryItem.MISInterval == "24.0")
+                                        {
+                                            mis24++;
+                                          
+                                             
 
+                                        }
+                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        if (result.MIS3!="0")
+                                            result.MIS3 = mis3.ToString();
+                                        if (result.MIS6 != "0")
+                                            result.MIS6 = (mis6 + mis3).ToString();
+                                        if (result.MIS12 != "0")
+                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
+                                        if (result.MIS24 != "0")
+                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
+                                        if (result.MIS36 != "0")
+                                            result.MIS36 = mis36.ToString();
+                                        result.CaseCount = mis36.ToString();
 
                                     }
-                                    else if(relevantBreakpoints.Count == 3)
+
+                                }
+                                else  //断点时间小于制造月，断点之后产品，断点失效
+                                {
+                                    if (startDateStr1.CompareTo(manufactureMonth) < 0)
                                     {
-                                        string startDateStr1 = relevantBreakpoints[1].ConvertedDate ?? "0";
-                                        string startDateStr2 = relevantBreakpoints[2].ConvertedDate ?? "0";
-                                        if (result.BreakPointNum == "1")
+                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
                                         {
 
-                                            //断点时间大于等于制造月,断点前产品
-                                            if (startDateStr1.CompareTo(manufactureMonth) >= 0)
-                                            {
-                                                if (result.MIS3 != "0") { mis3++; result.MIS3 = mis3.ToString(); }
-                                                else if (result.MIS6 != "0") { mis6++; result.MIS6 = mis6.ToString(); }
-                                                else if (result.MIS12 != "0") { mis12++; result.MIS12 = mis12.ToString(); }
-                                                else if (result.MIS24 != "0") { mis24++; result.MIS24 = mis24.ToString(); }
-                                                else if (result.MIS36 != "0") { mis36++; result.MIS36 = mis36.ToString(); }
 
-                                            }
+                                            mis3++;
 
                                         }
-                                        else if (result.BreakPointNum == "2")
-                                        {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
-                                            if (startDateStr1.CompareTo(manufactureMonth) < 0 && startDateStr2.CompareTo(manufactureMonth) >= 0)
-                                            {
-                                                if (result.MIS3 != "0") { mis3++; result.MIS3 = mis3.ToString(); }
-                                                else if (result.MIS6 != "0") { mis6++; result.MIS6 = mis6.ToString(); }
-                                                else if (result.MIS12 != "0") { mis12++; result.MIS12 = mis12.ToString(); }
-                                                else if (result.MIS24 != "0") { mis24++; result.MIS24 = mis24.ToString(); }
-                                                else if (result.MIS36 != "0") { mis36++; result.MIS36 = mis36.ToString(); }
-
-                                            }
-                                        }
-                                        else
+                                        else if (queryItem.MISInterval == "6.0")
                                         {
-                                            if (startDateStr2.CompareTo(manufactureMonth) < 0 )
-                                            {
-                                                //2次断点时间小于制造月，2次断点失效产品
-                                                if (result.MIS3 != "0") { mis3++; result.MIS3 = mis3.ToString(); }
-                                                else if (result.MIS6 != "0") { mis6++; result.MIS6 = mis6.ToString(); }
-                                                else if (result.MIS12 != "0") { mis12++; result.MIS12 = mis12.ToString(); }
-                                                else if (result.MIS24 != "0") { mis24++; result.MIS24 = mis24.ToString(); }
-                                                else if (result.MIS36 != "0") { mis36++; result.MIS36 = mis36.ToString(); }
+                                            mis6++;
 
-                                            }
+
 
                                         }
+                                        else if (queryItem.MISInterval == "12.0")
+                                        {
+                                            mis12++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "24.0")
+                                        {
+                                            mis24++;
+
+
+
+                                        }
+                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        if (result.MIS3 != "0")
+                                            result.MIS3 = mis3.ToString();
+                                        if (result.MIS6 != "0")
+                                            result.MIS6 = (mis6 + mis3).ToString();
+                                        if (result.MIS12 != "0")
+                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
+                                        if (result.MIS24 != "0")
+                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
+                                        if (result.MIS36 != "0")
+                                            result.MIS36 = mis36.ToString();
+                                        result.CaseCount = mis36.ToString();
+                                    }
+
+
+                                }
+
+
+                            }
+                            else if (relevantBreakpoints.Count == 2)
+                            {
+                                string startDateStr1 = relevantBreakpoints[0].ConvertedDate ?? "0";
+                                string startDateStr2 = relevantBreakpoints[1].ConvertedDate ?? "0";
+                              //  _logger.LogInformation("找到断点为2");
+                                if (result.BreakPointNum == "1")
+                                {
+
+                                    //断点时间大于等于制造月,断点前产品
+                                    if (startDateStr1.CompareTo(manufactureMonth) >= 0)
+                                    {
+                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        {
+
+
+                                            mis3++;
+
+                                        }
+                                        else if (queryItem.MISInterval == "6.0")
+                                        {
+                                            mis6++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "12.0")
+                                        {
+                                            mis12++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "24.0")
+                                        {
+                                            mis24++;
+
+
+
+                                        }
+                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        if (result.MIS3 != "0")
+                                            result.MIS3 = mis3.ToString();
+                                        if (result.MIS6 != "0")
+                                            result.MIS6 = (mis6 + mis3).ToString();
+                                        if (result.MIS12 != "0")
+                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
+                                        if (result.MIS24 != "0")
+                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
+                                        if (result.MIS36 != "0")
+                                            result.MIS36 = mis36.ToString();
+                                        result.CaseCount = mis36.ToString();
 
                                     }
-                                    else if (relevantBreakpoints.Count == 4)
+
+                                }
+                                else if (result.BreakPointNum == "2")
+                                {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
+                                    if (startDateStr1.CompareTo(manufactureMonth) < 0 && startDateStr2.CompareTo(manufactureMonth) >= 0)
                                     {
-                                        string startDateStr1 = relevantBreakpoints[1].ConvertedDate ?? "0";
-                                        string startDateStr2 = relevantBreakpoints[2].ConvertedDate ?? "0";
-                                        string startDateStr3 = relevantBreakpoints[3].ConvertedDate ?? "0";
-                                        if (result.BreakPointNum == "1")
+                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
                                         {
 
-                                            //断点时间大于等于制造月,断点前产品
-                                            if (startDateStr1.CompareTo(manufactureMonth) >= 0)
-                                            {
-                                                if (result.MIS3 != "0") { mis3++; result.MIS3 = mis3.ToString(); }
-                                                else if (result.MIS6 != "0") { mis6++; result.MIS6 = mis6.ToString(); }
-                                                else if (result.MIS12 != "0") { mis12++; result.MIS12 = mis12.ToString(); }
-                                                else if (result.MIS24 != "0") { mis24++; result.MIS24 = mis24.ToString(); }
-                                                else if (result.MIS36 != "0") { mis36++; result.MIS36 = mis36.ToString(); }
 
-                                            }
+                                            mis3++;
 
                                         }
-                                        else if (result.BreakPointNum == "2")
-                                        {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
-                                            if (startDateStr1.CompareTo(manufactureMonth) < 0 && startDateStr2.CompareTo(manufactureMonth) >= 0)
-                                            {
-                                                if (result.MIS3 != "0") { mis3++; result.MIS3 = mis3.ToString(); }
-                                                else if (result.MIS6 != "0") { mis6++; result.MIS6 = mis6.ToString(); }
-                                                else if (result.MIS12 != "0") { mis12++; result.MIS12 = mis12.ToString(); }
-                                                else if (result.MIS24 != "0") { mis24++; result.MIS24 = mis24.ToString(); }
-                                                else if (result.MIS36 != "0") { mis36++; result.MIS36 = mis36.ToString(); }
-
-                                            }
-                                        }
-                                        else if (result.BreakPointNum == "3")
-                                        {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
-                                            if (startDateStr2.CompareTo(manufactureMonth) < 0 && startDateStr3.CompareTo(manufactureMonth) >= 0)
-                                            {
-                                                if (result.MIS3 != "0") { mis3++; result.MIS3 = mis3.ToString(); }
-                                                else if (result.MIS6 != "0") { mis6++; result.MIS6 = mis6.ToString(); }
-                                                else if (result.MIS12 != "0") { mis12++; result.MIS12 = mis12.ToString(); }
-                                                else if (result.MIS24 != "0") { mis24++; result.MIS24 = mis24.ToString(); }
-                                                else if (result.MIS36 != "0") { mis36++; result.MIS36 = mis36.ToString(); }
-
-                                            }
-                                        }
-                                        else
+                                        else if (queryItem.MISInterval == "6.0")
                                         {
-                                            if (startDateStr3.CompareTo(manufactureMonth) < 0)
-                                            {
-                                                //2次断点时间小于制造月，2次断点失效产品
-                                                if (result.MIS3 != "0") { mis3++; result.MIS3 = mis3.ToString(); }
-                                                else if (result.MIS6 != "0") { mis6++; result.MIS6 = mis6.ToString(); }
-                                                else if (result.MIS12 != "0") { mis12++; result.MIS12 = mis12.ToString(); }
-                                                else if (result.MIS24 != "0") { mis24++; result.MIS24 = mis24.ToString(); }
-                                                else if (result.MIS36 != "0") { mis36++; result.MIS36 = mis36.ToString(); }
+                                            mis6++;
 
-                                            }
+
 
                                         }
-
-                                    }
-                                    else if (relevantBreakpoints.Count == 5)
-                                    {
-                                        string startDateStr1 = relevantBreakpoints[1].ConvertedDate ?? "0";
-                                        string startDateStr2 = relevantBreakpoints[2].ConvertedDate ?? "0";
-                                        string startDateStr3 = relevantBreakpoints[3].ConvertedDate ?? "0";
-                                        string startDateStr4 = relevantBreakpoints[4].ConvertedDate ?? "0"; 
-                                        if (result.BreakPointNum == "1")
+                                        else if (queryItem.MISInterval == "12.0")
                                         {
+                                            mis12++;
 
-                                            //断点时间大于等于制造月,断点前产品
-                                            if (startDateStr1.CompareTo(manufactureMonth) >= 0)
-                                            {
-                                                if (result.MIS3 != "0") { mis3++; result.MIS3 = mis3.ToString(); }
-                                                else if (result.MIS6 != "0") { mis6++; result.MIS6 = mis6.ToString(); }
-                                                else if (result.MIS12 != "0") { mis12++; result.MIS12 = mis12.ToString(); }
-                                                else if (result.MIS24 != "0") { mis24++; result.MIS24 = mis24.ToString(); }
-                                                else if (result.MIS36 != "0") { mis36++; result.MIS36 = mis36.ToString(); }
 
-                                            }
 
                                         }
-                                        else if (result.BreakPointNum == "2")
-                                        {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
-                                            if (startDateStr1.CompareTo(manufactureMonth) < 0 && startDateStr2.CompareTo(manufactureMonth) >= 0)
-                                            {
-                                                if (result.MIS3 != "0") { mis3++; result.MIS3 = mis3.ToString(); }
-                                                else if (result.MIS6 != "0") { mis6++; result.MIS6 = mis6.ToString(); }
-                                                else if (result.MIS12 != "0") { mis12++; result.MIS12 = mis12.ToString(); }
-                                                else if (result.MIS24 != "0") { mis24++; result.MIS24 = mis24.ToString(); }
-                                                else if (result.MIS36 != "0") { mis36++; result.MIS36 = mis36.ToString(); }
-
-                                            }
-                                        }
-                                        else if (result.BreakPointNum == "3")
-                                        {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
-                                            if (startDateStr2.CompareTo(manufactureMonth) < 0 && startDateStr3.CompareTo(manufactureMonth) >= 0)
-                                            {
-                                                if (result.MIS3 != "0") { mis3++; result.MIS3 = mis3.ToString(); }
-                                                else if (result.MIS6 != "0") { mis6++; result.MIS6 = mis6.ToString(); }
-                                                else if (result.MIS12 != "0") { mis12++; result.MIS12 = mis12.ToString(); }
-                                                else if (result.MIS24 != "0") { mis24++; result.MIS24 = mis24.ToString(); }
-                                                else if (result.MIS36 != "0") { mis36++; result.MIS36 = mis36.ToString(); }
-
-                                            }
-                                        }
-                                        else if (result.BreakPointNum == "4")
-                                        {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
-                                            if (startDateStr3.CompareTo(manufactureMonth) < 0 && startDateStr4.CompareTo(manufactureMonth) >= 0)
-                                            {
-                                                if (result.MIS3 != "0") { mis3++; result.MIS3 = mis3.ToString(); }
-                                                else if (result.MIS6 != "0") { mis6++; result.MIS6 = mis6.ToString(); }
-                                                else if (result.MIS12 != "0") { mis12++; result.MIS12 = mis12.ToString(); }
-                                                else if (result.MIS24 != "0") { mis24++; result.MIS24 = mis24.ToString(); }
-                                                else if (result.MIS36 != "0") { mis36++; result.MIS36 = mis36.ToString(); }
-
-                                            }
-                                        }
-                                        else
+                                        else if (queryItem.MISInterval == "24.0")
                                         {
-                                            if (startDateStr4.CompareTo(manufactureMonth) < 0)
-                                            {
-                                                //2次断点时间小于制造月，2次断点失效产品
-                                                if (result.MIS3 != "0") { mis3++; result.MIS3 = mis3.ToString(); }
-                                                else if (result.MIS6 != "0") { mis6++; result.MIS6 = mis6.ToString(); }
-                                                else if (result.MIS12 != "0") { mis12++; result.MIS12 = mis12.ToString(); }
-                                                else if (result.MIS24 != "0") { mis24++; result.MIS24 = mis24.ToString(); }
-                                                else if (result.MIS36 != "0") { mis36++; result.MIS36 = mis36.ToString(); }
+                                            mis24++;
 
-                                            }
+
 
                                         }
-
-                                    }
-                                    else if (relevantBreakpoints.Count == 6)
-                                    {
-                                        string startDateStr1 = relevantBreakpoints[1].ConvertedDate ?? "0";
-                                        string startDateStr2 = relevantBreakpoints[2].ConvertedDate ?? "0";
-                                        string startDateStr3 = relevantBreakpoints[3].ConvertedDate ?? "0";
-                                        string startDateStr4 = relevantBreakpoints[4].ConvertedDate ?? "0";
-                                        string startDateStr5 = relevantBreakpoints[5].ConvertedDate ?? "0";
-                                        if (result.BreakPointNum == "1")
-                                        {
-
-                                            //断点时间大于等于制造月,断点前产品
-                                            if (startDateStr1.CompareTo(manufactureMonth) >= 0)
-                                            {
-                                                if (result.MIS3 != "0") { mis3++; result.MIS3 = mis3.ToString(); }
-                                                else if (result.MIS6 != "0") { mis6++; result.MIS6 = mis6.ToString(); }
-                                                else if (result.MIS12 != "0") { mis12++; result.MIS12 = mis12.ToString(); }
-                                                else if (result.MIS24 != "0") { mis24++; result.MIS24 = mis24.ToString(); }
-                                                else if (result.MIS36 != "0") { mis36++; result.MIS36 = mis36.ToString(); }
-
-                                            }
-
-                                        }
-                                        else if (result.BreakPointNum == "2")
-                                        {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
-                                            if (startDateStr1.CompareTo(manufactureMonth) < 0 && startDateStr2.CompareTo(manufactureMonth) >= 0)
-                                            {
-                                                if (result.MIS3 != "0") { mis3++; result.MIS3 = mis3.ToString(); }
-                                                else if (result.MIS6 != "0") { mis6++; result.MIS6 = mis6.ToString(); }
-                                                else if (result.MIS12 != "0") { mis12++; result.MIS12 = mis12.ToString(); }
-                                                else if (result.MIS24 != "0") { mis24++; result.MIS24 = mis24.ToString(); }
-                                                else if (result.MIS36 != "0") { mis36++; result.MIS36 = mis36.ToString(); }
-
-                                            }
-                                        }
-                                        else if (result.BreakPointNum == "3")
-                                        {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
-                                            if (startDateStr2.CompareTo(manufactureMonth) < 0 && startDateStr3.CompareTo(manufactureMonth) >= 0)
-                                            {
-                                                if (result.MIS3 != "0") { mis3++; result.MIS3 = mis3.ToString(); }
-                                                else if (result.MIS6 != "0") { mis6++; result.MIS6 = mis6.ToString(); }
-                                                else if (result.MIS12 != "0") { mis12++; result.MIS12 = mis12.ToString(); }
-                                                else if (result.MIS24 != "0") { mis24++; result.MIS24 = mis24.ToString(); }
-                                                else if (result.MIS36 != "0") { mis36++; result.MIS36 = mis36.ToString(); }
-
-                                            }
-                                        }
-                                        else if (result.BreakPointNum == "4")
-                                        {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
-                                            if (startDateStr3.CompareTo(manufactureMonth) < 0 && startDateStr4.CompareTo(manufactureMonth) >= 0)
-                                            {
-                                                if (result.MIS3 != "0") { mis3++; result.MIS3 = mis3.ToString(); }
-                                                else if (result.MIS6 != "0") { mis6++; result.MIS6 = mis6.ToString(); }
-                                                else if (result.MIS12 != "0") { mis12++; result.MIS12 = mis12.ToString(); }
-                                                else if (result.MIS24 != "0") { mis24++; result.MIS24 = mis24.ToString(); }
-                                                else if (result.MIS36 != "0") { mis36++; result.MIS36 = mis36.ToString(); }
-
-                                            }
-                                        }
-                                        else if (result.BreakPointNum == "5")
-                                        {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
-                                            if (startDateStr4.CompareTo(manufactureMonth) < 0 && startDateStr5.CompareTo(manufactureMonth) >= 0)
-                                            {
-                                                if (result.MIS3 != "0") { mis3++; result.MIS3 = mis3.ToString(); }
-                                                else if (result.MIS6 != "0") { mis6++; result.MIS6 = mis6.ToString(); }
-                                                else if (result.MIS12 != "0") { mis12++; result.MIS12 = mis12.ToString(); }
-                                                else if (result.MIS24 != "0") { mis24++; result.MIS24 = mis24.ToString(); }
-                                                else if (result.MIS36 != "0") { mis36++; result.MIS36 = mis36.ToString(); }
-
-                                            }
-                                        }
-                                        else
-                                        {
-                                            if (startDateStr5.CompareTo(manufactureMonth) < 0)
-                                            {
-                                                //2次断点时间小于制造月，2次断点失效产品
-                                                if (result.MIS3 != "0") { mis3++; result.MIS3 = mis3.ToString(); }
-                                                else if (result.MIS6 != "0") { mis6++; result.MIS6 = mis6.ToString(); }
-                                                else if (result.MIS12 != "0") { mis12++; result.MIS12 = mis12.ToString(); }
-                                                else if (result.MIS24 != "0") { mis24++; result.MIS24 = mis24.ToString(); }
-                                                else if (result.MIS36 != "0") { mis36++; result.MIS36 = mis36.ToString(); }
-
-                                            }
-
-                                        }
-
-                                    }
-                                    else if (relevantBreakpoints.Count == 7)
-                                    {
-                                        string startDateStr1 = relevantBreakpoints[1].ConvertedDate ?? "0";
-                                        string startDateStr2 = relevantBreakpoints[2].ConvertedDate ?? "0";
-                                        string startDateStr3 = relevantBreakpoints[3].ConvertedDate ?? "0";
-                                        string startDateStr4 = relevantBreakpoints[4].ConvertedDate ?? "0";
-                                        string startDateStr5 = relevantBreakpoints[5].ConvertedDate ?? "0";
-                                        string startDateStr6 = relevantBreakpoints[6].ConvertedDate ?? "0";
-                                        if (result.BreakPointNum == "1")
-                                        {
-
-                                            //断点时间大于等于制造月,断点前产品
-                                            if (startDateStr1.CompareTo(manufactureMonth) >= 0)
-                                            {
-                                                if (result.MIS3 != "0") { mis3++; result.MIS3 = mis3.ToString(); }
-                                                else if (result.MIS6 != "0") { mis6++; result.MIS6 = mis6.ToString(); }
-                                                else if (result.MIS12 != "0") { mis12++; result.MIS12 = mis12.ToString(); }
-                                                else if (result.MIS24 != "0") { mis24++; result.MIS24 = mis24.ToString(); }
-                                                else if (result.MIS36 != "0") { mis36++; result.MIS36 = mis36.ToString(); }
-
-                                            }
-
-                                        }
-                                        else if (result.BreakPointNum == "2")
-                                        {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
-                                            if (startDateStr1.CompareTo(manufactureMonth) < 0 && startDateStr2.CompareTo(manufactureMonth) >= 0)
-                                            {
-                                                if (result.MIS3 != "0") { mis3++; result.MIS3 = mis3.ToString(); }
-                                                else if (result.MIS6 != "0") { mis6++; result.MIS6 = mis6.ToString(); }
-                                                else if (result.MIS12 != "0") { mis12++; result.MIS12 = mis12.ToString(); }
-                                                else if (result.MIS24 != "0") { mis24++; result.MIS24 = mis24.ToString(); }
-                                                else if (result.MIS36 != "0") { mis36++; result.MIS36 = mis36.ToString(); }
-
-                                            }
-                                        }
-                                        else if (result.BreakPointNum == "3")
-                                        {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于2次断点到3次断点间的产品
-                                            if (startDateStr2.CompareTo(manufactureMonth) < 0 && startDateStr3.CompareTo(manufactureMonth) >= 0)
-                                            {
-                                                if (result.MIS3 != "0") { mis3++; result.MIS3 = mis3.ToString(); }
-                                                else if (result.MIS6 != "0") { mis6++; result.MIS6 = mis6.ToString(); }
-                                                else if (result.MIS12 != "0") { mis12++; result.MIS12 = mis12.ToString(); }
-                                                else if (result.MIS24 != "0") { mis24++; result.MIS24 = mis24.ToString(); }
-                                                else if (result.MIS36 != "0") { mis36++; result.MIS36 = mis36.ToString(); }
-
-                                            }
-                                        }
-                                        else if (result.BreakPointNum == "4")
-                                        {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于3次断点到4次断点间的产品
-                                            if (startDateStr3.CompareTo(manufactureMonth) < 0 && startDateStr4.CompareTo(manufactureMonth) >= 0)
-                                            {
-                                                if (result.MIS3 != "0") { mis3++; result.MIS3 = mis3.ToString(); }
-                                                else if (result.MIS6 != "0") { mis6++; result.MIS6 = mis6.ToString(); }
-                                                else if (result.MIS12 != "0") { mis12++; result.MIS12 = mis12.ToString(); }
-                                                else if (result.MIS24 != "0") { mis24++; result.MIS24 = mis24.ToString(); }
-                                                else if (result.MIS36 != "0") { mis36++; result.MIS36 = mis36.ToString(); }
-
-                                            }
-                                        }
-                                        else if (result.BreakPointNum == "5")
-                                        {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于4次断点到5次断点间的产品
-                                            if (startDateStr4.CompareTo(manufactureMonth) < 0 && startDateStr5.CompareTo(manufactureMonth) >= 0)
-                                            {
-                                                if (result.MIS3 != "0") { mis3++; result.MIS3 = mis3.ToString(); }
-                                                else if (result.MIS6 != "0") { mis6++; result.MIS6 = mis6.ToString(); }
-                                                else if (result.MIS12 != "0") { mis12++; result.MIS12 = mis12.ToString(); }
-                                                else if (result.MIS24 != "0") { mis24++; result.MIS24 = mis24.ToString(); }
-                                                else if (result.MIS36 != "0") { mis36++; result.MIS36 = mis36.ToString(); }
-
-                                            }
-                                        }
-                                        else if (result.BreakPointNum == "6")
-                                        {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于5次断点到6次断点间的产品
-                                            if (startDateStr5.CompareTo(manufactureMonth) < 0 && startDateStr6.CompareTo(manufactureMonth) >= 0)
-                                            {
-                                                if (result.MIS3 != "0") { mis3++; result.MIS3 = mis3.ToString(); }
-                                                else if (result.MIS6 != "0") { mis6++; result.MIS6 = mis6.ToString(); }
-                                                else if (result.MIS12 != "0") { mis12++; result.MIS12 = mis12.ToString(); }
-                                                else if (result.MIS24 != "0") { mis24++; result.MIS24 = mis24.ToString(); }
-                                                else if (result.MIS36 != "0") { mis36++; result.MIS36 = mis36.ToString(); }
-
-                                            }
-                                        }
-                                        else
-                                        {
-                                            if (startDateStr6.CompareTo(manufactureMonth) < 0)
-                                            {
-                                                //2次断点时间小于制造月，2次断点失效产品
-                                                if (result.MIS3 != "0") { mis3++; result.MIS3 = mis3.ToString(); }
-                                                else if (result.MIS6 != "0") { mis6++; result.MIS6 = mis6.ToString(); }
-                                                else if (result.MIS12 != "0") { mis12++; result.MIS12 = mis12.ToString(); }
-                                                else if (result.MIS24 != "0") { mis24++; result.MIS24 = mis24.ToString(); }
-                                                else if (result.MIS36 != "0") { mis36++; result.MIS36 = mis36.ToString(); }
-
-                                            }
-
-                                        }
+                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        if (result.MIS3 != "0")
+                                            result.MIS3 = mis3.ToString();
+                                        if (result.MIS6 != "0")
+                                            result.MIS6 = (mis6 + mis3).ToString();
+                                        if (result.MIS12 != "0")
+                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
+                                        if (result.MIS24 != "0")
+                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
+                                        if (result.MIS36 != "0")
+                                            result.MIS36 = mis36.ToString();
+                                        result.CaseCount = mis36.ToString();
 
                                     }
                                 }
+                                else
+                                {
+                                    if (startDateStr2.CompareTo(manufactureMonth) < 0)
+                                    {
+                                        //2次断点时间小于制造月，2次断点失效产品
+                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        {
 
-                                // 例如将这些值存储到 result 中或进行其他逻辑处理
+
+                                            mis3++;
+
+                                        }
+                                        else if (queryItem.MISInterval == "6.0")
+                                        {
+                                            mis6++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "12.0")
+                                        {
+                                            mis12++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "24.0")
+                                        {
+                                            mis24++;
+
+
+
+                                        }
+                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        if (result.MIS3 != "0")
+                                            result.MIS3 = mis3.ToString();
+                                        if (result.MIS6 != "0")
+                                            result.MIS6 = (mis6 + mis3).ToString();
+                                        if (result.MIS12 != "0")
+                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
+                                        if (result.MIS24 != "0")
+                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
+                                        if (result.MIS36 != "0")
+                                            result.MIS36 = mis36.ToString();
+                                        result.CaseCount = mis36.ToString();
+
+                                    }
+
+                                }
+
+                            }
+                            else if (relevantBreakpoints.Count == 3)
+                            {
+                              //  _logger.LogInformation("找到断点为3");
+                                string startDateStr1 = relevantBreakpoints[0].ConvertedDate ?? "0";
+                                string startDateStr2 = relevantBreakpoints[1].ConvertedDate ?? "0";
+                                string startDateStr3 = relevantBreakpoints[2].ConvertedDate ?? "0";
+                                if (result.BreakPointNum == "1")
+                                {
+
+                                    //断点时间大于等于制造月,断点前产品
+                                    if (startDateStr1.CompareTo(manufactureMonth) >= 0)
+                                    {
+                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        {
+
+
+                                            mis3++;
+
+                                        }
+                                        else if (queryItem.MISInterval == "6.0")
+                                        {
+                                            mis6++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "12.0")
+                                        {
+                                            mis12++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "24.0")
+                                        {
+                                            mis24++;
+
+
+
+                                        }
+                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        if (result.MIS3 != "0")
+                                            result.MIS3 = mis3.ToString();
+                                        if (result.MIS6 != "0")
+                                            result.MIS6 = (mis6 + mis3).ToString();
+                                        if (result.MIS12 != "0")
+                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
+                                        if (result.MIS24 != "0")
+                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
+                                        if (result.MIS36 != "0")
+                                            result.MIS36 = mis36.ToString();
+                                        result.CaseCount = mis36.ToString();
+
+                                    }
+
+                                }
+                                else if (result.BreakPointNum == "2")
+                                {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
+                                    if (startDateStr1.CompareTo(manufactureMonth) < 0 && startDateStr2.CompareTo(manufactureMonth) >= 0)
+                                    {
+                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        {
+
+
+                                            mis3++;
+
+                                        }
+                                        else if (queryItem.MISInterval == "6.0")
+                                        {
+                                            mis6++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "12.0")
+                                        {
+                                            mis12++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "24.0")
+                                        {
+                                            mis24++;
+
+
+
+                                        }
+                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        if (result.MIS3 != "0")
+                                            result.MIS3 = mis3.ToString();
+                                        if (result.MIS6 != "0")
+                                            result.MIS6 = (mis6 + mis3).ToString();
+                                        if (result.MIS12 != "0")
+                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
+                                        if (result.MIS24 != "0")
+                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
+                                        if (result.MIS36 != "0")
+                                            result.MIS36 = mis36.ToString();
+                                        result.CaseCount = mis36.ToString();
+
+                                    }
+                                }
+                                else if (result.BreakPointNum == "3")
+                                {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
+                                    if (startDateStr2.CompareTo(manufactureMonth) < 0 && startDateStr3.CompareTo(manufactureMonth) >= 0)
+                                    {
+                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        {
+
+
+                                            mis3++;
+
+                                        }
+                                        else if (queryItem.MISInterval == "6.0")
+                                        {
+                                            mis6++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "12.0")
+                                        {
+                                            mis12++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "24.0")
+                                        {
+                                            mis24++;
+
+
+
+                                        }
+                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        if (result.MIS3 != "0")
+                                            result.MIS3 = mis3.ToString();
+                                        if (result.MIS6 != "0")
+                                            result.MIS6 = (mis6 + mis3).ToString();
+                                        if (result.MIS12 != "0")
+                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
+                                        if (result.MIS24 != "0")
+                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
+                                        if (result.MIS36 != "0")
+                                            result.MIS36 = mis36.ToString();
+                                        result.CaseCount = mis36.ToString();
+
+                                    }
+                                }
+                                else
+                                {
+                                    if (startDateStr3.CompareTo(manufactureMonth) < 0)
+                                    {
+                                        //2次断点时间小于制造月，2次断点失效产品
+                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        {
+
+
+                                            mis3++;
+
+                                        }
+                                        else if (queryItem.MISInterval == "6.0")
+                                        {
+                                            mis6++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "12.0")
+                                        {
+                                            mis12++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "24.0")
+                                        {
+                                            mis24++;
+
+
+
+                                        }
+                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        if (result.MIS3 != "0")
+                                            result.MIS3 = mis3.ToString();
+                                        if (result.MIS6 != "0")
+                                            result.MIS6 = (mis6 + mis3).ToString();
+                                        if (result.MIS12 != "0")
+                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
+                                        if (result.MIS24 != "0")
+                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
+                                        if (result.MIS36 != "0")
+                                            result.MIS36 = mis36.ToString();
+                                        result.CaseCount = mis36.ToString();
+
+                                    }
+
+                                }
+
+                            }
+                            else if (relevantBreakpoints.Count == 4)
+                            {
+                               // _logger.LogInformation("找到断点为4");
+                                string startDateStr1 = relevantBreakpoints[0].ConvertedDate ?? "0";
+                                string startDateStr2 = relevantBreakpoints[1].ConvertedDate ?? "0";
+                                string startDateStr3 = relevantBreakpoints[2].ConvertedDate ?? "0";
+                                string startDateStr4 = relevantBreakpoints[3].ConvertedDate ?? "0";
+                                if (result.BreakPointNum == "1")
+                                {
+
+                                    //断点时间大于等于制造月,断点前产品
+                                    if (startDateStr1.CompareTo(manufactureMonth) >= 0)
+                                    {
+                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        {
+
+
+                                            mis3++;
+
+                                        }
+                                        else if (queryItem.MISInterval == "6.0")
+                                        {
+                                            mis6++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "12.0")
+                                        {
+                                            mis12++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "24.0")
+                                        {
+                                            mis24++;
+
+
+
+                                        }
+                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        if (result.MIS3 != "0")
+                                            result.MIS3 = mis3.ToString();
+                                        if (result.MIS6 != "0")
+                                            result.MIS6 = (mis6 + mis3).ToString();
+                                        if (result.MIS12 != "0")
+                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
+                                        if (result.MIS24 != "0")
+                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
+                                        if (result.MIS36 != "0")
+                                            result.MIS36 = mis36.ToString();
+                                        result.CaseCount = mis36.ToString();
+
+                                    }
+
+                                }
+                                else if (result.BreakPointNum == "2")
+                                {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
+                                    if (startDateStr1.CompareTo(manufactureMonth) < 0 && startDateStr2.CompareTo(manufactureMonth) >= 0)
+                                    {
+                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        {
+
+
+                                            mis3++;
+
+                                        }
+                                        else if (queryItem.MISInterval == "6.0")
+                                        {
+                                            mis6++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "12.0")
+                                        {
+                                            mis12++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "24.0")
+                                        {
+                                            mis24++;
+
+
+
+                                        }
+                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        if (result.MIS3 != "0")
+                                            result.MIS3 = mis3.ToString();
+                                        if (result.MIS6 != "0")
+                                            result.MIS6 = (mis6 + mis3).ToString();
+                                        if (result.MIS12 != "0")
+                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
+                                        if (result.MIS24 != "0")
+                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
+                                        if (result.MIS36 != "0")
+                                            result.MIS36 = mis36.ToString();
+                                        result.CaseCount = mis36.ToString();
+
+                                    }
+                                }
+                                else if (result.BreakPointNum == "3")
+                                {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
+                                    if (startDateStr2.CompareTo(manufactureMonth) < 0 && startDateStr3.CompareTo(manufactureMonth) >= 0)
+                                    {
+                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        {
+
+
+                                            mis3++;
+
+                                        }
+                                        else if (queryItem.MISInterval == "6.0")
+                                        {
+                                            mis6++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "12.0")
+                                        {
+                                            mis12++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "24.0")
+                                        {
+                                            mis24++;
+
+
+
+                                        }
+                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        if (result.MIS3 != "0")
+                                            result.MIS3 = mis3.ToString();
+                                        if (result.MIS6 != "0")
+                                            result.MIS6 = (mis6 + mis3).ToString();
+                                        if (result.MIS12 != "0")
+                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
+                                        if (result.MIS24 != "0")
+                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
+                                        if (result.MIS36 != "0")
+                                            result.MIS36 = mis36.ToString();
+                                        result.CaseCount = mis36.ToString();
+
+                                    }
+                                }
+                                else if (result.BreakPointNum == "4")
+                                {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
+                                    if (startDateStr3.CompareTo(manufactureMonth) < 0 && startDateStr4.CompareTo(manufactureMonth) >= 0)
+                                    {
+                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        {
+
+
+                                            mis3++;
+
+                                        }
+                                        else if (queryItem.MISInterval == "6.0")
+                                        {
+                                            mis6++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "12.0")
+                                        {
+                                            mis12++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "24.0")
+                                        {
+                                            mis24++;
+
+
+
+                                        }
+                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        if (result.MIS3 != "0")
+                                            result.MIS3 = mis3.ToString();
+                                        if (result.MIS6 != "0")
+                                            result.MIS6 = (mis6 + mis3).ToString();
+                                        if (result.MIS12 != "0")
+                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
+                                        if (result.MIS24 != "0")
+                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
+                                        if (result.MIS36 != "0")
+                                            result.MIS36 = mis36.ToString();
+                                        result.CaseCount = mis36.ToString();
+
+                                    }
+                                }
+                                else
+                                {
+                                    if (startDateStr4.CompareTo(manufactureMonth) < 0)
+                                    {
+                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        {
+
+
+                                            mis3++;
+
+                                        }
+                                        else if (queryItem.MISInterval == "6.0")
+                                        {
+                                            mis6++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "12.0")
+                                        {
+                                            mis12++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "24.0")
+                                        {
+                                            mis24++;
+
+
+
+                                        }
+                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        if (result.MIS3 != "0")
+                                            result.MIS3 = mis3.ToString();
+                                        if (result.MIS6 != "0")
+                                            result.MIS6 = (mis6 + mis3).ToString();
+                                        if (result.MIS12 != "0")
+                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
+                                        if (result.MIS24 != "0")
+                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
+                                        if (result.MIS36 != "0")
+                                            result.MIS36 = mis36.ToString();
+                                        result.CaseCount = mis36.ToString();
+
+                                    }
+
+                                }
+
+                            }
+                            else if (relevantBreakpoints.Count == 5)
+                            {
+                               // _logger.LogInformation("找到断点为5");
+                                string startDateStr1 = relevantBreakpoints[0].ConvertedDate ?? "0";
+                                string startDateStr2 = relevantBreakpoints[1].ConvertedDate ?? "0";
+                                string startDateStr3 = relevantBreakpoints[2].ConvertedDate ?? "0";
+                                string startDateStr4 = relevantBreakpoints[3].ConvertedDate ?? "0";
+                                string startDateStr5 = relevantBreakpoints[4].ConvertedDate ?? "0";
+                                if (result.BreakPointNum == "1")
+                                {
+
+                                    //断点时间大于等于制造月,断点前产品
+                                    if (startDateStr1.CompareTo(manufactureMonth) >= 0)
+                                    {
+                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        {
+
+
+                                            mis3++;
+
+                                        }
+                                        else if (queryItem.MISInterval == "6.0")
+                                        {
+                                            mis6++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "12.0")
+                                        {
+                                            mis12++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "24.0")
+                                        {
+                                            mis24++;
+
+
+
+                                        }
+                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        if (result.MIS3 != "0")
+                                            result.MIS3 = mis3.ToString();
+                                        if (result.MIS6 != "0")
+                                            result.MIS6 = (mis6 + mis3).ToString();
+                                        if (result.MIS12 != "0")
+                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
+                                        if (result.MIS24 != "0")
+                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
+                                        if (result.MIS36 != "0")
+                                            result.MIS36 = mis36.ToString();
+                                        result.CaseCount = mis36.ToString();
+
+                                    }
+
+                                }
+                                else if (result.BreakPointNum == "2")
+                                {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
+                                    if (startDateStr1.CompareTo(manufactureMonth) < 0 && startDateStr2.CompareTo(manufactureMonth) >= 0)
+                                    {
+                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        {
+
+
+                                            mis3++;
+
+                                        }
+                                        else if (queryItem.MISInterval == "6.0")
+                                        {
+                                            mis6++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "12.0")
+                                        {
+                                            mis12++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "24.0")
+                                        {
+                                            mis24++;
+
+
+
+                                        }
+                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        if (result.MIS3 != "0")
+                                            result.MIS3 = mis3.ToString();
+                                        if (result.MIS6 != "0")
+                                            result.MIS6 = (mis6 + mis3).ToString();
+                                        if (result.MIS12 != "0")
+                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
+                                        if (result.MIS24 != "0")
+                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
+                                        if (result.MIS36 != "0")
+                                            result.MIS36 = mis36.ToString();
+                                        result.CaseCount = mis36.ToString();
+
+                                    }
+                                }
+                                else if (result.BreakPointNum == "3")
+                                {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
+                                    if (startDateStr2.CompareTo(manufactureMonth) < 0 && startDateStr3.CompareTo(manufactureMonth) >= 0)
+                                    {
+                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        {
+
+
+                                            mis3++;
+
+                                        }
+                                        else if (queryItem.MISInterval == "6.0")
+                                        {
+                                            mis6++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "12.0")
+                                        {
+                                            mis12++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "24.0")
+                                        {
+                                            mis24++;
+
+
+
+                                        }
+                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        if (result.MIS3 != "0")
+                                            result.MIS3 = mis3.ToString();
+                                        if (result.MIS6 != "0")
+                                            result.MIS6 = (mis6 + mis3).ToString();
+                                        if (result.MIS12 != "0")
+                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
+                                        if (result.MIS24 != "0")
+                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
+                                        if (result.MIS36 != "0")
+                                            result.MIS36 = mis36.ToString();
+                                        result.CaseCount = mis36.ToString();
+
+                                    }
+                                }
+                                else if (result.BreakPointNum == "4")
+                                {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
+                                    if (startDateStr3.CompareTo(manufactureMonth) < 0 && startDateStr4.CompareTo(manufactureMonth) >= 0)
+                                    {
+                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        {
+
+
+                                            mis3++;
+
+                                        }
+                                        else if (queryItem.MISInterval == "6.0")
+                                        {
+                                            mis6++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "12.0")
+                                        {
+                                            mis12++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "24.0")
+                                        {
+                                            mis24++;
+
+
+
+                                        }
+                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        if (result.MIS3 != "0")
+                                            result.MIS3 = mis3.ToString();
+                                        if (result.MIS6 != "0")
+                                            result.MIS6 = (mis6 + mis3).ToString();
+                                        if (result.MIS12 != "0")
+                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
+                                        if (result.MIS24 != "0")
+                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
+                                        if (result.MIS36 != "0")
+                                            result.MIS36 = mis36.ToString();
+                                        result.CaseCount = mis36.ToString();
+
+                                    }
+                                }
+                                else if (result.BreakPointNum == "5")
+                                {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
+                                    if (startDateStr4.CompareTo(manufactureMonth) < 0 && startDateStr5.CompareTo(manufactureMonth) >= 0)
+                                    {
+                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        {
+
+
+                                            mis3++;
+
+                                        }
+                                        else if (queryItem.MISInterval == "6.0")
+                                        {
+                                            mis6++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "12.0")
+                                        {
+                                            mis12++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "24.0")
+                                        {
+                                            mis24++;
+
+
+
+                                        }
+                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        if (result.MIS3 != "0")
+                                            result.MIS3 = mis3.ToString();
+                                        if (result.MIS6 != "0")
+                                            result.MIS6 = (mis6 + mis3).ToString();
+                                        if (result.MIS12 != "0")
+                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
+                                        if (result.MIS24 != "0")
+                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
+                                        if (result.MIS36 != "0")
+                                            result.MIS36 = mis36.ToString();
+                                        result.CaseCount = mis36.ToString();
+
+                                    }
+                                }
+                                else
+                                {
+                                    if (startDateStr5.CompareTo(manufactureMonth) < 0)
+                                    {
+                                        //2次断点时间小于制造月，2次断点失效产品
+                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        {
+
+
+                                            mis3++;
+
+                                        }
+                                        else if (queryItem.MISInterval == "6.0")
+                                        {
+                                            mis6++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "12.0")
+                                        {
+                                            mis12++;
+
+
+
+                                        }
+                                        else if (queryItem.MISInterval == "24.0")
+                                        {
+                                            mis24++;
+
+
+
+                                        }
+                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        if (result.MIS3 != "0")
+                                            result.MIS3 = mis3.ToString();
+                                        if (result.MIS6 != "0")
+                                            result.MIS6 = (mis6 + mis3).ToString();
+                                        if (result.MIS12 != "0")
+                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
+                                        if (result.MIS24 != "0")
+                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
+                                        if (result.MIS36 != "0")
+                                            result.MIS36 = mis36.ToString();
+                                        result.CaseCount = mis36.ToString();
+
+                                    }
+
+                                }
+
                             }
                         }
 
-                        foreach (var item in duplicateMaterialCodes.ToList())
-                        {
-
-                            resultsToStore.Add(item);
-                        }
-                        _logger.LogInformation("+++++++++++++++++++++++++++++++++++++++++++经过处理的重复断点列表已加入到最终结果中" + resultsToStore.Count.ToString());
-
-
-
-
-                        // 整理最终结果，按 OldMaterialCode 分组，汇总 CaseCount 和 MISValues，并分配自然排序 Order
-                        _logger.LogInformation("开始打印最终的结果+++++++++++++++++++++++++++++++++++");
-                        foreach (var result in resultsToStore)
-                        {
-                            // 打印每个物料号的信息
-                            _logger.LogInformation($"物料号: {result.OldMaterialCode}, " +
-                                                   $"断点时间: {result.BreakPointTime}, " +
-                                                   $"断点次数: {result.BreakPointNum}, " +
-                                                   $"车型: {result.VehicleModel}, " +
-                                                   $"审批日期: {result.ApprovalDate}, " +
-                                                   $"物料描述: {result.OldMaterialDescription}, " +
-                                                   $"供应商短代码: {result.SupplierShortCode}, " +
-                                                   $"责任源供应商: {result.ResponsibilitySourceSupplierName}, " +
-                                                   $"案例数: {result.CaseCount}, " +
-                                                   $"MIS3: {result.MIS3}, " +
-                                                   $"MIS6: {result.MIS6}, " +
-                                                   $"MIS12: {result.MIS12}, " +
-                                                   $"MIS24: {result.MIS24}, " +
-                                                   $"MIS36: {result.MIS36}, " +
-                                                   $"CumulativeCaseCount: {result.CumulativeCaseCount}, " +
-                                                   $"SMT: {result.SMT}, " +
-                                                   $"位置代码: {result.LocationCode}, " +
-                                                   $"故障代码: {result.FaultCode}");
-                        }
-
-                        return Ok(1);
+                        // 例如将这些值存储到 result 中或进行其他逻辑处理
                     }
+                }//对断点分离的结果进行正确的填充
+                resultsToStoreReal = resultsToStore.ToList();
+                foreach (var item in duplicateMaterialCodes.ToList())
+                {
 
+                    resultsToStore.Add(item);
+                    if (item.CaseCount != "-1")//排除未进入的选项，保持表体的整洁性
+                        resultsToStoreReal.Add(item);
 
+                }
+                _logger.LogInformation("+++++++++++++++++++++++++++++++++++++++++++经过处理的重复断点列表已加入到最终结果中" + resultsToStore.Count.ToString());
 
                 
-            
+
+
+                // 整理最终结果，按 OldMaterialCode 分组，汇总 CaseCount 和 MISValues，并分配自然排序 Order
+                _logger.LogInformation("开始打印最终的结果+++++++++++++++++++++++++++++++++++");
+                foreach (var result in resultsToStore)
+                {
+                    // 打印每个物料号的信息
+                    _logger.LogInformation($"物料号: {result.OldMaterialCode}, " +
+                                           $"断点时间: {result.BreakPointTime}, " +
+                                           $"断点次数: {result.BreakPointNum}, " +
+                                           //$"车型: {result.VehicleModel}, " +
+                                           //$"审批日期: {result.ApprovalDate}, " +
+                                           //$"物料描述: {result.OldMaterialDescription}, " +
+                                           //$"供应商短代码: {result.SupplierShortCode}, " +
+                                           //$"责任源供应商: {result.ResponsibilitySourceSupplierName}, " +
+                                           $"案例数: {result.CaseCount}, " +
+                                           $"MIS3: {result.MIS3}, " +
+                                           $"MIS6: {result.MIS6}, " +
+                                           $"MIS12: {result.MIS12}, " +
+                                           $"MIS24: {result.MIS24}, " +
+                                           $"MIS36: {result.MIS36}, " +
+                                           //$"CumulativeCaseCount: {result.CumulativeCaseCount}, " +
+                                           //$"SMT: {result.SMT}, " +
+                                           //$"位置代码: {result.LocationCode}, " +
+                                           $"故障代码: {result.FaultCode}");
+                }
+                _logger.LogInformation("开始打印真实的最终的结果+++++++++++++++++++++++++++++++++++");
+
+                foreach (var result in resultsToStoreReal)
+                {
+                    // 打印每个物料号的信息
+                    _logger.LogInformation($"物料号: {result.OldMaterialCode}, " +
+                                           $"断点时间: {result.BreakPointTime}, " +
+                                           $"断点次数: {result.BreakPointNum}, " +
+                                           //$"车型: {result.VehicleModel}, " +
+                                           //$"审批日期: {result.ApprovalDate}, " +
+                                           //$"物料描述: {result.OldMaterialDescription}, " +
+                                           //$"供应商短代码: {result.SupplierShortCode}, " +
+                                           //$"责任源供应商: {result.ResponsibilitySourceSupplierName}, " +
+                                           $"案例数: {result.CaseCount}, " +
+                                           $"MIS3: {result.MIS3}, " +
+                                           $"MIS6: {result.MIS6}, " +
+                                           $"MIS12: {result.MIS12}, " +
+                                           $"MIS24: {result.MIS24}, " +
+                                           $"MIS36: {result.MIS36}, " +
+                                           //$"CumulativeCaseCount: {result.CumulativeCaseCount}, " +
+                                           //$"SMT: {result.SMT}, " +
+                                           //$"位置代码: {result.LocationCode}, " +
+                                           $"故障代码: {result.FaultCode}");
+                }
+
+                await ProcessAndStoreResultsAsyncToQuery( resultToStoreQuery );
+                await ProcessAndStoreResultsV91TempAsync( resultsToStoreReal );
+
+                return Ok(1);
+            }
+
+
+
+
+
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while filtering and pivoting data.");
                 return StatusCode(500, "Internal server error");
+            }
+        }
+
+
+        public async Task ProcessAndStoreResultsAsyncToQuery(IEnumerable<PivotResult> resultsToStoreQuery)
+        {
+            List<DailyQualityIssueChecklistV91QueryTemp> tempEntries = new List<DailyQualityIssueChecklistV91QueryTemp>();
+            tempEntries.Clear();
+
+            foreach (var result in resultsToStoreQuery)
+            {
+                var tempEntry = new DailyQualityIssueChecklistV91QueryTemp
+                {
+                    OldMaterialCode = result.OldMaterialCode ?? "NIL",
+                    ApprovalDate = result.ApprovalDate ?? "NIL",
+                    VehicleModel = result.VehicleModel ?? "NIL",
+                    OldMaterialDescription = result.OldMaterialDescription ?? "NIL",
+                    SupplierShortCode = result.SupplierShortCode ?? "NIL",
+                    ResponsibilitySourceSupplierName = result.ResponsibilitySourceSupplierName ?? "NIL",
+                    CaseCount = result.CaseCount ?? "NIL",
+                    AccumulatedCaseCount = "NIL", // 没有对应的字段，设置为 "NIL"
+                    MIS3 = result.MIS3 ?? "0", // 根据业务需求设置默认值
+                    MIS6 = result.MIS6 ?? "0",
+                    MIS12 = result.MIS12 ?? "0",
+                    MIS24 = result.MIS24 ?? "0",
+                    MIS36 = result.MIS36 ?? "0",
+                    SMT = result.SMT ?? "NIL",
+                    LocationCode = result.LocationCode ?? "NIL",
+                    FaultCode = result.FaultCode ?? "NIL",
+                    PQSNumber = "NIL", // 没有对应的字段，设置为 "NIL"
+                    VAN = "NIL", // 没有对应的字段，设置为 "NIL"
+                    VIN = "NIL" // 没有对应的字段，设置为 "NIL"
+                };
+
+                tempEntries.Add(tempEntry);
+            }
+            if (tempEntries.Any())
+            {
+                // 批量添加到数据库
+                await _context.dailyQualityIssueChecklistV91QueryTemps.AddRangeAsync(tempEntries);
+       
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    _logger.LogInformation("成功将数据写入 DailyQualityIssueChecklistV91QueryTemps 表。");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "在写入 DailyQualityIssueChecklistV91QueryTemps 表时发生错误。");
+                    // 根据业务需求，可能需要处理异常，如重试或记录失败的项
+                }
+            }
+        }
+
+
+        public async Task ProcessAndStoreResultsV91TempAsync(IEnumerable<PivotResult> resultsToStore)
+        {
+            List<DailyQualityIssueChecklistV91Temp> tempEntries = new List<DailyQualityIssueChecklistV91Temp>();
+            tempEntries.Clear();
+
+            foreach (var result in resultsToStore)
+            {
+                string isBreakdownInvalid = (result.BreakPointNum != "0") ? "是" : "否";
+                var tempEntry = new DailyQualityIssueChecklistV91Temp
+                {
+                    OldMaterialCode = result.OldMaterialCode ?? "NIL",
+                    OldMaterialDescription = result.OldMaterialDescription ?? "NIL",
+                    SupplierShortCode = result.SupplierShortCode ?? "NIL",
+                    ResponsibilitySourceSupplierName = result.ResponsibilitySourceSupplierName ?? "NIL",
+                    MIS3 = result.MIS3 ?? "0",
+                    MIS6 = result.MIS6 ?? "0",
+                    MIS12 = result.MIS12 ?? "0",
+                    MIS24 = result.MIS24 ?? "0",
+                    MIS36 = result.MIS36 ?? "0",
+                    SMT = result.SMT ?? "NIL",
+                    LocationCode = result.LocationCode ?? "NIL",
+                    FaultCode = result.FaultCode ?? "NIL",
+                    QE = "NIL", // 没有对应的字段，设置为 "NIL"
+                    ServiceFaultIdentificationAccurate = "NIL", // 没有对应的字段，设置为 "NIL"
+                    IdentifiedFaultMode = "NIL", // 没有对应的字段，设置为 "NIL"
+                    BreakdownCount = result.BreakPointNum ?? "0",              
+                    IsBreakdownInvalid = isBreakdownInvalid,          
+                    IncludedInSIL = "NIL", // 没有对应的字段，设置为 "NIL"
+                    PQSNumber = "NIL", // 没有对应的字段，设置为 "NIL"
+                    BreakpointTime = result.BreakPointTime??"0", // 没有对应的字段，设置为 "NIL"
+                    StartTime = "NIL", // 没有对应的字段，设置为 "NIL"
+                    Remarks = "NIL", // 没有对应的字段，设置为 "NIL"
+                    ProjectIdentifier = "NIL" // 没有对应的字段，设置为 "NIL"
+                };
+
+                tempEntries.Add(tempEntry);
+            }
+
+            if (tempEntries.Any())
+            {
+                // 批量添加到数据库
+                await _context.dailyQualityIssueChecklistV91Temps.AddRangeAsync(tempEntries);
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    _logger.LogInformation("成功将数据写入 DailyQualityIssueChecklistV91Temps 表。");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "在写入 DailyQualityIssueChecklistV91Temps 表时发生错误。");
+                    // 根据业务需求，可能需要处理异常，如重试或记录失败的项
+                }
             }
         }
     }

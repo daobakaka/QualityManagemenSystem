@@ -15,6 +15,10 @@ E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\EPPlus.dll
 E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\EPPlus.Interfaces.dll
 E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\EPPlus.System.Drawing.dll
 E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\ExcelNumberFormat.dll
+E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\Hangfire.AspNetCore.dll
+E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\Hangfire.Core.dll
+E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\Hangfire.NetCore.dll
+E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\Hangfire.SqlServer.dll
 E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\Humanizer.dll
 E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\Irony.dll
 E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
@@ -41,6 +45,7 @@ E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\Microsoft.IO.RecyclableMemoryStream.d
 E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\Microsoft.SqlServer.Server.dll
 E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
 E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\Mono.TextTemplating.dll
+E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\Newtonsoft.Json.dll
 E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\SixLabors.Fonts.dll
 E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\System.CodeDom.dll
 E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\System.Composition.AttributedModel.dll
@@ -148,8 +153,3 @@ E:\C#\WebWinMVC\WebWinMVC\obj\Debug\net8.0\refint\WebWinMVC.dll
 E:\C#\WebWinMVC\WebWinMVC\obj\Debug\net8.0\WebWinMVC.pdb
 E:\C#\WebWinMVC\WebWinMVC\obj\Debug\net8.0\WebWinMVC.genruntimeconfig.cache
 E:\C#\WebWinMVC\WebWinMVC\obj\Debug\net8.0\ref\WebWinMVC.dll
-E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\Hangfire.AspNetCore.dll
-E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\Hangfire.Core.dll
-E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\Hangfire.NetCore.dll
-E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\Hangfire.SqlServer.dll
-E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\Newtonsoft.Json.dll

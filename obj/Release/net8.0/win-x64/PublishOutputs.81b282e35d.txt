@@ -334,6 +334,10 @@ E:\C#\WebWinMVC\WebWinMVC\obj\Release\net8.0\win-x64\PubTmp\Out\EPPlus.dll
 E:\C#\WebWinMVC\WebWinMVC\obj\Release\net8.0\win-x64\PubTmp\Out\EPPlus.Interfaces.dll
 E:\C#\WebWinMVC\WebWinMVC\obj\Release\net8.0\win-x64\PubTmp\Out\EPPlus.System.Drawing.dll
 E:\C#\WebWinMVC\WebWinMVC\obj\Release\net8.0\win-x64\PubTmp\Out\ExcelNumberFormat.dll
+E:\C#\WebWinMVC\WebWinMVC\obj\Release\net8.0\win-x64\PubTmp\Out\Hangfire.AspNetCore.dll
+E:\C#\WebWinMVC\WebWinMVC\obj\Release\net8.0\win-x64\PubTmp\Out\Hangfire.Core.dll
+E:\C#\WebWinMVC\WebWinMVC\obj\Release\net8.0\win-x64\PubTmp\Out\Hangfire.NetCore.dll
+E:\C#\WebWinMVC\WebWinMVC\obj\Release\net8.0\win-x64\PubTmp\Out\Hangfire.SqlServer.dll
 E:\C#\WebWinMVC\WebWinMVC\obj\Release\net8.0\win-x64\PubTmp\Out\Irony.dll
 E:\C#\WebWinMVC\WebWinMVC\obj\Release\net8.0\win-x64\PubTmp\Out\Microsoft.Bcl.AsyncInterfaces.dll
 E:\C#\WebWinMVC\WebWinMVC\obj\Release\net8.0\win-x64\PubTmp\Out\Microsoft.Data.SqlClient.dll
@@ -352,6 +356,7 @@ E:\C#\WebWinMVC\WebWinMVC\obj\Release\net8.0\win-x64\PubTmp\Out\Microsoft.Identi
 E:\C#\WebWinMVC\WebWinMVC\obj\Release\net8.0\win-x64\PubTmp\Out\Microsoft.IO.RecyclableMemoryStream.dll
 E:\C#\WebWinMVC\WebWinMVC\obj\Release\net8.0\win-x64\PubTmp\Out\Microsoft.SqlServer.Server.dll
 E:\C#\WebWinMVC\WebWinMVC\obj\Release\net8.0\win-x64\PubTmp\Out\Microsoft.Win32.SystemEvents.dll
+E:\C#\WebWinMVC\WebWinMVC\obj\Release\net8.0\win-x64\PubTmp\Out\Newtonsoft.Json.dll
 E:\C#\WebWinMVC\WebWinMVC\obj\Release\net8.0\win-x64\PubTmp\Out\SixLabors.Fonts.dll
 E:\C#\WebWinMVC\WebWinMVC\obj\Release\net8.0\win-x64\PubTmp\Out\System.Configuration.ConfigurationManager.dll
 E:\C#\WebWinMVC\WebWinMVC\obj\Release\net8.0\win-x64\PubTmp\Out\System.Drawing.Common.dll

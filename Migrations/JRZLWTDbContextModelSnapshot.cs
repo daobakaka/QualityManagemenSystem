@@ -313,6 +313,181 @@ namespace WebWinMVC.Migrations
                     b.ToTable("DailyQualityIssueChecklistV91Queries", (string)null);
                 });
 
+            modelBuilder.Entity("WebWinMVC.Models.DailyQualityIssueChecklistV91QueryTemp", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("AccumulatedCaseCount")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ApprovalDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CaseCount")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FaultCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LocationCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MIS12")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MIS24")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MIS3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MIS36")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MIS6")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OldMaterialCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OldMaterialDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PQSNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ResponsibilitySourceSupplierName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SMT")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SupplierShortCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VAN")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VIN")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VehicleModel")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("dailyQualityIssueChecklistV91QueryTemps", (string)null);
+                });
+
+            modelBuilder.Entity("WebWinMVC.Models.DailyQualityIssueChecklistV91Temp", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("BreakdownCount")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BreakpointTime")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FaultCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdentifiedFaultMode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IncludedInSIL")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IsBreakdownInvalid")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LocationCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MIS12")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MIS24")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MIS3")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MIS36")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MIS6")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OldMaterialCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OldMaterialDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PQSNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectIdentifier")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("QE")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Remarks")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ResponsibilitySourceSupplierName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SMT")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ServiceFaultIdentificationAccurate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StartTime")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SupplierShortCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("dailyQualityIssueChecklistV91Temps", (string)null);
+                });
+
             modelBuilder.Entity("WebWinMVC.Models.DailyServiceReviewForm", b =>
                 {
                     b.Property<int>("ID")
