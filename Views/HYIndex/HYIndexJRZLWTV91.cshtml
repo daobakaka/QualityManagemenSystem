@@ -24,6 +24,7 @@
                                 <th>旧物料描述</th>
                                 <th>供应商短代码</th>
                                 <th>供应商名称</th>
+                                <th>案例数</th>
                                 <th>3MIS</th>
                                 <th>6MIS</th>
                                 <th>12MIS</th>
@@ -84,6 +85,7 @@
                                         </td>
                                         <td data-label="供应商短代码">@item.SupplierShortCode</td>
                                         <td data-label="供应商名称">@item.ResponsibilitySourceSupplierName</td>
+                                        <td data-label="案例数">@item.CaseCount</td>
                                         <td data-label="3MIS">@item.MIS3</td>
                                         <td data-label="6MIS">@item.MIS6</td>
                                         <td data-label="12MIS">@item.MIS12</td>
@@ -166,7 +168,7 @@
                                     <th>短代码</th>
                                     <th>供应商</th>
                                     <th>案例数</th>
-                                    <th>累计案例数</th>
+                                    <th>累案例数</th>
                                     <th>3MIS</th>
                                     <th>6MIS</th>
                                     <th>12MIS</th>
@@ -552,7 +554,7 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
             // 获取最大可滚动距离
             const maxScrollLeft = tbody.scrollWidth - tbody.clientWidth;
             // 定义滚动限制为90%
-            const scrollLimit = maxScrollLeft * 0.98;
+            const scrollLimit = maxScrollLeft * 1;
 
             // 如果当前滚动位置超过限制，固定滚动位置
             if (tbody.scrollLeft > scrollLimit) {
@@ -571,7 +573,7 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
             // 获取最大可滚动距离
             const maxScrollLeft = tbody.scrollWidth - tbody.clientWidth;
             // 定义滚动限制为90%
-            const scrollLimit = maxScrollLeft * 0.98;
+            const scrollLimit = maxScrollLeft * 1;
 
             // 如果当前滚动位置超过限制，固定滚动位置
             if (tbody.scrollLeft > scrollLimit) {

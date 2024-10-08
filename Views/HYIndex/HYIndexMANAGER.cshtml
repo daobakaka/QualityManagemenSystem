@@ -269,6 +269,101 @@
     </div>
 </div>
 
+<!-- 7. 筛选并透视数据模块 -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h2 style="font-size: 18px;">筛选并透视数据</h2>
+    </div>
+    <div class="card-body">
+        <!-- 筛选并透视表单 -->
+        <form class="filter-pivot-form" method="get" action="/api/AutomaticDataCalculation/FilterAndPivot">
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <label for="ApprovalDate">输入审核日期（yyMMdd 或 yyMMdd-yyMMdd）：</label>
+                <input type="text" id="ApprovalDate" name="ApprovalDate" class="form-control" placeholder="例如：240901 或 240901-240903" required />
+                <small class="form-text text-muted">请输入审核日期，支持单个日期或日期范围。</small>
+            </div>
+
+            <!-- 提交按钮 -->
+            <button type="submit" class="btn btn-outline-primary mb-2" style="width: 20%; margin-top:1.5vh">筛选并透视</button>
+
+            <!-- 进度条 -->
+            <div class="progress mt-3" style="display: none;">
+                <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- 8. 传输 V91 数据模块 -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h2 style="font-size: 18px;">传输 V91 数据</h2>
+    </div>
+    <div class="card-body">
+        <!-- 传输 V91 数据表单 -->
+        <form class="transfer-v91-data-form" method="get" action="/api/AutomaticDataCalculation/TransferV91Data">
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <label>选择操作类型：</label>
+                <div>
+                    <div class="form-check">
+                        <input type="radio" id="replace-TransferV91Data" name="operation" value="Replace" class="form-check-input" checked />
+                        <label class="form-check-label" for="replace-TransferV91Data">替换</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" id="update-TransferV91Data" name="operation" value="Update" class="form-check-input" />
+                        <label class="form-check-label" for="update-TransferV91Data">更新</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 提交按钮 -->
+            <button type="submit" class="btn btn-outline-primary mb-2" style="width: 20%; margin-top:1.5vh">传输数据</button>
+
+            <!-- 进度条 -->
+            <div class="progress mt-3" style="display: none;">
+                <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- 9. 传输 V91 查询数据模块 -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h2 style="font-size: 18px;">传输 V91 查询数据</h2>
+    </div>
+    <div class="card-body">
+        <!-- 传输 V91 查询数据表单 -->
+        <form class="transfer-v91-query-data-form" method="get" action="/api/AutomaticDataCalculation/TransferV91QueryData">
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <label>选择操作类型：</label>
+                <div>
+                    <div class="form-check">
+                        <input type="radio" id="replace-TransferV91QueryData" name="operation" value="Replace" class="form-check-input" checked />
+                        <label class="form-check-label" for="replace-TransferV91QueryData">替换</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" id="update-TransferV91QueryData" name="operation" value="Update" class="form-check-input" />
+                        <label class="form-check-label" for="update-TransferV91QueryData">更新</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 提交按钮 -->
+            <button type="submit" class="btn btn-outline-primary mb-2" style="width: 20%; margin-top:1.5vh">传输数据</button>
+
+            <!-- 进度条 -->
+            <div class="progress mt-3" style="display: none;">
+                <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+            </div>
+        </form>
+    </div>
+</div>
+
 <!-- 引用必要的脚本 -->
 @section Scripts {
     <script>
@@ -386,5 +481,180 @@
                 });
             });
         });
+    </script>@* 文件上传 *@
+    <script>
+        $(document).ready(function () {
+            // 处理 FilterAndPivot 表单提交
+            $('.filter-pivot-form').on('submit', function (e) {
+                e.preventDefault(); // 阻止默认表单提交行为
+                const $form = $(this);
+                const approvalDate = $form.find('input[name="ApprovalDate"]').val();
+
+                // 显示并初始化进度条
+                const $progress = $form.find('.progress');
+                const $progressBar = $form.find('.progress-bar');
+                $progress.show();
+                $progressBar.css('width', '0%').attr('aria-valuenow', 0).text('0%');
+
+                // 禁用提交按钮，防止重复提交
+                const $submitButton = $form.find('button[type="submit"]');
+                $submitButton.prop('disabled', true).text('筛选中...');
+
+                // 发送 AJAX GET 请求
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: 'GET',
+                    data: { ApprovalDate: approvalDate },
+                    xhr: function () {
+                        const xhr = new window.XMLHttpRequest();
+                        // 监听请求进度
+                        xhr.addEventListener("progress", function (evt) {
+                            if (evt.lengthComputable) {
+                                const percentComplete = Math.round((evt.loaded / evt.total) * 100);
+                                $progressBar.css('width', percentComplete + '%')
+                                    .attr('aria-valuenow', percentComplete)
+                                    .text(percentComplete + '%');
+                            }
+                        }, false);
+                        return xhr;
+                    },
+                    success: function (response) {
+                        console.log("筛选并透视成功:", response);
+                        alert("数据筛选和透视成功！");
+                        // 设置进度条为100%
+                        $progressBar.css('width', '100%').attr('aria-valuenow', 100).text('100%');
+                        setTimeout(function () {
+                            $progress.hide(); // 隐藏进度条
+                            $form[0].reset(); // 重置表单
+                            $submitButton.prop('disabled', false).text('筛选并透视'); // 恢复按钮状态
+                        }, 500);
+                    },
+                    error: function (xhr) {
+                        console.error("筛选并透视失败:", xhr);
+                        alert("筛选并透视失败: " + (xhr.responseJSON?.title || "未知错误"));
+                        // 重置进度条
+                        $progressBar.css('width', '0%').attr('aria-valuenow', 0).text('0%');
+                        $progress.hide();
+                        // 恢复提交按钮状态
+                        $submitButton.prop('disabled', false).text('筛选并透视');
+                    }
+                });
+            });
+
+            // 处理 TransferV91Data 表单提交
+            $('.transfer-v91-data-form').on('submit', function (e) {
+                e.preventDefault(); // 阻止默认表单提交行为
+                const $form = $(this);
+                const operation = $form.find('input[name="operation"]:checked').val();
+
+                // 显示并初始化进度条
+                const $progress = $form.find('.progress');
+                const $progressBar = $form.find('.progress-bar');
+                $progress.show();
+                $progressBar.css('width', '0%').attr('aria-valuenow', 0).text('0%');
+
+                // 禁用提交按钮，防止重复提交
+                const $submitButton = $form.find('button[type="submit"]');
+                $submitButton.prop('disabled', true).text('传输中...');
+
+                // 发送 AJAX GET 请求
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: 'GET',
+                    data: { operation: operation },
+                    xhr: function () {
+                        const xhr = new window.XMLHttpRequest();
+                        // 监听请求进度
+                        xhr.addEventListener("progress", function (evt) {
+                            if (evt.lengthComputable) {
+                                const percentComplete = Math.round((evt.loaded / evt.total) * 100);
+                                $progressBar.css('width', percentComplete + '%')
+                                    .attr('aria-valuenow', percentComplete)
+                                    .text(percentComplete + '%');
+                            }
+                        }, false);
+                        return xhr;
+                    },
+                    success: function (response) {
+                        console.log("数据传输成功:", response);
+                        alert("数据传输成功！");
+                        // 设置进度条为100%
+                        $progressBar.css('width', '100%').attr('aria-valuenow', 100).text('100%');
+                        setTimeout(function () {
+                            $progress.hide(); // 隐藏进度条
+                            $form[0].reset(); // 重置表单
+                            $submitButton.prop('disabled', false).text('传输数据'); // 恢复按钮状态
+                        }, 500);
+                    },
+                    error: function (xhr) {
+                        console.error("数据传输失败:", xhr);
+                        alert("数据传输失败: " + (xhr.responseJSON?.title || "未知错误"));
+                        // 重置进度条
+                        $progressBar.css('width', '0%').attr('aria-valuenow', 0).text('0%');
+                        $progress.hide();
+                        // 恢复提交按钮状态
+                        $submitButton.prop('disabled', false).text('传输数据');
+                    }
+                });
+            });
+
+            // 处理 TransferV91QueryData 表单提交
+            $('.transfer-v91-query-data-form').on('submit', function (e) {
+                e.preventDefault(); // 阻止默认表单提交行为
+                const $form = $(this);
+                const operation = $form.find('input[name="operation"]:checked').val();
+
+                // 显示并初始化进度条
+                const $progress = $form.find('.progress');
+                const $progressBar = $form.find('.progress-bar');
+                $progress.show();
+                $progressBar.css('width', '0%').attr('aria-valuenow', 0).text('0%');
+
+                // 禁用提交按钮，防止重复提交
+                const $submitButton = $form.find('button[type="submit"]');
+                $submitButton.prop('disabled', true).text('传输中...');
+
+                // 发送 AJAX GET 请求
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: 'GET',
+                    data: { operation: operation },
+                    xhr: function () {
+                        const xhr = new window.XMLHttpRequest();
+                        // 监听请求进度
+                        xhr.addEventListener("progress", function (evt) {
+                            if (evt.lengthComputable) {
+                                const percentComplete = Math.round((evt.loaded / evt.total) * 100);
+                                $progressBar.css('width', percentComplete + '%')
+                                    .attr('aria-valuenow', percentComplete)
+                                    .text(percentComplete + '%');
+                            }
+                        }, false);
+                        return xhr;
+                    },
+                    success: function (response) {
+                        console.log("数据传输成功:", response);
+                        alert("数据传输成功！");
+                        // 设置进度条为100%
+                        $progressBar.css('width', '100%').attr('aria-valuenow', 100).text('100%');
+                        setTimeout(function () {
+                            $progress.hide(); // 隐藏进度条
+                            $form[0].reset(); // 重置表单
+                            $submitButton.prop('disabled', false).text('传输数据'); // 恢复按钮状态
+                        }, 500);
+                    },
+                    error: function (xhr) {
+                        console.error("数据传输失败:", xhr);
+                        alert("数据传输失败: " + (xhr.responseJSON?.title || "未知错误"));
+                        // 重置进度条
+                        $progressBar.css('width', '0%').attr('aria-valuenow', 0).text('0%');
+                        $progress.hide();
+                        // 恢复提交按钮状态
+                        $submitButton.prop('disabled', false).text('传输数据');
+                    }
+                });
+            });
+        });
     </script>
+    
 }

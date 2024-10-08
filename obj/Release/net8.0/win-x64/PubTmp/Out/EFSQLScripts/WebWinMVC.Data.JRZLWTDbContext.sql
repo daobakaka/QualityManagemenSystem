@@ -2957,3 +2957,729 @@ GO
 COMMIT;
 GO
 
+BEGIN TRANSACTION;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008094642_settheunll'
+)
+BEGIN
+    DECLARE @var161 sysname;
+    SELECT @var161 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[DailyQualityIssueChecklistV91s]') AND [c].[name] = N'SupplierShortCode');
+    IF @var161 IS NOT NULL EXEC(N'ALTER TABLE [DailyQualityIssueChecklistV91s] DROP CONSTRAINT [' + @var161 + '];');
+    ALTER TABLE [DailyQualityIssueChecklistV91s] ALTER COLUMN [SupplierShortCode] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008094642_settheunll'
+)
+BEGIN
+    DECLARE @var162 sysname;
+    SELECT @var162 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[DailyQualityIssueChecklistV91s]') AND [c].[name] = N'StartTime');
+    IF @var162 IS NOT NULL EXEC(N'ALTER TABLE [DailyQualityIssueChecklistV91s] DROP CONSTRAINT [' + @var162 + '];');
+    ALTER TABLE [DailyQualityIssueChecklistV91s] ALTER COLUMN [StartTime] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008094642_settheunll'
+)
+BEGIN
+    DECLARE @var163 sysname;
+    SELECT @var163 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[DailyQualityIssueChecklistV91s]') AND [c].[name] = N'ServiceFaultIdentificationAccurate');
+    IF @var163 IS NOT NULL EXEC(N'ALTER TABLE [DailyQualityIssueChecklistV91s] DROP CONSTRAINT [' + @var163 + '];');
+    ALTER TABLE [DailyQualityIssueChecklistV91s] ALTER COLUMN [ServiceFaultIdentificationAccurate] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008094642_settheunll'
+)
+BEGIN
+    DECLARE @var164 sysname;
+    SELECT @var164 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[DailyQualityIssueChecklistV91s]') AND [c].[name] = N'SMT');
+    IF @var164 IS NOT NULL EXEC(N'ALTER TABLE [DailyQualityIssueChecklistV91s] DROP CONSTRAINT [' + @var164 + '];');
+    ALTER TABLE [DailyQualityIssueChecklistV91s] ALTER COLUMN [SMT] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008094642_settheunll'
+)
+BEGIN
+    DECLARE @var165 sysname;
+    SELECT @var165 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[DailyQualityIssueChecklistV91s]') AND [c].[name] = N'ResponsibilitySourceSupplierName');
+    IF @var165 IS NOT NULL EXEC(N'ALTER TABLE [DailyQualityIssueChecklistV91s] DROP CONSTRAINT [' + @var165 + '];');
+    ALTER TABLE [DailyQualityIssueChecklistV91s] ALTER COLUMN [ResponsibilitySourceSupplierName] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008094642_settheunll'
+)
+BEGIN
+    DECLARE @var166 sysname;
+    SELECT @var166 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[DailyQualityIssueChecklistV91s]') AND [c].[name] = N'Remarks');
+    IF @var166 IS NOT NULL EXEC(N'ALTER TABLE [DailyQualityIssueChecklistV91s] DROP CONSTRAINT [' + @var166 + '];');
+    ALTER TABLE [DailyQualityIssueChecklistV91s] ALTER COLUMN [Remarks] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008094642_settheunll'
+)
+BEGIN
+    DECLARE @var167 sysname;
+    SELECT @var167 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[DailyQualityIssueChecklistV91s]') AND [c].[name] = N'QE');
+    IF @var167 IS NOT NULL EXEC(N'ALTER TABLE [DailyQualityIssueChecklistV91s] DROP CONSTRAINT [' + @var167 + '];');
+    ALTER TABLE [DailyQualityIssueChecklistV91s] ALTER COLUMN [QE] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008094642_settheunll'
+)
+BEGIN
+    DECLARE @var168 sysname;
+    SELECT @var168 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[DailyQualityIssueChecklistV91s]') AND [c].[name] = N'ProjectIdentifier');
+    IF @var168 IS NOT NULL EXEC(N'ALTER TABLE [DailyQualityIssueChecklistV91s] DROP CONSTRAINT [' + @var168 + '];');
+    ALTER TABLE [DailyQualityIssueChecklistV91s] ALTER COLUMN [ProjectIdentifier] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008094642_settheunll'
+)
+BEGIN
+    DECLARE @var169 sysname;
+    SELECT @var169 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[DailyQualityIssueChecklistV91s]') AND [c].[name] = N'PQSNumber');
+    IF @var169 IS NOT NULL EXEC(N'ALTER TABLE [DailyQualityIssueChecklistV91s] DROP CONSTRAINT [' + @var169 + '];');
+    ALTER TABLE [DailyQualityIssueChecklistV91s] ALTER COLUMN [PQSNumber] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008094642_settheunll'
+)
+BEGIN
+    DECLARE @var170 sysname;
+    SELECT @var170 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[DailyQualityIssueChecklistV91s]') AND [c].[name] = N'OldMaterialDescription');
+    IF @var170 IS NOT NULL EXEC(N'ALTER TABLE [DailyQualityIssueChecklistV91s] DROP CONSTRAINT [' + @var170 + '];');
+    ALTER TABLE [DailyQualityIssueChecklistV91s] ALTER COLUMN [OldMaterialDescription] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008094642_settheunll'
+)
+BEGIN
+    DECLARE @var171 sysname;
+    SELECT @var171 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[DailyQualityIssueChecklistV91s]') AND [c].[name] = N'MIS6');
+    IF @var171 IS NOT NULL EXEC(N'ALTER TABLE [DailyQualityIssueChecklistV91s] DROP CONSTRAINT [' + @var171 + '];');
+    ALTER TABLE [DailyQualityIssueChecklistV91s] ALTER COLUMN [MIS6] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008094642_settheunll'
+)
+BEGIN
+    DECLARE @var172 sysname;
+    SELECT @var172 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[DailyQualityIssueChecklistV91s]') AND [c].[name] = N'MIS36');
+    IF @var172 IS NOT NULL EXEC(N'ALTER TABLE [DailyQualityIssueChecklistV91s] DROP CONSTRAINT [' + @var172 + '];');
+    ALTER TABLE [DailyQualityIssueChecklistV91s] ALTER COLUMN [MIS36] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008094642_settheunll'
+)
+BEGIN
+    DECLARE @var173 sysname;
+    SELECT @var173 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[DailyQualityIssueChecklistV91s]') AND [c].[name] = N'MIS3');
+    IF @var173 IS NOT NULL EXEC(N'ALTER TABLE [DailyQualityIssueChecklistV91s] DROP CONSTRAINT [' + @var173 + '];');
+    ALTER TABLE [DailyQualityIssueChecklistV91s] ALTER COLUMN [MIS3] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008094642_settheunll'
+)
+BEGIN
+    DECLARE @var174 sysname;
+    SELECT @var174 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[DailyQualityIssueChecklistV91s]') AND [c].[name] = N'MIS24');
+    IF @var174 IS NOT NULL EXEC(N'ALTER TABLE [DailyQualityIssueChecklistV91s] DROP CONSTRAINT [' + @var174 + '];');
+    ALTER TABLE [DailyQualityIssueChecklistV91s] ALTER COLUMN [MIS24] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008094642_settheunll'
+)
+BEGIN
+    DECLARE @var175 sysname;
+    SELECT @var175 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[DailyQualityIssueChecklistV91s]') AND [c].[name] = N'MIS12');
+    IF @var175 IS NOT NULL EXEC(N'ALTER TABLE [DailyQualityIssueChecklistV91s] DROP CONSTRAINT [' + @var175 + '];');
+    ALTER TABLE [DailyQualityIssueChecklistV91s] ALTER COLUMN [MIS12] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008094642_settheunll'
+)
+BEGIN
+    DECLARE @var176 sysname;
+    SELECT @var176 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[DailyQualityIssueChecklistV91s]') AND [c].[name] = N'LocationCode');
+    IF @var176 IS NOT NULL EXEC(N'ALTER TABLE [DailyQualityIssueChecklistV91s] DROP CONSTRAINT [' + @var176 + '];');
+    ALTER TABLE [DailyQualityIssueChecklistV91s] ALTER COLUMN [LocationCode] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008094642_settheunll'
+)
+BEGIN
+    DECLARE @var177 sysname;
+    SELECT @var177 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[DailyQualityIssueChecklistV91s]') AND [c].[name] = N'IsBreakdownInvalid');
+    IF @var177 IS NOT NULL EXEC(N'ALTER TABLE [DailyQualityIssueChecklistV91s] DROP CONSTRAINT [' + @var177 + '];');
+    ALTER TABLE [DailyQualityIssueChecklistV91s] ALTER COLUMN [IsBreakdownInvalid] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008094642_settheunll'
+)
+BEGIN
+    DECLARE @var178 sysname;
+    SELECT @var178 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[DailyQualityIssueChecklistV91s]') AND [c].[name] = N'IncludedInSIL');
+    IF @var178 IS NOT NULL EXEC(N'ALTER TABLE [DailyQualityIssueChecklistV91s] DROP CONSTRAINT [' + @var178 + '];');
+    ALTER TABLE [DailyQualityIssueChecklistV91s] ALTER COLUMN [IncludedInSIL] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008094642_settheunll'
+)
+BEGIN
+    DECLARE @var179 sysname;
+    SELECT @var179 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[DailyQualityIssueChecklistV91s]') AND [c].[name] = N'IdentifiedFaultMode');
+    IF @var179 IS NOT NULL EXEC(N'ALTER TABLE [DailyQualityIssueChecklistV91s] DROP CONSTRAINT [' + @var179 + '];');
+    ALTER TABLE [DailyQualityIssueChecklistV91s] ALTER COLUMN [IdentifiedFaultMode] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008094642_settheunll'
+)
+BEGIN
+    DECLARE @var180 sysname;
+    SELECT @var180 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[DailyQualityIssueChecklistV91s]') AND [c].[name] = N'FaultCode');
+    IF @var180 IS NOT NULL EXEC(N'ALTER TABLE [DailyQualityIssueChecklistV91s] DROP CONSTRAINT [' + @var180 + '];');
+    ALTER TABLE [DailyQualityIssueChecklistV91s] ALTER COLUMN [FaultCode] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008094642_settheunll'
+)
+BEGIN
+    DECLARE @var181 sysname;
+    SELECT @var181 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[DailyQualityIssueChecklistV91s]') AND [c].[name] = N'BreakpointTime');
+    IF @var181 IS NOT NULL EXEC(N'ALTER TABLE [DailyQualityIssueChecklistV91s] DROP CONSTRAINT [' + @var181 + '];');
+    ALTER TABLE [DailyQualityIssueChecklistV91s] ALTER COLUMN [BreakpointTime] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008094642_settheunll'
+)
+BEGIN
+    DECLARE @var182 sysname;
+    SELECT @var182 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[DailyQualityIssueChecklistV91s]') AND [c].[name] = N'BreakdownCount');
+    IF @var182 IS NOT NULL EXEC(N'ALTER TABLE [DailyQualityIssueChecklistV91s] DROP CONSTRAINT [' + @var182 + '];');
+    ALTER TABLE [DailyQualityIssueChecklistV91s] ALTER COLUMN [BreakdownCount] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008094642_settheunll'
+)
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20241008094642_settheunll', N'8.0.8');
+END;
+GO
+
+COMMIT;
+GO
+
+BEGIN TRANSACTION;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008095606_AddTheCaseCount'
+)
+BEGIN
+    ALTER TABLE [DailyQualityIssueChecklistV91s] ADD [CaseCount] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008095606_AddTheCaseCount'
+)
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20241008095606_AddTheCaseCount', N'8.0.8');
+END;
+GO
+
+COMMIT;
+GO
+
+BEGIN TRANSACTION;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008104151_ADDTEMPCASE'
+)
+BEGIN
+    DECLARE @var183 sysname;
+    SELECT @var183 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[dailyQualityIssueChecklistV91Temps]') AND [c].[name] = N'SupplierShortCode');
+    IF @var183 IS NOT NULL EXEC(N'ALTER TABLE [dailyQualityIssueChecklistV91Temps] DROP CONSTRAINT [' + @var183 + '];');
+    ALTER TABLE [dailyQualityIssueChecklistV91Temps] ALTER COLUMN [SupplierShortCode] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008104151_ADDTEMPCASE'
+)
+BEGIN
+    DECLARE @var184 sysname;
+    SELECT @var184 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[dailyQualityIssueChecklistV91Temps]') AND [c].[name] = N'StartTime');
+    IF @var184 IS NOT NULL EXEC(N'ALTER TABLE [dailyQualityIssueChecklistV91Temps] DROP CONSTRAINT [' + @var184 + '];');
+    ALTER TABLE [dailyQualityIssueChecklistV91Temps] ALTER COLUMN [StartTime] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008104151_ADDTEMPCASE'
+)
+BEGIN
+    DECLARE @var185 sysname;
+    SELECT @var185 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[dailyQualityIssueChecklistV91Temps]') AND [c].[name] = N'ServiceFaultIdentificationAccurate');
+    IF @var185 IS NOT NULL EXEC(N'ALTER TABLE [dailyQualityIssueChecklistV91Temps] DROP CONSTRAINT [' + @var185 + '];');
+    ALTER TABLE [dailyQualityIssueChecklistV91Temps] ALTER COLUMN [ServiceFaultIdentificationAccurate] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008104151_ADDTEMPCASE'
+)
+BEGIN
+    DECLARE @var186 sysname;
+    SELECT @var186 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[dailyQualityIssueChecklistV91Temps]') AND [c].[name] = N'SMT');
+    IF @var186 IS NOT NULL EXEC(N'ALTER TABLE [dailyQualityIssueChecklistV91Temps] DROP CONSTRAINT [' + @var186 + '];');
+    ALTER TABLE [dailyQualityIssueChecklistV91Temps] ALTER COLUMN [SMT] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008104151_ADDTEMPCASE'
+)
+BEGIN
+    DECLARE @var187 sysname;
+    SELECT @var187 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[dailyQualityIssueChecklistV91Temps]') AND [c].[name] = N'ResponsibilitySourceSupplierName');
+    IF @var187 IS NOT NULL EXEC(N'ALTER TABLE [dailyQualityIssueChecklistV91Temps] DROP CONSTRAINT [' + @var187 + '];');
+    ALTER TABLE [dailyQualityIssueChecklistV91Temps] ALTER COLUMN [ResponsibilitySourceSupplierName] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008104151_ADDTEMPCASE'
+)
+BEGIN
+    DECLARE @var188 sysname;
+    SELECT @var188 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[dailyQualityIssueChecklistV91Temps]') AND [c].[name] = N'Remarks');
+    IF @var188 IS NOT NULL EXEC(N'ALTER TABLE [dailyQualityIssueChecklistV91Temps] DROP CONSTRAINT [' + @var188 + '];');
+    ALTER TABLE [dailyQualityIssueChecklistV91Temps] ALTER COLUMN [Remarks] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008104151_ADDTEMPCASE'
+)
+BEGIN
+    DECLARE @var189 sysname;
+    SELECT @var189 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[dailyQualityIssueChecklistV91Temps]') AND [c].[name] = N'QE');
+    IF @var189 IS NOT NULL EXEC(N'ALTER TABLE [dailyQualityIssueChecklistV91Temps] DROP CONSTRAINT [' + @var189 + '];');
+    ALTER TABLE [dailyQualityIssueChecklistV91Temps] ALTER COLUMN [QE] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008104151_ADDTEMPCASE'
+)
+BEGIN
+    DECLARE @var190 sysname;
+    SELECT @var190 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[dailyQualityIssueChecklistV91Temps]') AND [c].[name] = N'ProjectIdentifier');
+    IF @var190 IS NOT NULL EXEC(N'ALTER TABLE [dailyQualityIssueChecklistV91Temps] DROP CONSTRAINT [' + @var190 + '];');
+    ALTER TABLE [dailyQualityIssueChecklistV91Temps] ALTER COLUMN [ProjectIdentifier] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008104151_ADDTEMPCASE'
+)
+BEGIN
+    DECLARE @var191 sysname;
+    SELECT @var191 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[dailyQualityIssueChecklistV91Temps]') AND [c].[name] = N'PQSNumber');
+    IF @var191 IS NOT NULL EXEC(N'ALTER TABLE [dailyQualityIssueChecklistV91Temps] DROP CONSTRAINT [' + @var191 + '];');
+    ALTER TABLE [dailyQualityIssueChecklistV91Temps] ALTER COLUMN [PQSNumber] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008104151_ADDTEMPCASE'
+)
+BEGIN
+    DECLARE @var192 sysname;
+    SELECT @var192 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[dailyQualityIssueChecklistV91Temps]') AND [c].[name] = N'OldMaterialDescription');
+    IF @var192 IS NOT NULL EXEC(N'ALTER TABLE [dailyQualityIssueChecklistV91Temps] DROP CONSTRAINT [' + @var192 + '];');
+    ALTER TABLE [dailyQualityIssueChecklistV91Temps] ALTER COLUMN [OldMaterialDescription] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008104151_ADDTEMPCASE'
+)
+BEGIN
+    DECLARE @var193 sysname;
+    SELECT @var193 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[dailyQualityIssueChecklistV91Temps]') AND [c].[name] = N'MIS6');
+    IF @var193 IS NOT NULL EXEC(N'ALTER TABLE [dailyQualityIssueChecklistV91Temps] DROP CONSTRAINT [' + @var193 + '];');
+    ALTER TABLE [dailyQualityIssueChecklistV91Temps] ALTER COLUMN [MIS6] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008104151_ADDTEMPCASE'
+)
+BEGIN
+    DECLARE @var194 sysname;
+    SELECT @var194 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[dailyQualityIssueChecklistV91Temps]') AND [c].[name] = N'MIS36');
+    IF @var194 IS NOT NULL EXEC(N'ALTER TABLE [dailyQualityIssueChecklistV91Temps] DROP CONSTRAINT [' + @var194 + '];');
+    ALTER TABLE [dailyQualityIssueChecklistV91Temps] ALTER COLUMN [MIS36] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008104151_ADDTEMPCASE'
+)
+BEGIN
+    DECLARE @var195 sysname;
+    SELECT @var195 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[dailyQualityIssueChecklistV91Temps]') AND [c].[name] = N'MIS3');
+    IF @var195 IS NOT NULL EXEC(N'ALTER TABLE [dailyQualityIssueChecklistV91Temps] DROP CONSTRAINT [' + @var195 + '];');
+    ALTER TABLE [dailyQualityIssueChecklistV91Temps] ALTER COLUMN [MIS3] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008104151_ADDTEMPCASE'
+)
+BEGIN
+    DECLARE @var196 sysname;
+    SELECT @var196 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[dailyQualityIssueChecklistV91Temps]') AND [c].[name] = N'MIS24');
+    IF @var196 IS NOT NULL EXEC(N'ALTER TABLE [dailyQualityIssueChecklistV91Temps] DROP CONSTRAINT [' + @var196 + '];');
+    ALTER TABLE [dailyQualityIssueChecklistV91Temps] ALTER COLUMN [MIS24] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008104151_ADDTEMPCASE'
+)
+BEGIN
+    DECLARE @var197 sysname;
+    SELECT @var197 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[dailyQualityIssueChecklistV91Temps]') AND [c].[name] = N'MIS12');
+    IF @var197 IS NOT NULL EXEC(N'ALTER TABLE [dailyQualityIssueChecklistV91Temps] DROP CONSTRAINT [' + @var197 + '];');
+    ALTER TABLE [dailyQualityIssueChecklistV91Temps] ALTER COLUMN [MIS12] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008104151_ADDTEMPCASE'
+)
+BEGIN
+    DECLARE @var198 sysname;
+    SELECT @var198 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[dailyQualityIssueChecklistV91Temps]') AND [c].[name] = N'LocationCode');
+    IF @var198 IS NOT NULL EXEC(N'ALTER TABLE [dailyQualityIssueChecklistV91Temps] DROP CONSTRAINT [' + @var198 + '];');
+    ALTER TABLE [dailyQualityIssueChecklistV91Temps] ALTER COLUMN [LocationCode] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008104151_ADDTEMPCASE'
+)
+BEGIN
+    DECLARE @var199 sysname;
+    SELECT @var199 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[dailyQualityIssueChecklistV91Temps]') AND [c].[name] = N'IsBreakdownInvalid');
+    IF @var199 IS NOT NULL EXEC(N'ALTER TABLE [dailyQualityIssueChecklistV91Temps] DROP CONSTRAINT [' + @var199 + '];');
+    ALTER TABLE [dailyQualityIssueChecklistV91Temps] ALTER COLUMN [IsBreakdownInvalid] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008104151_ADDTEMPCASE'
+)
+BEGIN
+    DECLARE @var200 sysname;
+    SELECT @var200 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[dailyQualityIssueChecklistV91Temps]') AND [c].[name] = N'IncludedInSIL');
+    IF @var200 IS NOT NULL EXEC(N'ALTER TABLE [dailyQualityIssueChecklistV91Temps] DROP CONSTRAINT [' + @var200 + '];');
+    ALTER TABLE [dailyQualityIssueChecklistV91Temps] ALTER COLUMN [IncludedInSIL] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008104151_ADDTEMPCASE'
+)
+BEGIN
+    DECLARE @var201 sysname;
+    SELECT @var201 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[dailyQualityIssueChecklistV91Temps]') AND [c].[name] = N'IdentifiedFaultMode');
+    IF @var201 IS NOT NULL EXEC(N'ALTER TABLE [dailyQualityIssueChecklistV91Temps] DROP CONSTRAINT [' + @var201 + '];');
+    ALTER TABLE [dailyQualityIssueChecklistV91Temps] ALTER COLUMN [IdentifiedFaultMode] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008104151_ADDTEMPCASE'
+)
+BEGIN
+    DECLARE @var202 sysname;
+    SELECT @var202 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[dailyQualityIssueChecklistV91Temps]') AND [c].[name] = N'FaultCode');
+    IF @var202 IS NOT NULL EXEC(N'ALTER TABLE [dailyQualityIssueChecklistV91Temps] DROP CONSTRAINT [' + @var202 + '];');
+    ALTER TABLE [dailyQualityIssueChecklistV91Temps] ALTER COLUMN [FaultCode] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008104151_ADDTEMPCASE'
+)
+BEGIN
+    DECLARE @var203 sysname;
+    SELECT @var203 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[dailyQualityIssueChecklistV91Temps]') AND [c].[name] = N'BreakpointTime');
+    IF @var203 IS NOT NULL EXEC(N'ALTER TABLE [dailyQualityIssueChecklistV91Temps] DROP CONSTRAINT [' + @var203 + '];');
+    ALTER TABLE [dailyQualityIssueChecklistV91Temps] ALTER COLUMN [BreakpointTime] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008104151_ADDTEMPCASE'
+)
+BEGIN
+    DECLARE @var204 sysname;
+    SELECT @var204 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[dailyQualityIssueChecklistV91Temps]') AND [c].[name] = N'BreakdownCount');
+    IF @var204 IS NOT NULL EXEC(N'ALTER TABLE [dailyQualityIssueChecklistV91Temps] DROP CONSTRAINT [' + @var204 + '];');
+    ALTER TABLE [dailyQualityIssueChecklistV91Temps] ALTER COLUMN [BreakdownCount] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008104151_ADDTEMPCASE'
+)
+BEGIN
+    ALTER TABLE [dailyQualityIssueChecklistV91Temps] ADD [CaseCount] nvarchar(max) NULL;
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20241008104151_ADDTEMPCASE'
+)
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20241008104151_ADDTEMPCASE', N'8.0.8');
+END;
+GO
+
+COMMIT;
+GO
+

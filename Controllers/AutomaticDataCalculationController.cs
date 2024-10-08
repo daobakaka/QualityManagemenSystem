@@ -24,31 +24,10 @@ namespace WebWinMVC.Controllers
             _context = context;
         }
 
-        public class PivotResult
-        {
-            public string? Order { get; set; }
-            public string? ApprovalDate { get; set; }
-            public string? VehicleModel { get; set; }
-            public string? OldMaterialCode { get; set; }
-            public string? OldMaterialDescription { get; set; }
-            public string? SupplierShortCode { get; set; }
-            public string? ResponsibilitySourceSupplierName { get; set; }
-            public string? CaseCount { get; set; }
-            public string? CumulativeCaseCount { get; set; }
-            public string? MIS3 { get; set; }
-            public string? MIS6 { get; set; }
-            public string? MIS12 { get; set; }
-            public string? MIS24 { get; set; }
-            public string? MIS36 { get; set; }
-            public string? SMT { get; set; }
-            public string? LocationCode { get; set; }
-            public string? FaultCode { get; set; }
-            public string? BreakPointNum { get; set; }
-            public string? BreakPointTime { get; set; }
-        }
+       
 
         [HttpGet("FilterAndPivot")]
-        public async Task<IActionResult> FilterAndPivot()
+        public async Task<IActionResult> FilterAndPivot([FromQuery] string ApprovalDate)
         {
 
             try
@@ -62,11 +41,50 @@ namespace WebWinMVC.Controllers
                     .Where(e => (e.ServiceCategory == "售前维修" || e.ServiceCategory == "质保服务"))
                     .Where(e => e.ResponsibilitySourceIdentifier == "是")
                     .Where(e => (e.RepairMethod == "更换" || e.RepairMethod == "维修"))
-                    .Where(e => e.MaterialType == "物料")
-                    .Where(e => e.ApprovalDate == "2024-09-01" || e.ApprovalDate == "2024-09-02" || e.ApprovalDate == "2024-09-03");
-                //|| e.ApprovalDate == "2024-09-02" || e.ApprovalDate == "2024-09-03"
+                    .Where(e => e.MaterialType == "物料");
 
-                _logger.LogInformation($"总计数量为：{query.ToList().Count}");
+                // 处理 ApprovalDate 参数
+                if (!string.IsNullOrEmpty(ApprovalDate))
+                {
+                    string? startDateStr = null;
+                    string? endDateStr = null;
+                    var dates = ApprovalDate.Split('-');
+
+                    if (dates.Length == 1)
+                    {
+                        // 只有一个日期，作为开始日期
+                        if (DateTime.TryParseExact(dates[0], "yyMMdd", null, System.Globalization.DateTimeStyles.None, out var startDate))
+                        {
+                            startDateStr = startDate.ToString("yyyy-MM-dd"); // 转换为 yyyy-MM-dd 格式
+                        }
+                    }
+                    else if (dates.Length == 2)
+                    {
+                        // 有开始和结束日期
+                        if (DateTime.TryParseExact(dates[0], "yyMMdd", null, System.Globalization.DateTimeStyles.None, out var startDate) &&
+                            DateTime.TryParseExact(dates[1], "yyMMdd", null, System.Globalization.DateTimeStyles.None, out var endDate))
+                        {
+                            startDateStr = startDate.ToString("yyyy-MM-dd"); // 转换为 yyyy-MM-dd 格式
+                            endDateStr = endDate.ToString("yyyy-MM-dd");     // 转换为 yyyy-MM-dd 格式
+                        }
+                    }
+
+                    if (!string.IsNullOrEmpty(startDateStr))
+                    {
+                        if (!string.IsNullOrEmpty(endDateStr))
+                        {
+                            query = query.Where(e => e.ApprovalDate.CompareTo(startDateStr) >= 0 &&
+                                                     e.ApprovalDate.CompareTo(endDateStr) <= 0);
+                        }
+                        else
+                        {
+                            query = query.Where(e => e.ApprovalDate.CompareTo(startDateStr) == 0);
+                        }
+                    }
+                }
+
+                int initialCount = await query.CountAsync();
+                _logger.LogInformation($"初始筛选数量为：{initialCount}");
 
                 var vehicleTypes = new List<string>
                 {
@@ -93,11 +111,11 @@ namespace WebWinMVC.Controllers
                         IQueryable<DailyServiceReviewFormQuery> stepDataQuery = query
                             .Where(q => q.FilteredVehicleModel == vehicle &&
                                         (
-                                            (step == 3 && (q.MISInterval == "0.0" || q.MISInterval == "3.0")) ||
-                                            (step == 6 && (q.MISInterval == "0.0" || q.MISInterval == "3.0" || q.MISInterval == "6.0")) ||
-                                            (step == 12 && (q.MISInterval == "0.0" || q.MISInterval == "3.0" || q.MISInterval == "6.0" || q.MISInterval == "12.0")) ||
-                                            (step == 24 && (q.MISInterval == "0.0" || q.MISInterval == "3.0" || q.MISInterval == "6.0" || q.MISInterval == "12.0" || q.MISInterval == "24.0")) ||
-                                            (step == 36 && (q.MISInterval == "0.0" || q.MISInterval == "3.0" || q.MISInterval == "6.0" || q.MISInterval == "12.0" || q.MISInterval == "24.0" || q.MISInterval == "36.0"))
+                                            (step == 3 && (q.MISInterval == "0" || q.MISInterval == "3")) ||
+                                            (step == 6 && (q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6")) ||
+                                            (step == 12 && (q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12")) ||
+                                            (step == 24 && (q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24")) ||
+                                            (step == 36 && (q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24" || q.MISInterval == "36"))
                                         ));
 
                         var stepData = await stepDataQuery.ToListAsync();
@@ -109,18 +127,18 @@ namespace WebWinMVC.Controllers
                               {
                                   OldMaterialCode = g.Key,
                                   // 根据当前 step 统计各 MIS 区间数量
-                                  MIS3 = step == 3 ? g.Count(q => q.MISInterval == "0.0" || q.MISInterval == "3.0") : 0,
-                                  MIS6 = step == 6 ? g.Count(q => q.MISInterval == "0.0" || q.MISInterval == "3.0" || q.MISInterval == "6.0") : 0,
-                                  MIS12 = step == 12 ? g.Count(q => q.MISInterval == "0.0" || q.MISInterval == "3.0" || q.MISInterval == "6.0" || q.MISInterval == "12.0") : 0,
-                                  MIS24 = step == 24 ? g.Count(q => q.MISInterval == "0.0" || q.MISInterval == "3.0" || q.MISInterval == "6.0" || q.MISInterval == "12.0" || q.MISInterval == "24.0") : 0,
-                                  MIS36 = step == 36 ? g.Count(q => q.MISInterval == "0.0" || q.MISInterval == "3.0" || q.MISInterval == "6.0" || q.MISInterval == "12.0" || q.MISInterval == "24.0" || q.MISInterval == "36.0") : 0,
+                                  MIS3 = step == 3 ? g.Count(q => q.MISInterval == "0" || q.MISInterval == "3") : 0,
+                                  MIS6 = step == 6 ? g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6") : 0,
+                                  MIS12 = step == 12 ? g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12") : 0,
+                                  MIS24 = step == 24 ? g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24") : 0,
+                                  MIS36 = step == 36 ? g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24" || q.MISInterval == "36") : 0,
 
                                   // 使用MIS3cal来计算
-                                  MIS3cal = g.Count(q => q.MISInterval == "0.0" || q.MISInterval == "3.0"),
-                                  MIS6cal = g.Count(q => q.MISInterval == "0.0" || q.MISInterval == "3.0" || q.MISInterval == "6.0"),
-                                  MIS12cal = g.Count(q => q.MISInterval == "0.0" || q.MISInterval == "3.0" || q.MISInterval == "6.0" || q.MISInterval == "12.0"),
-                                  MIS24cal = g.Count(q => q.MISInterval == "0.0" || q.MISInterval == "3.0" || q.MISInterval == "6.0" || q.MISInterval == "12.0" || q.MISInterval == "24.0"),
-                                  MIS36cal = g.Count(q => q.MISInterval == "0.0" || q.MISInterval == "3.0" || q.MISInterval == "6.0" || q.MISInterval == "12.0" || q.MISInterval == "24.0" || q.MISInterval == "36.0"),
+                                  MIS3cal = g.Count(q => q.MISInterval == "0" || q.MISInterval == "3"),
+                                  MIS6cal = g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6"),
+                                  MIS12cal = g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12"),
+                                  MIS24cal = g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24"),
+                                  MIS36cal = g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24" || q.MISInterval == "36"),
                               })
                               .ToList();
 
@@ -239,8 +257,8 @@ namespace WebWinMVC.Controllers
                              q.FilteredVehicleModel == vehicle &&
                               !string.IsNullOrEmpty(q.OldMaterialCode) &&
                               collectedMaterialCodes.Contains(q.OldMaterialCode) && // 确保 OldMaterialCode 不为 null 或空
-                             (q.MISInterval == "0.0" || q.MISInterval == "3.0" || q.MISInterval == "6.0" ||
-                              q.MISInterval == "12.0" || q.MISInterval == "24.0" || q.MISInterval == "36.0"))
+                             (q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" ||
+                              q.MISInterval == "12" || q.MISInterval == "24" || q.MISInterval == "36"))
                  .GroupBy(q => q.OldMaterialCode!)
                  .ToDictionaryAsync(g => g.Key, g => g.Count());
 
@@ -515,28 +533,28 @@ namespace WebWinMVC.Controllers
                                     if (startDateStr1.CompareTo(manufactureMonth) >= 0)
                                     {
 
-                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
                                         {
                                             
                                             
                                                 mis3++;
                                            
                                         }
-                                        else if (queryItem.MISInterval == "6.0")
+                                        else if (queryItem.MISInterval == "6")
                                         {
                                             mis6++;
                                       
                                       
 
                                         }
-                                        else if (queryItem.MISInterval == "12.0")
+                                        else if (queryItem.MISInterval == "12")
                                         {
                                             mis12++;
                                            
                                              
 
                                         }
-                                        else if (queryItem.MISInterval == "24.0")
+                                        else if (queryItem.MISInterval == "24")
                                         {
                                             mis24++;
                                           
@@ -563,28 +581,28 @@ namespace WebWinMVC.Controllers
                                 {
                                     if (startDateStr1.CompareTo(manufactureMonth) < 0)
                                     {
-                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
                                         {
 
 
                                             mis3++;
 
                                         }
-                                        else if (queryItem.MISInterval == "6.0")
+                                        else if (queryItem.MISInterval == "6")
                                         {
                                             mis6++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "12.0")
+                                        else if (queryItem.MISInterval == "12")
                                         {
                                             mis12++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "24.0")
+                                        else if (queryItem.MISInterval == "24")
                                         {
                                             mis24++;
 
@@ -621,28 +639,28 @@ namespace WebWinMVC.Controllers
                                     //断点时间大于等于制造月,断点前产品
                                     if (startDateStr1.CompareTo(manufactureMonth) >= 0)
                                     {
-                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
                                         {
 
 
                                             mis3++;
 
                                         }
-                                        else if (queryItem.MISInterval == "6.0")
+                                        else if (queryItem.MISInterval == "6")
                                         {
                                             mis6++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "12.0")
+                                        else if (queryItem.MISInterval == "12")
                                         {
                                             mis12++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "24.0")
+                                        else if (queryItem.MISInterval == "24")
                                         {
                                             mis24++;
 
@@ -669,28 +687,28 @@ namespace WebWinMVC.Controllers
                                 {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
                                     if (startDateStr1.CompareTo(manufactureMonth) < 0 && startDateStr2.CompareTo(manufactureMonth) >= 0)
                                     {
-                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
                                         {
 
 
                                             mis3++;
 
                                         }
-                                        else if (queryItem.MISInterval == "6.0")
+                                        else if (queryItem.MISInterval == "6")
                                         {
                                             mis6++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "12.0")
+                                        else if (queryItem.MISInterval == "12")
                                         {
                                             mis12++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "24.0")
+                                        else if (queryItem.MISInterval == "24")
                                         {
                                             mis24++;
 
@@ -717,28 +735,28 @@ namespace WebWinMVC.Controllers
                                     if (startDateStr2.CompareTo(manufactureMonth) < 0)
                                     {
                                         //2次断点时间小于制造月，2次断点失效产品
-                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
                                         {
 
 
                                             mis3++;
 
                                         }
-                                        else if (queryItem.MISInterval == "6.0")
+                                        else if (queryItem.MISInterval == "6")
                                         {
                                             mis6++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "12.0")
+                                        else if (queryItem.MISInterval == "12")
                                         {
                                             mis12++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "24.0")
+                                        else if (queryItem.MISInterval == "24")
                                         {
                                             mis24++;
 
@@ -775,28 +793,28 @@ namespace WebWinMVC.Controllers
                                     //断点时间大于等于制造月,断点前产品
                                     if (startDateStr1.CompareTo(manufactureMonth) >= 0)
                                     {
-                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
                                         {
 
 
                                             mis3++;
 
                                         }
-                                        else if (queryItem.MISInterval == "6.0")
+                                        else if (queryItem.MISInterval == "6")
                                         {
                                             mis6++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "12.0")
+                                        else if (queryItem.MISInterval == "12")
                                         {
                                             mis12++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "24.0")
+                                        else if (queryItem.MISInterval == "24")
                                         {
                                             mis24++;
 
@@ -823,28 +841,28 @@ namespace WebWinMVC.Controllers
                                 {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
                                     if (startDateStr1.CompareTo(manufactureMonth) < 0 && startDateStr2.CompareTo(manufactureMonth) >= 0)
                                     {
-                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
                                         {
 
 
                                             mis3++;
 
                                         }
-                                        else if (queryItem.MISInterval == "6.0")
+                                        else if (queryItem.MISInterval == "6")
                                         {
                                             mis6++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "12.0")
+                                        else if (queryItem.MISInterval == "12")
                                         {
                                             mis12++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "24.0")
+                                        else if (queryItem.MISInterval == "24")
                                         {
                                             mis24++;
 
@@ -870,28 +888,28 @@ namespace WebWinMVC.Controllers
                                 {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
                                     if (startDateStr2.CompareTo(manufactureMonth) < 0 && startDateStr3.CompareTo(manufactureMonth) >= 0)
                                     {
-                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
                                         {
 
 
                                             mis3++;
 
                                         }
-                                        else if (queryItem.MISInterval == "6.0")
+                                        else if (queryItem.MISInterval == "6")
                                         {
                                             mis6++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "12.0")
+                                        else if (queryItem.MISInterval == "12")
                                         {
                                             mis12++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "24.0")
+                                        else if (queryItem.MISInterval == "24")
                                         {
                                             mis24++;
 
@@ -918,28 +936,28 @@ namespace WebWinMVC.Controllers
                                     if (startDateStr3.CompareTo(manufactureMonth) < 0)
                                     {
                                         //2次断点时间小于制造月，2次断点失效产品
-                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
                                         {
 
 
                                             mis3++;
 
                                         }
-                                        else if (queryItem.MISInterval == "6.0")
+                                        else if (queryItem.MISInterval == "6")
                                         {
                                             mis6++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "12.0")
+                                        else if (queryItem.MISInterval == "12")
                                         {
                                             mis12++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "24.0")
+                                        else if (queryItem.MISInterval == "24")
                                         {
                                             mis24++;
 
@@ -977,28 +995,28 @@ namespace WebWinMVC.Controllers
                                     //断点时间大于等于制造月,断点前产品
                                     if (startDateStr1.CompareTo(manufactureMonth) >= 0)
                                     {
-                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
                                         {
 
 
                                             mis3++;
 
                                         }
-                                        else if (queryItem.MISInterval == "6.0")
+                                        else if (queryItem.MISInterval == "6")
                                         {
                                             mis6++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "12.0")
+                                        else if (queryItem.MISInterval == "12")
                                         {
                                             mis12++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "24.0")
+                                        else if (queryItem.MISInterval == "24")
                                         {
                                             mis24++;
 
@@ -1025,28 +1043,28 @@ namespace WebWinMVC.Controllers
                                 {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
                                     if (startDateStr1.CompareTo(manufactureMonth) < 0 && startDateStr2.CompareTo(manufactureMonth) >= 0)
                                     {
-                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
                                         {
 
 
                                             mis3++;
 
                                         }
-                                        else if (queryItem.MISInterval == "6.0")
+                                        else if (queryItem.MISInterval == "6")
                                         {
                                             mis6++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "12.0")
+                                        else if (queryItem.MISInterval == "12")
                                         {
                                             mis12++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "24.0")
+                                        else if (queryItem.MISInterval == "24")
                                         {
                                             mis24++;
 
@@ -1072,28 +1090,28 @@ namespace WebWinMVC.Controllers
                                 {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
                                     if (startDateStr2.CompareTo(manufactureMonth) < 0 && startDateStr3.CompareTo(manufactureMonth) >= 0)
                                     {
-                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
                                         {
 
 
                                             mis3++;
 
                                         }
-                                        else if (queryItem.MISInterval == "6.0")
+                                        else if (queryItem.MISInterval == "6")
                                         {
                                             mis6++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "12.0")
+                                        else if (queryItem.MISInterval == "12")
                                         {
                                             mis12++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "24.0")
+                                        else if (queryItem.MISInterval == "24")
                                         {
                                             mis24++;
 
@@ -1119,28 +1137,28 @@ namespace WebWinMVC.Controllers
                                 {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
                                     if (startDateStr3.CompareTo(manufactureMonth) < 0 && startDateStr4.CompareTo(manufactureMonth) >= 0)
                                     {
-                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
                                         {
 
 
                                             mis3++;
 
                                         }
-                                        else if (queryItem.MISInterval == "6.0")
+                                        else if (queryItem.MISInterval == "6")
                                         {
                                             mis6++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "12.0")
+                                        else if (queryItem.MISInterval == "12")
                                         {
                                             mis12++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "24.0")
+                                        else if (queryItem.MISInterval == "24")
                                         {
                                             mis24++;
 
@@ -1166,28 +1184,28 @@ namespace WebWinMVC.Controllers
                                 {
                                     if (startDateStr4.CompareTo(manufactureMonth) < 0)
                                     {
-                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
                                         {
 
 
                                             mis3++;
 
                                         }
-                                        else if (queryItem.MISInterval == "6.0")
+                                        else if (queryItem.MISInterval == "6")
                                         {
                                             mis6++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "12.0")
+                                        else if (queryItem.MISInterval == "12")
                                         {
                                             mis12++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "24.0")
+                                        else if (queryItem.MISInterval == "24")
                                         {
                                             mis24++;
 
@@ -1226,28 +1244,28 @@ namespace WebWinMVC.Controllers
                                     //断点时间大于等于制造月,断点前产品
                                     if (startDateStr1.CompareTo(manufactureMonth) >= 0)
                                     {
-                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
                                         {
 
 
                                             mis3++;
 
                                         }
-                                        else if (queryItem.MISInterval == "6.0")
+                                        else if (queryItem.MISInterval == "6")
                                         {
                                             mis6++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "12.0")
+                                        else if (queryItem.MISInterval == "12")
                                         {
                                             mis12++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "24.0")
+                                        else if (queryItem.MISInterval == "24")
                                         {
                                             mis24++;
 
@@ -1274,28 +1292,28 @@ namespace WebWinMVC.Controllers
                                 {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
                                     if (startDateStr1.CompareTo(manufactureMonth) < 0 && startDateStr2.CompareTo(manufactureMonth) >= 0)
                                     {
-                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
                                         {
 
 
                                             mis3++;
 
                                         }
-                                        else if (queryItem.MISInterval == "6.0")
+                                        else if (queryItem.MISInterval == "6")
                                         {
                                             mis6++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "12.0")
+                                        else if (queryItem.MISInterval == "12")
                                         {
                                             mis12++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "24.0")
+                                        else if (queryItem.MISInterval == "24")
                                         {
                                             mis24++;
 
@@ -1321,28 +1339,28 @@ namespace WebWinMVC.Controllers
                                 {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
                                     if (startDateStr2.CompareTo(manufactureMonth) < 0 && startDateStr3.CompareTo(manufactureMonth) >= 0)
                                     {
-                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
                                         {
 
 
                                             mis3++;
 
                                         }
-                                        else if (queryItem.MISInterval == "6.0")
+                                        else if (queryItem.MISInterval == "6")
                                         {
                                             mis6++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "12.0")
+                                        else if (queryItem.MISInterval == "12")
                                         {
                                             mis12++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "24.0")
+                                        else if (queryItem.MISInterval == "24")
                                         {
                                             mis24++;
 
@@ -1368,28 +1386,28 @@ namespace WebWinMVC.Controllers
                                 {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
                                     if (startDateStr3.CompareTo(manufactureMonth) < 0 && startDateStr4.CompareTo(manufactureMonth) >= 0)
                                     {
-                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
                                         {
 
 
                                             mis3++;
 
                                         }
-                                        else if (queryItem.MISInterval == "6.0")
+                                        else if (queryItem.MISInterval == "6")
                                         {
                                             mis6++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "12.0")
+                                        else if (queryItem.MISInterval == "12")
                                         {
                                             mis12++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "24.0")
+                                        else if (queryItem.MISInterval == "24")
                                         {
                                             mis24++;
 
@@ -1415,28 +1433,28 @@ namespace WebWinMVC.Controllers
                                 {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
                                     if (startDateStr4.CompareTo(manufactureMonth) < 0 && startDateStr5.CompareTo(manufactureMonth) >= 0)
                                     {
-                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
                                         {
 
 
                                             mis3++;
 
                                         }
-                                        else if (queryItem.MISInterval == "6.0")
+                                        else if (queryItem.MISInterval == "6")
                                         {
                                             mis6++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "12.0")
+                                        else if (queryItem.MISInterval == "12")
                                         {
                                             mis12++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "24.0")
+                                        else if (queryItem.MISInterval == "24")
                                         {
                                             mis24++;
 
@@ -1463,28 +1481,28 @@ namespace WebWinMVC.Controllers
                                     if (startDateStr5.CompareTo(manufactureMonth) < 0)
                                     {
                                         //2次断点时间小于制造月，2次断点失效产品
-                                        if (queryItem.MISInterval == "0.0" || queryItem.MISInterval == "3.0")
+                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
                                         {
 
 
                                             mis3++;
 
                                         }
-                                        else if (queryItem.MISInterval == "6.0")
+                                        else if (queryItem.MISInterval == "6")
                                         {
                                             mis6++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "12.0")
+                                        else if (queryItem.MISInterval == "12")
                                         {
                                             mis12++;
 
 
 
                                         }
-                                        else if (queryItem.MISInterval == "24.0")
+                                        else if (queryItem.MISInterval == "24")
                                         {
                                             mis24++;
 
@@ -1580,7 +1598,11 @@ namespace WebWinMVC.Controllers
                 await ProcessAndStoreResultsAsyncToQuery( resultToStoreQuery );
                 await ProcessAndStoreResultsV91TempAsync( resultsToStoreReal );
 
-                return Ok(1);
+                return Ok(new
+                {
+                    ResultToStoreQuery = resultToStoreQuery,
+                    ResultsToStoreReal = resultsToStoreReal
+                });
             }
 
 
@@ -1594,13 +1616,179 @@ namespace WebWinMVC.Controllers
             }
         }
 
+        [HttpGet("TransferV91Data")]
+        public async Task<IActionResult> TransferV91Data([FromQuery] DataOperation operation)
+        {
+            var dbSetTemp = _context.dailyQualityIssueChecklistV91Temps;
+            var dbSetPermanent = _context.DailyQualityIssueChecklistV91s;
+
+            switch (operation)
+            {
+                case DataOperation.Replace:
+                    if (await dbSetPermanent.AnyAsync())
+                    {
+                        _context.DailyQualityIssueChecklistV91s.RemoveRange(dbSetPermanent);
+                        await _context.SaveChangesAsync();
+                        _logger.LogInformation("成功清空 DailyQualityIssueChecklistV91 表。");
+                    }
+                    break;
+
+                case DataOperation.Update:
+                    // 保持现有数据，无需清空
+                    break;
+
+                default:
+                    return BadRequest("无效的操作类型。");
+            }
+
+            // 从临时表中读取数据
+            var tempData = await dbSetTemp.ToListAsync();
+            _logger.LogInformation($"从 DailyQualityIssueChecklistV91Temp 读取到 {tempData.Count} 条记录。");
+
+            // 映射临时数据到永久实体
+            List<DailyQualityIssueChecklistV91> permanentEntries = new List<DailyQualityIssueChecklistV91>();
+
+            foreach (var temp in tempData)
+            {
+                var permanentEntry = new DailyQualityIssueChecklistV91
+                {
+                    OldMaterialCode = temp.OldMaterialCode ?? "NIL",
+                    OldMaterialDescription = temp.OldMaterialDescription ?? "NIL",
+                    SupplierShortCode = temp.SupplierShortCode ?? "NIL",
+                    ResponsibilitySourceSupplierName = temp.ResponsibilitySourceSupplierName ?? "NIL",
+                    CaseCount = temp.CaseCount ?? "NIL",
+                    MIS3 = temp.MIS3 ?? "0",
+                    MIS6 = temp.MIS6 ?? "0",
+                    MIS12 = temp.MIS12 ?? "0",
+                    MIS24 = temp.MIS24 ?? "0",
+                    MIS36 = temp.MIS36 ?? "0",
+                    SMT = temp.SMT ?? "NIL",
+                    LocationCode = temp.LocationCode ?? "NIL",
+                    FaultCode = temp.FaultCode ?? "NIL",
+                    PQSNumber = temp.PQSNumber ?? "NIL",
+                    BreakdownCount=temp.BreakdownCount ?? "NIL",
+                    IsBreakdownInvalid=temp.IsBreakdownInvalid??"NIL",
+                    BreakpointTime=temp.BreakpointTime??"NIL",
+                    
+
+                };
+
+                permanentEntries.Add(permanentEntry);
+            }
+
+            // 将数据添加到永久表
+            if (permanentEntries.Any())
+            {
+                await dbSetPermanent.AddRangeAsync(permanentEntries);
+                await _context.SaveChangesAsync();
+                _logger.LogInformation($"成功将 {permanentEntries.Count} 条记录写入 DailyQualityIssueChecklistV91 表。");
+            }
+            else
+            {
+                _logger.LogInformation("没有可插入的记录。");
+            }
+
+            return Ok(new { Message = "数据传输完成。", InsertedRecords = permanentEntries.Count });
+        }
+
+        /// <summary>
+        /// 从 DailyQualityIssueChecklistV91QueryTemp 临时表传输数据到 DailyQualityIssueChecklistV91Query 永久表。
+        /// </summary>
+        /// <param name="operation">操作类型：Replace（替换）或 Update（更新）。</param>
+        /// <returns>操作结果。</returns>
+        [HttpGet("TransferV91QueryData")]
+        public async Task<IActionResult> TransferV91QueryData([FromQuery] DataOperation operation)
+        {
+            var dbSetTemp = _context.dailyQualityIssueChecklistV91QueryTemps;
+            var dbSetPermanent = _context.DailyQualityIssueChecklistV91Queries;
+
+            switch (operation)
+            {
+                case DataOperation.Replace:
+                    if (await dbSetPermanent.AnyAsync())
+                    {
+                        _context.DailyQualityIssueChecklistV91Queries.RemoveRange(dbSetPermanent);
+                        await _context.SaveChangesAsync();
+                        _logger.LogInformation("成功清空 DailyQualityIssueChecklistV91Query 表。");
+                    }
+                    break;
+
+                case DataOperation.Update:
+                    // 保持现有数据，无需清空
+                    break;
+
+                default:
+                    return BadRequest("无效的操作类型。");
+            }
+
+            // 从临时表中读取数据
+            var tempData = await dbSetTemp.ToListAsync();
+            _logger.LogInformation($"从 DailyQualityIssueChecklistV91QueryTemp 读取到 {tempData.Count} 条记录。");
+
+            // 映射临时数据到永久实体
+            List<DailyQualityIssueChecklistV91Query> permanentEntries = new List<DailyQualityIssueChecklistV91Query>();
+
+            foreach (var temp in tempData)
+            {
+                var permanentEntry = new DailyQualityIssueChecklistV91Query
+                {
+                    OldMaterialCode = temp.OldMaterialCode ?? "NIL",
+                    ApprovalDate = temp.ApprovalDate ?? "NIL",
+                    VehicleModel = temp.VehicleModel ?? "NIL",
+                    OldMaterialDescription = temp.OldMaterialDescription ?? "NIL",
+                    SupplierShortCode = temp.SupplierShortCode ?? "NIL",
+                    ResponsibilitySourceSupplierName = temp.ResponsibilitySourceSupplierName ?? "NIL",
+                    CaseCount = temp.CaseCount ?? "NIL",
+                    AccumulatedCaseCount = temp.AccumulatedCaseCount ?? "NIL",
+                    MIS3 = temp.MIS3 ?? "0",
+                    MIS6 = temp.MIS6 ?? "0",
+                    MIS12 = temp.MIS12 ?? "0",
+                    MIS24 = temp.MIS24 ?? "0",
+                    MIS36 = temp.MIS36 ?? "0",
+                    SMT = temp.SMT ?? "NIL",
+                    LocationCode = temp.LocationCode ?? "NIL",
+                    FaultCode = temp.FaultCode ?? "NIL",
+                    PQSNumber = temp.PQSNumber ?? "NIL",
+                    VAN = temp.VAN ?? "NIL",
+                    VIN = temp.VIN ?? "NIL"
+                };
+
+                permanentEntries.Add(permanentEntry);
+            }
+
+            // 将数据添加到永久表
+            if (permanentEntries.Any())
+            {
+                await dbSetPermanent.AddRangeAsync(permanentEntries);
+                await _context.SaveChangesAsync();
+                _logger.LogInformation($"成功将 {permanentEntries.Count} 条记录写入 DailyQualityIssueChecklistV91Query 表。");
+            }
+            else
+            {
+                _logger.LogInformation("没有可插入的记录。");
+            }
+
+            return Ok(new { Message = "数据传输完成。", InsertedRecords = permanentEntries.Count });
+        }
+
+
+
 
         public async Task ProcessAndStoreResultsAsyncToQuery(IEnumerable<PivotResult> resultsToStoreQuery)
         {
-            List<DailyQualityIssueChecklistV91QueryTemp> tempEntries = new List<DailyQualityIssueChecklistV91QueryTemp>();
-            tempEntries.Clear();
+            // Step 1: 对 resultsToStoreQuery 进行排序
+            var sortedResults = resultsToStoreQuery
+                .OrderBy(r =>
+                {
+                    // 尝试将 ApprovalDate 转换为 DateTime，如果失败则使用 DateTime.MaxValue
+                    return DateTime.TryParse(r.ApprovalDate, out DateTime date) ? date : DateTime.MaxValue;
+                })
+                .ToList();
 
-            foreach (var result in resultsToStoreQuery)
+            // Step 2: 遍历排序后的结果，创建 tempEntries 列表
+            List<DailyQualityIssueChecklistV91QueryTemp> tempEntries = new List<DailyQualityIssueChecklistV91QueryTemp>();
+
+            foreach (var result in sortedResults)
             {
                 var tempEntry = new DailyQualityIssueChecklistV91QueryTemp
                 {
@@ -1627,31 +1815,85 @@ namespace WebWinMVC.Controllers
 
                 tempEntries.Add(tempEntry);
             }
-            if (tempEntries.Any())
+
+            _logger.LogInformation($"排序后记录数: {sortedResults.Count}");
+
+            // Step 3: 使用事务清空表并插入新数据
+            using (var transaction = await _context.Database.BeginTransactionAsync())
             {
-                // 批量添加到数据库
-                await _context.dailyQualityIssueChecklistV91QueryTemps.AddRangeAsync(tempEntries);
-       
                 try
                 {
+                    _logger.LogInformation("开始清空 DailyQualityIssueChecklistV91QueryTemps 表。");
+
+                    // 方法1：使用 RemoveRange 删除所有记录
+                    _context.dailyQualityIssueChecklistV91QueryTemps.RemoveRange(_context.dailyQualityIssueChecklistV91QueryTemps);
                     await _context.SaveChangesAsync();
-                    _logger.LogInformation("成功将数据写入 DailyQualityIssueChecklistV91QueryTemps 表。");
+                    _logger.LogInformation("成功清空 DailyQualityIssueChecklistV91QueryTemps 表。");
+
+                    // 或者使用原生 SQL 命令（方法2：使用 ExecuteSqlRawAsync）
+                    // await _context.Database.ExecuteSqlRawAsync("DELETE FROM [YourSchema].[DailyQualityIssueChecklistV91QueryTemps]");
+                    // _logger.LogInformation("成功清空 DailyQualityIssueChecklistV91QueryTemps 表。");
+
+                    // 批量添加新数据
+                    if (tempEntries.Any())
+                    {
+                        _logger.LogInformation($"准备添加新数据，记录数: {tempEntries.Count}");
+                        await _context.dailyQualityIssueChecklistV91QueryTemps.AddRangeAsync(tempEntries);
+                        await _context.SaveChangesAsync();
+                        _logger.LogInformation("成功将数据写入 DailyQualityIssueChecklistV91QueryTemps 表。");
+                    }
+
+                    // 提交事务
+                    await transaction.CommitAsync();
+                    _logger.LogInformation("事务已提交。");
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "在写入 DailyQualityIssueChecklistV91QueryTemps 表时发生错误。");
-                    // 根据业务需求，可能需要处理异常，如重试或记录失败的项
+                    // 回滚事务
+                    await transaction.RollbackAsync();
+                    _logger.LogError(ex, "在清空或写入 DailyQualityIssueChecklistV91QueryTemps 表时发生错误。事务已回滚。");
+                    // 根据业务需求，可能需要进一步处理异常，如通知管理员或触发重试机制
                 }
             }
         }
 
 
+
+
+
+
         public async Task ProcessAndStoreResultsV91TempAsync(IEnumerable<PivotResult> resultsToStore)
         {
-            List<DailyQualityIssueChecklistV91Temp> tempEntries = new List<DailyQualityIssueChecklistV91Temp>();
-            tempEntries.Clear();
+            // Step 1: 对 resultsToStore 进行排序
+            var sortedResults = resultsToStore
+                .OrderByDescending(r => r.BreakPointNum != "0") // "是" first (BreakPointNum != "0")
+                .ThenBy(r => r.BreakPointNum != "0" ? r.OldMaterialCode : string.Empty) // Within "是", order by OldMaterialCode ascending
+                .ThenBy(r =>
+                {
+                    if (r.BreakPointNum != "0")
+                    {
+                        // 对于 "是" 的记录，按 BreakdownCount 的整数值升序排序
+                        return int.TryParse(r.BreakPointNum, out int num) ? num : int.MaxValue;
+                    }
+                    else
+                    {
+                        // 对于 "否" 的记录，按 BreakdownCount 的整数值升序排序，但 BreakdownCount 为 "0" 的放到最后
+                        if (int.TryParse(r.BreakPointNum, out int num))
+                        {
+                            return num == 0 ? int.MaxValue : num;
+                        }
+                        else
+                        {
+                            return int.MaxValue;
+                        }
+                    }
+                })
+                .ToList();
 
-            foreach (var result in resultsToStore)
+            // Step 2: 遍历排序后的结果，创建 tempEntries 列表
+            List<DailyQualityIssueChecklistV91Temp> tempEntries = new List<DailyQualityIssueChecklistV91Temp>();
+
+            foreach (var result in sortedResults)
             {
                 string isBreakdownInvalid = (result.BreakPointNum != "0") ? "是" : "否";
                 var tempEntry = new DailyQualityIssueChecklistV91Temp
@@ -1660,6 +1902,7 @@ namespace WebWinMVC.Controllers
                     OldMaterialDescription = result.OldMaterialDescription ?? "NIL",
                     SupplierShortCode = result.SupplierShortCode ?? "NIL",
                     ResponsibilitySourceSupplierName = result.ResponsibilitySourceSupplierName ?? "NIL",
+                    CaseCount = result.CaseCount ?? "NIL",
                     MIS3 = result.MIS3 ?? "0",
                     MIS6 = result.MIS6 ?? "0",
                     MIS12 = result.MIS12 ?? "0",
@@ -1671,11 +1914,11 @@ namespace WebWinMVC.Controllers
                     QE = "NIL", // 没有对应的字段，设置为 "NIL"
                     ServiceFaultIdentificationAccurate = "NIL", // 没有对应的字段，设置为 "NIL"
                     IdentifiedFaultMode = "NIL", // 没有对应的字段，设置为 "NIL"
-                    BreakdownCount = result.BreakPointNum ?? "0",              
-                    IsBreakdownInvalid = isBreakdownInvalid,          
+                    BreakdownCount = result.BreakPointNum ?? "0",
+                    IsBreakdownInvalid = isBreakdownInvalid,
                     IncludedInSIL = "NIL", // 没有对应的字段，设置为 "NIL"
                     PQSNumber = "NIL", // 没有对应的字段，设置为 "NIL"
-                    BreakpointTime = result.BreakPointTime??"0", // 没有对应的字段，设置为 "NIL"
+                    BreakpointTime = result.BreakPointTime ?? "0", // 没有对应的字段，设置为 "0"
                     StartTime = "NIL", // 没有对应的字段，设置为 "NIL"
                     Remarks = "NIL", // 没有对应的字段，设置为 "NIL"
                     ProjectIdentifier = "NIL" // 没有对应的字段，设置为 "NIL"
@@ -1684,22 +1927,45 @@ namespace WebWinMVC.Controllers
                 tempEntries.Add(tempEntry);
             }
 
-            if (tempEntries.Any())
-            {
-                // 批量添加到数据库
-                await _context.dailyQualityIssueChecklistV91Temps.AddRangeAsync(tempEntries);
+            _logger.LogInformation($"排序前记录数: {sortedResults.Count}");
 
+            // Step 3: 使用事务清空表并插入新数据
+            using (var transaction = await _context.Database.BeginTransactionAsync())
+            {
                 try
                 {
+                    // 清空表（方法1：使用 RemoveRange 删除所有记录）
+                    _context.dailyQualityIssueChecklistV91Temps.RemoveRange(_context.dailyQualityIssueChecklistV91Temps);
                     await _context.SaveChangesAsync();
-                    _logger.LogInformation("成功将数据写入 DailyQualityIssueChecklistV91Temps 表。");
+                    _logger.LogInformation("成功清空 DailyQualityIssueChecklistV91Temps 表。");
+
+                    // 或者使用原生 SQL 命令（方法2：使用 ExecuteSqlRawAsync）
+                    // await _context.Database.ExecuteSqlRawAsync("DELETE FROM [JRZKWTWebWinMVC].[dbo].[DailyQualityIssueChecklistV91Temps]");
+                    // _logger.LogInformation("成功清空 DailyQualityIssueChecklistV91Temps 表。");
+
+                    // 批量添加新数据
+                    if (tempEntries.Any())
+                    {
+                        await _context.dailyQualityIssueChecklistV91Temps.AddRangeAsync(tempEntries);
+                        await _context.SaveChangesAsync();
+                        _logger.LogInformation("成功将数据写入 DailyQualityIssueChecklistV91Temps 表。");
+                    }
+
+                    // 提交事务
+                    await transaction.CommitAsync();
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "在写入 DailyQualityIssueChecklistV91Temps 表时发生错误。");
-                    // 根据业务需求，可能需要处理异常，如重试或记录失败的项
+                    // 回滚事务
+                    await transaction.RollbackAsync();
+                    _logger.LogError(ex, "在清空或写入 DailyQualityIssueChecklistV91Temps 表时发生错误。事务已回滚。");
+                    // 根据业务需求，可能需要进一步处理异常，如通知管理员或触发重试机制
                 }
             }
         }
+
+
+
+
     }
 }

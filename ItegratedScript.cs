@@ -74,6 +74,28 @@ namespace WebWinMVC
             return headerMapping;
         }
     }
+    public class PivotResult
+    {
+        public string? Order { get; set; }
+        public string? ApprovalDate { get; set; }
+        public string? VehicleModel { get; set; }
+        public string? OldMaterialCode { get; set; }
+        public string? OldMaterialDescription { get; set; }
+        public string? SupplierShortCode { get; set; }
+        public string? ResponsibilitySourceSupplierName { get; set; }
+        public string? CaseCount { get; set; }
+        public string? CumulativeCaseCount { get; set; }
+        public string? MIS3 { get; set; }
+        public string? MIS6 { get; set; }
+        public string? MIS12 { get; set; }
+        public string? MIS24 { get; set; }
+        public string? MIS36 { get; set; }
+        public string? SMT { get; set; }
+        public string? LocationCode { get; set; }
+        public string? FaultCode { get; set; }
+        public string? BreakPointNum { get; set; }
+        public string? BreakPointTime { get; set; }
+    }
     public class DailyQualityIssueChecklistMap : ClassMap<DailyQualityIssueChecklist>
     {
         public DailyQualityIssueChecklistMap()
@@ -478,6 +500,7 @@ namespace WebWinMVC
             { "旧物料描述", nameof(DailyQualityIssueChecklistV91.OldMaterialDescription) },
             { "供应商短代码", nameof(DailyQualityIssueChecklistV91.SupplierShortCode) },
             { "责任源供应商名称", nameof(DailyQualityIssueChecklistV91.ResponsibilitySourceSupplierName) },
+            { "案例数", nameof(DailyQualityIssueChecklistV91.CaseCount) },
             { "3MIS", nameof(DailyQualityIssueChecklistV91.MIS3) },
             { "6MIS", nameof(DailyQualityIssueChecklistV91.MIS6) },
             { "12MIS", nameof(DailyQualityIssueChecklistV91.MIS12) },
