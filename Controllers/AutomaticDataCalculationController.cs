@@ -81,6 +81,7 @@ namespace WebWinMVC.Controllers
                             query = query.Where(e => e.ApprovalDate.CompareTo(startDateStr) == 0);
                         }
                     }
+                    
                 }
 
                 int initialCount = await query.CountAsync();
@@ -96,7 +97,7 @@ namespace WebWinMVC.Controllers
 
                 _logger.LogInformation($"使用固定车型列表，车型数量: {vehicleTypes.Count}");
 
-                var misSteps = new List<int> { 3, 6, 12, 24, 36 };
+                var misSteps = new List<int> { 3, 6, 12, 24, 48 };
 
                 foreach (var vehicle in vehicleTypes)
                 {
@@ -115,7 +116,7 @@ namespace WebWinMVC.Controllers
                                             (step == 6 && (q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6")) ||
                                             (step == 12 && (q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12")) ||
                                             (step == 24 && (q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24")) ||
-                                            (step == 36 && (q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24" || q.MISInterval == "36"))
+                                            (step == 48 && (q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24" || q.MISInterval == "48"))
                                         ));
 
                         var stepData = await stepDataQuery.ToListAsync();
@@ -131,14 +132,14 @@ namespace WebWinMVC.Controllers
                                   MIS6 = step == 6 ? g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6") : 0,
                                   MIS12 = step == 12 ? g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12") : 0,
                                   MIS24 = step == 24 ? g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24") : 0,
-                                  MIS36 = step == 36 ? g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24" || q.MISInterval == "36") : 0,
+                                  MIS48 = step == 48 ? g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24" || q.MISInterval == "48") : 0,
 
                                   // 使用MIS3cal来计算
                                   MIS3cal = g.Count(q => q.MISInterval == "0" || q.MISInterval == "3"),
                                   MIS6cal = g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6"),
                                   MIS12cal = g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12"),
                                   MIS24cal = g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24"),
-                                  MIS36cal = g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24" || q.MISInterval == "36"),
+                                  MIS48cal = g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24" || q.MISInterval == "48"),
                               })
                               .ToList();
 
@@ -168,14 +169,14 @@ namespace WebWinMVC.Controllers
                                                          g.MIS12cal > 0 && // 防止除零错误
                                                          (g.MIS24cal / (decimal)g.MIS12cal) >= 1.5m; // 使用MIS12cal
 
-                                              case 36:
-                                                  // 对于 MIS 36 的条件: 
-                                                  // 总数 >= 10 且 12MIS < 5 且 24MIS < 10 且 36MIS/24MIS > 1.5
-                                                  return g.MIS36cal >= 20 &&
+                                              case 48:
+                                                  // 对于 MIS 48 的条件: 
+                                                  // 总数 >= 10 且 12MIS < 5 且 24MIS < 10 且 48MIS/24MIS > 1.5
+                                                  return g.MIS48cal >= 20 &&
                                                          g.MIS12cal < 5 &&
                                                          g.MIS24cal < 10 &&
                                                          g.MIS24cal > 0 && // 防止除零错误
-                                                         (g.MIS36cal / (decimal)g.MIS24cal) >= 1.5m; // 使用MIS24cal
+                                                         (g.MIS48cal / (decimal)g.MIS24cal) >= 1.5m; // 使用MIS24cal
 
                                               default:
                                                   return false;
@@ -195,8 +196,8 @@ namespace WebWinMVC.Controllers
                                 MIS6 = item.MIS6.ToString(),
                                 MIS12 = item.MIS12.ToString(),
                                 MIS24 = item.MIS24.ToString(),
-                                MIS36 = item.MIS36.ToString(),
-                                CaseCount = item.MIS36cal.ToString(),
+                                MIS48 = item.MIS48.ToString(),
+                                CaseCount = item.MIS48cal.ToString(),
                                 VehicleModel = vehicle, // 当前车辆类型
                                 ApprovalDate = originalData?.ApprovalDate, // 从原始数据中填充ApprovalDate
                                 OldMaterialDescription = originalData?.OldMaterialDescription, // 从原始数据中填充OldMaterialDescription
@@ -225,14 +226,14 @@ namespace WebWinMVC.Controllers
                                 int totalMIS6 = g.Sum(r => int.TryParse(r.MIS6, out var mis6) ? mis6 : 0);
                                 int totalMIS12 = g.Sum(r => int.TryParse(r.MIS12, out var mis12) ? mis12 : 0);
                                 int totalMIS24 = g.Sum(r => int.TryParse(r.MIS24, out var mis24) ? mis24 : 0);
-                                int totalMIS36 = g.Sum(r => int.TryParse(r.MIS36, out var mis36) ? mis36 : 0);
+                                int totalMIS48 = g.Sum(r => int.TryParse(r.MIS48, out var mis48) ? mis48 : 0);
 
                                 // 更新第一个实例的 MIS 字段                                
                                 first.MIS3 = totalMIS3.ToString();
                                 first.MIS6 = totalMIS6.ToString();
                                 first.MIS12 = totalMIS12.ToString();
                                 first.MIS24 = totalMIS24.ToString();
-                                first.MIS36 = totalMIS36.ToString();
+                                first.MIS48 = totalMIS48.ToString();
 
                                 // 如果需要累加其他字段，如 CaseCount，可以在此处处理
                                 // 例如，累加 CaseCount:
@@ -248,30 +249,30 @@ namespace WebWinMVC.Controllers
                     //执行case 数计算逻辑
                     if (collectedMaterialCodes.Any())
                     {
-                        _logger.LogInformation("开始批量计算 MIS36cal");
+                        _logger.LogInformation("开始批量计算 MIS48cal");
 
-                        // 执行批量查询，计算每个物料号的 MIS36cal，简化后的代码                
+                        // 执行批量查询，计算每个物料号的 MIS48cal，简化后的代码                
 
-                        var mis36calResults = await query
+                        var mis48calResults = await query
                  .Where(q => q.FilteredVehicleModel != null && // 确保 FilteredVehicleModel 不为 null
                              q.FilteredVehicleModel == vehicle &&
                               !string.IsNullOrEmpty(q.OldMaterialCode) &&
                               collectedMaterialCodes.Contains(q.OldMaterialCode) && // 确保 OldMaterialCode 不为 null 或空
                              (q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" ||
-                              q.MISInterval == "12" || q.MISInterval == "24" || q.MISInterval == "36"))
+                              q.MISInterval == "12" || q.MISInterval == "24" || q.MISInterval == "48"))
                  .GroupBy(q => q.OldMaterialCode!)
                  .ToDictionaryAsync(g => g.Key, g => g.Count());
 
 
-                        _logger.LogInformation("完成批量计算 MIS36cal");
+                        _logger.LogInformation("完成批量计算 MIS48cal");
 
                         // 将计算结果赋值给 resultsToStore 中的 CaseCount
                         foreach (var result in resultsToStore)
                         {
                             if (!string.IsNullOrEmpty(result.OldMaterialCode) &&
-                                mis36calResults.TryGetValue(result.OldMaterialCode, out var mis36cal))
+                                mis48calResults.TryGetValue(result.OldMaterialCode, out var mis48cal))
                             {
-                                result.CaseCount = mis36cal.ToString();
+                                result.CaseCount = mis48cal.ToString();
                             }
 
                         }
@@ -308,7 +309,7 @@ namespace WebWinMVC.Controllers
                                            $"MIS6: {result.MIS6}, " +
                                            $"MIS12: {result.MIS12}, " +
                                            $"MIS24: {result.MIS24}, " +
-                                           $"MIS36: {result.MIS36}, " +
+                                           $"MIS48: {result.MIS48}, " +
                                            //$"CumulativeCaseCount: {result.CumulativeCaseCount}, " +
                                            //$"SMT: {result.SMT}, " +
                                            //$"位置代码: {result.LocationCode}, " +
@@ -328,7 +329,7 @@ namespace WebWinMVC.Controllers
                             int totalMIS6 = g.Sum(r => int.TryParse(r.MIS6, out var mis6) ? mis6 : 0);
                             int totalMIS12 = g.Sum(r => int.TryParse(r.MIS12, out var mis12) ? mis12 : 0);
                             int totalMIS24 = g.Sum(r => int.TryParse(r.MIS24, out var mis24) ? mis24 : 0);
-                            int totalMIS36 = g.Sum(r => int.TryParse(r.MIS36, out var mis36) ? mis36 : 0);
+                            int totalMIS48 = g.Sum(r => int.TryParse(r.MIS48, out var mis48) ? mis48 : 0);
                             //--因为车型不一样 所以这里需要执行整体累计逻辑
                             int totalCase = g.Sum(r => int.TryParse(r.CaseCount, out var caseCount) ? caseCount : 0);
 
@@ -337,7 +338,7 @@ namespace WebWinMVC.Controllers
                             first.MIS6 = totalMIS6.ToString();
                             first.MIS12 = totalMIS12.ToString();
                             first.MIS24 = totalMIS24.ToString();
-                            first.MIS36 = totalMIS36.ToString();
+                            first.MIS48 = totalMIS48.ToString();
                             //添加整体累加逻辑
                             first.CaseCount = totalCase.ToString();
                             // 如果需要累加其他字段，如 CaseCount，可以在此处处理
@@ -372,7 +373,7 @@ namespace WebWinMVC.Controllers
                                            $"MIS6: {result.MIS6}, " +
                                            $"MIS12: {result.MIS12}, " +
                                            $"MIS24: {result.MIS24}, " +
-                                           $"MIS36: {result.MIS36}, " +
+                                           $"MIS48: {result.MIS48}, " +
                                            //$"CumulativeCaseCount: {result.CumulativeCaseCount}, " +
                                            //$"SMT: {result.SMT}, " +
                                            //$"位置代码: {result.LocationCode}, " +
@@ -426,7 +427,7 @@ namespace WebWinMVC.Controllers
                                 MIS6 = result.MIS6,
                                 MIS12 = result.MIS12,
                                 MIS24 = result.MIS24,
-                                MIS36 = result.MIS36,
+                                MIS48 = result.MIS48,
                                 SMT = result.SMT,
                                 LocationCode = result.LocationCode,
                                 FaultCode = result.FaultCode,
@@ -480,7 +481,7 @@ namespace WebWinMVC.Controllers
                                            $"MIS6: {result.MIS6}, " +
                                            $"MIS12: {result.MIS12}, " +
                                            $"MIS24: {result.MIS24}, " +
-                                           $"MIS36: {result.MIS36}, " +
+                                           $"MIS48: {result.MIS48}, " +
                                            //$"CumulativeCaseCount: {result.CumulativeCaseCount}, " +
                                            //$"SMT: {result.SMT}, " +
                                            //$"位置代码: {result.LocationCode}, " +
@@ -497,7 +498,7 @@ namespace WebWinMVC.Controllers
                     //    result.MIS3 = "NIL";
                     //result.MIS12 = "0";
                     //result.MIS24 = "0";
-                    //result.MIS36 =  "0";
+                    //result.MIS48 =  "0";
                 }
 
 
@@ -516,8 +517,8 @@ namespace WebWinMVC.Controllers
 
                     {
                         var queryCode = query.Where(b => b.OldMaterialCode == result.OldMaterialCode);//定义一个特定的物料查询号
-                        int mis3, mis6, mis12, mis24, mis36;
-                        mis3 = mis6 = mis12 = mis24 = mis36 = 0;
+                        int mis3, mis6, mis12, mis24, mis48;
+                        mis3 = mis6 = mis12 = mis24 = mis48 = 0;
                         foreach (var queryItem in queryCode)//用手写6次断点几乎涵盖所有情况，每次遍历物料号就可以写入下面 BreakPointNum对应的值进入duplicateMaterialCodes表
                         {
                             string manufactureMonth = queryItem.ManufacturingMonth ?? "0";
@@ -561,7 +562,7 @@ namespace WebWinMVC.Controllers
                                              
 
                                         }
-                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        mis48++;//技术中心试验车的情况，后期需要排除
                                         if (result.MIS3!="0")
                                             result.MIS3 = mis3.ToString();
                                         if (result.MIS6 != "0")
@@ -570,9 +571,9 @@ namespace WebWinMVC.Controllers
                                             result.MIS12 = (mis6 + mis3 + mis12).ToString();
                                         if (result.MIS24 != "0")
                                             result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS36 != "0")
-                                            result.MIS36 = mis36.ToString();
-                                        result.CaseCount = mis36.ToString();
+                                        if (result.MIS48 != "0")
+                                            result.MIS48 = mis48.ToString();
+                                        result.CaseCount = mis48.ToString();
 
                                     }
 
@@ -609,7 +610,7 @@ namespace WebWinMVC.Controllers
 
 
                                         }
-                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        mis48++;//技术中心试验车的情况，后期需要排除
                                         if (result.MIS3 != "0")
                                             result.MIS3 = mis3.ToString();
                                         if (result.MIS6 != "0")
@@ -618,9 +619,9 @@ namespace WebWinMVC.Controllers
                                             result.MIS12 = (mis6 + mis3 + mis12).ToString();
                                         if (result.MIS24 != "0")
                                             result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS36 != "0")
-                                            result.MIS36 = mis36.ToString();
-                                        result.CaseCount = mis36.ToString();
+                                        if (result.MIS48 != "0")
+                                            result.MIS48 = mis48.ToString();
+                                        result.CaseCount = mis48.ToString();
                                     }
 
 
@@ -667,7 +668,7 @@ namespace WebWinMVC.Controllers
 
 
                                         }
-                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        mis48++;//技术中心试验车的情况，后期需要排除
                                         if (result.MIS3 != "0")
                                             result.MIS3 = mis3.ToString();
                                         if (result.MIS6 != "0")
@@ -676,9 +677,9 @@ namespace WebWinMVC.Controllers
                                             result.MIS12 = (mis6 + mis3 + mis12).ToString();
                                         if (result.MIS24 != "0")
                                             result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS36 != "0")
-                                            result.MIS36 = mis36.ToString();
-                                        result.CaseCount = mis36.ToString();
+                                        if (result.MIS48 != "0")
+                                            result.MIS48 = mis48.ToString();
+                                        result.CaseCount = mis48.ToString();
 
                                     }
 
@@ -715,7 +716,7 @@ namespace WebWinMVC.Controllers
 
 
                                         }
-                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        mis48++;//技术中心试验车的情况，后期需要排除
                                         if (result.MIS3 != "0")
                                             result.MIS3 = mis3.ToString();
                                         if (result.MIS6 != "0")
@@ -724,9 +725,9 @@ namespace WebWinMVC.Controllers
                                             result.MIS12 = (mis6 + mis3 + mis12).ToString();
                                         if (result.MIS24 != "0")
                                             result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS36 != "0")
-                                            result.MIS36 = mis36.ToString();
-                                        result.CaseCount = mis36.ToString();
+                                        if (result.MIS48 != "0")
+                                            result.MIS48 = mis48.ToString();
+                                        result.CaseCount = mis48.ToString();
 
                                     }
                                 }
@@ -763,7 +764,7 @@ namespace WebWinMVC.Controllers
 
 
                                         }
-                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        mis48++;//技术中心试验车的情况，后期需要排除
                                         if (result.MIS3 != "0")
                                             result.MIS3 = mis3.ToString();
                                         if (result.MIS6 != "0")
@@ -772,9 +773,9 @@ namespace WebWinMVC.Controllers
                                             result.MIS12 = (mis6 + mis3 + mis12).ToString();
                                         if (result.MIS24 != "0")
                                             result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS36 != "0")
-                                            result.MIS36 = mis36.ToString();
-                                        result.CaseCount = mis36.ToString();
+                                        if (result.MIS48 != "0")
+                                            result.MIS48 = mis48.ToString();
+                                        result.CaseCount = mis48.ToString();
 
                                     }
 
@@ -821,7 +822,7 @@ namespace WebWinMVC.Controllers
 
 
                                         }
-                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        mis48++;//技术中心试验车的情况，后期需要排除
                                         if (result.MIS3 != "0")
                                             result.MIS3 = mis3.ToString();
                                         if (result.MIS6 != "0")
@@ -830,9 +831,9 @@ namespace WebWinMVC.Controllers
                                             result.MIS12 = (mis6 + mis3 + mis12).ToString();
                                         if (result.MIS24 != "0")
                                             result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS36 != "0")
-                                            result.MIS36 = mis36.ToString();
-                                        result.CaseCount = mis36.ToString();
+                                        if (result.MIS48 != "0")
+                                            result.MIS48 = mis48.ToString();
+                                        result.CaseCount = mis48.ToString();
 
                                     }
 
@@ -869,7 +870,7 @@ namespace WebWinMVC.Controllers
 
 
                                         }
-                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        mis48++;//技术中心试验车的情况，后期需要排除
                                         if (result.MIS3 != "0")
                                             result.MIS3 = mis3.ToString();
                                         if (result.MIS6 != "0")
@@ -878,9 +879,9 @@ namespace WebWinMVC.Controllers
                                             result.MIS12 = (mis6 + mis3 + mis12).ToString();
                                         if (result.MIS24 != "0")
                                             result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS36 != "0")
-                                            result.MIS36 = mis36.ToString();
-                                        result.CaseCount = mis36.ToString();
+                                        if (result.MIS48 != "0")
+                                            result.MIS48 = mis48.ToString();
+                                        result.CaseCount = mis48.ToString();
 
                                     }
                                 }
@@ -916,7 +917,7 @@ namespace WebWinMVC.Controllers
 
 
                                         }
-                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        mis48++;//技术中心试验车的情况，后期需要排除
                                         if (result.MIS3 != "0")
                                             result.MIS3 = mis3.ToString();
                                         if (result.MIS6 != "0")
@@ -925,9 +926,9 @@ namespace WebWinMVC.Controllers
                                             result.MIS12 = (mis6 + mis3 + mis12).ToString();
                                         if (result.MIS24 != "0")
                                             result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS36 != "0")
-                                            result.MIS36 = mis36.ToString();
-                                        result.CaseCount = mis36.ToString();
+                                        if (result.MIS48 != "0")
+                                            result.MIS48 = mis48.ToString();
+                                        result.CaseCount = mis48.ToString();
 
                                     }
                                 }
@@ -964,7 +965,7 @@ namespace WebWinMVC.Controllers
 
 
                                         }
-                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        mis48++;//技术中心试验车的情况，后期需要排除
                                         if (result.MIS3 != "0")
                                             result.MIS3 = mis3.ToString();
                                         if (result.MIS6 != "0")
@@ -973,9 +974,9 @@ namespace WebWinMVC.Controllers
                                             result.MIS12 = (mis6 + mis3 + mis12).ToString();
                                         if (result.MIS24 != "0")
                                             result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS36 != "0")
-                                            result.MIS36 = mis36.ToString();
-                                        result.CaseCount = mis36.ToString();
+                                        if (result.MIS48 != "0")
+                                            result.MIS48 = mis48.ToString();
+                                        result.CaseCount = mis48.ToString();
 
                                     }
 
@@ -1023,7 +1024,7 @@ namespace WebWinMVC.Controllers
 
 
                                         }
-                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        mis48++;//技术中心试验车的情况，后期需要排除
                                         if (result.MIS3 != "0")
                                             result.MIS3 = mis3.ToString();
                                         if (result.MIS6 != "0")
@@ -1032,9 +1033,9 @@ namespace WebWinMVC.Controllers
                                             result.MIS12 = (mis6 + mis3 + mis12).ToString();
                                         if (result.MIS24 != "0")
                                             result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS36 != "0")
-                                            result.MIS36 = mis36.ToString();
-                                        result.CaseCount = mis36.ToString();
+                                        if (result.MIS48 != "0")
+                                            result.MIS48 = mis48.ToString();
+                                        result.CaseCount = mis48.ToString();
 
                                     }
 
@@ -1071,7 +1072,7 @@ namespace WebWinMVC.Controllers
 
 
                                         }
-                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        mis48++;//技术中心试验车的情况，后期需要排除
                                         if (result.MIS3 != "0")
                                             result.MIS3 = mis3.ToString();
                                         if (result.MIS6 != "0")
@@ -1080,9 +1081,9 @@ namespace WebWinMVC.Controllers
                                             result.MIS12 = (mis6 + mis3 + mis12).ToString();
                                         if (result.MIS24 != "0")
                                             result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS36 != "0")
-                                            result.MIS36 = mis36.ToString();
-                                        result.CaseCount = mis36.ToString();
+                                        if (result.MIS48 != "0")
+                                            result.MIS48 = mis48.ToString();
+                                        result.CaseCount = mis48.ToString();
 
                                     }
                                 }
@@ -1118,7 +1119,7 @@ namespace WebWinMVC.Controllers
 
 
                                         }
-                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        mis48++;//技术中心试验车的情况，后期需要排除
                                         if (result.MIS3 != "0")
                                             result.MIS3 = mis3.ToString();
                                         if (result.MIS6 != "0")
@@ -1127,9 +1128,9 @@ namespace WebWinMVC.Controllers
                                             result.MIS12 = (mis6 + mis3 + mis12).ToString();
                                         if (result.MIS24 != "0")
                                             result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS36 != "0")
-                                            result.MIS36 = mis36.ToString();
-                                        result.CaseCount = mis36.ToString();
+                                        if (result.MIS48 != "0")
+                                            result.MIS48 = mis48.ToString();
+                                        result.CaseCount = mis48.ToString();
 
                                     }
                                 }
@@ -1165,7 +1166,7 @@ namespace WebWinMVC.Controllers
 
 
                                         }
-                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        mis48++;//技术中心试验车的情况，后期需要排除
                                         if (result.MIS3 != "0")
                                             result.MIS3 = mis3.ToString();
                                         if (result.MIS6 != "0")
@@ -1174,9 +1175,9 @@ namespace WebWinMVC.Controllers
                                             result.MIS12 = (mis6 + mis3 + mis12).ToString();
                                         if (result.MIS24 != "0")
                                             result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS36 != "0")
-                                            result.MIS36 = mis36.ToString();
-                                        result.CaseCount = mis36.ToString();
+                                        if (result.MIS48 != "0")
+                                            result.MIS48 = mis48.ToString();
+                                        result.CaseCount = mis48.ToString();
 
                                     }
                                 }
@@ -1212,7 +1213,7 @@ namespace WebWinMVC.Controllers
 
 
                                         }
-                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        mis48++;//技术中心试验车的情况，后期需要排除
                                         if (result.MIS3 != "0")
                                             result.MIS3 = mis3.ToString();
                                         if (result.MIS6 != "0")
@@ -1221,9 +1222,9 @@ namespace WebWinMVC.Controllers
                                             result.MIS12 = (mis6 + mis3 + mis12).ToString();
                                         if (result.MIS24 != "0")
                                             result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS36 != "0")
-                                            result.MIS36 = mis36.ToString();
-                                        result.CaseCount = mis36.ToString();
+                                        if (result.MIS48 != "0")
+                                            result.MIS48 = mis48.ToString();
+                                        result.CaseCount = mis48.ToString();
 
                                     }
 
@@ -1272,7 +1273,7 @@ namespace WebWinMVC.Controllers
 
 
                                         }
-                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        mis48++;//技术中心试验车的情况，后期需要排除
                                         if (result.MIS3 != "0")
                                             result.MIS3 = mis3.ToString();
                                         if (result.MIS6 != "0")
@@ -1281,9 +1282,9 @@ namespace WebWinMVC.Controllers
                                             result.MIS12 = (mis6 + mis3 + mis12).ToString();
                                         if (result.MIS24 != "0")
                                             result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS36 != "0")
-                                            result.MIS36 = mis36.ToString();
-                                        result.CaseCount = mis36.ToString();
+                                        if (result.MIS48 != "0")
+                                            result.MIS48 = mis48.ToString();
+                                        result.CaseCount = mis48.ToString();
 
                                     }
 
@@ -1320,7 +1321,7 @@ namespace WebWinMVC.Controllers
 
 
                                         }
-                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        mis48++;//技术中心试验车的情况，后期需要排除
                                         if (result.MIS3 != "0")
                                             result.MIS3 = mis3.ToString();
                                         if (result.MIS6 != "0")
@@ -1329,9 +1330,9 @@ namespace WebWinMVC.Controllers
                                             result.MIS12 = (mis6 + mis3 + mis12).ToString();
                                         if (result.MIS24 != "0")
                                             result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS36 != "0")
-                                            result.MIS36 = mis36.ToString();
-                                        result.CaseCount = mis36.ToString();
+                                        if (result.MIS48 != "0")
+                                            result.MIS48 = mis48.ToString();
+                                        result.CaseCount = mis48.ToString();
 
                                     }
                                 }
@@ -1367,7 +1368,7 @@ namespace WebWinMVC.Controllers
 
 
                                         }
-                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        mis48++;//技术中心试验车的情况，后期需要排除
                                         if (result.MIS3 != "0")
                                             result.MIS3 = mis3.ToString();
                                         if (result.MIS6 != "0")
@@ -1376,9 +1377,9 @@ namespace WebWinMVC.Controllers
                                             result.MIS12 = (mis6 + mis3 + mis12).ToString();
                                         if (result.MIS24 != "0")
                                             result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS36 != "0")
-                                            result.MIS36 = mis36.ToString();
-                                        result.CaseCount = mis36.ToString();
+                                        if (result.MIS48 != "0")
+                                            result.MIS48 = mis48.ToString();
+                                        result.CaseCount = mis48.ToString();
 
                                     }
                                 }
@@ -1414,7 +1415,7 @@ namespace WebWinMVC.Controllers
 
 
                                         }
-                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        mis48++;//技术中心试验车的情况，后期需要排除
                                         if (result.MIS3 != "0")
                                             result.MIS3 = mis3.ToString();
                                         if (result.MIS6 != "0")
@@ -1423,9 +1424,9 @@ namespace WebWinMVC.Controllers
                                             result.MIS12 = (mis6 + mis3 + mis12).ToString();
                                         if (result.MIS24 != "0")
                                             result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS36 != "0")
-                                            result.MIS36 = mis36.ToString();
-                                        result.CaseCount = mis36.ToString();
+                                        if (result.MIS48 != "0")
+                                            result.MIS48 = mis48.ToString();
+                                        result.CaseCount = mis48.ToString();
 
                                     }
                                 }
@@ -1461,7 +1462,7 @@ namespace WebWinMVC.Controllers
 
 
                                         }
-                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        mis48++;//技术中心试验车的情况，后期需要排除
                                         if (result.MIS3 != "0")
                                             result.MIS3 = mis3.ToString();
                                         if (result.MIS6 != "0")
@@ -1470,9 +1471,9 @@ namespace WebWinMVC.Controllers
                                             result.MIS12 = (mis6 + mis3 + mis12).ToString();
                                         if (result.MIS24 != "0")
                                             result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS36 != "0")
-                                            result.MIS36 = mis36.ToString();
-                                        result.CaseCount = mis36.ToString();
+                                        if (result.MIS48 != "0")
+                                            result.MIS48 = mis48.ToString();
+                                        result.CaseCount = mis48.ToString();
 
                                     }
                                 }
@@ -1509,7 +1510,7 @@ namespace WebWinMVC.Controllers
 
 
                                         }
-                                        mis36++;//技术中心试验车的情况，后期需要排除
+                                        mis48++;//技术中心试验车的情况，后期需要排除
                                         if (result.MIS3 != "0")
                                             result.MIS3 = mis3.ToString();
                                         if (result.MIS6 != "0")
@@ -1518,9 +1519,9 @@ namespace WebWinMVC.Controllers
                                             result.MIS12 = (mis6 + mis3 + mis12).ToString();
                                         if (result.MIS24 != "0")
                                             result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS36 != "0")
-                                            result.MIS36 = mis36.ToString();
-                                        result.CaseCount = mis36.ToString();
+                                        if (result.MIS48 != "0")
+                                            result.MIS48 = mis48.ToString();
+                                        result.CaseCount = mis48.ToString();
 
                                     }
 
@@ -1564,7 +1565,7 @@ namespace WebWinMVC.Controllers
                                            $"MIS6: {result.MIS6}, " +
                                            $"MIS12: {result.MIS12}, " +
                                            $"MIS24: {result.MIS24}, " +
-                                           $"MIS36: {result.MIS36}, " +
+                                           $"MIS48: {result.MIS48}, " +
                                            //$"CumulativeCaseCount: {result.CumulativeCaseCount}, " +
                                            //$"SMT: {result.SMT}, " +
                                            //$"位置代码: {result.LocationCode}, " +
@@ -1588,7 +1589,7 @@ namespace WebWinMVC.Controllers
                                            $"MIS6: {result.MIS6}, " +
                                            $"MIS12: {result.MIS12}, " +
                                            $"MIS24: {result.MIS24}, " +
-                                           $"MIS36: {result.MIS36}, " +
+                                           $"MIS48: {result.MIS48}, " +
                                            //$"CumulativeCaseCount: {result.CumulativeCaseCount}, " +
                                            //$"SMT: {result.SMT}, " +
                                            //$"位置代码: {result.LocationCode}, " +
@@ -1661,7 +1662,7 @@ namespace WebWinMVC.Controllers
                     MIS6 = temp.MIS6 ?? "0",
                     MIS12 = temp.MIS12 ?? "0",
                     MIS24 = temp.MIS24 ?? "0",
-                    MIS36 = temp.MIS36 ?? "0",
+                    MIS48 = temp.MIS48 ?? "0",
                     SMT = temp.SMT ?? "NIL",
                     LocationCode = temp.LocationCode ?? "NIL",
                     FaultCode = temp.FaultCode ?? "NIL",
@@ -1744,7 +1745,7 @@ namespace WebWinMVC.Controllers
                     MIS6 = temp.MIS6 ?? "0",
                     MIS12 = temp.MIS12 ?? "0",
                     MIS24 = temp.MIS24 ?? "0",
-                    MIS36 = temp.MIS36 ?? "0",
+                    MIS48 = temp.MIS48 ?? "0",
                     SMT = temp.SMT ?? "NIL",
                     LocationCode = temp.LocationCode ?? "NIL",
                     FaultCode = temp.FaultCode ?? "NIL",
@@ -1804,7 +1805,7 @@ namespace WebWinMVC.Controllers
                     MIS6 = result.MIS6 ?? "0",
                     MIS12 = result.MIS12 ?? "0",
                     MIS24 = result.MIS24 ?? "0",
-                    MIS36 = result.MIS36 ?? "0",
+                    MIS48 = result.MIS48 ?? "0",
                     SMT = result.SMT ?? "NIL",
                     LocationCode = result.LocationCode ?? "NIL",
                     FaultCode = result.FaultCode ?? "NIL",
@@ -1907,7 +1908,7 @@ namespace WebWinMVC.Controllers
                     MIS6 = result.MIS6 ?? "0",
                     MIS12 = result.MIS12 ?? "0",
                     MIS24 = result.MIS24 ?? "0",
-                    MIS36 = result.MIS36 ?? "0",
+                    MIS48 = result.MIS48 ?? "0",
                     SMT = result.SMT ?? "NIL",
                     LocationCode = result.LocationCode ?? "NIL",
                     FaultCode = result.FaultCode ?? "NIL",

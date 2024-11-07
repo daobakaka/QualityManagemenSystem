@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\C#\\WebWinMVC\\WebWinMVC\\WebWinMVC.csproj": {}
+    "D:\\个人文件\\C#\\QualityManagemenSystem\\WebWinMVC.csproj": {}
   },
   "projects": {
-    "E:\\C#\\WebWinMVC\\WebWinMVC\\WebWinMVC.csproj": {
+    "D:\\个人文件\\C#\\QualityManagemenSystem\\WebWinMVC.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\C#\\WebWinMVC\\WebWinMVC\\WebWinMVC.csproj",
+        "projectUniqueName": "D:\\个人文件\\C#\\QualityManagemenSystem\\WebWinMVC.csproj",
         "projectName": "WebWinMVC",
-        "projectPath": "E:\\C#\\WebWinMVC\\WebWinMVC\\WebWinMVC.csproj",
+        "projectPath": "D:\\个人文件\\C#\\QualityManagemenSystem\\WebWinMVC.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "E:\\C#\\WebWinMVC\\WebWinMVC\\obj\\",
+        "outputPath": "D:\\个人文件\\C#\\QualityManagemenSystem\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -25,6 +25,7 @@
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
@@ -51,7 +52,7 @@
           "dependencies": {
             "ClosedXML": {
               "target": "Package",
-              "version": "[0.102.3, )"
+              "version": "[0.104.1, )"
             },
             "CsvHelper": {
               "target": "Package",
@@ -59,37 +60,37 @@
             },
             "DocumentFormat.OpenXml": {
               "target": "Package",
-              "version": "[2.20.0, )"
+              "version": "[3.1.1, )"
             },
             "EPPlus": {
               "target": "Package",
-              "version": "[7.3.2, )"
+              "version": "[7.4.2, )"
             },
             "Hangfire": {
               "target": "Package",
-              "version": "[1.8.14, )"
+              "version": "[1.8.15, )"
             },
             "Hangfire.AspNetCore": {
               "target": "Package",
-              "version": "[1.8.14, )"
+              "version": "[1.8.15, )"
             },
             "Hangfire.SqlServer": {
               "target": "Package",
-              "version": "[1.8.14, )"
+              "version": "[1.8.15, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[8.0.8, )"
+              "version": "[8.0.10, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[8.0.8, )"
+              "version": "[8.0.10, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[8.0.8, )"
+              "version": "[8.0.10, )"
             },
             "jquery.datatables": {
               "target": "Package",
@@ -115,7 +116,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

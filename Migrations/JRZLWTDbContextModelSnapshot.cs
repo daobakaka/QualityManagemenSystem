@@ -16,7 +16,7 @@ namespace WebWinMVC.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -173,7 +173,7 @@ namespace WebWinMVC.Migrations
                     b.Property<string>("MIS3")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MIS36")
+                    b.Property<string>("MIS48")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MIS6")
@@ -256,7 +256,7 @@ namespace WebWinMVC.Migrations
                     b.Property<string>("MIS3")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MIS36")
+                    b.Property<string>("MIS48")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MIS6")
@@ -326,7 +326,7 @@ namespace WebWinMVC.Migrations
                     b.Property<string>("MIS3")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MIS36")
+                    b.Property<string>("MIS48")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MIS6")
@@ -405,7 +405,7 @@ namespace WebWinMVC.Migrations
                     b.Property<string>("MIS3")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MIS36")
+                    b.Property<string>("MIS48")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MIS6")

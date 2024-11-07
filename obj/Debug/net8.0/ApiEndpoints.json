@@ -1,0 +1,436 @@
+[
+  {
+    "ContainingType": "WebWinMVC.Controllers.AutomaticDataCalculationController",
+    "Method": "ProcessAndStoreResultsAsyncToQuery",
+    "RelativePath": "api/AutomaticDataCalculation",
+    "HttpMethod": "",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "resultsToStoreQuery",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[WebWinMVC.PivotResult, WebWinMVC, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "WebWinMVC.Controllers.AutomaticDataCalculationController",
+    "Method": "ProcessAndStoreResultsV91TempAsync",
+    "RelativePath": "api/AutomaticDataCalculation",
+    "HttpMethod": "",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "resultsToStore",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[WebWinMVC.PivotResult, WebWinMVC, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "WebWinMVC.Controllers.AutomaticDataCalculationController",
+    "Method": "FilterAndPivot",
+    "RelativePath": "api/AutomaticDataCalculation/FilterAndPivot",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ApprovalDate",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebWinMVC.Controllers.AutomaticDataCalculationController",
+    "Method": "TransferV91Data",
+    "RelativePath": "api/AutomaticDataCalculation/TransferV91Data",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "operation",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebWinMVC.Controllers.AutomaticDataCalculationController",
+    "Method": "TransferV91QueryData",
+    "RelativePath": "api/AutomaticDataCalculation/TransferV91QueryData",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "operation",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebWinMVC.Controllers.AutomaticDataChangeController",
+    "Method": "ProcessAndStoreResultsAsyncToQuery",
+    "RelativePath": "api/AutomaticDataChange",
+    "HttpMethod": "",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "resultsToStoreQuery",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[WebWinMVC.PivotResult, WebWinMVC, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "WebWinMVC.Controllers.AutomaticDataChangeController",
+    "Method": "ProcessAndStoreResultsV91TempAsync",
+    "RelativePath": "api/AutomaticDataChange",
+    "HttpMethod": "",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "resultsToStore",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[WebWinMVC.PivotResult, WebWinMVC, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "WebWinMVC.Controllers.AutomaticDataChangeController",
+    "Method": "FilterAndPivot",
+    "RelativePath": "api/AutomaticDataChange/FilterAndPivot",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ApprovalDate",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "FilterDay",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebWinMVC.Controllers.AutomaticDataChangeController",
+    "Method": "TransferV91Data",
+    "RelativePath": "api/AutomaticDataChange/TransferV91Data",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "operation",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebWinMVC.Controllers.AutomaticDataChangeController",
+    "Method": "TransferV91QueryData",
+    "RelativePath": "api/AutomaticDataChange/TransferV91QueryData",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "operation",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebWinMVC.Controllers.FileUploadController",
+    "Method": "UploadBreakpointAnalysisTable",
+    "RelativePath": "api/FileUpload/uploadBreakpointAnalysisTable",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "file",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "operation",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebWinMVC.Controllers.FileUploadController",
+    "Method": "UploadDailyQualityIssueChecklistV91Queries",
+    "RelativePath": "api/FileUpload/uploadDailyQualityIssueChecklistV91Queries",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "file",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "operation",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebWinMVC.Controllers.FileUploadController",
+    "Method": "UploadDailyQualityIssueChecklistV91s",
+    "RelativePath": "api/FileUpload/uploadDailyQualityIssueChecklistV91s",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "file",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "operation",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebWinMVC.Controllers.FileUploadController",
+    "Method": "UploadDailyServiceReviewFormQueries",
+    "RelativePath": "api/FileUpload/uploadDailyServiceReviewFormQueries",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "file",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "operation",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebWinMVC.Controllers.FileUploadController",
+    "Method": "UploadDailyServiceReviewForms",
+    "RelativePath": "api/FileUpload/uploadDailyServiceReviewForms",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "file",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "operation",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebWinMVC.Controllers.FileUploadController",
+    "Method": "UploadVehicleBasicInfos",
+    "RelativePath": "api/FileUpload/uploadVehicleBasicInfos",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "file",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "operation",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebWinMVC.Controllers.RemoteAccessController",
+    "Method": "GetDailyQualityData",
+    "RelativePath": "queryAPI/RemoteAccess/dailyqualitydata",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "oldMaterialCode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ApprovalDate",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "faultMode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "faultCode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ManufacturingMonth",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "VehicleIdentification",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebWinMVC.Controllers.RemoteAccessController",
+    "Method": "GetDailyQualityDataForSIL",
+    "RelativePath": "queryAPI/RemoteAccess/dailyqualitydataforsil",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "oldMaterialCode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "VehicleIdentification",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ApprovalDate",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "faultMode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "faultCode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ManufacturingMonth",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebWinMVC.Controllers.RemoteAccessController",
+    "Method": "GetVehicleBasicInfoData",
+    "RelativePath": "queryAPI/RemoteAccess/vehiclebasicinfodata",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "VehicleIdentification",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebWinMVC.Controllers.RemoteTooltipController",
+    "Method": "GetTooltipData",
+    "RelativePath": "queryAPI/RemoteTooltip/tooltipdata",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "oldMaterialCode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "dateRange",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

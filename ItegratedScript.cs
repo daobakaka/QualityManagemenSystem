@@ -89,7 +89,7 @@ namespace WebWinMVC
         public string? MIS6 { get; set; }
         public string? MIS12 { get; set; }
         public string? MIS24 { get; set; }
-        public string? MIS36 { get; set; }
+        public string? MIS48 { get; set; }
         public string? SMT { get; set; }
         public string? LocationCode { get; set; }
         public string? FaultCode { get; set; }
@@ -132,7 +132,7 @@ namespace WebWinMVC
             Map(m => m.MIS6).Name("6MIS");
             Map(m => m.MIS12).Name("12MIS");
             Map(m => m.MIS24).Name("24MIS");
-            Map(m => m.MIS36).Name("36MIS");
+            Map(m => m.MIS48).Name("48MIS");
             Map(m => m.SMT).Name("SMT");
             Map(m => m.LocationCode).Name("部位码");
             Map(m => m.FaultCode).Name("故障码");
@@ -301,7 +301,7 @@ namespace WebWinMVC
             Map(m => m.MIS6).Name("6MIS");
             Map(m => m.MIS12).Name("12MIS");
             Map(m => m.MIS24).Name("24MIS");
-            Map(m => m.MIS36).Name("36MIS");
+            Map(m => m.MIS48).Name("48MIS");
             Map(m => m.SMT).Name("SMT");
             Map(m => m.LocationCode).Name("部位码");
             Map(m => m.FaultCode).Name("故障码");
@@ -505,7 +505,7 @@ namespace WebWinMVC
             { "6MIS", nameof(DailyQualityIssueChecklistV91.MIS6) },
             { "12MIS", nameof(DailyQualityIssueChecklistV91.MIS12) },
             { "24MIS", nameof(DailyQualityIssueChecklistV91.MIS24) },
-            { "36MIS", nameof(DailyQualityIssueChecklistV91.MIS36) },
+            { "48MIS", nameof(DailyQualityIssueChecklistV91.MIS48) },
             { "SMT", nameof(DailyQualityIssueChecklistV91.SMT) },
             { "部位码", nameof(DailyQualityIssueChecklistV91.LocationCode) },
             { "故障码", nameof(DailyQualityIssueChecklistV91.FaultCode) },
@@ -542,7 +542,7 @@ namespace WebWinMVC
             { "6MIS", nameof(DailyQualityIssueChecklistV91Query.MIS6) },
             { "12MIS", nameof(DailyQualityIssueChecklistV91Query.MIS12) },
             { "24MIS", nameof(DailyQualityIssueChecklistV91Query.MIS24) },
-            { "36MIS", nameof(DailyQualityIssueChecklistV91Query.MIS36) },
+            { "48MIS", nameof(DailyQualityIssueChecklistV91Query.MIS48) },
             { "SMT", nameof(DailyQualityIssueChecklistV91Query.SMT) },
             { "部位码", nameof(DailyQualityIssueChecklistV91Query.LocationCode) },
             { "故障码", nameof(DailyQualityIssueChecklistV91Query.FaultCode) },

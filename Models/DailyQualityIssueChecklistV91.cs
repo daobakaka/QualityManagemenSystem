@@ -15,7 +15,7 @@ namespace WebWinMVC.Models
         public string ?MIS6 { get; set; } = default!;
         public string ?MIS12 { get; set; } = default!;
         public string ?MIS24 { get; set; } = default!;
-        public string ?MIS36 { get; set; } = default!;
+        public string ?MIS48 { get; set; } = default!;
         public string ?SMT { get; set; } = default!;
         public string ?LocationCode { get; set; } = default!;
         public string ?FaultCode { get; set; } = default!;
