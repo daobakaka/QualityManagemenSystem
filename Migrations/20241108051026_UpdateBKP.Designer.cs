@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebWinMVC.Data;
 
@@ -10,9 +11,11 @@ using WebWinMVC.Data;
 namespace WebWinMVC.Migrations
 {
     [DbContext(typeof(JRZLWTDbContext))]
-    partial class JRZLWTDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241108051026_UpdateBKP")]
+    partial class UpdateBKP
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

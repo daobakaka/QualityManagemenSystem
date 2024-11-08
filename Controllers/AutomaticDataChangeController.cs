@@ -64,7 +64,8 @@ namespace WebWinMVC.Controllers
                 List<PivotResult> resultsToStore = new List<PivotResult>();
                 var resultToStoreQuery = new List<PivotResult>();
                 var resultsToStoreReal = new List<PivotResult>();
-                var duplicateMaterialCodes = new List<PivotResult>();
+                var duplicateMaterialCodes = new List<PivotResult>();//用于添加重复条件均满足的相关参数
+                var seenMaterialCodes = new HashSet<string>(); // 用于跟踪已经添加的物料号，筛选车型，供应商编号
                 string? startDateStr = null;
                 string? endDateStr = null;//ins the date time that is different of the Caluculating class
                 string? filterDay = null;//ins the string to cache the FilterDay sting
@@ -130,144 +131,135 @@ namespace WebWinMVC.Controllers
                     }
                 }
                 _logger.LogError($"输入审核日期:{ApprovalDate};处理后开始日期：{startDateStr};处理后结束日期{endDateStr}" +
-                                       $"输入筛选日期：{FilterDay};处理后的筛选日期，筛选月:{filterDay};经sub方法处理后的筛选月3mis:{SubtractMonths(filterDay,6)}" +
-                                       $"经sub方法处理后的筛选月6mis:{SubtractMonths(filterDay,9)};经sub方法处理后的筛选月12mis:{SubtractMonths(filterDay,15)}" +
-                                       $"经sub方法处理后的筛选月24mis:{SubtractMonths(filterDay,25)};经sub方法处理后的筛选月48mis:{SubtractMonths(filterDay,51)}");
+                                 $"输入筛选日期：{FilterDay};处理后的筛选日期，筛选月:{filterDay};经sub方法处理后的筛选月3mis:{SubtractMonths(filterDay,6)}" +
+                                 $"经sub方法处理后的筛选月6mis:{SubtractMonths(filterDay,9)};经sub方法处理后的筛选月12mis:{SubtractMonths(filterDay,15)}" +
+                                 $"经sub方法处理后的筛选月24mis:{SubtractMonths(filterDay,25)};经sub方法处理后的筛选月48mis:{SubtractMonths(filterDay,51)}");
 
                 int initialCount = await query.CountAsync();
                 _logger.LogError($"初始筛选数量为：{initialCount}");
-
-                var vehicleTypes = new List<string>
-                {
-                    "传统燃油工程",
-                    "传统燃油公路",
-                    "新能源工程",
-                    "新能源公路"
-                };
-                
-
-                _logger.LogError($"使用固定车型列表，车型数量: {vehicleTypes.Count}");
-
-                var misSteps = new List<int> { 3, 6, 12, 24, 48 };
-
-                foreach (var vehicle in vehicleTypes)
-                {
-                    _logger.LogError($"开始处理车型: {vehicle}");
+                    var misSteps = new List<int> { 3, 6, 12, 24, 48 };
                     HashSet<string> collectedMaterialCodes = new HashSet<string>();
                     resultsToStore.Clear();//每次筛选不同车型的时候先清空内容
-                    foreach (var step in misSteps)
-                    {
-                        _logger.LogError($"开始处理MIS步骤: {step}");
-
-                        // 筛选符合当前车型和MIS区间的记录
+                    // 筛选符合当前车型和MIS区间的记录,去除车型和步骤的单独筛选，累计到一起进行筛选，这里筛选制造月完全可以简化逻辑，现在这个表是就是符合要求的表
                         IQueryable<DailyServiceReviewFormQuery> stepDataQuery = query
-                    .Where(q => q.FilteredVehicleModel == vehicle &&
+                    .Where(q => 
                   (
-                      (step == 3 && (q.MISInterval == "0" || q.MISInterval == "3") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 6)) >= 0) ||
+                      ((q.MISInterval == "0" || q.MISInterval == "3") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 6)) >= 0)||
 
-                      (step == 6 && (q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 9)) >= 0) ||
+                      ((q.MISInterval == "6") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 9)) >= 0) ||
 
-                      (step == 12 && (q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 15)) >= 0) ||
+                      ((q.MISInterval == "12") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 15)) >= 0) ||
 
-                      (step == 24 && (q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 27)) >= 0) ||
+                      ((q.MISInterval == "24") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 27)) >= 0) ||
 
-                      (step == 48 && (q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24" ||q.MISInterval == "36"|| q.MISInterval == "48") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 51)) >= 0)
+                      ((q.MISInterval == "36" || q.MISInterval == "48") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 51)) >= 0)
                   ));
 
                         var stepData = await stepDataQuery.ToListAsync();
-                        _logger.LogError($"车型: {vehicle}, MIS步骤: {step}, 筛选后记录数: {stepData.Count}");
+                        _logger.LogError($"----筛选后记录数: {stepData.Count}");
 
-                        foreach (var item in stepData)
+                        //foreach (var item in stepData)
+                        //{
+                        //    _logger.LogError($"mis--:{item.MIS},misInterval--:{item.MISInterval},vechelType--:{item.FilteredVehicleModel},MF--:{item.ManufacturingMonth}");
+
+
+                        //}
+
+                        foreach (var step in misSteps)//这里重新按照分离之后的表进行筛选，(逻辑改为只要符合一次要求，就纳入HASH 表，每次分别判断，最终统一统计)
                         {
-                            _logger.LogError($"mis--:{item.MIS},misInterval--:{item.MISInterval},vechelType--:{item.FilteredVehicleModel},MF--:{item.ManufacturingMonth}");
-                        
-                        
-                        }
-                        //这里的筛选数量是正确的，制造月的引入已完成！！！--------------
-                        var groupedDataToFilter = stepData
-                              .GroupBy(q => new { q.OldMaterialCode, q.SupplierShortCode })
-                              .Select(g => new
-                              {
-                                  OldMaterialCode = g.Key.OldMaterialCode,
-                                  SupplierShortCode = g.Key.SupplierShortCode,
-                                  // 根据当前 step 统计各 MIS 区间数量
-                                  MIS3 = step == 3 ? g.Count(q => q.MISInterval == "0" || q.MISInterval == "3") : 0,
-                                  MIS6 = step == 6 ? g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6") : 0,
-                                  MIS12 = step == 12 ? g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12") : 0,
-                                  MIS24 = step == 24 ? g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24") : 0,
-                                  MIS48 = step == 48 ? g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24" ||q.MISInterval == "36"|| q.MISInterval == "48") : 0,
+                            //这里的筛选数量是正确的，制造月的引入已完成，这里同时还可以引入车型！！！--------------
+                            var groupedDataToFilter = stepData
+                                  .GroupBy(q => new { q.OldMaterialCode, q.SupplierShortCode, q.FilteredVehicleModel })
+                                  .Select(g => new
+                                  {
+                                      OldMaterialCode = g.Key.OldMaterialCode,
+                                      SupplierShortCode = g.Key.SupplierShortCode,
+                                      FilteredVehicleModel = g.Key.FilteredVehicleModel,
+                                      // 根据当前 step 统计各 MIS 区间数量
+                                      MIS3 = step == 3 ? g.Count(q => q.MISInterval == "0" || q.MISInterval == "3") : 0,
+                                      MIS6 = step == 6 ? g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6") : 0,
+                                      MIS12 = step == 12 ? g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12") : 0,
+                                      MIS24 = step == 24 ? g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24") : 0,
+                                      MIS48 = step == 48 ? g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24" || q.MISInterval == "36" || q.MISInterval == "48") : 0,
 
-                                  // 使用MIS3cal来计算
-                                  MIS3cal = g.Count(q => q.MISInterval == "0" || q.MISInterval == "3"),
-                                  MIS6cal = g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6"),
-                                  MIS12cal = g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12"),
-                                  MIS24cal = g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24"),
-                                  MIS48cal = g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24" ||q.MISInterval == "36"|| q.MISInterval == "48"),
-                              })
-                              .ToList();
+                                      // 使用MIS3cal来计算
+                                      MIS3cal = g.Count(q => q.MISInterval == "0" || q.MISInterval == "3"),
+                                      MIS6cal = g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6"),
+                                      MIS12cal = g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12"),
+                                      MIS24cal = g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24"),
+                                      MIS48cal = g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24" || q.MISInterval == "36" || q.MISInterval == "48"),
+                                  })
+                                  .ToList();
 
-                        // 过滤分组后的数据,现在新增加了供应商的筛选
-                        var filteredGroupedData = groupedDataToFilter
-                                      .Where(g =>
-                                      {
-                                          switch (step)
+
+                            // 过滤分组后的数据, 现在增加了供应商的筛选条件，这里判断MIS数的筛选逻辑，filterdGroupData 这个储存所有符合规则的数据
+                            var filteredGroupedData = groupedDataToFilter
+                                          .Where(g =>
                                           {
-                                              case 3:
-                                                  // 对于传统燃油公路和传统燃油工程，条件为 >= 2，其他车型为 >= 1
-                                                  return (vehicle == "传统燃油公路" || vehicle == "传统燃油工程") ? g.MIS3 >= 2 : g.MIS3 >= 1;
+                                              switch (step)
+                                              {
+                                                  case 3:
+                                                      // 对于传统燃油公路和传统燃油工程，条件为 >= 2，其他车型为 >= 1
+                                                      return (g.FilteredVehicleModel == "传统燃油公路" || g.FilteredVehicleModel == "传统燃油工程") ? g.MIS3 >= 2 : g.MIS3 >= 1;
 
-                                              case 6:
-                                                  // 对于传统燃油公路和传统燃油工程，条件为 >= 3，其他车型为 >= 2
-                                                  return (vehicle == "传统燃油公路" || vehicle == "传统燃油工程") ? g.MIS6 >= 3 : g.MIS6 >= 2;
+                                                  case 6:
+                                                      
+                                                      // 对于传统燃油公路和传统燃油工程，条件为 >= 3，其他车型为 >= 2
+                                                      return (g.FilteredVehicleModel == "传统燃油公路" || g.FilteredVehicleModel == "传统燃油工程") ? g.MIS6 >= 3 : g.MIS6 >= 2;
 
-                                              case 12:
-                                                  // 对于传统燃油公路和传统燃油工程，条件为 >= 4，其他车型为 >= 3
-                                                  return (vehicle == "传统燃油公路" || vehicle == "传统燃油工程") ? g.MIS12 >= 4 : g.MIS12 >= 3;
+                                                  case 12:
+                                                      // 对于传统燃油公路和传统燃油工程，条件为 >= 4，其他车型为 >= 3
+                                                      return (g.FilteredVehicleModel == "传统燃油公路" || g.FilteredVehicleModel == "传统燃油工程") ? g.MIS12 >= 4 : g.MIS12 >= 3;
 
-                                              case 24:
-                                                  // 对于 MIS 24 的条件: 
-                                                  // 总数 >= 10 且 12MIS < 5 且 24MIS/12MIS >= 1.5
-                                                  return g.MIS24cal >= 10 &&
-                                                         g.MIS12cal < 5 &&
-                                                         g.MIS12cal > 0 && // 防止除零错误
-                                                         (g.MIS24cal / (decimal)g.MIS12cal) >= 1.5m; // 使用MIS12cal
+                                                  case 24:
+                                                      // 对于 MIS 24 的条件: 
+                                                      // 总数 >= 10 且 12MIS < 5 且 24MIS/12MIS >= 1.5
+                                                      return g.MIS24cal >= 10 &&
+                                                             g.MIS12cal < 5 &&
+                                                             g.MIS12cal > 0 && // 防止除零错误
+                                                             (g.MIS24cal / (decimal)g.MIS12cal) >= 1.5m; // 使用MIS12cal
 
-                                              case 48:
-                                                  // 对于 MIS 48 的条件: 
-                                                  // 总数 >= 10 且 12MIS < 5 且 24MIS < 10 且 48MIS/24MIS > 1.5
-                                                  return g.MIS48cal >= 20 &&
-                                                         g.MIS12cal < 5 &&
-                                                         g.MIS24cal < 10 &&
-                                                         g.MIS24cal > 0 && // 防止除零错误
-                                                         (g.MIS48cal / (decimal)g.MIS24cal) >= 1.5m; // 使用MIS24cal
+                                                  case 48:
+                                                      // 对于 MIS 48 的条件: 
+                                                      // 总数 >= 10 且 12MIS < 5 且 24MIS < 10 且 48MIS/24MIS > 1.5
+                                                      return g.MIS48cal >= 20 &&
+                                                             g.MIS12cal < 5 &&
+                                                             g.MIS24cal < 10 &&
+                                                             g.MIS24cal > 0 && // 防止除零错误
+                                                             (g.MIS48cal / (decimal)g.MIS24cal) >= 1.5m; // 使用MIS24cal
 
-                                              default:
-                                                  return false;
-                                          }
-                                      })
-                                      .ToList();
-                        //find:现在的逻辑变了，仅识别出一个问题之后，就可以计算累计，并且随后的筛选中永久去除物料号，这里直接执行累加--！！！
-                        foreach (var item in filteredGroupedData)//构建临时的内存表，这里增加供应商筛选的逻辑---！！每次筛选的单独车型，创建一个临时表
+                                                  default:
+                                                      return false;
+                                              }
+                                          })
+                                          .ToList();
+
+                    //find:现在的逻辑变了，仅识别出一个问题之后，就可以计算累计，并且随后的筛选中永久去除物料号，这里直接执行累加--！！！
+                    foreach (var item in filteredGroupedData)//构建临时的内存表，这里增加供应商筛选的逻辑,同时增加车型筛选的逻辑---！！，创建一个临时表
+                    {
+                        // 创建一个唯一的标识字符串，由物料号和供应商短代码组成
+                        string uniqueKey = $"{item.OldMaterialCode}-{item?.SupplierShortCode}-{item?.FilteredVehicleModel}";
+
+                        // 将物料号和供应商短代码的组合加入到哈希集合
+                        if (collectedMaterialCodes.Add(uniqueKey)) // 将组合字符串加入hash集合,如果数据有重复，则HASH SET 自动排除，所以留下的都是唯一值
                         {
-                            // 创建一个唯一的标识字符串，由物料号和供应商短代码组成
-                            string uniqueKey = $"{item.OldMaterialCode}-{item?.SupplierShortCode}";
-
-                            // 将物料号和供应商短代码的组合加入到哈希集合
-                            collectedMaterialCodes.Add(uniqueKey); // 将组合字符串加入hash集合
-
-                            var originalData = stepData.FirstOrDefault(q => q.OldMaterialCode == item.OldMaterialCode&&q.SupplierShortCode == item.SupplierShortCode);
+                            var originalData = stepData.FirstOrDefault(q => q.OldMaterialCode == item.OldMaterialCode &&
+                                                                            q.SupplierShortCode == item.SupplierShortCode &&
+                                                                            q.FilteredVehicleModel == item.FilteredVehicleModel);
                             resultsToStore.Add(new PivotResult
                             {
                                 OldMaterialCode = item.OldMaterialCode,
-                                SupplierShortCode=item.SupplierShortCode,
-                                MIS3 = item.MIS3.ToString(),
-                                MIS6 = item.MIS6.ToString(),
-                                MIS12 = item.MIS12.ToString(),
-                                MIS24 = item.MIS24.ToString(),
-                                MIS48 = item.MIS48.ToString(),
+                                SupplierShortCode = item.SupplierShortCode,
+                                FilteredVehicleModel = item.FilteredVehicleModel,
+                                //---Store,里面添加相应的车型
+                                MIS3 = item.MIS3cal.ToString(),
+                                MIS6 = item.MIS6cal.ToString(),
+                                MIS12 = item.MIS12cal.ToString(),
+                                MIS24 = item.MIS24cal.ToString(),
+                                MIS48 = item.MIS48cal.ToString(),
                                 CaseCount = item.MIS48cal.ToString(),
-                                VehicleModel = vehicle, // 当前车辆类型
-                                //--后面的数据都是从原始数据中填充
+                                VehicleModel = item?.FilteredVehicleModel.ToString(), // 当前车辆类型
+                                                                                      //--后面的数据都是从原始数据中填充
                                 ApprovalDate = originalData?.ApprovalDate, // 从原始数据中填充ApprovalDate
                                 OldMaterialDescription = originalData?.OldMaterialDescription, // 从原始数据中填充OldMaterialDescription
                                 ResponsibilitySourceSupplierName = originalData?.ResponsibilitySourceSupplierName, // 从原始数据中填充ResponsibilitySourceSupplierName
@@ -276,93 +268,16 @@ namespace WebWinMVC.Controllers
                                 LocationCode = originalData?.LocationCode, // 从原始数据中填充LocationCode
                                 FaultCode = originalData?.FaultCode, // 从原始数据中填充FaultCode
                                 BreakPointNum = "0"
-                            });
+                            });//
+                             }
                         }
-
-                    }
-                    // 确保 resultsToStore 已经被填充，执行累加逻辑
-                    if (resultsToStore != null && resultsToStore.Any())
-                    {
-                        // 使用 LINQ 进行分组和累加
-                        var aggregatedResults = resultsToStore
-                            .GroupBy(r => r.OldMaterialCode)
-                            .Select(g =>
-                            {
-                                var first = g.First();
-                                // 累加 MIS 字段
-                                int totalMIS3 = g.Sum(r => int.TryParse(r.MIS3, out var mis3) ? mis3 : 0);
-                                int totalMIS6 = g.Sum(r => int.TryParse(r.MIS6, out var mis6) ? mis6 : 0);
-                                int totalMIS12 = g.Sum(r => int.TryParse(r.MIS12, out var mis12) ? mis12 : 0);
-                                int totalMIS24 = g.Sum(r => int.TryParse(r.MIS24, out var mis24) ? mis24 : 0);
-                                int totalMIS48 = g.Sum(r => int.TryParse(r.MIS48, out var mis48) ? mis48 : 0);
-
-                                // 更新第一个实例的 MIS 字段                                
-                                first.MIS3 = totalMIS3.ToString();
-                                first.MIS6 = totalMIS6.ToString();
-                                first.MIS12 = totalMIS12.ToString();
-                                first.MIS24 = totalMIS24.ToString();
-                                first.MIS48 = totalMIS48.ToString();
-
-                                // 如果需要累加其他字段，如 CaseCount，可以在此处处理
-                                // 例如，累加 CaseCount:
-                                // first.CaseCount = g.Sum(r => int.TryParse(r.CaseCount, out var cc) ? cc : 0).ToString();
-
-                                return first;//保留第一个实例，其他不符合要求的删除
-                            })
-                            .ToList();
-
-                        // 替换原始的 resultsToStore
-                        resultsToStore = aggregatedResults;
-                    }
-                    //执行case 数计算逻辑
-                    if (collectedMaterialCodes.Any())
-                    {
-                        _logger.LogError("开始批量计算 MIS48cal");
-
-                        // 执行批量查询，计算每个物料号的 MIS48cal，简化后的代码                
-
-                        var mis48calResults = await query
-                 .Where(q => q.FilteredVehicleModel != null && // 确保 FilteredVehicleModel 不为 null
-                             q.FilteredVehicleModel == vehicle &&
-                              !string.IsNullOrEmpty(q.OldMaterialCode) &&
-                              collectedMaterialCodes.Contains(q.OldMaterialCode) && // 确保 OldMaterialCode 不为 null 或空
-                             (q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" ||
-                              q.MISInterval == "12" || q.MISInterval == "24" ||q.MISInterval == "36"|| q.MISInterval == "48"))
-                 .GroupBy(q => q.OldMaterialCode!)
-                 .ToDictionaryAsync(g => g.Key, g => g.Count());
-
-
-                        _logger.LogError("完成批量计算 MIS48cal");
-
-                        // 将计算结果赋值给 resultsToStore 中的 CaseCount
-                        foreach (var result in resultsToStore)
-                        {
-                            if (!string.IsNullOrEmpty(result.OldMaterialCode) &&
-                                mis48calResults.TryGetValue(result.OldMaterialCode, out var mis48cal))
-                            {
-                                result.CaseCount = mis48cal.ToString();
-                            }
-
-                        }
-                    }
-                    //执行查询储存表逻辑
-                    foreach (var item in resultsToStore)
-                    {
-                        resultToStoreQuery.Add(item);//添加用于查询的筛选车型表
-
-                    }
-                    resultsToStore.Clear();//末尾清空储存表
-                }
-
-
-
+                     }
+                // 确保 resultsToStore 已经被填充，执行累加逻辑,更改了逻辑，所以之前的累加已经不必要了，这里直接删除if(resultsToStore != null && resultsToStore.Any())
+                //collectedMaterialCodes.Any())  同样的这一段逻辑也不需要了               
+                //执行查询储存表逻辑,创建一个临时表
                 //-------------------------------------------------------------------------车型单次筛选完成
-
-                _logger.LogError("+++++++++++++++++++++++++++++++++++++++++打印查询每日查询列表" + resultsToStore.Count.ToString());
-                foreach (var result in resultToStoreQuery)
+                foreach (var result in resultsToStore)
                 {
-
-                    resultsToStore.Add(result);//将resultToStore 重新赋值
                     // 打印每个物料号的信息
                     _logger.LogError($"物料号: {result.OldMaterialCode}, " +
                                            $"断点时间: {result.BreakPointTime}, " +
@@ -370,8 +285,8 @@ namespace WebWinMVC.Controllers
                                            $"车型: {result.VehicleModel}, " +
                                            //$"审批日期: {result.ApprovalDate}, " +
                                            //$"物料描述: {result.OldMaterialDescription}, " +
-                                           //$"供应商短代码: {result.SupplierShortCode}, " +
-                                           //$"责任源供应商: {result.ResponsibilitySourceSupplierName}, " +
+                                           $"供应商短代码: {result.SupplierShortCode}, " +
+                                           $"责任源供应商: {result.ResponsibilitySourceSupplierName}, " +
                                            $"案例数: {result.CaseCount}, " +
                                            $"MIS3: {result.MIS3}, " +
                                            $"MIS6: {result.MIS6}, " +
@@ -383,96 +298,41 @@ namespace WebWinMVC.Controllers
                                            //$"位置代码: {result.LocationCode}, " +
                                            $"故障代码: {result.FaultCode}");
                 }
-                //执行完全累加逻辑！用于最终表的生成
-                if (resultsToStore != null && resultsToStore.Any())
-                {
-                    // 使用 LINQ 进行分组和累加
-                    var aggregatedResults = resultsToStore
-                        .GroupBy(r => r.OldMaterialCode)
-                        .Select(g =>
-                        {
-                            var first = g.First();
-                            // 累加 MIS 字段
-                            int totalMIS3 = g.Sum(r => int.TryParse(r.MIS3, out var mis3) ? mis3 : 0);
-                            int totalMIS6 = g.Sum(r => int.TryParse(r.MIS6, out var mis6) ? mis6 : 0);
-                            int totalMIS12 = g.Sum(r => int.TryParse(r.MIS12, out var mis12) ? mis12 : 0);
-                            int totalMIS24 = g.Sum(r => int.TryParse(r.MIS24, out var mis24) ? mis24 : 0);
-                            int totalMIS48 = g.Sum(r => int.TryParse(r.MIS48, out var mis48) ? mis48 : 0);
-                            //--因为车型不一样 所以这里需要执行整体累计逻辑
-                            int totalCase = g.Sum(r => int.TryParse(r.CaseCount, out var caseCount) ? caseCount : 0);
-
-                            // 更新第一个实例的 MIS 字段                                
-                            first.MIS3 = totalMIS3.ToString();
-                            first.MIS6 = totalMIS6.ToString();
-                            first.MIS12 = totalMIS12.ToString();
-                            first.MIS24 = totalMIS24.ToString();
-                            first.MIS48 = totalMIS48.ToString();
-                            //添加整体累加逻辑
-                            first.CaseCount = totalCase.ToString();
-                            // 如果需要累加其他字段，如 CaseCount，可以在此处处理
-                            // 例如，累加 CaseCount:
-                            // first.CaseCount = g.Sum(r => int.TryParse(r.CaseCount, out var cc) ? cc : 0).ToString();
-
-                            return first;//保留第一个实例，其他不符合要求的删除
-                        })
-                        .ToList();
-
-                    // 替换原始的 resultsToStore
-                    resultsToStore = aggregatedResults;
-                }
-                //完成后处理断点分散问题
-
-
-                _logger.LogError("+++++++++++++++++++++++++++++++++++++++++初始常规计算已完成" + resultsToStore.Count.ToString());
-
-                foreach (var result in resultsToStore)
-                {
-                    // 打印每个物料号的信息
-                    _logger.LogError($"物料号: {result.OldMaterialCode}, " +
-                                           $"断点时间: {result.BreakPointTime}, " +
-                                           $"断点次数: {result.BreakPointNum}, " +
-                                           //$"车型: {result.VehicleModel}, " +
-                                           //$"审批日期: {result.ApprovalDate}, " +
-                                           //$"物料描述: {result.OldMaterialDescription}, " +
-                                           //$"供应商短代码: {result.SupplierShortCode}, " +
-                                           //$"责任源供应商: {result.ResponsibilitySourceSupplierName}, " +
-                                           $"案例数: {result.CaseCount}, " +
-                                           $"MIS3: {result.MIS3}, " +
-                                           $"MIS6: {result.MIS6}, " +
-                                           $"MIS12: {result.MIS12}, " +
-                                           $"MIS24: {result.MIS24}, " +
-                                           $"MIS48: {result.MIS48}, " +
-                                           //$"CumulativeCaseCount: {result.CumulativeCaseCount}, " +
-                                           //$"SMT: {result.SMT}, " +
-                                           //$"位置代码: {result.LocationCode}, " +
-                                           $"故障代码: {result.FaultCode}");
-                }
-
-
-
-
+                //------------------------------------完成后处理断点分散问题 ---------
+                _logger.LogError("+++++++++++++++++++++++++++++++++++++++++初始常规计算已完成,reultToStore已经清空，开始计算断点,筛选数量" + resultsToStore.Count.ToString());
 
                 var breakpoints = await _context.BreakpointAnalysisTables.AsNoTracking().ToListAsync();
-                // 为所有断点时间转换为统一的 YYYY-MM-DD 格式
+                // 为所有断点时间转换为统一的 YYYY-MM-DD 格式,这里已经在上传的过程中转换过格式了，所以现在不需要了,提取的表需要保留,增加分析表按时间排序
                 var convertedBreakpoints = breakpoints
                     .Select(b => new
                     {
                         OldMaterialCode = b.MaterialCode,
                         BreakpointTime = b.BreakpointTime ?? "0", // YYMMDD 格式
-                        ConvertedDate = DateTime.TryParseExact(b.BreakpointTime, "yyMMdd", null, System.Globalization.DateTimeStyles.None, out var startDate)
-                            ? startDate.ToString("yyyy-MM-dd")
-                            : null
+                        FilteredVehicleModel = b.FilteredVehicleModel,
+                        SupplierShortCode = b.SupplierShortCode,
                     })
-                    .ToList();
+                    .OrderBy(bp=>bp.BreakpointTime).ToList();
+                //---
+                //foreach (var item in convertedBreakpoints)
+                //{
 
 
+                //    _logger.LogInformation($"断点信息 - 物料号: {item.OldMaterialCode}, 断点时间: {item.BreakpointTime}, 车型: {item.FilteredVehicleModel}, 供应商短代码: {item.SupplierShortCode}");
+
+                //}
 
                 foreach (var result in resultsToStore.ToList()) // 使用 ToList() 以避免在遍历中修改集合
                 {
                     // 获取与物料号对应的所有断点
                     var relevantBreakpoints = convertedBreakpoints
-                        .Where(b => b.OldMaterialCode == result.OldMaterialCode)
+                        .Where(b => b.OldMaterialCode == result.OldMaterialCode&&
+                                    b.FilteredVehicleModel==result.FilteredVehicleModel&&
+                                    b.SupplierShortCode == result.SupplierShortCode)
                         .ToList();
+
+                    _logger.LogError($"每个单例在断点表中出现的次数:{relevantBreakpoints.Count},当前项目的值{result.OldMaterialCode}-{result.FilteredVehicleModel}-{result.SupplierShortCode}" +
+                        $"当前筛选项目");
+
 
                     // 如果有相关的断点，则增加对应的实例
                     if (relevantBreakpoints.Any())
@@ -500,36 +360,61 @@ namespace WebWinMVC.Controllers
                                 LocationCode = result.LocationCode,
                                 FaultCode = result.FaultCode,
                                 BreakPointNum = (relevantBreakpoints.IndexOf(breakpoint) + 1).ToString(), // 断点编号从1开始
-                                BreakPointTime = breakpoint.ConvertedDate,
+                                BreakPointTime = breakpoint.BreakpointTime,
                             };
-
                             // 添加新的实例到结果列表中
-                            resultsToStore.Add(newResult);
+                            resultToStoreQuery.Add(newResult);
+                            //将需要执行断点分离的项，进行重新组合，加入resultToQuery表
                         }
                     }
                 }
-
-
                 // 假设 duplicateMaterialCodes 已经初始化
-                _logger.LogError("+++++++++++++++++++++++++++++++++++++++++添加断点重复项已经完毕" + resultsToStore.Count.ToString());
-                var seenMaterialCodes = new HashSet<string>(); // 用于跟踪已经添加的物料号
+                _logger.LogError("+++++++++++++++++++++++++++++++++++++++++分离断点处理表，符合要求的项数" + resultToStoreQuery.Count.ToString());
+                foreach (var result in resultToStoreQuery)
+                {
+                    // 打印每个物料号的信息
+                    _logger.LogError($"物料号: {result.OldMaterialCode}, " +
+                                           $"断点时间: {result.BreakPointTime}, " +
+                                           $"断点次数: {result.BreakPointNum}, " +
+                                           $"车型: {result.VehicleModel}, " +
+                                           //$"审批日期: {result.ApprovalDate}, " +
+                                           //$"物料描述: {result.OldMaterialDescription}, " +
+                                           $"供应商短代码: {result.SupplierShortCode}, " +
+                                           $"责任源供应商: {result.ResponsibilitySourceSupplierName}, " +
+                                           $"案例数: {result.CaseCount}, " +
+                                           $"MIS3: {result.MIS3}, " +
+                                           $"MIS6: {result.MIS6}, " +
+                                           $"MIS12: {result.MIS12}, " +
+                                           $"MIS24: {result.MIS24}, " +
+                                           $"MIS48: {result.MIS48}, " +
+                                           //$"CumulativeCaseCount: {result.CumulativeCaseCount}, " +
+                                           //$"SMT: {result.SMT}, " +
+                                           //$"位置代码: {result.LocationCode}, " +
+                                           $"故障代码: {result.FaultCode}");
+                }
 
-                foreach (var duplicate in resultsToStore.ToList()) // 使用 ToList() 避免在遍历时修改集合
+                foreach (var duplicate in resultToStoreQuery.ToList()) // 使用 ToList() 避免在遍历时修改集合
                 {
                     // 查找所有与当前 duplicate.OldMaterialCode 相同的物料号
-                    var duplicates = resultsToStore.Where(r => r.OldMaterialCode == duplicate.OldMaterialCode).ToList();
-
+                    var duplicates = resultsToStore.Where(r => r.OldMaterialCode == duplicate.OldMaterialCode&&
+                                                               r.FilteredVehicleModel==duplicate.FilteredVehicleModel&&
+                                                               r.SupplierShortCode ==duplicate.SupplierShortCode).ToList();
+                    string tempcode = $"{duplicate.OldMaterialCode}-{duplicate?.SupplierShortCode}-{duplicate?.FilteredVehicleModel}";
                     // 如果存在重复项并且该物料号尚未被添加过
-                    if (duplicates.Count > 1 && !seenMaterialCodes.Contains(duplicate.OldMaterialCode))
-                    {
+                    if (duplicates.Count > 1 && !seenMaterialCodes.Contains(tempcode))
+                    {   
                         duplicateMaterialCodes.AddRange(duplicates);
-                        seenMaterialCodes.Add(duplicate.OldMaterialCode); // 标记为已添加
+                        seenMaterialCodes.Add(tempcode); //HASH 表用于存放相同的物料号，车型，供应商编号
                     }
-
-                    // 从 resultsToStore 中移除这些重复项
-
+                    
                 }
-                resultsToStore.RemoveAll(r => seenMaterialCodes.Contains(r.OldMaterialCode));
+                resultsToStore.RemoveAll(r =>
+                {
+                    string tempcode = $"{r.OldMaterialCode}-{r.SupplierShortCode}-{r.FilteredVehicleModel}";
+                    return seenMaterialCodes.Contains(tempcode);
+                });
+                // 从 resultsToStore 中移除这些重复项，保留纯净的不需要分离断点的代码
+
                 _logger.LogError("+++++++++++++++++++++++++++++++++++++++++++重复断点列表已经生成" + duplicateMaterialCodes.Count.ToString());
                 _logger.LogError("+++++++++++++++++++++++++++++++++++++++++++剩余不需要进行断点处理的列表" + resultsToStore.Count.ToString());
                 _logger.LogError("+++++++++++++++++++++++++++++++++++++++++++开始打印重复的列表");
@@ -539,10 +424,10 @@ namespace WebWinMVC.Controllers
                     _logger.LogError($"物料号: {result.OldMaterialCode}, " +
                                            $"断点时间: {result.BreakPointTime}, " +
                                            $"断点次数: {result.BreakPointNum}, " +
-                                           //$"车型: {result.VehicleModel}, " +
+                                           $"车型: {result.VehicleModel}, " +
                                            //$"审批日期: {result.ApprovalDate}, " +
                                            //$"物料描述: {result.OldMaterialDescription}, " +
-                                           //$"供应商短代码: {result.SupplierShortCode}, " +
+                                           $"供应商短代码: {result.SupplierShortCode}, " +
                                            //$"责任源供应商: {result.ResponsibilitySourceSupplierName}, " +
                                            $"案例数: {result.CaseCount}, " +
                                            $"MIS3: {result.MIS3}, " +
@@ -556,35 +441,30 @@ namespace WebWinMVC.Controllers
                                            $"故障代码: {result.FaultCode}");
                     //将重复列表的项来进行清零，便于后续断点分离的计算
                     result.CaseCount = "-1";//当case count =-1，时，代表系统未进入，后期，直接抛弃，不会重新设立为新问题
-                    //if(result.MIS3!="0")
-                    //result.MIS3 = "0";
-                    //else
-                    //result.MIS3 = "NIL";
-                    //if (result.MIS6 != "0")
-                    //    result.MIS6 = "0";
-                    //else
-                    //    result.MIS3 = "NIL";
-                    //result.MIS12 = "0";
-                    //result.MIS24 = "0";
-                    //result.MIS48 =  "0";
                 }
 
 
                 // 假设 duplicateMaterialCodes 已经被正确填充
                 foreach (var result in duplicateMaterialCodes)
                 {
-                    // 获取与物料号对应的所有断点
+                    // 获取与物料号对应的所有断点,添加新增的判断
                     var relevantBreakpoints = convertedBreakpoints
-                        .Where(b => b.OldMaterialCode == result.OldMaterialCode)
+                        .Where(b => b.OldMaterialCode == result.OldMaterialCode&&
+                                    b.FilteredVehicleModel == result.FilteredVehicleModel&&
+                                    b.SupplierShortCode ==result.SupplierShortCode)
                         .ToList();
-                    _logger.LogError($"物料号{result.OldMaterialCode}++++++++++++++++++++++++++综合个数{relevantBreakpoints.Count}");
+                    _logger.LogError($"物料号{result.OldMaterialCode}-车型{result.FilteredVehicleModel}-短代码:{result.SupplierShortCode}" +
+                                     $"++++++++++++++++++++++++++综合个数{relevantBreakpoints.Count}");
                     //这是储存的每个物料号的断点的数量，至少应该是1个，重复列表才会是两个
 
 
                     if (relevantBreakpoints.Any())
 
                     {
-                        var queryCode = query.Where(b => b.OldMaterialCode == result.OldMaterialCode);//定义一个特定的物料查询号
+                        var queryCode = query.Where(b => b.OldMaterialCode == result.OldMaterialCode&&
+                                                         b.SupplierShortCode ==result.SupplierShortCode&&
+                                                         b.FilteredVehicleModel ==result.FilteredVehicleModel);
+                                                        //定义一个特定的物料号，现在增加筛选车型和供应商
                         int mis3, mis6, mis12, mis24, mis48;
                         mis3 = mis6 = mis12 = mis24 = mis48 = 0;
                         foreach (var queryItem in queryCode)//用手写6次断点几乎涵盖所有情况，每次遍历物料号就可以写入下面 BreakPointNum对应的值进入duplicateMaterialCodes表
@@ -592,7 +472,7 @@ namespace WebWinMVC.Controllers
                             string manufactureMonth = queryItem.ManufacturingMonth ?? "0";
                             if (relevantBreakpoints.Count == 1)
                             {
-                                string startDateStr1 = relevantBreakpoints[0].ConvertedDate ?? "0";
+                                string startDateStr1 = relevantBreakpoints[0].BreakpointTime ?? "0";
                                 // _logger.LogError("找到断点为1");
 
                                 if (result.BreakPointNum == "1")
@@ -604,8 +484,6 @@ namespace WebWinMVC.Controllers
 
                                         if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
                                         {
-
-
                                             mis3++;
 
                                         }
@@ -613,35 +491,25 @@ namespace WebWinMVC.Controllers
                                         {
                                             mis6++;
 
-
-
                                         }
                                         else if (queryItem.MISInterval == "12")
                                         {
                                             mis12++;
-
-
 
                                         }
                                         else if (queryItem.MISInterval == "24")
                                         {
                                             mis24++;
 
-
-
                                         }
                                         mis48++;//技术中心试验车的情况，后期需要排除
-                                        if (result.MIS3 != "0")
-                                            result.MIS3 = mis3.ToString();
-                                        if (result.MIS6 != "0")
-                                            result.MIS6 = (mis6 + mis3).ToString();
-                                        if (result.MIS12 != "0")
-                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
-                                        if (result.MIS24 != "0")
-                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS48 != "0")
+                                      
+                                            result.MIS3 = mis3.ToString();                                  
+                                            result.MIS6 = (mis6 + mis3).ToString();                                       
+                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();                                       
+                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();                                   
                                             result.MIS48 = mis48.ToString();
-                                        result.CaseCount = mis48.ToString();
+                                            result.CaseCount = mis48.ToString();
 
                                     }
 
@@ -679,17 +547,13 @@ namespace WebWinMVC.Controllers
 
                                         }
                                         mis48++;//技术中心试验车的情况，后期需要排除
-                                        if (result.MIS3 != "0")
+                          
                                             result.MIS3 = mis3.ToString();
-                                        if (result.MIS6 != "0")
                                             result.MIS6 = (mis6 + mis3).ToString();
-                                        if (result.MIS12 != "0")
                                             result.MIS12 = (mis6 + mis3 + mis12).ToString();
-                                        if (result.MIS24 != "0")
                                             result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS48 != "0")
                                             result.MIS48 = mis48.ToString();
-                                        result.CaseCount = mis48.ToString();
+                                            result.CaseCount = mis48.ToString();
                                     }
 
 
@@ -699,8 +563,8 @@ namespace WebWinMVC.Controllers
                             }
                             else if (relevantBreakpoints.Count == 2)
                             {
-                                string startDateStr1 = relevantBreakpoints[0].ConvertedDate ?? "0";
-                                string startDateStr2 = relevantBreakpoints[1].ConvertedDate ?? "0";
+                                string startDateStr1 = relevantBreakpoints[0].BreakpointTime ?? "0";
+                                string startDateStr2 = relevantBreakpoints[1].BreakpointTime ?? "0";
                                 //  _logger.LogError("找到断点为2");
                                 if (result.BreakPointNum == "1")
                                 {
@@ -737,16 +601,11 @@ namespace WebWinMVC.Controllers
 
                                         }
                                         mis48++;//技术中心试验车的情况，后期需要排除
-                                        if (result.MIS3 != "0")
-                                            result.MIS3 = mis3.ToString();
-                                        if (result.MIS6 != "0")
-                                            result.MIS6 = (mis6 + mis3).ToString();
-                                        if (result.MIS12 != "0")
-                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
-                                        if (result.MIS24 != "0")
-                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS48 != "0")
-                                            result.MIS48 = mis48.ToString();
+                                        result.MIS3 = mis3.ToString();
+                                        result.MIS6 = (mis6 + mis3).ToString();
+                                        result.MIS12 = (mis6 + mis3 + mis12).ToString();
+                                        result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
+                                        result.MIS48 = mis48.ToString();
                                         result.CaseCount = mis48.ToString();
 
                                     }
@@ -785,16 +644,11 @@ namespace WebWinMVC.Controllers
 
                                         }
                                         mis48++;//技术中心试验车的情况，后期需要排除
-                                        if (result.MIS3 != "0")
-                                            result.MIS3 = mis3.ToString();
-                                        if (result.MIS6 != "0")
-                                            result.MIS6 = (mis6 + mis3).ToString();
-                                        if (result.MIS12 != "0")
-                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
-                                        if (result.MIS24 != "0")
-                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS48 != "0")
-                                            result.MIS48 = mis48.ToString();
+                                        result.MIS3 = mis3.ToString();
+                                        result.MIS6 = (mis6 + mis3).ToString();
+                                        result.MIS12 = (mis6 + mis3 + mis12).ToString();
+                                        result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
+                                        result.MIS48 = mis48.ToString();
                                         result.CaseCount = mis48.ToString();
 
                                     }
@@ -832,18 +686,12 @@ namespace WebWinMVC.Controllers
 
 
                                         }
-                                        mis48++;//技术中心试验车的情况，后期需要排除
-                                        if (result.MIS3 != "0")
-                                            result.MIS3 = mis3.ToString();
-                                        if (result.MIS6 != "0")
-                                            result.MIS6 = (mis6 + mis3).ToString();
-                                        if (result.MIS12 != "0")
-                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
-                                        if (result.MIS24 != "0")
-                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS48 != "0")
-                                            result.MIS48 = mis48.ToString();
-                                        result.CaseCount = mis48.ToString();
+                                        result.MIS3 = mis3.ToString();
+                                        result.MIS6 = (mis6 + mis3).ToString();
+                                        result.MIS12 = (mis6 + mis3 + mis12).ToString();
+                                        result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
+                                        result.MIS48 = mis48.ToString();
+                                        result.CaseCount = mis48.ToString(); ;
 
                                     }
 
@@ -853,9 +701,9 @@ namespace WebWinMVC.Controllers
                             else if (relevantBreakpoints.Count == 3)
                             {
                                 //  _logger.LogError("找到断点为3");
-                                string startDateStr1 = relevantBreakpoints[0].ConvertedDate ?? "0";
-                                string startDateStr2 = relevantBreakpoints[1].ConvertedDate ?? "0";
-                                string startDateStr3 = relevantBreakpoints[2].ConvertedDate ?? "0";
+                                string startDateStr1 = relevantBreakpoints[0].BreakpointTime ?? "0";
+                                string startDateStr2 = relevantBreakpoints[1].BreakpointTime ?? "0";
+                                string startDateStr3 = relevantBreakpoints[2].BreakpointTime ?? "0";
                                 if (result.BreakPointNum == "1")
                                 {
 
@@ -891,16 +739,11 @@ namespace WebWinMVC.Controllers
 
                                         }
                                         mis48++;//技术中心试验车的情况，后期需要排除
-                                        if (result.MIS3 != "0")
-                                            result.MIS3 = mis3.ToString();
-                                        if (result.MIS6 != "0")
-                                            result.MIS6 = (mis6 + mis3).ToString();
-                                        if (result.MIS12 != "0")
-                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
-                                        if (result.MIS24 != "0")
-                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS48 != "0")
-                                            result.MIS48 = mis48.ToString();
+                                        result.MIS3 = mis3.ToString();
+                                        result.MIS6 = (mis6 + mis3).ToString();
+                                        result.MIS12 = (mis6 + mis3 + mis12).ToString();
+                                        result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
+                                        result.MIS48 = mis48.ToString();
                                         result.CaseCount = mis48.ToString();
 
                                     }
@@ -939,16 +782,11 @@ namespace WebWinMVC.Controllers
 
                                         }
                                         mis48++;//技术中心试验车的情况，后期需要排除
-                                        if (result.MIS3 != "0")
-                                            result.MIS3 = mis3.ToString();
-                                        if (result.MIS6 != "0")
-                                            result.MIS6 = (mis6 + mis3).ToString();
-                                        if (result.MIS12 != "0")
-                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
-                                        if (result.MIS24 != "0")
-                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS48 != "0")
-                                            result.MIS48 = mis48.ToString();
+                                        result.MIS3 = mis3.ToString();
+                                        result.MIS6 = (mis6 + mis3).ToString();
+                                        result.MIS12 = (mis6 + mis3 + mis12).ToString();
+                                        result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
+                                        result.MIS48 = mis48.ToString();
                                         result.CaseCount = mis48.ToString();
 
                                     }
@@ -986,16 +824,11 @@ namespace WebWinMVC.Controllers
 
                                         }
                                         mis48++;//技术中心试验车的情况，后期需要排除
-                                        if (result.MIS3 != "0")
-                                            result.MIS3 = mis3.ToString();
-                                        if (result.MIS6 != "0")
-                                            result.MIS6 = (mis6 + mis3).ToString();
-                                        if (result.MIS12 != "0")
-                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
-                                        if (result.MIS24 != "0")
-                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS48 != "0")
-                                            result.MIS48 = mis48.ToString();
+                                        result.MIS3 = mis3.ToString();
+                                        result.MIS6 = (mis6 + mis3).ToString();
+                                        result.MIS12 = (mis6 + mis3 + mis12).ToString();
+                                        result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
+                                        result.MIS48 = mis48.ToString();
                                         result.CaseCount = mis48.ToString();
 
                                     }
@@ -1034,16 +867,11 @@ namespace WebWinMVC.Controllers
 
                                         }
                                         mis48++;//技术中心试验车的情况，后期需要排除
-                                        if (result.MIS3 != "0")
-                                            result.MIS3 = mis3.ToString();
-                                        if (result.MIS6 != "0")
-                                            result.MIS6 = (mis6 + mis3).ToString();
-                                        if (result.MIS12 != "0")
-                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
-                                        if (result.MIS24 != "0")
-                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS48 != "0")
-                                            result.MIS48 = mis48.ToString();
+                                        result.MIS3 = mis3.ToString();
+                                        result.MIS6 = (mis6 + mis3).ToString();
+                                        result.MIS12 = (mis6 + mis3 + mis12).ToString();
+                                        result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
+                                        result.MIS48 = mis48.ToString();
                                         result.CaseCount = mis48.ToString();
 
                                     }
@@ -1054,10 +882,10 @@ namespace WebWinMVC.Controllers
                             else if (relevantBreakpoints.Count == 4)
                             {
                                 // _logger.LogError("找到断点为4");
-                                string startDateStr1 = relevantBreakpoints[0].ConvertedDate ?? "0";
-                                string startDateStr2 = relevantBreakpoints[1].ConvertedDate ?? "0";
-                                string startDateStr3 = relevantBreakpoints[2].ConvertedDate ?? "0";
-                                string startDateStr4 = relevantBreakpoints[3].ConvertedDate ?? "0";
+                                string startDateStr1 = relevantBreakpoints[0].BreakpointTime ?? "0";
+                                string startDateStr2 = relevantBreakpoints[1].BreakpointTime ?? "0";
+                                string startDateStr3 = relevantBreakpoints[2].BreakpointTime ?? "0";
+                                string startDateStr4 = relevantBreakpoints[3].BreakpointTime ?? "0";
                                 if (result.BreakPointNum == "1")
                                 {
 
@@ -1093,16 +921,11 @@ namespace WebWinMVC.Controllers
 
                                         }
                                         mis48++;//技术中心试验车的情况，后期需要排除
-                                        if (result.MIS3 != "0")
-                                            result.MIS3 = mis3.ToString();
-                                        if (result.MIS6 != "0")
-                                            result.MIS6 = (mis6 + mis3).ToString();
-                                        if (result.MIS12 != "0")
-                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
-                                        if (result.MIS24 != "0")
-                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS48 != "0")
-                                            result.MIS48 = mis48.ToString();
+                                        result.MIS3 = mis3.ToString();
+                                        result.MIS6 = (mis6 + mis3).ToString();
+                                        result.MIS12 = (mis6 + mis3 + mis12).ToString();
+                                        result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
+                                        result.MIS48 = mis48.ToString();
                                         result.CaseCount = mis48.ToString();
 
                                     }
@@ -1141,16 +964,11 @@ namespace WebWinMVC.Controllers
 
                                         }
                                         mis48++;//技术中心试验车的情况，后期需要排除
-                                        if (result.MIS3 != "0")
-                                            result.MIS3 = mis3.ToString();
-                                        if (result.MIS6 != "0")
-                                            result.MIS6 = (mis6 + mis3).ToString();
-                                        if (result.MIS12 != "0")
-                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
-                                        if (result.MIS24 != "0")
-                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS48 != "0")
-                                            result.MIS48 = mis48.ToString();
+                                        result.MIS3 = mis3.ToString();
+                                        result.MIS6 = (mis6 + mis3).ToString();
+                                        result.MIS12 = (mis6 + mis3 + mis12).ToString();
+                                        result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
+                                        result.MIS48 = mis48.ToString();
                                         result.CaseCount = mis48.ToString();
 
                                     }
@@ -1188,16 +1006,11 @@ namespace WebWinMVC.Controllers
 
                                         }
                                         mis48++;//技术中心试验车的情况，后期需要排除
-                                        if (result.MIS3 != "0")
-                                            result.MIS3 = mis3.ToString();
-                                        if (result.MIS6 != "0")
-                                            result.MIS6 = (mis6 + mis3).ToString();
-                                        if (result.MIS12 != "0")
-                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
-                                        if (result.MIS24 != "0")
-                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS48 != "0")
-                                            result.MIS48 = mis48.ToString();
+                                        result.MIS3 = mis3.ToString();
+                                        result.MIS6 = (mis6 + mis3).ToString();
+                                        result.MIS12 = (mis6 + mis3 + mis12).ToString();
+                                        result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
+                                        result.MIS48 = mis48.ToString();
                                         result.CaseCount = mis48.ToString();
 
                                     }
@@ -1235,16 +1048,11 @@ namespace WebWinMVC.Controllers
 
                                         }
                                         mis48++;//技术中心试验车的情况，后期需要排除
-                                        if (result.MIS3 != "0")
-                                            result.MIS3 = mis3.ToString();
-                                        if (result.MIS6 != "0")
-                                            result.MIS6 = (mis6 + mis3).ToString();
-                                        if (result.MIS12 != "0")
-                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
-                                        if (result.MIS24 != "0")
-                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS48 != "0")
-                                            result.MIS48 = mis48.ToString();
+                                        result.MIS3 = mis3.ToString();
+                                        result.MIS6 = (mis6 + mis3).ToString();
+                                        result.MIS12 = (mis6 + mis3 + mis12).ToString();
+                                        result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
+                                        result.MIS48 = mis48.ToString();
                                         result.CaseCount = mis48.ToString();
 
                                     }
@@ -1282,313 +1090,11 @@ namespace WebWinMVC.Controllers
 
                                         }
                                         mis48++;//技术中心试验车的情况，后期需要排除
-                                        if (result.MIS3 != "0")
-                                            result.MIS3 = mis3.ToString();
-                                        if (result.MIS6 != "0")
-                                            result.MIS6 = (mis6 + mis3).ToString();
-                                        if (result.MIS12 != "0")
-                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
-                                        if (result.MIS24 != "0")
-                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS48 != "0")
-                                            result.MIS48 = mis48.ToString();
-                                        result.CaseCount = mis48.ToString();
-
-                                    }
-
-                                }
-
-                            }
-                            else if (relevantBreakpoints.Count == 5)
-                            {
-                                // _logger.LogError("找到断点为5");
-                                string startDateStr1 = relevantBreakpoints[0].ConvertedDate ?? "0";
-                                string startDateStr2 = relevantBreakpoints[1].ConvertedDate ?? "0";
-                                string startDateStr3 = relevantBreakpoints[2].ConvertedDate ?? "0";
-                                string startDateStr4 = relevantBreakpoints[3].ConvertedDate ?? "0";
-                                string startDateStr5 = relevantBreakpoints[4].ConvertedDate ?? "0";
-                                if (result.BreakPointNum == "1")
-                                {
-
-                                    //断点时间大于等于制造月,断点前产品
-                                    if (startDateStr1.CompareTo(manufactureMonth) >= 0)
-                                    {
-                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
-                                        {
-
-
-                                            mis3++;
-
-                                        }
-                                        else if (queryItem.MISInterval == "6")
-                                        {
-                                            mis6++;
-
-
-
-                                        }
-                                        else if (queryItem.MISInterval == "12")
-                                        {
-                                            mis12++;
-
-
-
-                                        }
-                                        else if (queryItem.MISInterval == "24")
-                                        {
-                                            mis24++;
-
-
-
-                                        }
-                                        mis48++;//技术中心试验车的情况，后期需要排除
-                                        if (result.MIS3 != "0")
-                                            result.MIS3 = mis3.ToString();
-                                        if (result.MIS6 != "0")
-                                            result.MIS6 = (mis6 + mis3).ToString();
-                                        if (result.MIS12 != "0")
-                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
-                                        if (result.MIS24 != "0")
-                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS48 != "0")
-                                            result.MIS48 = mis48.ToString();
-                                        result.CaseCount = mis48.ToString();
-
-                                    }
-
-                                }
-                                else if (result.BreakPointNum == "2")
-                                {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
-                                    if (startDateStr1.CompareTo(manufactureMonth) < 0 && startDateStr2.CompareTo(manufactureMonth) >= 0)
-                                    {
-                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
-                                        {
-
-
-                                            mis3++;
-
-                                        }
-                                        else if (queryItem.MISInterval == "6")
-                                        {
-                                            mis6++;
-
-
-
-                                        }
-                                        else if (queryItem.MISInterval == "12")
-                                        {
-                                            mis12++;
-
-
-
-                                        }
-                                        else if (queryItem.MISInterval == "24")
-                                        {
-                                            mis24++;
-
-
-
-                                        }
-                                        mis48++;//技术中心试验车的情况，后期需要排除
-                                        if (result.MIS3 != "0")
-                                            result.MIS3 = mis3.ToString();
-                                        if (result.MIS6 != "0")
-                                            result.MIS6 = (mis6 + mis3).ToString();
-                                        if (result.MIS12 != "0")
-                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
-                                        if (result.MIS24 != "0")
-                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS48 != "0")
-                                            result.MIS48 = mis48.ToString();
-                                        result.CaseCount = mis48.ToString();
-
-                                    }
-                                }
-                                else if (result.BreakPointNum == "3")
-                                {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
-                                    if (startDateStr2.CompareTo(manufactureMonth) < 0 && startDateStr3.CompareTo(manufactureMonth) >= 0)
-                                    {
-                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
-                                        {
-
-
-                                            mis3++;
-
-                                        }
-                                        else if (queryItem.MISInterval == "6")
-                                        {
-                                            mis6++;
-
-
-
-                                        }
-                                        else if (queryItem.MISInterval == "12")
-                                        {
-                                            mis12++;
-
-
-
-                                        }
-                                        else if (queryItem.MISInterval == "24")
-                                        {
-                                            mis24++;
-
-
-
-                                        }
-                                        mis48++;//技术中心试验车的情况，后期需要排除
-                                        if (result.MIS3 != "0")
-                                            result.MIS3 = mis3.ToString();
-                                        if (result.MIS6 != "0")
-                                            result.MIS6 = (mis6 + mis3).ToString();
-                                        if (result.MIS12 != "0")
-                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
-                                        if (result.MIS24 != "0")
-                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS48 != "0")
-                                            result.MIS48 = mis48.ToString();
-                                        result.CaseCount = mis48.ToString();
-
-                                    }
-                                }
-                                else if (result.BreakPointNum == "4")
-                                {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
-                                    if (startDateStr3.CompareTo(manufactureMonth) < 0 && startDateStr4.CompareTo(manufactureMonth) >= 0)
-                                    {
-                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
-                                        {
-
-
-                                            mis3++;
-
-                                        }
-                                        else if (queryItem.MISInterval == "6")
-                                        {
-                                            mis6++;
-
-
-
-                                        }
-                                        else if (queryItem.MISInterval == "12")
-                                        {
-                                            mis12++;
-
-
-
-                                        }
-                                        else if (queryItem.MISInterval == "24")
-                                        {
-                                            mis24++;
-
-
-
-                                        }
-                                        mis48++;//技术中心试验车的情况，后期需要排除
-                                        if (result.MIS3 != "0")
-                                            result.MIS3 = mis3.ToString();
-                                        if (result.MIS6 != "0")
-                                            result.MIS6 = (mis6 + mis3).ToString();
-                                        if (result.MIS12 != "0")
-                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
-                                        if (result.MIS24 != "0")
-                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS48 != "0")
-                                            result.MIS48 = mis48.ToString();
-                                        result.CaseCount = mis48.ToString();
-
-                                    }
-                                }
-                                else if (result.BreakPointNum == "5")
-                                {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
-                                    if (startDateStr4.CompareTo(manufactureMonth) < 0 && startDateStr5.CompareTo(manufactureMonth) >= 0)
-                                    {
-                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
-                                        {
-
-
-                                            mis3++;
-
-                                        }
-                                        else if (queryItem.MISInterval == "6")
-                                        {
-                                            mis6++;
-
-
-
-                                        }
-                                        else if (queryItem.MISInterval == "12")
-                                        {
-                                            mis12++;
-
-
-
-                                        }
-                                        else if (queryItem.MISInterval == "24")
-                                        {
-                                            mis24++;
-
-
-
-                                        }
-                                        mis48++;//技术中心试验车的情况，后期需要排除
-                                        if (result.MIS3 != "0")
-                                            result.MIS3 = mis3.ToString();
-                                        if (result.MIS6 != "0")
-                                            result.MIS6 = (mis6 + mis3).ToString();
-                                        if (result.MIS12 != "0")
-                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
-                                        if (result.MIS24 != "0")
-                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS48 != "0")
-                                            result.MIS48 = mis48.ToString();
-                                        result.CaseCount = mis48.ToString();
-
-                                    }
-                                }
-                                else
-                                {
-                                    if (startDateStr5.CompareTo(manufactureMonth) < 0)
-                                    {
-                                        //2次断点时间小于制造月，2次断点失效产品
-                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
-                                        {
-
-
-                                            mis3++;
-
-                                        }
-                                        else if (queryItem.MISInterval == "6")
-                                        {
-                                            mis6++;
-
-
-
-                                        }
-                                        else if (queryItem.MISInterval == "12")
-                                        {
-                                            mis12++;
-
-
-
-                                        }
-                                        else if (queryItem.MISInterval == "24")
-                                        {
-                                            mis24++;
-
-
-
-                                        }
-                                        mis48++;//技术中心试验车的情况，后期需要排除
-                                        if (result.MIS3 != "0")
-                                            result.MIS3 = mis3.ToString();
-                                        if (result.MIS6 != "0")
-                                            result.MIS6 = (mis6 + mis3).ToString();
-                                        if (result.MIS12 != "0")
-                                            result.MIS12 = (mis6 + mis3 + mis12).ToString();
-                                        if (result.MIS24 != "0")
-                                            result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
-                                        if (result.MIS48 != "0")
-                                            result.MIS48 = mis48.ToString();
+                                        result.MIS3 = mis3.ToString();
+                                        result.MIS6 = (mis6 + mis3).ToString();
+                                        result.MIS12 = (mis6 + mis3 + mis12).ToString();
+                                        result.MIS24 = (mis6 + mis3 + mis12 + mis24).ToString();
+                                        result.MIS48 = mis48.ToString();
                                         result.CaseCount = mis48.ToString();
 
                                     }
@@ -1605,7 +1111,7 @@ namespace WebWinMVC.Controllers
                 foreach (var item in duplicateMaterialCodes.ToList())
                 {
 
-                    resultsToStore.Add(item);
+                   // resultsToStore.Add(item);
                     if (item.CaseCount != "-1")//排除未进入的选项，保持表体的整洁性
                         resultsToStoreReal.Add(item);
 

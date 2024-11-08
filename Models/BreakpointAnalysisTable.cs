@@ -1,4 +1,6 @@
-﻿namespace WebWinMVC.Models
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+
+namespace WebWinMVC.Models
 {
     public class BreakpointAnalysisTable
     {
@@ -11,5 +13,9 @@
         public string? PQSNumber { get; set; } = default!; // PQS编号
         public string? VAN { get; set; } = default!; // VAN
         public string? VIN { get; set; } = default!; // VIN
+        public string? FilteredVehicleModel {set; get; } = default!;  //筛选车型
+        
+        public string? SupplierShortCode { set; get; }= default!;//供应商短代码
+
     }
 }

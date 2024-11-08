@@ -85,6 +85,8 @@ namespace WebWinMVC
         public string? ResponsibilitySourceSupplierName { get; set; }
         public string? CaseCount { get; set; }
         public string? CumulativeCaseCount { get; set; }
+
+        public string? FilteredVehicleModel { get; set; }
         public string? MIS3 { get; set; }
         public string? MIS6 { get; set; }
         public string? MIS12 { get; set; }
@@ -592,7 +594,10 @@ namespace WebWinMVC
             { "断点时间", nameof(BreakpointAnalysisTable.BreakpointTime) },
             { "PQS编号", nameof(BreakpointAnalysisTable.PQSNumber) },
             { "VAN", nameof(BreakpointAnalysisTable.VAN) },
-            { "VIN", nameof(BreakpointAnalysisTable.VIN) }
+            { "VIN", nameof(BreakpointAnalysisTable.VIN) },
+            { "筛选车型", nameof(BreakpointAnalysisTable.FilteredVehicleModel) },
+            { "供应商短代码", nameof(BreakpointAnalysisTable.SupplierShortCode) },
+
         };
         }
     }
