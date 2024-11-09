@@ -85,7 +85,6 @@ namespace WebWinMVC
         public string? ResponsibilitySourceSupplierName { get; set; }
         public string? CaseCount { get; set; }
         public string? CumulativeCaseCount { get; set; }
-
         public string? FilteredVehicleModel { get; set; }
         public string? MIS3 { get; set; }
         public string? MIS6 { get; set; }
@@ -97,6 +96,8 @@ namespace WebWinMVC
         public string? FaultCode { get; set; }
         public string? BreakPointNum { get; set; }
         public string? BreakPointTime { get; set; }
+
+        public string? BreakPointTotal { get; set; }
     }
     public class DailyQualityIssueChecklistMap : ClassMap<DailyQualityIssueChecklist>
     {

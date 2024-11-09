@@ -5640,11 +5640,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\个人文件\\C#\\QualityManagemenSystem\\WebWinMVC.csproj",
+      "projectUniqueName": "E:\\C#\\WebWinMVC\\WebWinMVC\\WebWinMVC.csproj",
       "projectName": "WebWinMVC",
-      "projectPath": "D:\\个人文件\\C#\\QualityManagemenSystem\\WebWinMVC.csproj",
+      "projectPath": "E:\\C#\\WebWinMVC\\WebWinMVC\\WebWinMVC.csproj",
       "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-      "outputPath": "D:\\个人文件\\C#\\QualityManagemenSystem\\obj\\",
+      "outputPath": "E:\\C#\\WebWinMVC\\WebWinMVC\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -5658,7 +5658,6 @@
         "net8.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
@@ -5749,7 +5748,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

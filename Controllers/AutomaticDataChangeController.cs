@@ -16,10 +16,10 @@ namespace WebWinMVC.Controllers
     public class AutomaticDataChangeController : ControllerBase
     {
         private readonly JRZLWTDbContext _context;
-        private readonly ILogger<AutomaticDataCalculationController> _logger;
+        private readonly ILogger<AutomaticDataChangeController> _logger;
 
 
-        public AutomaticDataChangeController(ILogger<AutomaticDataCalculationController> logger, JRZLWTDbContext context)
+        public AutomaticDataChangeController(ILogger<AutomaticDataChangeController> logger, JRZLWTDbContext context)
         {
             _logger = logger;
             _context = context;
@@ -49,22 +49,19 @@ namespace WebWinMVC.Controllers
         {
 
             _logger.LogError($"输入审核日期:{ApprovalDate};处理后开始日期：{startDateStr};处理后结束日期{endDateStr}" +
-                                   $"输入筛选日期：{FilterDay};处理后的筛选日期，筛选月:{filterDay};经sub方法处理后的筛选月:{SubtractMonths("2024-05", 6)}");
+                             $"输入筛选日期：{FilterDay};处理后的筛选日期，筛选月:{filterDay};经sub方法处理后的筛选月:{SubtractMonths("2024-05", 6)}");
 
 
         }
         [HttpGet("FilterAndPivot")]
         public async Task<IActionResult> FilterAndPivot([FromQuery] string ApprovalDate, [FromQuery] string FilterDay)
         { 
-
-             
-
             try
             {
                 List<PivotResult> resultsToStore = new List<PivotResult>();
                 var resultToStoreQuery = new List<PivotResult>();
-                var resultsToStoreReal = new List<PivotResult>();
                 var duplicateMaterialCodes = new List<PivotResult>();//用于添加重复条件均满足的相关参数
+                var resultToStoreEditAndQuery=new List<PivotResult>();//用于对处理之后的表进行编辑或查询
                 var seenMaterialCodes = new HashSet<string>(); // 用于跟踪已经添加的物料号，筛选车型，供应商编号
                 string? startDateStr = null;
                 string? endDateStr = null;//ins the date time that is different of the Caluculating class
@@ -76,6 +73,8 @@ namespace WebWinMVC.Controllers
                     .Where(e => (e.RepairMethod == "更换" || e.RepairMethod == "维修"))
                     .Where(e => e.MaterialType == "物料");
 
+
+                _logger.LogError($"当前数量: {query.Count()}");
                 // 处理 ApprovalDate 参数
                 if (!string.IsNullOrEmpty(ApprovalDate))
                 {
@@ -278,8 +277,10 @@ namespace WebWinMVC.Controllers
                 //-------------------------------------------------------------------------车型单次筛选完成
                 foreach (var result in resultsToStore)
                 {
+                   
+                    
                     // 打印每个物料号的信息
-                    _logger.LogError($"物料号: {result.OldMaterialCode}, " +
+                    Console.WriteLine($"物料号: {result.OldMaterialCode}, " +
                                            $"断点时间: {result.BreakPointTime}, " +
                                            $"断点次数: {result.BreakPointNum}, " +
                                            $"车型: {result.VehicleModel}, " +
@@ -297,9 +298,10 @@ namespace WebWinMVC.Controllers
                                            //$"SMT: {result.SMT}, " +
                                            //$"位置代码: {result.LocationCode}, " +
                                            $"故障代码: {result.FaultCode}");
+                   
                 }
                 //------------------------------------完成后处理断点分散问题 ---------
-                _logger.LogError("+++++++++++++++++++++++++++++++++++++++++初始常规计算已完成,reultToStore已经清空，开始计算断点,筛选数量" + resultsToStore.Count.ToString());
+                _logger.LogError("+++++++++++++++++++++++++++++++++++++++++初始常规计算已完成，开始计算断点,筛选数量" + resultsToStore.Count.ToString());
 
                 var breakpoints = await _context.BreakpointAnalysisTables.AsNoTracking().ToListAsync();
                 // 为所有断点时间转换为统一的 YYYY-MM-DD 格式,这里已经在上传的过程中转换过格式了，所以现在不需要了,提取的表需要保留,增加分析表按时间排序
@@ -329,14 +331,37 @@ namespace WebWinMVC.Controllers
                                     b.FilteredVehicleModel==result.FilteredVehicleModel&&
                                     b.SupplierShortCode == result.SupplierShortCode)
                         .ToList();
-
-                    _logger.LogError($"每个单例在断点表中出现的次数:{relevantBreakpoints.Count},当前项目的值{result.OldMaterialCode}-{result.FilteredVehicleModel}-{result.SupplierShortCode}" +
-                        $"当前筛选项目");
-
-
+                    //Console.WriteLine($"每个单例在断点表中出现的次数:{relevantBreakpoints.Count},当前项目的值{result.OldMaterialCode}-{result.FilteredVehicleModel}-{result.SupplierShortCode}" +
+                    //    $"当前筛选项目");
                     // 如果有相关的断点，则增加对应的实例
                     if (relevantBreakpoints.Any())
                     {
+                        var newZeroBreakpointResult = new PivotResult
+                        {
+                            Order = result.Order, // 假设 Order 属性需要保留
+                            ApprovalDate = result.ApprovalDate,
+                            VehicleModel = result.VehicleModel,
+                            OldMaterialCode = result.OldMaterialCode,
+                            OldMaterialDescription = result.OldMaterialDescription,
+                            SupplierShortCode = result.SupplierShortCode,
+                            ResponsibilitySourceSupplierName = result.ResponsibilitySourceSupplierName,
+                            CaseCount = result.CaseCount,
+                            CumulativeCaseCount = result.CumulativeCaseCount,
+                            MIS3 = result.MIS3,
+                            MIS6 = result.MIS6,
+                            MIS12 = result.MIS12,
+                            MIS24 = result.MIS24,
+                            MIS48 = result.MIS48,
+                            SMT = result.SMT,
+                            LocationCode = result.LocationCode,
+                            FilteredVehicleModel = result.FilteredVehicleModel,
+                            FaultCode = result.FaultCode,
+                            BreakPointNum = "0".ToString(),
+                            BreakPointTime = "new", // 断点时间为"new"
+                            BreakPointTotal = relevantBreakpoints.Count.ToString(),//添加断点总数，后续就不必要再遍历
+                        };
+                        resultToStoreQuery.Add(newZeroBreakpointResult); // 将该初始化为0的实例添加到结果列表中，便于后续的断点分离，作为分离的新问题的种子
+
                         foreach (var breakpoint in relevantBreakpoints)
                         {
                             // 创建新的实例，属性与原始结果相同
@@ -357,23 +382,23 @@ namespace WebWinMVC.Controllers
                                 MIS24 = result.MIS24,
                                 MIS48 = result.MIS48,
                                 SMT = result.SMT,
+                                FilteredVehicleModel = result.FilteredVehicleModel,
                                 LocationCode = result.LocationCode,
                                 FaultCode = result.FaultCode,
-                                BreakPointNum = (relevantBreakpoints.IndexOf(breakpoint) + 1).ToString(), // 断点编号从1开始
+                                BreakPointNum = (relevantBreakpoints.IndexOf(breakpoint) + 1).ToString(), // 断点编号从1开始，如果有两项则会出现多次断点
                                 BreakPointTime = breakpoint.BreakpointTime,
                             };
                             // 添加新的实例到结果列表中
                             resultToStoreQuery.Add(newResult);
-                            //将需要执行断点分离的项，进行重新组合，加入resultToQuery表
+                            //将需要执行断点分离的项，进行重新组合，加入resultToQuery表，这里的resultToQuery就会添加断点分析表中所有的满足车型、物料号、供应商的项，为了后面去分离相应的断点区间
                         }
                     }
                 }
-                // 假设 duplicateMaterialCodes 已经初始化
-                _logger.LogError("+++++++++++++++++++++++++++++++++++++++++分离断点处理表，符合要求的项数" + resultToStoreQuery.Count.ToString());
+                _logger.LogError("+++++++++++++++++++++++++++++++++++++++++分离断点处理表，符合要求的项数" + resultToStoreQuery.Count.ToString()+"打印查询表");
                 foreach (var result in resultToStoreQuery)
                 {
                     // 打印每个物料号的信息
-                    _logger.LogError($"物料号: {result.OldMaterialCode}, " +
+                    Console.WriteLine($"物料号: {result.OldMaterialCode}, " +
                                            $"断点时间: {result.BreakPointTime}, " +
                                            $"断点次数: {result.BreakPointNum}, " +
                                            $"车型: {result.VehicleModel}, " +
@@ -391,83 +416,62 @@ namespace WebWinMVC.Controllers
                                            //$"SMT: {result.SMT}, " +
                                            //$"位置代码: {result.LocationCode}, " +
                                            $"故障代码: {result.FaultCode}");
+                    result.CaseCount = "-1";//当case count =-1，时，代表系统未进入，后期，直接抛弃，不会重新设立为新问题,这里改为即将执行断点分离的表
                 }
 
                 foreach (var duplicate in resultToStoreQuery.ToList()) // 使用 ToList() 避免在遍历时修改集合
                 {
-                    // 查找所有与当前 duplicate.OldMaterialCode 相同的物料号
-                    var duplicates = resultsToStore.Where(r => r.OldMaterialCode == duplicate.OldMaterialCode&&
-                                                               r.FilteredVehicleModel==duplicate.FilteredVehicleModel&&
-                                                               r.SupplierShortCode ==duplicate.SupplierShortCode).ToList();
+              
                     string tempcode = $"{duplicate.OldMaterialCode}-{duplicate?.SupplierShortCode}-{duplicate?.FilteredVehicleModel}";
                     // 如果存在重复项并且该物料号尚未被添加过
-                    if (duplicates.Count > 1 && !seenMaterialCodes.Contains(tempcode))
+                    if ( !seenMaterialCodes.Contains(tempcode))
                     {   
-                        duplicateMaterialCodes.AddRange(duplicates);
                         seenMaterialCodes.Add(tempcode); //HASH 表用于存放相同的物料号，车型，供应商编号
-                    }
-                    
+                    }                   
                 }
+                //foreach (var s in seenMaterialCodes)
+                //{
+
+                //    Console.WriteLine($"AHASH to remove: {s}");
+                //}
+                //foreach (var r in resultsToStore)
+                //{
+                //    string tempcode = $"{r.OldMaterialCode}-{r.SupplierShortCode}-{r.FilteredVehicleModel}";
+                //    Console.WriteLine($"Attempting to remove: {tempcode}");
+                //}
                 resultsToStore.RemoveAll(r =>
                 {
                     string tempcode = $"{r.OldMaterialCode}-{r.SupplierShortCode}-{r.FilteredVehicleModel}";
                     return seenMaterialCodes.Contains(tempcode);
                 });
-                // 从 resultsToStore 中移除这些重复项，保留纯净的不需要分离断点的代码
-
-                _logger.LogError("+++++++++++++++++++++++++++++++++++++++++++重复断点列表已经生成" + duplicateMaterialCodes.Count.ToString());
+                // 从 resultsToStore 中移除这些重复项，保留纯净的不需要分离断点的筛选结果,直接用于QE编辑             
                 _logger.LogError("+++++++++++++++++++++++++++++++++++++++++++剩余不需要进行断点处理的列表" + resultsToStore.Count.ToString());
-                _logger.LogError("+++++++++++++++++++++++++++++++++++++++++++开始打印重复的列表");
-                foreach (var result in duplicateMaterialCodes)
+                // 遍历查询表用于执行断点分离，新问题直接提取，老问题按照区间分离
+                foreach (var result in resultToStoreQuery)
                 {
-                    // 打印每个物料号的信息
-                    _logger.LogError($"物料号: {result.OldMaterialCode}, " +
-                                           $"断点时间: {result.BreakPointTime}, " +
-                                           $"断点次数: {result.BreakPointNum}, " +
-                                           $"车型: {result.VehicleModel}, " +
-                                           //$"审批日期: {result.ApprovalDate}, " +
-                                           //$"物料描述: {result.OldMaterialDescription}, " +
-                                           $"供应商短代码: {result.SupplierShortCode}, " +
-                                           //$"责任源供应商: {result.ResponsibilitySourceSupplierName}, " +
-                                           $"案例数: {result.CaseCount}, " +
-                                           $"MIS3: {result.MIS3}, " +
-                                           $"MIS6: {result.MIS6}, " +
-                                           $"MIS12: {result.MIS12}, " +
-                                           $"MIS24: {result.MIS24}, " +
-                                           $"MIS48: {result.MIS48}, " +
-                                           //$"CumulativeCaseCount: {result.CumulativeCaseCount}, " +
-                                           //$"SMT: {result.SMT}, " +
-                                           //$"位置代码: {result.LocationCode}, " +
-                                           $"故障代码: {result.FaultCode}");
-                    //将重复列表的项来进行清零，便于后续断点分离的计算
-                    result.CaseCount = "-1";//当case count =-1，时，代表系统未进入，后期，直接抛弃，不会重新设立为新问题
-                }
-
-
-                // 假设 duplicateMaterialCodes 已经被正确填充
-                foreach (var result in duplicateMaterialCodes)
-                {
+                    _logger.LogError($"遍历断点表之前的断点次数:{result.BreakPointNum},物料号：{result.OldMaterialCode},车型：{result.FilteredVehicleModel},供应商代码：{result.SupplierShortCode}" );
                     // 获取与物料号对应的所有断点,添加新增的判断
                     var relevantBreakpoints = convertedBreakpoints
                         .Where(b => b.OldMaterialCode == result.OldMaterialCode&&
                                     b.FilteredVehicleModel == result.FilteredVehicleModel&&
                                     b.SupplierShortCode ==result.SupplierShortCode)
-                        .ToList();
-                    _logger.LogError($"物料号{result.OldMaterialCode}-车型{result.FilteredVehicleModel}-短代码:{result.SupplierShortCode}" +
-                                     $"++++++++++++++++++++++++++综合个数{relevantBreakpoints.Count}");
+                        .ToList();//这里重新新遍历断点表是为了统计问题的数量
+                    //_logger.LogError($"物料号{result.OldMaterialCode}-车型{result.FilteredVehicleModel}-短代码:{result.SupplierShortCode}" +
+                    //                 $"++++++++++++++++++++++++++综合个数{relevantBreakpoints.Count}");
                     //这是储存的每个物料号的断点的数量，至少应该是1个，重复列表才会是两个
 
 
                     if (relevantBreakpoints.Any())
 
                     {
-                        var queryCode = query.Where(b => b.OldMaterialCode == result.OldMaterialCode&&
+                        _logger.LogError("此时集合的断点次数---" + result.BreakPointNum);
+                        var queryCode = stepDataQuery.Where(b => b.OldMaterialCode == result.OldMaterialCode&&
                                                          b.SupplierShortCode ==result.SupplierShortCode&&
                                                          b.FilteredVehicleModel ==result.FilteredVehicleModel);
                                                         //定义一个特定的物料号，现在增加筛选车型和供应商
                         int mis3, mis6, mis12, mis24, mis48;
                         mis3 = mis6 = mis12 = mis24 = mis48 = 0;
-                        foreach (var queryItem in queryCode)//用手写6次断点几乎涵盖所有情况，每次遍历物料号就可以写入下面 BreakPointNum对应的值进入duplicateMaterialCodes表
+                        foreach (var queryItem in queryCode)//用手写4次断点几乎涵盖所有情况，每次遍历物料号就可以写入下面 BreakPointNum对应的值进入duplicateMaterialCodes表
                         {
                             string manufactureMonth = queryItem.ManufacturingMonth ?? "0";
                             if (relevantBreakpoints.Count == 1)
@@ -477,7 +481,7 @@ namespace WebWinMVC.Controllers
 
                                 if (result.BreakPointNum == "1")
                                 {
-
+                                    //_logger.LogError("--++++++++进入断点分离，确认分旧产品--------");
                                     //断点时间大于等于制造月,断点前产品
                                     if (startDateStr1.CompareTo(manufactureMonth) >= 0)
                                     {
@@ -516,6 +520,8 @@ namespace WebWinMVC.Controllers
                                 }
                                 else  //断点时间小于制造月，断点之后产品，断点失效
                                 {
+
+                                    //_logger.LogError("--++++++++进入断点分离，确认分离新产品-----------");
                                     if (startDateStr1.CompareTo(manufactureMonth) < 0)
                                     {
                                         if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
@@ -555,11 +561,7 @@ namespace WebWinMVC.Controllers
                                             result.MIS48 = mis48.ToString();
                                             result.CaseCount = mis48.ToString();
                                     }
-
-
                                 }
-
-
                             }
                             else if (relevantBreakpoints.Count == 2)
                             {
@@ -1064,30 +1066,21 @@ namespace WebWinMVC.Controllers
                                         if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
                                         {
 
-
-                                            mis3++;
+                                             mis3++;
 
                                         }
                                         else if (queryItem.MISInterval == "6")
                                         {
                                             mis6++;
 
-
-
                                         }
                                         else if (queryItem.MISInterval == "12")
                                         {
                                             mis12++;
-
-
-
                                         }
                                         else if (queryItem.MISInterval == "24")
                                         {
                                             mis24++;
-
-
-
                                         }
                                         mis48++;//技术中心试验车的情况，后期需要排除
                                         result.MIS3 = mis3.ToString();
@@ -1107,32 +1100,32 @@ namespace WebWinMVC.Controllers
                         // 例如将这些值存储到 result 中或进行其他逻辑处理
                     }
                 }//对断点分离的结果进行正确的填充
-                resultsToStoreReal = resultsToStore.ToList();
-                foreach (var item in duplicateMaterialCodes.ToList())
+
+                foreach (var item in resultToStoreQuery.ToList())
                 {
 
-                   // resultsToStore.Add(item);
-                    if (item.CaseCount != "-1")//排除未进入的选项，保持表体的整洁性
-                        resultsToStoreReal.Add(item);
-
+                    if (item.CaseCount != "-1") //如果总案例数被标记为-1，则直接删除，为断点分离的种子并且处于失效状态
+                    {
+                        if (item.BreakPointNum == "0" )
+                            resultsToStore.Add(item);
+                        else
+                          resultToStoreEditAndQuery.Add(item);
+                    }
                 }
                 _logger.LogError("+++++++++++++++++++++++++++++++++++++++++++经过处理的重复断点列表已加入到最终结果中" + resultsToStore.Count.ToString());
-
-
-
 
                 // 整理最终结果，按 OldMaterialCode 分组，汇总 CaseCount 和 MISValues，并分配自然排序 Order
                 _logger.LogError("开始打印最终的结果+++++++++++++++++++++++++++++++++++");
                 foreach (var result in resultsToStore)
                 {
                     // 打印每个物料号的信息
-                    _logger.LogError($"物料号: {result.OldMaterialCode}, " +
+                    Console.WriteLine($"物料号: {result.OldMaterialCode}, " +
                                            $"断点时间: {result.BreakPointTime}, " +
                                            $"断点次数: {result.BreakPointNum}, " +
-                                           //$"车型: {result.VehicleModel}, " +
+                                           $"车型: {result.VehicleModel}, " +
                                            //$"审批日期: {result.ApprovalDate}, " +
                                            //$"物料描述: {result.OldMaterialDescription}, " +
-                                           //$"供应商短代码: {result.SupplierShortCode}, " +
+                                           $"供应商短代码: {result.SupplierShortCode}, " +
                                            //$"责任源供应商: {result.ResponsibilitySourceSupplierName}, " +
                                            $"案例数: {result.CaseCount}, " +
                                            $"MIS3: {result.MIS3}, " +
@@ -1145,18 +1138,17 @@ namespace WebWinMVC.Controllers
                                            //$"位置代码: {result.LocationCode}, " +
                                            $"故障代码: {result.FaultCode}");
                 }
-                _logger.LogError("开始打印真实的最终的结果+++++++++++++++++++++++++++++++++++");
-
-                foreach (var result in resultsToStoreReal)
+                _logger.LogError("开始打印查询表结果+++++++++++++++++++++++++++++++++++");
+                foreach (var result in resultToStoreEditAndQuery)
                 {
                     // 打印每个物料号的信息
-                    _logger.LogError($"物料号: {result.OldMaterialCode}, " +
+                    Console.WriteLine($"物料号: {result.OldMaterialCode}, " +
                                            $"断点时间: {result.BreakPointTime}, " +
                                            $"断点次数: {result.BreakPointNum}, " +
-                                           //$"车型: {result.VehicleModel}, " +
+                                           $"车型: {result.VehicleModel}, " +
                                            //$"审批日期: {result.ApprovalDate}, " +
                                            //$"物料描述: {result.OldMaterialDescription}, " +
-                                           //$"供应商短代码: {result.SupplierShortCode}, " +
+                                           $"供应商短代码: {result.SupplierShortCode}, " +
                                            //$"责任源供应商: {result.ResponsibilitySourceSupplierName}, " +
                                            $"案例数: {result.CaseCount}, " +
                                            $"MIS3: {result.MIS3}, " +
@@ -1170,17 +1162,16 @@ namespace WebWinMVC.Controllers
                                            $"故障代码: {result.FaultCode}");
                 }
 
-                await ProcessAndStoreResultsAsyncToQuery(resultToStoreQuery);
-                await ProcessAndStoreResultsV91TempAsync(resultsToStoreReal);
+                await ProcessAndStoreResultsAsyncToQuery(resultToStoreEditAndQuery);
+                await ProcessAndStoreResultsV91TempAsync(resultsToStore);
                 //添加额外的打印
-                _logger.LogError($"输入审核日期:{ApprovalDate};处理后开始日期：{startDateStr};处理后结束日期{endDateStr}" +
-                                   $"输入筛选日期：{FilterDay};处理后的筛选月:{filterDay};经sub方法处理后的筛选月:{SubtractMonths("2024-05", 6)}");
+              
 
                 return Ok(new
                 {
-                    ResultToStoreQuery = resultToStoreQuery,
+                    ResultToStoreQuery = resultToStoreEditAndQuery,
 
-                    ResultsToStoreReal = resultsToStoreReal
+                    ResultsToStore = resultsToStore
                 });
             }
 
@@ -1235,6 +1226,7 @@ namespace WebWinMVC.Controllers
                     OldMaterialDescription = temp.OldMaterialDescription ?? "NIL",
                     SupplierShortCode = temp.SupplierShortCode ?? "NIL",
                     ResponsibilitySourceSupplierName = temp.ResponsibilitySourceSupplierName ?? "NIL",
+                    FilteredVehicleModel = temp.FilteredVehicleModel ?? "NIL",
                     CaseCount = temp.CaseCount ?? "NIL",
                     MIS3 = temp.MIS3 ?? "0",
                     MIS6 = temp.MIS6 ?? "0",
@@ -1481,6 +1473,7 @@ namespace WebWinMVC.Controllers
                     OldMaterialDescription = result.OldMaterialDescription ?? "NIL",
                     SupplierShortCode = result.SupplierShortCode ?? "NIL",
                     ResponsibilitySourceSupplierName = result.ResponsibilitySourceSupplierName ?? "NIL",
+                    FilteredVehicleModel= result.FilteredVehicleModel ??"NIL",
                     CaseCount = result.CaseCount ?? "NIL",
                     MIS3 = result.MIS3 ?? "0",
                     MIS6 = result.MIS6 ?? "0",
