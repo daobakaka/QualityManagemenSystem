@@ -266,7 +266,8 @@ namespace WebWinMVC.Controllers
                                 SMT = originalData?.LocationCode?.Substring(0, 2) ?? "NIL", // 从原始数据中填充SMTs
                                 LocationCode = originalData?.LocationCode, // 从原始数据中填充LocationCode
                                 FaultCode = originalData?.FaultCode, // 从原始数据中填充FaultCode
-                                BreakPointNum = "0"
+                                BreakPointNum = "0",
+                                BreakPointTime = "NQI",
                             });//
                              }
                         }
@@ -357,8 +358,8 @@ namespace WebWinMVC.Controllers
                             FilteredVehicleModel = result.FilteredVehicleModel,
                             FaultCode = result.FaultCode,
                             BreakPointNum = "0".ToString(),
-                            BreakPointTime = "new", // 断点时间为"new"
-                            BreakPointTotal = relevantBreakpoints.Count.ToString(),//添加断点总数，后续就不必要再遍历
+                            BreakPointTime = "BFI", // 断点时间为"new"
+                            BreakPointTotal = relevantBreakpoints.Count.ToString(),//添加断点总数，为后续分离断点失效产品，做次数统计，
                         };
                         resultToStoreQuery.Add(newZeroBreakpointResult); // 将该初始化为0的实例添加到结果列表中，便于后续的断点分离，作为分离的新问题的种子
 
@@ -1106,10 +1107,13 @@ namespace WebWinMVC.Controllers
 
                     if (item.CaseCount != "-1") //如果总案例数被标记为-1，则直接删除，为断点分离的种子并且处于失效状态
                     {
-                        if (item.BreakPointNum == "0" )
+                        if (item.BreakPointNum == "0")
+                        {
+                            item.BreakPointNum = item.BreakPointTotal;//将为 初始化 断点为0的种子，让其加入重新编辑的数据，并标识第几次断点失效
                             resultsToStore.Add(item);
+                        }
                         else
-                          resultToStoreEditAndQuery.Add(item);
+                            resultToStoreEditAndQuery.Add(item);
                     }
                 }
                 _logger.LogError("+++++++++++++++++++++++++++++++++++++++++++经过处理的重复断点列表已加入到最终结果中" + resultsToStore.Count.ToString());
@@ -1138,7 +1142,7 @@ namespace WebWinMVC.Controllers
                                            //$"位置代码: {result.LocationCode}, " +
                                            $"故障代码: {result.FaultCode}");
                 }
-                _logger.LogError("开始打印查询表结果+++++++++++++++++++++++++++++++++++");
+                _logger.LogError("开始打印查询表结果，分离断点后不需要处理的问题或者老问题+++++++++++++++++++++++++++++++++++");
                 foreach (var result in resultToStoreEditAndQuery)
                 {
                     // 打印每个物料号的信息
@@ -1310,7 +1314,7 @@ namespace WebWinMVC.Controllers
                     SupplierShortCode = temp.SupplierShortCode ?? "NIL",
                     ResponsibilitySourceSupplierName = temp.ResponsibilitySourceSupplierName ?? "NIL",
                     CaseCount = temp.CaseCount ?? "NIL",
-                    AccumulatedCaseCount = temp.AccumulatedCaseCount ?? "NIL",
+                    BreakPointNum = temp.BreakPointNum ?? "NIL",
                     MIS3 = temp.MIS3 ?? "0",
                     MIS6 = temp.MIS6 ?? "0",
                     MIS12 = temp.MIS12 ?? "0",
@@ -1370,7 +1374,7 @@ namespace WebWinMVC.Controllers
                     SupplierShortCode = result.SupplierShortCode ?? "NIL",
                     ResponsibilitySourceSupplierName = result.ResponsibilitySourceSupplierName ?? "NIL",
                     CaseCount = result.CaseCount ?? "NIL",
-                    AccumulatedCaseCount = "NIL", // 没有对应的字段，设置为 "NIL"
+                    BreakPointNum = result.BreakPointNum, // 没有对应的字段，设置为 "NIL"
                     MIS3 = result.MIS3 ?? "0", // 根据业务需求设置默认值
                     MIS6 = result.MIS6 ?? "0",
                     MIS12 = result.MIS12 ?? "0",
@@ -1428,45 +1432,21 @@ namespace WebWinMVC.Controllers
             }
         }
 
-
-
-
-
-
         public async Task ProcessAndStoreResultsV91TempAsync(IEnumerable<PivotResult> resultsToStore)
         {
             // Step 1: 对 resultsToStore 进行排序
             var sortedResults = resultsToStore
-                .OrderByDescending(r => r.BreakPointNum != "0") // "是" first (BreakPointNum != "0")
-                .ThenBy(r => r.BreakPointNum != "0" ? r.OldMaterialCode : string.Empty) // Within "是", order by OldMaterialCode ascending
-                .ThenBy(r =>
-                {
-                    if (r.BreakPointNum != "0")
-                    {
-                        // 对于 "是" 的记录，按 BreakdownCount 的整数值升序排序
-                        return int.TryParse(r.BreakPointNum, out int num) ? num : int.MaxValue;
-                    }
-                    else
-                    {
-                        // 对于 "否" 的记录，按 BreakdownCount 的整数值升序排序，但 BreakdownCount 为 "0" 的放到最后
-                        if (int.TryParse(r.BreakPointNum, out int num))
-                        {
-                            return num == 0 ? int.MaxValue : num;
-                        }
-                        else
-                        {
-                            return int.MaxValue;
-                        }
-                    }
-                })
-                .ToList();
+            .OrderByDescending(r => int.TryParse(r.BreakPointNum, out var num) ? num : int.MinValue)  // 按照断点次数降序排序，非数字的按最小值处理
+            .ToList();
+
 
             // Step 2: 遍历排序后的结果，创建 tempEntries 列表
             List<DailyQualityIssueChecklistV91Temp> tempEntries = new List<DailyQualityIssueChecklistV91Temp>();
 
             foreach (var result in sortedResults)
             {
-                string isBreakdownInvalid = (result.BreakPointNum != "0") ? "是" : "否";
+                string isBreakdownInvalid = (result.BreakPointNum == "0") ? "否" : "是";//这里可以根据之前定义的断点种子分别判断断点是否失效
+                string tempCount = (result.BreakPointNum == "0") ? result.BreakPointTotal : result.BreakPointNum;
                 var tempEntry = new DailyQualityIssueChecklistV91Temp
                 {
                     OldMaterialCode = result.OldMaterialCode ?? "NIL",
@@ -1485,8 +1465,8 @@ namespace WebWinMVC.Controllers
                     FaultCode = result.FaultCode ?? "NIL",
                     QE = "NIL", // 没有对应的字段，设置为 "NIL"
                     ServiceFaultIdentificationAccurate = "NIL", // 没有对应的字段，设置为 "NIL"
-                    IdentifiedFaultMode = "NIL", // 没有对应的字段，设置为 "NIL"
-                    BreakdownCount = result.BreakPointNum ?? "0",
+                    IdentifiedFaultMode = "NIL", // 没有对应的字段，设置为 "NIL"                
+                    BreakdownCount = tempCount,//为断点次数 为0 的情况下赋值之前定义的总次数                               
                     IsBreakdownInvalid = isBreakdownInvalid,
                     IncludedInSIL = "NIL", // 没有对应的字段，设置为 "NIL"
                     PQSNumber = "NIL", // 没有对应的字段，设置为 "NIL"

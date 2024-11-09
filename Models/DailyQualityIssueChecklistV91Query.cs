@@ -10,7 +10,7 @@
         public string? SupplierShortCode { get; set; } = default!;
         public string? ResponsibilitySourceSupplierName { get; set; } = default!;
         public string? CaseCount { get; set; } = default!;
-        public string? AccumulatedCaseCount { get; set; } = default!;
+        public string? BreakPointNum { get; set; } = default!;
         public string? MIS3 { get; set; } = default!;
         public string? MIS6 { get; set; } = default!;
         public string? MIS12 { get; set; } = default!;

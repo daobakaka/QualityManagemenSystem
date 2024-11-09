@@ -1740,7 +1740,7 @@ namespace WebWinMVC.Controllers
                     SupplierShortCode = temp.SupplierShortCode ?? "NIL",
                     ResponsibilitySourceSupplierName = temp.ResponsibilitySourceSupplierName ?? "NIL",
                     CaseCount = temp.CaseCount ?? "NIL",
-                    AccumulatedCaseCount = temp.AccumulatedCaseCount ?? "NIL",
+                    BreakPointNum = temp.BreakPointNum ?? "NIL",
                     MIS3 = temp.MIS3 ?? "0",
                     MIS6 = temp.MIS6 ?? "0",
                     MIS12 = temp.MIS12 ?? "0",
@@ -1800,7 +1800,7 @@ namespace WebWinMVC.Controllers
                     SupplierShortCode = result.SupplierShortCode ?? "NIL",
                     ResponsibilitySourceSupplierName = result.ResponsibilitySourceSupplierName ?? "NIL",
                     CaseCount = result.CaseCount ?? "NIL",
-                    AccumulatedCaseCount = "NIL", // 没有对应的字段，设置为 "NIL"
+                    BreakPointNum = result.BreakPointNum, // 没有对应的字段，设置为 "NIL"
                     MIS3 = result.MIS3 ?? "0", // 根据业务需求设置默认值
                     MIS6 = result.MIS6 ?? "0",
                     MIS12 = result.MIS12 ?? "0",

@@ -295,7 +295,7 @@ namespace WebWinMVC
             Map(m => m.SupplierShortCode).Name("供应商短代码");
             Map(m => m.ResponsibilitySourceSupplierName).Name("责任源供应商名称");
             Map(m => m.CaseCount).Name("案例数");
-            Map(m => m.AccumulatedCaseCount).Name("累计案例数");
+            Map(m => m.BreakPointNum).Name("断点次数");
             Map(m => m.OldMaterialCode).Name("旧物料代码");
             Map(m => m.OldMaterialDescription).Name("旧物料描述");
             Map(m => m.SupplierShortCode).Name("供应商短代码");
@@ -540,7 +540,7 @@ namespace WebWinMVC
             { "供应商短代码", nameof(DailyQualityIssueChecklistV91Query.SupplierShortCode) },
             { "责任源供应商名称", nameof(DailyQualityIssueChecklistV91Query.ResponsibilitySourceSupplierName) },
             { "案例数", nameof(DailyQualityIssueChecklistV91Query.CaseCount) },
-            { "累计案例数", nameof(DailyQualityIssueChecklistV91Query.AccumulatedCaseCount) },
+            { "断点次数", nameof(DailyQualityIssueChecklistV91Query.BreakPointNum) },
             { "3MIS", nameof(DailyQualityIssueChecklistV91Query.MIS3) },
             { "6MIS", nameof(DailyQualityIssueChecklistV91Query.MIS6) },
             { "12MIS", nameof(DailyQualityIssueChecklistV91Query.MIS12) },
