@@ -97,6 +97,13 @@ namespace WebWinMVC.Controllers
         {
             return await UploadFile<VehicleBasicInfo>(file, operation, _dbContext.VehicleBasicInfos, new VehicleBasicInfoMapXLSX());
         }
+        [HttpPost("uploadSeriesDescriptionTables")]
+        public async Task<IActionResult> UploadSeriesDescriptionTables(IFormFile file, [FromQuery] DataOperation operation)
+        {
+
+            return await UploadFile<SeriesDescriptionTable>(file, operation, _dbContext.seriesDescriptionTables, new SeriesDescriptionTableMapXlSX());
+        
+        }
 
         // 通用的 UploadFile 方法
         private async Task<IActionResult> UploadFile<T>(IFormFile file, DataOperation operation, DbSet<T> dbSet, IExcelMapping<T> mapXLSX) where T : class, new()

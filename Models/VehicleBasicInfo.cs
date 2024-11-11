@@ -4,7 +4,7 @@
     {
         public int ID { get; set; }
 
-        public string? ShortVin { get; set; } = default!;
+  
         public string? VIN { get; set; } = default!;
         public string? VAN { get; set; } = default!;
         public string? FDP { get; set; } = default!;
@@ -20,10 +20,6 @@
         /// <summary>
         /// Below is the content that will be added
         /// </summary>
-        public string? InternalAnnouncemen { get; set; } = default!;
-        public string? SeriesDescription { get; set; } = default!;
-        public string? ProductionMouth { get; set; } = default!;
-        public string? Series { get; set; } = default!;
-        public string? Emissions { get; set; } = default!;
+     
     }
 }

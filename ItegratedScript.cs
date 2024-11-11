@@ -8,7 +8,8 @@ namespace WebWinMVC
     public enum DataOperation
     {
         Replace,
-        Update
+        Update,
+        Make,
     }
 
     public class ItegratedScript
@@ -319,7 +320,7 @@ namespace WebWinMVC
         public VehicleBasicInfoMap()
         {
             // Map CSV columns to properties of the VehicleBasicInfo class
-            Map(m => m.ShortVin).Name("底盘号");
+  
             Map(m => m.VIN).Name("VIN");
             Map(m => m.VAN).Name("VAN");
             Map(m => m.FDP).Name("FDP");
@@ -331,13 +332,23 @@ namespace WebWinMVC
             Map(m => m.ExportStatus).Name("是否出口车");
             Map(m => m.EngineModel).Name("发动机型号");
             Map(m => m.SsvaOrSva).Name("SSVA/SVA编号");
-            Map(m => m.InternalAnnouncemen).Name("内部公告");
-            Map(m => m.SeriesDescription).Name("车系描述");
-            Map(m => m.ProductionMouth).Name("制造月");
-            Map(m => m.Series).Name("车型");
-            Map(m => m.Emissions).Name("排放");
+
         }
     }
+
+    public class SeriesDescriptionTableMap : ClassMap<SeriesDescriptionTable>
+    {
+        public SeriesDescriptionTableMap()
+        {
+            // Map CSV columns to properties of the SeriesDescriptionTable class
+
+            Map(m => m.VIN).Name("VIN");
+            Map(m => m.VAN).Name("VAN");
+            Map(m => m.InternalAnnouncemen).Name("内部车型");
+            Map(m => m.SeriesDescription).Name("FDP描述");
+        }
+    }
+
 
     public class BreakpointAnalysisTableMap : ClassMap<BreakpointAnalysisTable>
     {
@@ -562,7 +573,7 @@ namespace WebWinMVC
         {
             return new Dictionary<string, string>
         {
-            { "底盘号", nameof(VehicleBasicInfo.ShortVin) },
+            
             { "VIN", nameof(VehicleBasicInfo.VIN) },
             { "VAN", nameof(VehicleBasicInfo.VAN) },
             { "FDP", nameof(VehicleBasicInfo.FDP) },
@@ -574,11 +585,7 @@ namespace WebWinMVC
             { "是否出口车", nameof(VehicleBasicInfo.ExportStatus) },
             { "发动机型号", nameof(VehicleBasicInfo.EngineModel) },
             { "SSVA/SVA编号", nameof(VehicleBasicInfo.SsvaOrSva) },
-            { "内部公告", nameof(VehicleBasicInfo.InternalAnnouncemen) },
-            { "车系描述", nameof(VehicleBasicInfo.SeriesDescription) },
-            { "制造月", nameof(VehicleBasicInfo.ProductionMouth) },
-            { "车型", nameof(VehicleBasicInfo.Series) },
-            { "排放", nameof(VehicleBasicInfo.Emissions) }
+      
         };
         }
     }
@@ -602,4 +609,21 @@ namespace WebWinMVC
         };
         }
     }
+
+
+    public class SeriesDescriptionTableMapXlSX : IExcelMapping<SeriesDescriptionTable>
+    {
+        public Dictionary<string, string> GetColumnMappings()
+        {
+            return new Dictionary<string, string>
+            {
+            {"VAN",nameof(SeriesDescriptionTable.VAN) },
+            { "VIN",nameof(SeriesDescriptionTable.VIN)},
+            {"内部车型",nameof(SeriesDescriptionTable.InternalAnnouncemen)},
+            {"FDP描述",nameof(SeriesDescriptionTable.SeriesDescription) },
+
+           };
+        }
+    }
+
 }

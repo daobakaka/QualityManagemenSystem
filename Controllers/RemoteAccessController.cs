@@ -219,8 +219,8 @@ namespace WebWinMVC.Controllers
                     var cutoffYearMonth = cutoffDate.ToString("yyyyMM");
 
                     // 筛选制造月大于等于传入的年份和月份，并且不超过2030年
-                    query = query.Where(e => string.Compare(e.ProductionMouth, yearMonthStr) >= 0 &&
-                                             string.Compare(e.ProductionMouth, cutoffYearMonth) <= 0);
+                    query = query.Where(e => string.Compare(e.ProductionDate, yearMonthStr) >= 0 &&
+                                             string.Compare(e.ProductionDate, cutoffYearMonth) <= 0);
                 }
                 else
                 {

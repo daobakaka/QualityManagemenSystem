@@ -189,6 +189,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "WebWinMVC.Controllers.DQIUpdateController",
+    "Method": "MakeDailyQualityQueryTable",
+    "RelativePath": "api/DQIUpdate/MakeDailyQualityQueryTable",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "operation",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "WebWinMVC.Controllers.FileUploadController",
     "Method": "UploadBreakpointAnalysisTable",
     "RelativePath": "api/FileUpload/uploadBreakpointAnalysisTable",
@@ -276,6 +292,27 @@
     "ContainingType": "WebWinMVC.Controllers.FileUploadController",
     "Method": "UploadDailyServiceReviewForms",
     "RelativePath": "api/FileUpload/uploadDailyServiceReviewForms",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "file",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "operation",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebWinMVC.Controllers.FileUploadController",
+    "Method": "UploadSeriesDescriptionTables",
+    "RelativePath": "api/FileUpload/uploadSeriesDescriptionTables",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,

@@ -29,6 +29,11 @@ namespace WebWinMVC.Data
         public DbSet<DailyQualityIssueChecklistV91Temp> dailyQualityIssueChecklistV91Temps { get; set; }
         public DbSet<DailyQualityIssueChecklistV91QueryTemp> dailyQualityIssueChecklistV91QueryTemps { get; set; }
 
+        public DbSet<DailyServiceReviewFormQueryTemp> dailyServiceReviewFormQueryTemps { get; set; }
+
+
+        public DbSet<SeriesDescriptionTable>  seriesDescriptionTables { get; set; }
+
         // Configure the model with explicit table names
         protected override void OnModelCreating(ModelBuilder modelBuilder)
 
@@ -53,6 +58,8 @@ namespace WebWinMVC.Data
             modelBuilder.Entity<UserAuthentication>().ToTable("userAuthentications");
             modelBuilder.Entity<DailyQualityIssueChecklistV91Temp>().ToTable("dailyQualityIssueChecklistV91Temps");
             modelBuilder.Entity<DailyQualityIssueChecklistV91QueryTemp>().ToTable("dailyQualityIssueChecklistV91QueryTemps");
+            modelBuilder.Entity<DailyServiceReviewFormQueryTemp>().ToTable("dailyServiceReviewFormQueryTemps");
+            modelBuilder.Entity<SeriesDescriptionTable>().ToTable("seriesDescriptionTables");
         }
     }
 
