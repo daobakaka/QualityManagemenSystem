@@ -312,7 +312,7 @@
   {
     "ContainingType": "WebWinMVC.Controllers.FileUploadController",
     "Method": "UploadSeriesDescriptionTables",
-    "RelativePath": "api/FileUpload/uploadSeriesDescriptionTables",
+    "RelativePath": "api/FileUpload/uploadSeriesDescriptionTable",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,

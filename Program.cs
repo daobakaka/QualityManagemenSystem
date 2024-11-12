@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using WebWinMVC.Controllers;
 using WebWinMVC.Data;
 
 namespace WebWinMVC
@@ -9,6 +10,8 @@ namespace WebWinMVC
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            // зЂВс DQIUpdateService ЗўЮё
+            builder.Services.AddScoped<DQIUpdateController>();
 
             builder.Services.AddDbContext<JRZLWTDbContext>(op => op.UseSqlServer(builder.Configuration.GetConnectionString("JRZLWTConnection")));
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

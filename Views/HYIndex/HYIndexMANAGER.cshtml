@@ -87,6 +87,10 @@
                                 <input type="radio" id="update-DailyServiceReviewForms" name="operation-DailyServiceReviewForms" value="Update" class="form-check-input" />
                                 <label class="form-check-label" for="update-DailyServiceReviewForms">更新</label>
                             </div>
+                            <div class="form-check">
+                                <input type="radio" id="make-DailyServiceReviewForms" name="operation-DailyServiceReviewForms" value="Make" class="form-check-input" />
+                                <label class="form-check-label" for="make-DailyServiceReviewForms">生成服务单查询表</label>
+                            </div>
                         </div>
                     </div>
 
@@ -466,7 +470,8 @@
                     'DailyQualityIssueChecklistV91s': '/api/FileUpload/uploadDailyQualityIssueChecklistV91s',
                     'DailyQualityIssueChecklistV91Queries': '/api/FileUpload/uploadDailyQualityIssueChecklistV91Queries',
                     'VehicleBasicInfos': '/api/FileUpload/uploadVehicleBasicInfos',
-                    'SeriesDescriptionTable': 'api/FileUpload /uploadSeriesDescriptionTables',
+                    'SeriesDescriptionTable': '/api/FileUpload/uploadSeriesDescriptionTable',
+                   
                 };
 
                 const url = urlMap[uploadType] + `?operation=${operation}`;

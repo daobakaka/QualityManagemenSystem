@@ -24,18 +24,32 @@ namespace WebWinMVC.Controllers
         {
             var dbDailyServiceReviewTable = _dbContext.DailyServiceReviewForms;
             var dbDailyServiceReviewQueryTable = _dbContext.dailyServiceReviewFormQueryTemps;
+            var dbDailyServiceReviewTableSave = _dbContext.DailyServiceReviewFormQueries;
             var dbVehicleBasicInfo = _dbContext.VehicleBasicInfos;
+            var dbSeriesDescriptionTable=_dbContext.seriesDescriptionTables;
 
+            
             // 加载需要处理的表
             var dbDailyServiceReviewForms = await dbDailyServiceReviewTable.ToListAsync();
             var dbVehicleBasicInfos = await dbVehicleBasicInfo.ToListAsync(); // 只查询一次
+            var dbSeriesDescriptionTables=await dbSeriesDescriptionTable.ToListAsync();
 
+            if (dbDailyServiceReviewQueryTable.Any())
+                dbDailyServiceReviewQueryTable.RemoveRange(dbDailyServiceReviewQueryTable);
+            await _dbContext.SaveChangesAsync();
+            _logger.LogError("开始执行类VlookUP操作！");
             // 处理 DailyServiceReviewForms 和 VehicleBasicInfos 的匹配
             var dailyQualityQueryEntries = dbDailyServiceReviewForms
                 .Select(d =>
                 {
+
+                    Console.WriteLine(d.VAN);
                     // 使用 dbVehicleBasicInfos 临时存储已查询的数据
                     var vehicle = dbVehicleBasicInfos.FirstOrDefault(v => v.VAN == d.VAN);
+                    var description = dbSeriesDescriptionTables.FirstOrDefault(s => s.VAN == d.VAN);
+
+                    //使用
+
                     var vehicleModelCache = !string.IsNullOrEmpty(d?.NoticeVehicleModel)
                                   ? d.NoticeVehicleModel.Substring(0, 3) : "NIL";
                     var emissionCache = d?.NoticeVehicleModel.Length > 5 ? d.NoticeVehicleModel.Substring(5, 1) : "NIL";
@@ -67,6 +81,9 @@ namespace WebWinMVC.Controllers
                         ("CQ3", "new") or ("CQ5", "new") => "新能源工程",
                         _ => "其他"
                     };
+
+                    var vehicleTypeCache = description?.SeriesDescription??"NIL";
+                    var modleCodeCache=description?.InternalAnnouncemen??"NIL";
 
                     // 如果没有匹配项则跳过
                     if (vehicle == null) return null;
@@ -122,16 +139,24 @@ namespace WebWinMVC.Controllers
                         OutboundRescueLicensePlate1 = d.OutboundRescueLicensePlate1,
                         OutboundRescueLicensePlate2 = d.OutboundRescueLicensePlate2,
                         ApprovalDate = d.ApprovalDate,
-
+                        //--补充需要的列
+                        VIN=d.VIN,
+                        WarrantyStartDate = d.WarrantyStartDate,
+                        MaterialType = d.MaterialType,
+                        LineNumber = d.LineNumber,
                         //--新增加的列
                         ManufacturingMonth=manufacturingMonthCache,
                         SalesDate = salesDateCache,
                         MIS=misCache.ToString(),
                         VehicleModel=vehicleModelCache,
+                        Emission=emissionCache,
+                        OrderType="1",
                         Fuel=fuelCache,
                         MISInterval=misIntervalCache.ToString(),
                         FilteredVehicleModel=vehicleFiterCache,
                         //车系描述表，逻辑在后面    
+                        InternalModelCode=modleCodeCache,
+                        VehicleType=vehicleTypeCache,
                       
                     };
                 })
@@ -140,9 +165,84 @@ namespace WebWinMVC.Controllers
 
             // 将查询结果插入到 DailyServiceReviewFormQueries 表中
             await dbDailyServiceReviewQueryTable.AddRangeAsync(dailyQualityQueryEntries);
-            await _dbContext.SaveChangesAsync(); // 保存更改
 
-            _logger.LogInformation($"成功将 {dailyQualityQueryEntries.Count} 条记录插入到 DailyServiceReviewFormQueries 表中。");
+            var queries = dailyQualityQueryEntries.Select(q => new DailyServiceReviewFormQuery
+            {
+                ServiceOrder = q.ServiceOrder,
+                ServiceOrderStatus = q.ServiceOrderStatus,
+                ServiceOrderTotalPrice = q.ServiceOrderTotalPrice,
+                WorkOrderNumber = q.WorkOrderNumber,
+                WorkOrderCreationDate = q.WorkOrderCreationDate,
+                WorkOrderType = q.WorkOrderType,
+                DepartureTime = q.DepartureTime,
+                CarPickupTime = q.CarPickupTime,
+                WorkOrderRepairEndTime = q.WorkOrderRepairEndTime,
+                WorkOrderRepairAccount = q.WorkOrderRepairAccount,
+                OutboundServiceLocation = q.OutboundServiceLocation,
+                OutboundMileage = q.OutboundMileage,
+                Province = q.Province,
+                ServiceStation = q.ServiceStation,
+                ServiceStationName = q.ServiceStationName,
+                NoticeVehicleModel = q.NoticeVehicleModel,
+                VAN = q.VAN,
+                OldMaterialCode = q.OldMaterialCode,
+                OldMaterialDescription = q.OldMaterialDescription,
+                NewMaterialCode = q.NewMaterialCode,
+                NewMaterialDescription = q.NewMaterialDescription,
+                RepairMethod = q.RepairMethod,
+                SupplyMethod = q.SupplyMethod,
+                Quantity = q.Quantity,
+                OldPartReturnStatus = q.OldPartReturnStatus,
+                ResponsibilitySourceIdentifier = q.ResponsibilitySourceIdentifier,
+                ResponsibilitySourceSupplier = q.ResponsibilitySourceSupplier,
+                SupplierShortCode = q.SupplierShortCode,
+                ResponsibilitySourceSupplierName = q.ResponsibilitySourceSupplierName,
+                LinePrice = q.LinePrice,
+                ActualAmount = q.ActualAmount,
+                MaterialMarkupCoefficient = q.MaterialMarkupCoefficient,
+                LaborRegionCoefficient = q.LaborRegionCoefficient,
+                LaborColdClimateCoefficient = q.LaborColdClimateCoefficient,
+                LaborQualityCoefficient = q.LaborQualityCoefficient,
+                LocationCode = q.LocationCode,
+                LocationCodeDescription = q.LocationCodeDescription,
+                FaultCode = q.FaultCode,
+                FaultCodeDescription = q.FaultCodeDescription,
+                FaultDescription = q.FaultDescription,
+                ServiceCategory = q.ServiceCategory,
+                ServiceOrderCreationDate = q.ServiceOrderCreationDate,
+                FDP = q.FDP,
+                SpecialAuthorizationCode = q.SpecialAuthorizationCode,
+                WBS = q.WBS,
+                DrivingMileageKM = q.DrivingMileageKM,
+                OutboundRescueLicensePlate1 = q.OutboundRescueLicensePlate1,
+                OutboundRescueLicensePlate2 = q.OutboundRescueLicensePlate2,
+                ApprovalDate = q.ApprovalDate,
+                VIN = q.VIN,
+                WarrantyStartDate = q.WarrantyStartDate,
+                MaterialType = q.MaterialType,
+                LineNumber = q.LineNumber,
+                ManufacturingMonth = q.ManufacturingMonth,
+                SalesDate = q.SalesDate,
+                MIS = q.MIS,
+                VehicleModel = q.VehicleModel,
+                Emission = q.Emission,
+                OrderType = q.OrderType,
+                Fuel = q.Fuel,
+                MISInterval = q.MISInterval,
+                FilteredVehicleModel = q.FilteredVehicleModel,
+                InternalModelCode = q.InternalModelCode,
+                VehicleType = q.VehicleType,
+            }).ToList();
+
+            await dbDailyServiceReviewTableSave.AddRangeAsync(queries);
+
+            if (dbDailyServiceReviewTable.Any())
+                dbDailyServiceReviewTable.RemoveRange(dbDailyServiceReviewTable);
+            await _dbContext.SaveChangesAsync();
+            //  await dbDailyServiceReviewTableSave.AddRangeAsync(dailyQualityQueryEntries);
+     
+
+            _logger.LogInformation($"成功将 {dailyQualityQueryEntries.Count} 条记录插入到 DailyServiceReviewFormQueriesTEMP 表中。");
 
             return Ok(new { Message = "数据更新成功", Count = dailyQualityQueryEntries.Count });
         }

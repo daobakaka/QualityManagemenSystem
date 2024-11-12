@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
+using System.Net.Http;
 
 namespace WebWinMVC.Controllers
 {
@@ -22,20 +23,24 @@ namespace WebWinMVC.Controllers
         private readonly ILogger<FileUploadController> _logger;
         private readonly string _logFilePath;
         private readonly string _folderPath; // 新增字段
+        private readonly IConfiguration _configuration;
+        private readonly DQIUpdateController _dquiUpdateController;
 
         // 定义默认批次大小
         private const int BATCH_SIZE = 5000;
 
-        public FileUploadController(JRZLWTDbContext dbContext, ILogger<FileUploadController> logger, IConfiguration configuration)
+        public FileUploadController(JRZLWTDbContext dbContext, ILogger<FileUploadController> logger, IConfiguration configuration, DQIUpdateController dquiUpdateController)
         {
             _logger = logger;
             _dbContext = dbContext;
+            _configuration = configuration;
+            _dquiUpdateController = dquiUpdateController;
 
 
             // 从配置中读取上传文件夹路径
-            _folderPath = configuration["FileUpload:FolderPath"] ?? "C:\\ASP.NET\\Uploads"; // 您可以根据需要修改默认路径
+            _folderPath = _configuration["FileUpload:FolderPath"] ?? "C:\\ASP.NET\\Uploads"; // 您可以根据需要修改默认路径
             // 从配置中读取日志文件路径
-            _logFilePath = configuration["Logging:LogFilePath"] ?? "C:\\ASP.NET\\Logs\\DailyServerLogs.txt";
+            _logFilePath = _configuration["Logging:LogFilePath"] ?? "C:\\ASP.NET\\Logs\\DailyServerLogs.txt";
 
             // 确保上传目录存在
             if (!Directory.Exists(_folderPath))
@@ -52,6 +57,7 @@ namespace WebWinMVC.Controllers
                 _logger.LogInformation($"已创建日志目录: {logDirectory}");
             }
 
+            _dquiUpdateController = dquiUpdateController;
         }
 
         // 添加所有对应的映射路由方法
@@ -97,10 +103,11 @@ namespace WebWinMVC.Controllers
         {
             return await UploadFile<VehicleBasicInfo>(file, operation, _dbContext.VehicleBasicInfos, new VehicleBasicInfoMapXLSX());
         }
-        [HttpPost("uploadSeriesDescriptionTables")]
+        [HttpPost("uploadSeriesDescriptionTable")]
         public async Task<IActionResult> UploadSeriesDescriptionTables(IFormFile file, [FromQuery] DataOperation operation)
         {
 
+            _logger.LogError("开始执行上传车系代码操作");
             return await UploadFile<SeriesDescriptionTable>(file, operation, _dbContext.seriesDescriptionTables, new SeriesDescriptionTableMapXlSX());
         
         }
@@ -129,6 +136,7 @@ namespace WebWinMVC.Controllers
                 }
 
                 // 根据操作类型处理数据库
+                bool ifmake = false;
                 switch (operation)
                 {
                     case DataOperation.Replace:
@@ -143,12 +151,20 @@ namespace WebWinMVC.Controllers
                         // 保持现有数据，无需清空
                         break;
 
+                    case DataOperation.Make:
+                        ifmake = true;
+                        if (dbSet.Any())
+                        {
+                            dbSet.RemoveRange(dbSet);
+                            await _dbContext.SaveChangesAsync();
+                        }
+                        break;
                     default:
                         return BadRequest("无效的操作类型。");
                 }
 
                 // 处理上传的文件，例如更新数据库
-                await ProcessFile(filePath, file, dbSet, mapXLSX);
+                await ProcessFile(filePath, file, dbSet, mapXLSX,ifmake);
 
                 return Ok("文件上传成功！");
             }
@@ -168,7 +184,7 @@ namespace WebWinMVC.Controllers
             }
         }
 
-        private async Task ProcessFile<T>(string filePath, IFormFile file, DbSet<T> dbSet, IExcelMapping<T> mapXLSX) where T : class, new()
+        private async Task ProcessFile<T>(string filePath, IFormFile file, DbSet<T> dbSet, IExcelMapping<T> mapXLSX, bool ifmake=false) where T : class, new()
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
@@ -242,6 +258,14 @@ namespace WebWinMVC.Controllers
             }
 
             await LogUploadDetails(file);
+            if (ifmake)
+            {
+
+                _logger.LogError("开始执行分布___，开始更新临时查询表操作方法");
+                await _dquiUpdateController.MakeDailyQualityQueryTable(DataOperation.Make);
+
+
+            }
             _logger.LogInformation("文件处理成功。");
         }
 
