@@ -9,7 +9,7 @@ namespace WebWinMVC.Models
         public string ? OldMaterialDescription { get; set; } = default!;
         public string ?SupplierShortCode { get; set; } = default!;
         public string ?ResponsibilitySourceSupplierName { get; set; } = default!;
-
+        public string? ApprovalDate  { get; set; }
         public string? FilteredVehicleModel { get; set; } = default!;
         public string? CaseCount { set; get; } = default!;
         public string ?MIS3 { get; set; } = default!;

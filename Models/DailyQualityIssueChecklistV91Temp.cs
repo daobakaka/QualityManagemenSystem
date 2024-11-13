@@ -8,6 +8,8 @@
         public string ?SupplierShortCode { get; set; } = default!;
         public string ?ResponsibilitySourceSupplierName { get; set; } = default!;
         public string? FilteredVehicleModel { set; get; } = default!;
+
+        public string? ApprovalDate { get; set; }
         public string? CaseCount { set; get; } = default!;
         public string ?MIS3 { get; set; } = default!;
         public string ?MIS6 { get; set; } = default!;

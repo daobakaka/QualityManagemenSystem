@@ -22,5 +22,8 @@
         public string? PQSNumber { get; set; } = default!;
         public string? VAN { get; set; } = default!;
         public string? VIN { get; set; } = default!;
+        // 新增的属性
+        public string? EditedBody { get; set; } = default!;      // 编辑人
+        public string? EditedDate { get; set; } = default!;    // 编辑日期
     }
 }

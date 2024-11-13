@@ -255,11 +255,13 @@
                     <input type="hidden" id="editOldMaterialDescription" name="OldMaterialDescription" />
                     <input type="hidden" id="editSupplierShortCode" name="SupplierShortCode" />
                     <input type="hidden" id="editResponsibilitySourceSupplierName" name="ResponsibilitySourceSupplierName" />
+                    <input type="hidden" id="editFilteredVehicleModel" name="FilteredVehicleModel" />
+                    <input type="hidden" id="editCaseCount" name="CaseCount" />
                     <input type="hidden" id="editMIS3" name="MIS3" />
                     <input type="hidden" id="editMIS6" name="MIS6" />
                     <input type="hidden" id="editMIS12" name="MIS12" />
                     <input type="hidden" id="editMIS24" name="MIS24" />
-                    <input type="hidden" id="editMIS36" name="MIS36" />
+                    <input type="hidden" id="editMIS48" name="MIS48" />
                     <input type="hidden" id="editSMT" name="SMT" />
                     <input type="hidden" id="editLocationCode" name="LocationCode" />
                     <input type="hidden" id="editFaultCode" name="FaultCode" />
@@ -1536,11 +1538,13 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                             $('#editOldMaterialDescription').val(data.oldmaterialdescription || "0");
                             $('#editSupplierShortCode').val(data.suppliershortcode || "0");
                             $('#editResponsibilitySourceSupplierName').val(data.responsibilitysourcesuppliername || "NA");
+                            $('#editFilteredVehicleModel').val(data.filteredvehiclemodel || "NA");
+                            $('#editCaseCount').val(data.casecount || "NA");
                             $('#editMIS3').val(data.mis3 || "0");
                             $('#editMIS6').val(data.mis6 || "0");
                             $('#editMIS12').val(data.mis12 || "0");
                             $('#editMIS24').val(data.mis24 || "0");
-                            $('#editMIS36').val(data.mis36 || "0");
+                            $('#editMIS48').val(data.mis48 || "0");
                             $('#editSMT').val(data.smt || "NA");
                             $('#editLocationCode').val(data.locationcode || "NA");
                             $('#editFaultCode').val(data.faultcode || "NA");

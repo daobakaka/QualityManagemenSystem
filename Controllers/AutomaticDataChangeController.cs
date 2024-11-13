@@ -143,15 +143,15 @@ namespace WebWinMVC.Controllers
                         IQueryable<DailyServiceReviewFormQuery> stepDataQuery = query
                     .Where(q => 
                   (
-                      ((q.MISInterval == "0" || q.MISInterval == "3") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 6)) >= 0)||
+                      ((q.MISInterval == "0" || q.MISInterval == "3") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 6+6)) >= 0)||
 
-                      ((q.MISInterval == "6") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 9)) >= 0) ||
+                      ((q.MISInterval == "6") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 9+6)) >= 0) ||
 
-                      ((q.MISInterval == "12") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 15)) >= 0) ||
+                      ((q.MISInterval == "12") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 15+6)) >= 0) ||
 
-                      ((q.MISInterval == "24") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 27)) >= 0) ||
+                      ((q.MISInterval == "24") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 27 + 6)) >= 0) ||
 
-                      ((q.MISInterval == "36" || q.MISInterval == "48") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 51)) >= 0)
+                      ((q.MISInterval == "36" || q.MISInterval == "48") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 51 + 6)) >= 0)
                   ));
 
                         var stepData = await stepDataQuery.ToListAsync();
@@ -1196,75 +1196,131 @@ namespace WebWinMVC.Controllers
             var dbSetTemp = _context.dailyQualityIssueChecklistV91Temps;
             var dbSetPermanent = _context.DailyQualityIssueChecklistV91s;
 
-            switch (operation)
+            // 开始事务以确保数据一致性
+            using var transaction = await _context.Database.BeginTransactionAsync();//避免数据回滚
+            try
             {
-                case DataOperation.Replace:
-                    if (await dbSetPermanent.AnyAsync())
-                    {
-                        _context.DailyQualityIssueChecklistV91s.RemoveRange(dbSetPermanent);
-                        await _context.SaveChangesAsync();
-                        _logger.LogError("成功清空 DailyQualityIssueChecklistV91 表。");
-                    }
-                    break;
-
-                case DataOperation.Update:
-                    // 保持现有数据，无需清空
-                    break;
-
-                default:
-                    return BadRequest("无效的操作类型。");
-            }
-
-            // 从临时表中读取数据
-            var tempData = await dbSetTemp.ToListAsync();
-            _logger.LogError($"从 DailyQualityIssueChecklistV91Temp 读取到 {tempData.Count} 条记录。");
-
-            // 映射临时数据到永久实体
-            List<DailyQualityIssueChecklistV91> permanentEntries = new List<DailyQualityIssueChecklistV91>();
-
-            foreach (var temp in tempData)
-            {
-                var permanentEntry = new DailyQualityIssueChecklistV91
+                switch (operation)
                 {
-                    OldMaterialCode = temp.OldMaterialCode ?? "NIL",
-                    OldMaterialDescription = temp.OldMaterialDescription ?? "NIL",
-                    SupplierShortCode = temp.SupplierShortCode ?? "NIL",
-                    ResponsibilitySourceSupplierName = temp.ResponsibilitySourceSupplierName ?? "NIL",
-                    FilteredVehicleModel = temp.FilteredVehicleModel ?? "NIL",
-                    CaseCount = temp.CaseCount ?? "NIL",
-                    MIS3 = temp.MIS3 ?? "0",
-                    MIS6 = temp.MIS6 ?? "0",
-                    MIS12 = temp.MIS12 ?? "0",
-                    MIS24 = temp.MIS24 ?? "0",
-                    MIS48 = temp.MIS48 ?? "0",
-                    SMT = temp.SMT ?? "NIL",
-                    LocationCode = temp.LocationCode ?? "NIL",
-                    FaultCode = temp.FaultCode ?? "NIL",
-                    PQSNumber = temp.PQSNumber ?? "NIL",
-                    BreakdownCount = temp.BreakdownCount ?? "NIL",
-                    IsBreakdownInvalid = temp.IsBreakdownInvalid ?? "NIL",
-                    BreakpointTime = temp.BreakpointTime ?? "NIL",
+                    case DataOperation.Replace:
+                        if (await dbSetPermanent.AnyAsync())
+                        {
+                            _context.DailyQualityIssueChecklistV91s.RemoveRange(dbSetPermanent);
+                            await _context.SaveChangesAsync();
+                            _logger.LogInformation("成功清空 DailyQualityIssueChecklistV91 表。");
+                        }
+                        break;
 
+                    case DataOperation.Update:
+                        // 保持现有数据，无需清空
+                        break;
 
-                };
+                    default:
+                        return BadRequest("无效的操作类型。");
+                }
 
-                permanentEntries.Add(permanentEntry);
-            }
+                // 从临时表中读取数据
+                var tempData = await dbSetTemp.ToListAsync();
+                _logger.LogInformation($"从 DailyQualityIssueChecklistV91Temp 读取到 {tempData.Count} 条记录。");
 
-            // 将数据添加到永久表
-            if (permanentEntries.Any())
-            {
-                await dbSetPermanent.AddRangeAsync(permanentEntries);
+                // 从永久表中读取现有数据
+                var originData = await dbSetPermanent.ToListAsync();
+                _logger.LogInformation($"从 DailyQualityIssueChecklistV91s 读取到 {originData.Count} 条记录。");
+
+                // 初始化计数器
+                int updateData = 0;
+                int addData = 0;
+
+                // 映射临时数据到永久实体
+                List<DailyQualityIssueChecklistV91> permanentEntriesToAdd = new List<DailyQualityIssueChecklistV91>();
+
+                foreach (var temp in tempData)
+                {
+                    // 查找与当前temp数据匹配的原始数据
+                    var matchingRecords = originData.Where(e =>
+                        e.OldMaterialCode == temp.OldMaterialCode &&
+                        e.SupplierShortCode == temp.SupplierShortCode &&
+                        e.BreakdownCount == temp.BreakdownCount &&
+                        e.FilteredVehicleModel == temp.FilteredVehicleModel).ToList();
+
+                    if (matchingRecords.Any())  // 满足条件的项，进行更新累加
+                    {
+                        foreach (var match in matchingRecords)
+                        {
+                            // 解析并累加数值字段
+                            temp.CaseCount = match.CaseCount;
+                            temp.MIS3 = match.MIS3;
+                            temp.MIS6 = match.MIS6;
+                            temp.MIS12 = match.MIS12;
+                            temp.MIS24 = match.MIS24;
+                            temp.MIS48 = match.MIS48;
+
+                            // 更新记录
+                            _context.DailyQualityIssueChecklistV91s.Update(match);
+
+                            // 记录日志，确保使用正确的变量名
+                            _logger.LogInformation($"更新的项为：{match.OldMaterialCode}-{match.SupplierShortCode}-{match.FilteredVehicleModel}-{match.BreakdownCount}。" +
+                                $"更新后的数据为MIS3={match.MIS3}," +
+                                $" MIS6={match.MIS6}," +
+                                $" MIS12={match.MIS12}," +
+                                $" MIS24={match.MIS24}," +
+                                $" MIS48={match.MIS48}。");
+                        }
+                        updateData++;
+                    }
+                    else  // 不满足条件的项，建立新的实例
+                    {
+                        // 创建新的实例并添加到永久表插入列表
+                        var permanentEntry = new DailyQualityIssueChecklistV91
+                        {
+                            OldMaterialCode = temp.OldMaterialCode ?? "NIL",
+                            OldMaterialDescription = temp.OldMaterialDescription ?? "NIL",
+                            SupplierShortCode = temp.SupplierShortCode ?? "NIL",
+                            ResponsibilitySourceSupplierName = temp.ResponsibilitySourceSupplierName ?? "NIL",
+                            FilteredVehicleModel = temp.FilteredVehicleModel ?? "NIL",
+                            CaseCount = temp.CaseCount ?? "0",
+                            MIS3 = temp.MIS3 ?? "0",
+                            MIS6 = temp.MIS6 ?? "0",
+                            MIS12 = temp.MIS12 ?? "0",
+                            MIS24 = temp.MIS24 ?? "0",
+                            MIS48 = temp.MIS48 ?? "0",
+                            SMT = temp.SMT ?? "NIL",
+                            LocationCode = temp.LocationCode ?? "NIL",
+                            FaultCode = temp.FaultCode ?? "NIL",
+                            PQSNumber = temp.PQSNumber ?? "NIL",
+                            BreakdownCount = temp.BreakdownCount ?? "NIL",
+                            IsBreakdownInvalid = temp.IsBreakdownInvalid ?? "NIL",
+                            BreakpointTime = temp.BreakpointTime ?? "NIL",
+                            // 其他必要字段的赋值
+                        };
+                        addData++;
+                        permanentEntriesToAdd.Add(permanentEntry);
+                    }
+                }
+
+                // 将新增的记录添加到永久表
+                if (permanentEntriesToAdd.Any())
+                {
+                    await dbSetPermanent.AddRangeAsync(permanentEntriesToAdd);
+                    _logger.LogInformation($"准备添加 {permanentEntriesToAdd.Count} 条新记录到 DailyQualityIssueChecklistV91 表。");
+                }
+
+                // 一次性提交所有更改
                 await _context.SaveChangesAsync();
-                _logger.LogError($"成功将 {permanentEntries.Count} 条记录写入 DailyQualityIssueChecklistV91 表。");
-            }
-            else
-            {
-                _logger.LogError("没有可插入的记录。");
-            }
+                await transaction.CommitAsync();
 
-            return Ok(new { Message = "数据传输完成。", InsertedRecords = permanentEntries.Count });
+                _logger.LogInformation($"数据传输完成，查询记录{originData.Count},处理记录{tempData.Count},更新数据{updateData},新增数据{addData}");
+                return Ok(new { Message =$"数据传输完成，查询记录{originData.Count},处理记录{tempData.Count},更新数据{updateData},新增数据{addData}", InsertedRecords = permanentEntriesToAdd.Count });
+            }
+            catch (Exception ex)
+            {
+                // 回滚事务
+                await transaction.RollbackAsync();
+                _logger.LogError(ex, "数据传输过程中发生错误，事务已回滚。");
+                return StatusCode(500, "内部服务器错误。");
+            }
         }
+
 
         /// <summary>
         /// 从 DailyQualityIssueChecklistV91QueryTemp 临时表传输数据到 DailyQualityIssueChecklistV91Query 永久表。
@@ -1298,37 +1354,76 @@ namespace WebWinMVC.Controllers
 
             // 从临时表中读取数据
             var tempData = await dbSetTemp.ToListAsync();
+
+            //从原有表中记录数据
+            var originData = await dbSetPermanent.ToListAsync();
+            var updateData = 0;
+            var addData = 0;
+            _logger.LogError($"从 DailyQualityIssueChecklistV91Queries 读取到 {originData.Count} 条记录。");
             _logger.LogError($"从 DailyQualityIssueChecklistV91QueryTemp 读取到 {tempData.Count} 条记录。");
 
             // 映射临时数据到永久实体
             List<DailyQualityIssueChecklistV91Query> permanentEntries = new List<DailyQualityIssueChecklistV91Query>();
 
+
             foreach (var temp in tempData)
             {
-                var permanentEntry = new DailyQualityIssueChecklistV91Query
-                {
-                    OldMaterialCode = temp.OldMaterialCode ?? "NIL",
-                    ApprovalDate = temp.ApprovalDate ?? "NIL",
-                    VehicleModel = temp.VehicleModel ?? "NIL",
-                    OldMaterialDescription = temp.OldMaterialDescription ?? "NIL",
-                    SupplierShortCode = temp.SupplierShortCode ?? "NIL",
-                    ResponsibilitySourceSupplierName = temp.ResponsibilitySourceSupplierName ?? "NIL",
-                    CaseCount = temp.CaseCount ?? "NIL",
-                    BreakPointNum = temp.BreakPointNum ?? "NIL",
-                    MIS3 = temp.MIS3 ?? "0",
-                    MIS6 = temp.MIS6 ?? "0",
-                    MIS12 = temp.MIS12 ?? "0",
-                    MIS24 = temp.MIS24 ?? "0",
-                    MIS48 = temp.MIS48 ?? "0",
-                    SMT = temp.SMT ?? "NIL",
-                    LocationCode = temp.LocationCode ?? "NIL",
-                    FaultCode = temp.FaultCode ?? "NIL",
-                    PQSNumber = temp.PQSNumber ?? "NIL",
-                    VAN = temp.VAN ?? "NIL",
-                    VIN = temp.VIN ?? "NIL"
-                };
+                // 查找与当前temp数据匹配的原始数据
+                var saveData = originData.Where(e => e.OldMaterialCode == temp.OldMaterialCode &&
+                                                     e.SupplierShortCode == temp.SupplierShortCode &&
+                                                     e.BreakPointNum == temp.BreakPointNum &&
+                                                     e.VehicleModel == temp.VehicleModel)
+                                         .ToList();
 
-                permanentEntries.Add(permanentEntry);
+                if (saveData.Any())  // 满足条件的项，进行更新累加
+                {
+                    foreach (var match in saveData)
+                    {
+
+                        temp.CaseCount = match.CaseCount;
+                        temp.MIS3 = match.MIS3;
+                        temp.MIS6 = match.MIS6;
+                        temp.MIS12 = match.MIS12;
+                        temp.MIS24 = match.MIS24;
+                        temp.MIS48 = match.MIS48;
+
+                        _context.DailyQualityIssueChecklistV91Queries.Update(match);
+                        // Add the updated record to the update list,更新数据库的对应项
+                        _logger.LogError($"更新的项为：{match.OldMaterialCode}-{match.SupplierShortCode}-{match.VehicleModel}-{match.BreakPointNum}" +
+                            $"更新前的数据为{temp.MIS3}+{temp.MIS6}+{temp.MIS12}+{temp.MIS24}+{temp.MIS48},更新后的数据为{match.MIS3}+{match.MIS6}+{match.MIS12}+{match.MIS24}+{match.MIS48}");
+
+                    }
+                    updateData++;
+                    await _context.SaveChangesAsync();  // 提交更改到数据库
+                }
+                else  // 不满足条件的项，建立新的实例
+                {
+                    // 创建新的实例并添加到永久表插入列表
+                    var permanentEntry = new DailyQualityIssueChecklistV91Query
+                    {
+                        OldMaterialCode = temp.OldMaterialCode ?? "NIL",
+                        ApprovalDate = temp.ApprovalDate ?? "NIL",
+                        VehicleModel = temp.VehicleModel ?? "NIL",
+                        OldMaterialDescription = temp.OldMaterialDescription ?? "NIL",
+                        SupplierShortCode = temp.SupplierShortCode ?? "NIL",
+                        ResponsibilitySourceSupplierName = temp.ResponsibilitySourceSupplierName ?? "NIL",
+                        CaseCount = temp.CaseCount ?? "NIL",
+                        BreakPointNum = temp.BreakPointNum ?? "NIL",
+                        MIS3 = temp.MIS3 ?? "0",
+                        MIS6 = temp.MIS6 ?? "0",
+                        MIS12 = temp.MIS12 ?? "0",
+                        MIS24 = temp.MIS24 ?? "0",
+                        MIS48 = temp.MIS48 ?? "0",
+                        SMT = temp.SMT ?? "NIL",
+                        LocationCode = temp.LocationCode ?? "NIL",
+                        FaultCode = temp.FaultCode ?? "NIL",
+                        PQSNumber = temp.PQSNumber ?? "NIL",
+                        VAN = temp.VAN ?? "NIL",
+                        VIN = temp.VIN ?? "NIL"
+                    };
+                    addData++;
+                    permanentEntries.Add(permanentEntry); // Add the new record to the add list
+                }
             }
 
             // 将数据添加到永久表
@@ -1343,7 +1438,7 @@ namespace WebWinMVC.Controllers
                 _logger.LogError("没有可插入的记录。");
             }
 
-            return Ok(new { Message = "数据传输完成。", InsertedRecords = permanentEntries.Count });
+            return Ok(new { Message = $"数据传输完成，查询记录{originData.Count},处理记录{tempData.Count},更新数据{updateData},新增数据{addData}", InsertedRecords = permanentEntries.Count });
         }
 
 
@@ -1449,6 +1544,7 @@ namespace WebWinMVC.Controllers
                 string tempCount = (result.BreakPointNum == "0") ? result.BreakPointTotal : result.BreakPointNum;
                 var tempEntry = new DailyQualityIssueChecklistV91Temp
                 {
+                    ApprovalDate = result.ApprovalDate ?? "NIL",
                     OldMaterialCode = result.OldMaterialCode ?? "NIL",
                     OldMaterialDescription = result.OldMaterialDescription ?? "NIL",
                     SupplierShortCode = result.SupplierShortCode ?? "NIL",
@@ -1466,7 +1562,7 @@ namespace WebWinMVC.Controllers
                     QE = "NIL", // 没有对应的字段，设置为 "NIL"
                     ServiceFaultIdentificationAccurate = "NIL", // 没有对应的字段，设置为 "NIL"
                     IdentifiedFaultMode = "NIL", // 没有对应的字段，设置为 "NIL"                
-                    BreakdownCount = tempCount,//为断点次数 为0 的情况下赋值之前定义的总次数                               
+                    BreakdownCount = tempCount??"NQI",//为断点次数 为0 的情况下赋值之前定义的总次数                               
                     IsBreakdownInvalid = isBreakdownInvalid,
                     IncludedInSIL = "NIL", // 没有对应的字段，设置为 "NIL"
                     PQSNumber = "NIL", // 没有对应的字段，设置为 "NIL"

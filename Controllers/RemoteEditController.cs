@@ -31,6 +31,8 @@ namespace WebWinMVC.Controllers
                     record.OldMaterialDescription,
                     record.SupplierShortCode,
                     record.ResponsibilitySourceSupplierName,
+                    record.FilteredVehicleModel,
+                    record.CaseCount,
                     record.MIS3,
                     record.MIS6,
                     record.MIS12,
