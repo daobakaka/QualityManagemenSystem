@@ -43,6 +43,7 @@ namespace WebWinMVC.Controllers
                     record.FaultCode,
                     record.QE,
                     record.IdentifiedFaultMode,
+                    record.IssueAttributes,
                     record.BreakdownCount,
                     record.IsBreakdownInvalid,
                     record.IncludedInSIL,
@@ -78,6 +79,23 @@ namespace WebWinMVC.Controllers
 
                     // 更新记录
                     _context.DailyQualityIssueChecklistV91s.Update(model);
+
+                    //这一部分待编辑
+                    var tempQuery = new DailyQualityIssueChecklistV91Query
+                    {
+                        ApprovalDate=model.ApprovalDate,
+                        VehicleModel=model.FilteredVehicleModel,
+                        OldMaterialCode=model.OldMaterialCode,
+                        OldMaterialDescription=model.OldMaterialDescription,
+                        SupplierShortCode=model.SupplierShortCode,
+                        ResponsibilitySourceSupplierName=model.ResponsibilitySourceSupplierName,
+                        CaseCount=model.CaseCount,
+                        BreakPointNum=model.BreakdownCount,
+  
+
+                    };
+
+
 
                     // 保存更改，可能会抛出 DbUpdateConcurrencyException
                     await _context.SaveChangesAsync();

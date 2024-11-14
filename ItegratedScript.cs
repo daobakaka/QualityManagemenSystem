@@ -97,8 +97,8 @@ namespace WebWinMVC
         public string? FaultCode { get; set; }
         public string? BreakPointNum { get; set; }
         public string? BreakPointTime { get; set; }
-
         public string? BreakPointTotal { get; set; }
+        public string? IssueAttributes { get;set; }
     }
     public class DailyQualityIssueChecklistMap : ClassMap<DailyQualityIssueChecklist>
     {

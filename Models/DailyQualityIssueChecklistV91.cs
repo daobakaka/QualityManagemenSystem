@@ -32,7 +32,7 @@ namespace WebWinMVC.Models
         public string ?StartTime { get; set; } = default!;
         public string ?Remarks { get; set; } = default!;
         public string ?ProjectIdentifier { get; set; } = default!;
-
+        public string? IssueAttributes { get; set; } =default!;
         [Timestamp]
         public byte[] RowVersion { get; set; } = default!;
 

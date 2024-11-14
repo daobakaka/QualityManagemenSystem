@@ -22,9 +22,10 @@
                             <tr>
                                 <th>旧物料代码</th>
                                 <th>旧物料描述</th>
-                                <th>供应商短代码</th>
+                                <th>短代码</th>
                                 <th>供应商名称</th>
                                 <th>车型</th>
+                                <th>问题属性</th>
                                 <th>案例数</th>
                                 <th>3MIS</th>
                                 <th>6MIS</th>
@@ -35,10 +36,10 @@
                                 <th>部位码</th>
                                 <th>故障码</th>
                                 <th>QE</th>
-                                <th>SFCIA</th>
-                                <th>识别故障模式</th>
                                 <th>断点次数</th>
                                 <th>断点失效</th>
+                                <th>SFCIA</th>
+                                <th>识别故障模式</th>
                                 <th>已纳入SIL</th>
                                 <th>PQS编号</th>
                                 <th>断点时间</th>
@@ -80,13 +81,21 @@
                                 if (shouldRender)
                                 {
                                     <tr>
-                                        <td data-label="旧物料代码">@item.OldMaterialCode</td>
+                                        <td data-label="旧物料代码">
+                                            <span class="dynamic-tooltip"
+                                                  data-old-material-code="@item.OldMaterialCode"
+                                                  data-remote-tooltip="true" title="loading..">
+                                                @item.OldMaterialCode
+                                            </span>
+                                            <div class="loading-indicator">Loading...</div>
+                                        </td>
                                         <td data-label="旧物料描述">
                                             <span data-toggle="tooltip" title="@item.OldMaterialDescription">@item.OldMaterialDescription</span>
                                         </td>
-                                        <td data-label="供应商短代码">@item.SupplierShortCode</td>
+                                        <td data-label="短代码"> @item.SupplierShortCode</td>
                                         <td data-label="供应商名称">@item.ResponsibilitySourceSupplierName</td>
                                         <td data-label="车型">@item.FilteredVehicleModel</td>
+                                        <td data-label="问题属性">@item.IssueAttributes</td>
                                         <td data-label="案例数">@item.CaseCount</td>
                                         <td data-label="3MIS">@item.MIS3</td>
                                         <td data-label="6MIS">@item.MIS6</td>
@@ -96,11 +105,11 @@
                                         <td data-label="SMT">@item.SMT</td>
                                         <td data-label="部位码">@item.LocationCode</td>
                                         <td data-label="故障码">@item.FaultCode</td>
-                                        <td data-label="QE">@item.QE</td>
-                                        <td data-label="SFCIA">@item.ServiceFaultIdentificationAccurate</td>
-                                        <td data-label="识别故障模式">@item.IdentifiedFaultMode</td>
+                                        <td data-label="QE">@item.QE</td>                                      
                                         <td data-label="断点次数">@item.BreakdownCount</td>
                                         <td data-label="断点失效">@item.IsBreakdownInvalid</td>
+                                        <td data-label="SFCIA">@item.ServiceFaultIdentificationAccurate</td>
+                                        <td data-label="识别故障模式">@item.IdentifiedFaultMode</td>
                                         <td data-label="已纳入SIL">@item.IncludedInSIL</td>
                                         <td data-label="PQS编号">@item.PQSNumber</td>
                                         <td data-label="断点时间">@item.BreakpointTime</td>
@@ -180,6 +189,8 @@
                                     <th>部位码</th>
                                     <th>故障码</th>
                                     <th>PQS编号</th>
+                                    <th>编辑人</th>
+                                    <th>编辑日期</th>
                                     <th>VAN</th>
                                     <th>VIN</th>
                                 </tr>
@@ -212,6 +223,8 @@
                                         <td data-label="部位码">@item.LocationCode</td>
                                         <td data-label="故障码">@item.FaultCode</td>
                                         <td data-label="PQS编号">@item.PQSNumber</td>
+                                        <td data-label="编辑人">@item.EditedBody</td>
+                                        <td data-label="编辑日期">@item.EditedDate</td>
                                         <td data-label="VAN">@item.VAN</td>
                                         <td data-label="VIN">@item.VIN</td>
                                     </tr>
@@ -266,6 +279,9 @@
                     <input type="hidden" id="editLocationCode" name="LocationCode" />
                     <input type="hidden" id="editFaultCode" name="FaultCode" />
                     <input type="hidden" id="editQE" name="QE" />
+                    <input type="hidden" id="editBreakdownCount" name="BreakdownCount" />
+                    <input type="hidden" id="editIsBreakdownInvalid" name="IsBreakdownInvalid" />
+                    <input type="hidden" id="editIssueAttributes" name="IssueAttributes" />
                     <input type="hidden" id="editRowVersion" name="RowVersion" /> <!-- 使用 RowVersion -->
                     <!-- Display fields -->
                     <div class="form-group">
@@ -273,12 +289,6 @@
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" name="IdentifiedFaultMode" id="editIdentifiedFaultMode" placeholder="识别故障模式" required style="margin-top: 1vh;" />
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="BreakdownCount" id="editBreakdownCount" placeholder="断点次数" required style="margin-top: 1vh;" />
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="IsBreakdownInvalid" id="editIsBreakdownInvalid" placeholder="断点失效" required style="margin-top: 1vh;" />
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" name="IncludedInSIL" id="editIncludedInSIL" placeholder="已纳入SIL" required style="margin-top: 1vh;" />
@@ -402,6 +412,7 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
         var dataStore = {
             tooltipContentCache: ''
         };
+        var editBodyName = JSON.stringify("@ViewBag.Name");
         var dataStoreOnePage = {
             problemDescription: [
                 "问题来源内容",
@@ -452,7 +463,10 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
 
             $('.dynamic-tooltip').on('mouseenter', function () {
                 let $this = $(this);
-                let oldMaterialCode = $this.data('old-material-code');
+                let oldMaterialCode = $this.data('old-material-code');              
+                let row = $this.closest('tr');
+                let supplierShortCode = row.find('[data-label="短代码"]').text();
+                let filteredVehicleModel = row.find('[data-label="车型"]').text();
 
                 let $loadingIndicator = $this.find('.loading-indicator');
                 let dateRange = $('#searchByDate').val(); // 获取输入框的值
@@ -464,19 +478,21 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                     method: 'GET',
                     data: {
                         oldMaterialCode: oldMaterialCode,
-                        dateRange: dateRange
+                        dateRange: dateRange,
+                        supplierShortCode:supplierShortCode,
+                        filteredVehicleModel:filteredVehicleModel,
                     },
                     success: function (data) {
                         // console.log('Data type:', typeof data); // 检查数据类型
                         // console.log(data);
                         dataStore.tooltipContentCache = data;
-                        // console.log(dataStore.tooltipContentCache);
+                        console.log(dataStore.tooltipContentCache);
                         // 数据是一个数组，迭代所有记录来生成内容
                         data.sort((a, b) => {
                             // 这里假设制造月是一个字符串形式的日期，格式是 'YYYYMM'
                             return b.manufacturingMonth.localeCompare(a.manufacturingMonth);
                         });
-                        let tooltipContent = data.map(item => `制造月：${item.manufacturingMonth} ；MIS区间：${item.misInterval}；VAN：${item.van}；MIS：${item.mis}；CODE：${item.faultCodeDescription}；FDP：${item.fdp}；S.D：${item.salesDate}；故障描述：${item.faultDescription
+                        let tooltipContent = data.map(item => `制造月：${item.manufacturingMonth} ；MIS区间：${item.misInterval}；VAN：${item.van}；MIS：${item.mis}；CODE：${item.faultCodeDescription}；供应商：${item.responsibilitySourceSupplierName}；车型：${item.filteredVehicleModel}；FDP：${item.fdp}；S.D：${item.salesDate}；故障描述：${item.faultDescription
                             }`).join('\n');
 
                         // 更新 tooltip 内容
@@ -720,6 +736,8 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                                                           M.O.D:${item.original.manufacturingMonth}<br>
                                                           S.D:${item.original.salesDate}<br>
                                                           FDP:${item.original.fdp}<br>
+                                                          OEM:${item.original.responsibilitySourceSupplierName}<br>
+                                                          V:${item.original.filteredVehicleModel}<br>
                                                           F.C.D:${item.original.faultCodeDescription}`);
             // 打印值
             // console.log('X Values:', xValues);
@@ -868,6 +886,7 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
         // 监听键盘事件
         document.addEventListener('keydown', function (event) {
             if (event.altKey && (event.key === 'q' || event.key === 'Q')) {
+                console.log("已监测到热键");
                 if (isWindowCreated) {
                     destroyFloatingWindow();
                 } else {
@@ -1434,9 +1453,10 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                 }
 
                 let manufacturingDate = data.manufacturingMonth;
-                let salesDate = new Date(parseInt(data.salesDate, 10) * 86400000 + new Date(1899, 11, 30).getTime()); // 转换 salesDate 为日期
-                manufacturingDate = `${manufacturingDate.substring(0, 4)}/${manufacturingDate.substring(4, 6)}/01`; // 格式为 yyyy/mm/dd
-                salesDate = `${salesDate.getFullYear()}/${('0' + (salesDate.getMonth() + 1)).slice(-2)}/${('0' + salesDate.getDate()).slice(-2)}`; // 格式为 yyyy/mm/dd
+                let salesDate = data.salesDate;
+                // let salesDate = new Date(parseInt(data.salesDate, 10) * 86400000 + new Date(1899, 11, 30).getTime()); // 转换 salesDate 为日期
+                // manufacturingDate = `${manufacturingDate.substring(0, 4)}/${manufacturingDate.substring(4, 6)}/01`; // 格式为 yyyy/mm/dd
+                // salesDate = `${salesDate.getFullYear()}/${('0' + (salesDate.getMonth() + 1)).slice(-2)}/${('0' + salesDate.getDate()).slice(-2)}`; // 格式为 yyyy/mm/dd
                 dataStoreOnePage.problemDescription[8] = `${manufacturingDate}, ${salesDate}`; // 制造月和销售日期
 
                 // 更新 failureSituation 数组
@@ -1549,6 +1569,9 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                             $('#editLocationCode').val(data.locationcode || "NA");
                             $('#editFaultCode').val(data.faultcode || "NA");
                             $('#editQE').val(data.qe || "NA");
+                            $('#editBreakdownCount').val(data.breakdowncount || "NA");
+                            $('#editIsBreakdownInvalid').val(data.isbreakdowninvalid || "NA");
+                            $('#editIssueAttributes').val(data.issueattributes || "NA");
                             $('#editRowVersion').val(data.rowversion || "NA"); // 填充 RowVersion
                             // $('#editIdentifiedFaultCode').val(data.identifiedfaultcode || "NA");
                             $('#editModal').modal('show');

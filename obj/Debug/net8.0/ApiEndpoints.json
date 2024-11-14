@@ -152,6 +152,11 @@
         "Name": "FilterDay",
         "Type": "System.String",
         "IsRequired": false
+      },
+      {
+        "Name": "MFmonth",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -459,6 +464,16 @@
     "Parameters": [
       {
         "Name": "oldMaterialCode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "supplierShortCode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "filteredVehicleModel",
         "Type": "System.String",
         "IsRequired": false
       },

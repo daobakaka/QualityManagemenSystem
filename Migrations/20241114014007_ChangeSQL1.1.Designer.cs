@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebWinMVC.Data;
 
@@ -10,9 +11,11 @@ using WebWinMVC.Data;
 namespace WebWinMVC.Migrations
 {
     [DbContext(typeof(JRZLWTDbContext))]
-    partial class JRZLWTDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241114014007_ChangeSQL1.1")]
+    partial class ChangeSQL11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -253,9 +256,6 @@ namespace WebWinMVC.Migrations
                     b.Property<string>("BreakPointNum")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("BreakPointTime")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("CaseCount")
                         .HasColumnType("nvarchar(max)");
 
@@ -266,12 +266,6 @@ namespace WebWinMVC.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FaultCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("IsBreakdownInvalid")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("IssueAttributes")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LocationCode")
@@ -301,16 +295,10 @@ namespace WebWinMVC.Migrations
                     b.Property<string>("PQSNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Remarks")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ResponsibilitySourceSupplierName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SMT")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StartTime")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SupplierShortCode")
@@ -344,9 +332,6 @@ namespace WebWinMVC.Migrations
                     b.Property<string>("BreakPointNum")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("BreakPointTime")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("CaseCount")
                         .HasColumnType("nvarchar(max)");
 
@@ -357,12 +342,6 @@ namespace WebWinMVC.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FaultCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("IsBreakdownInvalid")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("IssueAttributes")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LocationCode")
@@ -392,16 +371,10 @@ namespace WebWinMVC.Migrations
                     b.Property<string>("PQSNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Remarks")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ResponsibilitySourceSupplierName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SMT")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StartTime")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SupplierShortCode")

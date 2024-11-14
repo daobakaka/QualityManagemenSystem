@@ -54,7 +54,7 @@ namespace WebWinMVC.Controllers
 
         }
         [HttpGet("FilterAndPivot")]
-        public async Task<IActionResult> FilterAndPivot([FromQuery] string ApprovalDate, [FromQuery] string FilterDay)
+        public async Task<IActionResult> FilterAndPivot([FromQuery] string ApprovalDate, [FromQuery] string FilterDay, [FromQuery] int MFmonth=6)
         { 
             try
             {
@@ -143,16 +143,16 @@ namespace WebWinMVC.Controllers
                         IQueryable<DailyServiceReviewFormQuery> stepDataQuery = query
                     .Where(q => 
                   (
-                      ((q.MISInterval == "0" || q.MISInterval == "3") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 6+6)) >= 0)||
+                      ((q.MISInterval == "0" || q.MISInterval == "3") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 6+6+MFmonth)) >= 0)||
 
-                      ((q.MISInterval == "6") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 9+6)) >= 0) ||
+                      ((q.MISInterval == "6") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 9+6+MFmonth)) >= 0) ||
 
-                      ((q.MISInterval == "12") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 15+6)) >= 0) ||
+                      ((q.MISInterval == "12") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 15+6+MFmonth)) >= 0) ||
 
-                      ((q.MISInterval == "24") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 27 + 6)) >= 0) ||
+                      ((q.MISInterval == "24") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 27 +6+ MFmonth)) >= 0) ||
 
-                      ((q.MISInterval == "36" || q.MISInterval == "48") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 51 + 6)) >= 0)
-                  ));
+                      ((q.MISInterval == "36" || q.MISInterval == "48") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 51 +6+ MFmonth)) >= 0)
+                  ));       
 
                         var stepData = await stepDataQuery.ToListAsync();
                         _logger.LogError($"----筛选后记录数: {stepData.Count}");
@@ -250,6 +250,8 @@ namespace WebWinMVC.Controllers
                                 OldMaterialCode = item.OldMaterialCode,
                                 SupplierShortCode = item.SupplierShortCode,
                                 FilteredVehicleModel = item.FilteredVehicleModel,
+                                IssueAttributes=filterDay.ToString()+"**"+MFmonth.ToString(),
+
                                 //---Store,里面添加相应的车型
                                 MIS3 = item.MIS3cal.ToString(),
                                 MIS6 = item.MIS6cal.ToString(),
@@ -289,6 +291,7 @@ namespace WebWinMVC.Controllers
                                            //$"物料描述: {result.OldMaterialDescription}, " +
                                            $"供应商短代码: {result.SupplierShortCode}, " +
                                            $"责任源供应商: {result.ResponsibilitySourceSupplierName}, " +
+                                           $"问题属性: {result.IssueAttributes}, "+
                                            $"案例数: {result.CaseCount}, " +
                                            $"MIS3: {result.MIS3}, " +
                                            $"MIS6: {result.MIS6}, " +
@@ -346,6 +349,7 @@ namespace WebWinMVC.Controllers
                             OldMaterialDescription = result.OldMaterialDescription,
                             SupplierShortCode = result.SupplierShortCode,
                             ResponsibilitySourceSupplierName = result.ResponsibilitySourceSupplierName,
+                            IssueAttributes = result.IssueAttributes,
                             CaseCount = result.CaseCount,
                             CumulativeCaseCount = result.CumulativeCaseCount,
                             MIS3 = result.MIS3,
@@ -375,6 +379,7 @@ namespace WebWinMVC.Controllers
                                 OldMaterialDescription = result.OldMaterialDescription,
                                 SupplierShortCode = result.SupplierShortCode,
                                 ResponsibilitySourceSupplierName = result.ResponsibilitySourceSupplierName,
+                                IssueAttributes = result.IssueAttributes,
                                 CaseCount = result.CaseCount,
                                 CumulativeCaseCount = result.CumulativeCaseCount,
                                 MIS3 = result.MIS3,
@@ -1278,6 +1283,7 @@ namespace WebWinMVC.Controllers
                             SupplierShortCode = temp.SupplierShortCode ?? "NIL",
                             ResponsibilitySourceSupplierName = temp.ResponsibilitySourceSupplierName ?? "NIL",
                             FilteredVehicleModel = temp.FilteredVehicleModel ?? "NIL",
+                            IssueAttributes = temp.IssueAttributes??"NIL",
                             CaseCount = temp.CaseCount ?? "0",
                             MIS3 = temp.MIS3 ?? "0",
                             MIS6 = temp.MIS6 ?? "0",
@@ -1409,13 +1415,14 @@ namespace WebWinMVC.Controllers
                         ResponsibilitySourceSupplierName = temp.ResponsibilitySourceSupplierName ?? "NIL",
                         CaseCount = temp.CaseCount ?? "NIL",
                         BreakPointNum = temp.BreakPointNum ?? "NIL",
+                        IssueAttributes = temp.IssueAttributes ?? "NIL",
                         MIS3 = temp.MIS3 ?? "0",
                         MIS6 = temp.MIS6 ?? "0",
                         MIS12 = temp.MIS12 ?? "0",
                         MIS24 = temp.MIS24 ?? "0",
                         MIS48 = temp.MIS48 ?? "0",
                         SMT = temp.SMT ?? "NIL",
-                        LocationCode = temp.LocationCode ?? "NIL",
+                        LocationCode = temp.LocationCode ?? "NIL", 
                         FaultCode = temp.FaultCode ?? "NIL",
                         PQSNumber = temp.PQSNumber ?? "NIL",
                         VAN = temp.VAN ?? "NIL",
@@ -1468,6 +1475,7 @@ namespace WebWinMVC.Controllers
                     OldMaterialDescription = result.OldMaterialDescription ?? "NIL",
                     SupplierShortCode = result.SupplierShortCode ?? "NIL",
                     ResponsibilitySourceSupplierName = result.ResponsibilitySourceSupplierName ?? "NIL",
+                    IssueAttributes = result.IssueAttributes ??"NIL",
                     CaseCount = result.CaseCount ?? "NIL",
                     BreakPointNum = result.BreakPointNum, // 没有对应的字段，设置为 "NIL"
                     MIS3 = result.MIS3 ?? "0", // 根据业务需求设置默认值
@@ -1550,6 +1558,7 @@ namespace WebWinMVC.Controllers
                     SupplierShortCode = result.SupplierShortCode ?? "NIL",
                     ResponsibilitySourceSupplierName = result.ResponsibilitySourceSupplierName ?? "NIL",
                     FilteredVehicleModel= result.FilteredVehicleModel ??"NIL",
+                    IssueAttributes = result.IssueAttributes ??"NIL",
                     CaseCount = result.CaseCount ?? "NIL",
                     MIS3 = result.MIS3 ?? "0",
                     MIS6 = result.MIS6 ?? "0",
