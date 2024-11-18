@@ -139,22 +139,32 @@ namespace WebWinMVC.Controllers
                     var misSteps = new List<int> { 3, 6, 12, 24, 48 };
                     HashSet<string> collectedMaterialCodes = new HashSet<string>();
                     resultsToStore.Clear();//每次筛选不同车型的时候先清空内容
-                    // 筛选符合当前车型和MIS区间的记录,去除车型和步骤的单独筛选，累计到一起进行筛选，这里筛选制造月完全可以简化逻辑，现在这个表是就是符合要求的表
-                        IQueryable<DailyServiceReviewFormQuery> stepDataQuery = query
-                    .Where(q => 
-                  (
-                      ((q.MISInterval == "0" || q.MISInterval == "3") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 6+6+MFmonth)) >= 0)||
+                                           // 筛选符合当前车型和MIS区间的记录,去除车型和步骤的单独筛选，累计到一起进行筛选，这里筛选制造月完全可以简化逻辑，现在这个表是就是符合要求的表
+                IQueryable<DailyServiceReviewFormQuery> stepDataQuery = query
+                                                        .Where(q =>
+                                                        (
+                                                        ((q.MISInterval == "0" || q.MISInterval == "3") &&
+                                                         q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 6 + 6 + MFmonth)) >= 0 &&
+                                                         q.ManufacturingMonth.CompareTo(filterDay) <= 0) ||
 
-                      ((q.MISInterval == "6") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 9+6+MFmonth)) >= 0) ||
+                                                        ((q.MISInterval == "6") &&
+                                                         q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 9 + 6 + MFmonth)) >= 0 &&
+                                                         q.ManufacturingMonth.CompareTo(filterDay) <= 0) ||
 
-                      ((q.MISInterval == "12") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 15+6+MFmonth)) >= 0) ||
+                                                        ((q.MISInterval == "12") &&
+                                                         q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 15 + 6 + MFmonth)) >= 0 &&
+                                                         q.ManufacturingMonth.CompareTo(filterDay) <= 0) ||
 
-                      ((q.MISInterval == "24") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 27 +6+ MFmonth)) >= 0) ||
+                                                        ((q.MISInterval == "24") &&
+                                                         q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 27 + 6 + MFmonth)) >= 0 &&
+                                                         q.ManufacturingMonth.CompareTo(filterDay) <= 0) ||
 
-                      ((q.MISInterval == "36" || q.MISInterval == "48") && q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 51 +6+ MFmonth)) >= 0)
-                  ));       
+                                                        ((q.MISInterval == "36" || q.MISInterval == "48") &&
+                                                         q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 51 + 6 + MFmonth)) >= 0 &&
+                                                         q.ManufacturingMonth.CompareTo(filterDay) <= 0)
+                                                        ));
 
-                        var stepData = await stepDataQuery.ToListAsync();
+                var stepData = await stepDataQuery.ToListAsync();
                         _logger.LogError($"----筛选后记录数: {stepData.Count}");
 
                         //foreach (var item in stepData)

@@ -32,7 +32,12 @@ namespace WebWinMVC.Controllers
             // 加载需要处理的表
             var dbDailyServiceReviewForms = await dbDailyServiceReviewTable.ToListAsync();
             var dbVehicleBasicInfos = await dbVehicleBasicInfo.ToListAsync(); // 只查询一次
-            var dbSeriesDescriptionTables=await dbSeriesDescriptionTable.ToListAsync();
+            var dbSeriesDescriptionTables = await dbSeriesDescriptionTable.ToListAsync();
+
+            //转换为字典
+            //var vehicleDictionary = dbVehicleBasicInfos?.Where(v=>v.VAN!=null).ToDictionary(v => v.VAN);
+            //var descriptionDictionary = dbSeriesDescriptionTables?.Where(s => s.VAN != null).ToDictionary(s => s.VAN);
+
 
             if (dbDailyServiceReviewQueryTable.Any())
                 dbDailyServiceReviewQueryTable.RemoveRange(dbDailyServiceReviewQueryTable);
@@ -48,6 +53,10 @@ namespace WebWinMVC.Controllers
                     var vehicle = dbVehicleBasicInfos.FirstOrDefault(v => v.VAN == d.VAN);
                     var description = dbSeriesDescriptionTables.FirstOrDefault(s => s.VAN == d.VAN);
 
+                    //--这里更换为字典，增加查询速度，以键值对的方式进行储存
+                    //var vehicle = vehicleDictionary.GetValueOrDefault(d.VAN);
+                    //var description = descriptionDictionary.GetValueOrDefault(d.VAN);
+                    
                     //使用
 
                     var vehicleModelCache = !string.IsNullOrEmpty(d?.NoticeVehicleModel)

@@ -365,7 +365,7 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "oldMaterialCode",
+        "Name": "OldMaterialCode",
         "Type": "System.String",
         "IsRequired": false
       },
@@ -375,12 +375,12 @@
         "IsRequired": false
       },
       {
-        "Name": "faultMode",
+        "Name": "FaultMode",
         "Type": "System.String",
         "IsRequired": false
       },
       {
-        "Name": "faultCode",
+        "Name": "FaultCode",
         "Type": "System.String",
         "IsRequired": false
       },
@@ -406,7 +406,7 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "oldMaterialCode",
+        "Name": "OldMaterialCode",
         "Type": "System.String",
         "IsRequired": false
       },
@@ -421,12 +421,12 @@
         "IsRequired": false
       },
       {
-        "Name": "faultMode",
+        "Name": "FaultMode",
         "Type": "System.String",
         "IsRequired": false
       },
       {
-        "Name": "faultCode",
+        "Name": "FaultCode",
         "Type": "System.String",
         "IsRequired": false
       },

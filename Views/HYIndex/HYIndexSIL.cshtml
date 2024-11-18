@@ -18,7 +18,6 @@
 <div>
     <div class="row no-gutters" style="margin: auto;">
         <!-- 左侧菜单 -->
-
         <div class="col-md-2 col-lg-2" style="height: 100vh; background-color: #343a40;">
             <ul class="list-group">
                 <!-- 系统首页 -->
@@ -88,8 +87,6 @@
                 </li>
             </ul>
         </div>
-
-
 
         <!-- 右侧内容 -->
         <div class="col-md-10 col-lg-10">
@@ -225,132 +222,14 @@
                                     </tr>
                                 }
                             </tbody>
-
-
                         </table>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
 
-            <!-- 模态框 -->
-            <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg" style="max-width: 60%;">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="infoModalLabel">故障信息</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="faultDescription" class="form-label">故障描述</label>
-                                <textarea class="form-control" id="faultDescription" rows="3" readonly></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label for="mitigationMeasures" class="form-label">遏制措施</label>
-                                <textarea class="form-control" id="mitigationMeasures" rows="3" readonly></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label for="repairProcess" class="form-label">维修经过与效果</label>
-                                <textarea class="form-control" id="repairProcess" rows="3" readonly></textarea>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <!-- PQS编号模态框 -->
-            <div class="modal fade" id="pqsModal" tabindex="-1" aria-labelledby="pqsModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="pqsModalLabel">PQS编号详情</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="reporterInfo" class="form-label">报告人</label>
-                                <input type="text" class="form-control" id="reporterInfo" readonly>
-                            </div>
-                            <div class="mb-3">
-                                <label for="reporterPhoneInfo" class="form-label">报告人电话</label>
-                                <input type="text" class="form-control" id="reporterPhoneInfo" readonly>
-                            </div>
-                            <div class="mb-3">
-                                <label for="initialFaultAnalysisInfo" class="form-label">初步故障分析</label>
-                                <textarea class="form-control" id="initialFaultAnalysisInfo" rows="3" readonly></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label for="inspectorInfo" class="form-label">检查员</label>
-                                <input type="text" class="form-control" id="inspectorInfo" readonly>
-                            </div>
-                            <div class="mb-3">
-                                <label for="inspectorPhoneInfo" class="form-label">检查员电话</label>
-                                <input type="text" class="form-control" id="inspectorPhoneInfo" readonly>
-                            </div>
-                            <div class="mb-3">
-                                <label for="repairTimeInfo" class="form-label">维修时间</label>
-                                <input type="text" class="form-control" id="repairTimeInfo" readonly>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- NotificationNumber模态框 -->
-            <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="notificationModalLabel">NotificationNumber详情</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="vanInfo" class="form-label">VAN</label>
-                                <input type="text" class="form-control" id="vanInfo" readonly>
-                            </div>
-                            <div class="mb-3">
-                                <label for="chassisNumberInfo" class="form-label">底盘号码</label>
-                                <input type="text" class="form-control" id="chassisNumberInfo" readonly>
-                            </div>
-                            <div class="mb-3">
-                                <label for="vehicleModelInfo" class="form-label">车辆型号</label>
-                                <input type="text" class="form-control" id="vehicleModelInfo" readonly>
-                            </div>
-                            <div class="mb-3">
-                                <label for="purchaseTimeInfo" class="form-label">购买时间</label>
-                                <input type="text" class="form-control" id="purchaseTimeInfo" readonly>
-                            </div>
-                            <div class="mb-3">
-                                <label for="faultTimeInfo" class="form-label">故障时间</label>
-                                <input type="text" class="form-control" id="faultTimeInfo" readonly>
-                            </div>
-                            <div class="mb-3">
-                                <label for="vehicleStatusInfo" class="form-label">车辆状态</label>
-                                <input type="text" class="form-control" id="vehicleStatusInfo" readonly>
-                            </div>
-                            <div class="mb-3">
-                                <label for="preventiveMeasuresInfo" class="form-label">遏制措施</label>
-                                <textarea class="form-control" id="preventiveMeasuresInfo" rows="3" readonly></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label for="projectTypeInfo" class="form-label">项目类型</label>
-                                <input type="text" class="form-control" id="projectTypeInfo" readonly>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
 
             @section Scripts {

@@ -380,12 +380,13 @@
 
                 </div>
                 <!-- Error message container -->
+                <!-- 对于纳入SIL系统，目前暂时拟定两个必须参数，物料号和车号，其他参数为可选-->
                 <form id="dailyQualityFormOP">
-                    <input type="text" class="form-control" id="materialNumberOP" name="OldMaterialCode" placeholder="输入物料号" required style="margin-top: 1vh;">
+                    <input type="text" class="form-control" id="materialNumberOP" name="OldMaterialCode" placeholder="输入物料号(必填)" required style="margin-top: 1vh;">
                     <input type="text" class="form-control" id="queryDateOP" name="ApprovalDate" placeholder="审核通过日期(可选)" style="margin-top: 1vh;">
                     <input type="text" class="form-control" id="faultCodeOP" name="FaultCode" placeholder="输入故障码(可选)" style="margin-top: 1vh;">
                     <input type="text" class="form-control" id="breakpointTimeOP" name="ManufacturingMonth" placeholder="断点时间(可选)" style="margin-top: 1vh;">
-                    <input type="text" class="form-control" id="vehicleNumberOP" name="VehicleIdentification" placeholder="输入车号或底盘号(可选)" style="margin-top: 1vh;">
+                    <input type="text" class="form-control" id="vehicleNumberOP" name="VehicleIdentification" placeholder="输入车号或底盘号(一页纸可选)，SIL必填" style="margin-top: 1vh;">
                     <input type="text" class="form-control" id="faultModeOP" name="FaultDescription" placeholder="输入故障描述(可选)" style="margin-top: 1vh;">
                     <input type="text" class="form-control" id="failureConditionOP" name="FailureConditionOP" placeholder="输入失效工况(可选)" style="margin-top: 1vh;">
                 </form>
@@ -465,8 +466,9 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                 let $this = $(this);
                 let oldMaterialCode = $this.data('old-material-code');              
                 let row = $this.closest('tr');
-                let supplierShortCode = row.find('[data-label="短代码"]').text();
-                let filteredVehicleModel = row.find('[data-label="车型"]').text();
+                let supplierShortCode = row.find('[data-label="短代码"]').text().trim();
+                let filteredVehicleModel = row.find('[data-label="车型"]').text().trim();
+
 
                 let $loadingIndicator = $this.find('.loading-indicator');
                 let dateRange = $('#searchByDate').val(); // 获取输入框的值
@@ -492,7 +494,7 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                             // 这里假设制造月是一个字符串形式的日期，格式是 'YYYYMM'
                             return b.manufacturingMonth.localeCompare(a.manufacturingMonth);
                         });
-                        let tooltipContent = data.map(item => `制造月：${item.manufacturingMonth} ；MIS区间：${item.misInterval}；VAN：${item.van}；MIS：${item.mis}；CODE：${item.faultCodeDescription}；供应商：${item.responsibilitySourceSupplierName}；车型：${item.filteredVehicleModel}；FDP：${item.fdp}；S.D：${item.salesDate}；故障描述：${item.faultDescription
+                        let tooltipContent = data.map(item => `制造月：${item.manufacturingMonth} ；MIS区间：${item.misInterval}；VAN：${item.van}；MIS：${item.mis}；CODE：${item.faultCodeDescription}；供应商：${item.responsibilitySourceSupplierName}；车型：${item.filteredVehicleModel}；服务单号：${item.serviceOrder}；FDP：${item.fdp}；S.D：${item.salesDate}；故障描述：${item.faultDescription
                             }`).join('\n');
 
                         // 更新 tooltip 内容
@@ -720,25 +722,14 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                     // 处理 X 轴数据，保持在 0 到 50 的范围内
                     x = x > 50 ? 0 : x;
                     x = mapToRange(x, 0, 50);
-
-
                     // 处理 Z 轴数据
-
-
                     return { x, y, z, original: item };
                 });
 
             const xValues = processedData.map(item => item.x);
             const yValues = processedData.map(item => item.y);
             const zValues = processedData.map(item => item.z);
-            const textValues = processedData.map(item => `MIS:${item.original.mis}<br>
-                                                          VAN:${item.original.van}<br>
-                                                          M.O.D:${item.original.manufacturingMonth}<br>
-                                                          S.D:${item.original.salesDate}<br>
-                                                          FDP:${item.original.fdp}<br>
-                                                          OEM:${item.original.responsibilitySourceSupplierName}<br>
-                                                          V:${item.original.filteredVehicleModel}<br>
-                                                          F.C.D:${item.original.faultCodeDescription}`);
+            const textValues = processedData.map(item => `MIS:${item.original.mis}<br>VAN:${item.original.van}<br>M.O.D:${item.original.manufacturingMonth}<br>S.D:${item.original.salesDate}<br>FDP:${item.original.fdp}<br>OEM:${item.original.responsibilitySourceSupplierName}<br>V:${item.original.filteredVehicleModel}<br>S.O:${item.original.serviceOrder}<br>F.C.D:${item.original.faultCodeDescription} `);
             // 打印值
             // console.log('X Values:', xValues);
             // console.log('Y Values:', yValues);

@@ -28,17 +28,17 @@ namespace WebWinMVC.Controllers
             {
                 return BadRequest("Invalid OldMaterialCode");
             }
-            Console.WriteLine($"物料号：{oldMaterialCode}供应商短代码{supplierShortCode}筛选车型{filteredVehicleModel}");
             // 初始化查询
             var query = _context.DailyServiceReviewFormQueries
                .Where(e => e.OldMaterialCode == oldMaterialCode)
                .Where(e => e.SupplierShortCode == supplierShortCode)
-               .Where(e => e.FilteredVehicleModel == filteredVehicleModel)
+               .Where(e => e.FilteredVehicleModel == filteredVehicleModel.ToString())
                .Where(e => e.ServiceCategory == "售前维修" || e.ServiceCategory == "质保服务")
                .Where(e => e.ResponsibilitySourceIdentifier == "是")
                .Where(e => e.RepairMethod == "更换" || e.RepairMethod == "维修")
                .Where(e => e.MaterialType == "物料");
 
+            Console.WriteLine($"111111物料号：{oldMaterialCode}供应商短代码{supplierShortCode}筛选车型{filteredVehicleModel}");
             Console.WriteLine($"符合要求数量：{query.ToList().Count}");
             // 用于存储处理后的日期
 
@@ -96,6 +96,7 @@ namespace WebWinMVC.Controllers
                     e.FaultCodeDescription,
                     e.FaultDescription,
                     e.SalesDate,
+                    e.ServiceOrder,
                     e.ResponsibilitySourceSupplierName,
                     e.FilteredVehicleModel,
                 })

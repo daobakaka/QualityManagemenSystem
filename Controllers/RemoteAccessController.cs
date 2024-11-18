@@ -3,7 +3,6 @@ using WebWinMVC.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-
 using System.Reflection.Emit;
 using System.Diagnostics;
 using WebWinMVC.Models;
@@ -24,21 +23,21 @@ namespace WebWinMVC.Controllers
 
         [HttpGet("dailyqualitydata")]
         public async Task<IActionResult> GetDailyQualityData(
-            [FromQuery] string oldMaterialCode,
+            [FromQuery] string OldMaterialCode,
             [FromQuery] string ApprovalDate = "",
-            [FromQuery] string faultMode = "",
-            [FromQuery] string faultCode = "",
+            [FromQuery] string FaultMode = "",
+            [FromQuery] string FaultCode = "",
             [FromQuery] string ManufacturingMonth = "",
             [FromQuery] string VehicleIdentification = "")
         {
-            if (string.IsNullOrEmpty(oldMaterialCode))
+            if (string.IsNullOrEmpty(OldMaterialCode))
             {
                 return BadRequest("Invalid OldMaterialCode");
             }
              var _fdpCodes = new HashSet<string>();
             _fdpCodes.Clear();
             var query = _context.DailyServiceReviewFormQueries
-                .Where(e => e.OldMaterialCode == oldMaterialCode)
+                .Where(e => e.OldMaterialCode == OldMaterialCode)
                 .Where(e => e.ServiceCategory == "售前维修" || e.ServiceCategory == "质保服务")
                 .Where(e => e.ResponsibilitySourceIdentifier == "是")
                 .Where(e => e.RepairMethod == "更换" || e.RepairMethod == "维修")
@@ -91,12 +90,12 @@ namespace WebWinMVC.Controllers
             // 处理故障模式
 
             // 处理故障码
-            if (!string.IsNullOrEmpty(faultCode))
+            if (!string.IsNullOrEmpty(FaultCode))
             {
-                Console.WriteLine(faultCode); // 打印调试信息
+                Console.WriteLine(FaultCode); // 打印调试信息
 
                 // 使用 % 通配符来进行 LIKE 查询
-                var faultCodePattern = $"%{faultCode}%";
+                var faultCodePattern = $"%{FaultCode}%";
                 query = query.Where(e => EF.Functions.Like(e.FaultCode, faultCodePattern));
             }
 
@@ -324,21 +323,22 @@ namespace WebWinMVC.Controllers
 
         [HttpGet("dailyqualitydataforsil")]
         public async Task<IActionResult> GetDailyQualityDataForSIL(
-        [FromQuery] string oldMaterialCode,
+        [FromQuery] string OldMaterialCode,
         [FromQuery] string VehicleIdentification,
         [FromQuery] string ApprovalDate = "",
-        [FromQuery] string faultMode = "",
-        [FromQuery] string faultCode = "",
+        [FromQuery] string FaultMode = "",
+        [FromQuery] string FaultCode = "",
         [FromQuery] string ManufacturingMonth = "")
         {
             // 验证输入
-            if (string.IsNullOrEmpty(oldMaterialCode) || string.IsNullOrEmpty(VehicleIdentification))
+            if (string.IsNullOrEmpty(OldMaterialCode) || string.IsNullOrEmpty(VehicleIdentification))
             {
                 return BadRequest("Invalid input parameters.");
             }
             Console.WriteLine("++++++++++++++++++++======================================" + VehicleIdentification);
+            //casue the pre logic has changed,the code here would add filter that switch filterdVehicleType and shortCode
             var query = _context.DailyServiceReviewFormQueries
-                .Where(e => e.OldMaterialCode == oldMaterialCode)
+                .Where(e => e.OldMaterialCode == OldMaterialCode)
                 .Where(e => e.ServiceCategory == "售前维修" || e.ServiceCategory == "质保服务")
                 .Where(e => e.ResponsibilitySourceIdentifier == "是")
                 .Where(e => e.RepairMethod == "更换" || e.RepairMethod == "维修")
@@ -386,15 +386,15 @@ namespace WebWinMVC.Controllers
             }
             // 处理故障模式
             // 处理故障码
-            if (!string.IsNullOrEmpty(faultCode))
+            if (!string.IsNullOrEmpty(FaultCode))
             {
-                Console.WriteLine(faultCode); // 打印调试信息
+                Console.WriteLine(FaultCode); // 打印调试信息
 
                 // 使用 % 通配符来进行 LIKE 查询
-                var faultCodePattern = $"%{faultCode}%";
+                var faultCodePattern = $"%{FaultCode}%";
                 query = query.Where(e => EF.Functions.Like(e.FaultCode, faultCodePattern));
             }
-            // 处理断点时间
+            // 处理断点时间，
             if (!string.IsNullOrEmpty(ManufacturingMonth))
             {
                 if (DateTime.TryParseExact(ManufacturingMonth, "yyMMdd", null, System.Globalization.DateTimeStyles.None, out var parsedBreakpointDate))
