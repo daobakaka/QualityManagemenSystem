@@ -35,11 +35,11 @@
                                 <th>SMT</th>
                                 <th>部位码</th>
                                 <th>故障码</th>
-                                <th>QE</th>
                                 <th>断点次数</th>
                                 <th>断点失效</th>
-                                <th>SFCIA</th>
+                                <th>QE</th>
                                 <th>识别故障模式</th>
+                                <th>SFCIA</th>
                                 <th>已纳入SIL</th>
                                 <th>PQS编号</th>
                                 <th>断点时间</th>
@@ -104,12 +104,12 @@
                                         <td data-label="48MIS">@item.MIS48</td>
                                         <td data-label="SMT">@item.SMT</td>
                                         <td data-label="部位码">@item.LocationCode</td>
-                                        <td data-label="故障码">@item.FaultCode</td>
-                                        <td data-label="QE">@item.QE</td>                                      
+                                        <td data-label="故障码">@item.FaultCode</td>                                                                   
                                         <td data-label="断点次数">@item.BreakdownCount</td>
                                         <td data-label="断点失效">@item.IsBreakdownInvalid</td>
-                                        <td data-label="SFCIA">@item.ServiceFaultIdentificationAccurate</td>
+                                        <td data-label="QE">@item.QE</td>
                                         <td data-label="识别故障模式">@item.IdentifiedFaultMode</td>
+                                        <td data-label="SFCIA">@item.ServiceFaultIdentificationAccurate</td>
                                         <td data-label="已纳入SIL">@item.IncludedInSIL</td>
                                         <td data-label="PQS编号">@item.PQSNumber</td>
                                         <td data-label="断点时间">@item.BreakpointTime</td>
@@ -117,13 +117,21 @@
                                         <td data-label="备注">@item.Remarks</td>
                                         <td data-label="VID">@item.ProjectIdentifier</td>
                                         <td data-label="操作">
-                                            @if (!string.IsNullOrEmpty(item.ServiceFaultIdentificationAccurate))
+                                            @if (string.IsNullOrEmpty(item.Remarks))
                                             {
-                                                <button class="btn btn-success btn-sm edit-btn" data-id="@item.ID" data-bs-toggle="modal" data-bs-target="#editModal">编辑</button>
+                                                <button type="submit" class="btn btn-primary btn-sm edit-btn" data-id="@item.ID" data-bs-toggle="modal" data-bs-target="#editModal">编辑</button>
                                             }
                                             else
                                             {
-                                                <button class="btn btn-primary btn-sm edit-btn" data-id="@item.ID" data-bs-toggle="modal" data-bs-target="#editModal">编辑</button>
+                                                // 判断 item.Remarks 是否为 "问题变更"
+                                                if (item.Remarks == "问题变更".Trim())
+                                                {
+                                                    <button type="submit" class="btn btn-warning btn-sm edit-btn" data-id="@item.ID" data-bs-toggle="modal" data-bs-target="#editModal">编辑</button>
+                                                }
+                                                else
+                                                {
+                                                    <button type ="submit" class="btn btn-success btn-sm edit-btn" data-id="@item.ID" data-bs-toggle="modal" data-bs-target="#editModal">编辑</button>
+                                                }
                                             }
                                         </td>
                                     </tr>
@@ -308,9 +316,18 @@
                     <div class="form-group">
                         <input type="text" class="form-control" name="ProjectIdentifier" id="editProjectIdentifier" placeholder="VID" required style="margin-top: 1vh;" />
                     </div>
-                    <button type="submit" class="btn btn-outline-secondary mb-2" style="margin-top: 2vh; display: block; margin-left: auto; margin-right: auto;">
-                        保存更改
-                    </button>
+                    <div style="text-align: center;">
+                        <button type="button" class="btn btn-outline-secondary mb-2" id="editProblemChange" style="display: inline-block; margin-top: 2vh; margin-left: 2vh;">
+                            问题变更
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary mb-2" id="editQEChange"
+                                style="display: inline-block; margin-top: 2vh; margin-left: 2vh;">
+                            QE变更
+                        </button>
+                        <button type="submit" class="btn btn-outline-secondary mb-2" style="display: inline-block; margin-top: 2vh; margin-left: 2vh;">
+                            保存更改
+                        </button>
+                    </div>
                 </form>
                 <!-- 并发冲突提示 -->
                 <div id="concurrencyConflict" class="alert alert-danger" style="display:none; margin-top: 1vh;">
@@ -320,6 +337,58 @@
         </div>
     </div>
  </div>
+
+@* QE更换区域 *@
+<div class="modal fade" id="editQEChangeModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel" style="text-align: center; width: 100%;">@ViewBag.Name 编辑记录</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm" method="post">
+                    @Html.AntiForgeryToken()
+                    <!-- Hidden fields -->
+                    <input type="hidden" id="editId" name="ID" />
+                    <input type="hidden" id="editOldMaterialCode" name="OldMaterialCode" />
+                    <input type="hidden" id="editOldMaterialDescription" name="OldMaterialDescription" />
+                    <input type="hidden" id="editSupplierShortCode" name="SupplierShortCode" />
+                    <input type="hidden" id="editResponsibilitySourceSupplierName" name="ResponsibilitySourceSupplierName" />
+                    <input type="hidden" id="editFilteredVehicleModel" name="FilteredVehicleModel" />
+                    <input type="hidden" id="editCaseCount" name="CaseCount" />
+                    <input type="hidden" id="editMIS3" name="MIS3" />
+                    <input type="hidden" id="editMIS6" name="MIS6" />
+                    <input type="hidden" id="editMIS12" name="MIS12" />
+                    <input type="hidden" id="editMIS24" name="MIS24" />
+                    <input type="hidden" id="editMIS48" name="MIS48" />
+                    <input type="hidden" id="editSMT" name="SMT" />
+                    <input type="hidden" id="editLocationCode" name="LocationCode" />
+                    <input type="hidden" id="editFaultCode" name="FaultCode" />
+                    <input type="hidden" id="editQE" name="QE" />
+                    <input type="hidden" id="editBreakdownCount" name="BreakdownCount" />
+                    <input type="hidden" id="editIsBreakdownInvalid" name="IsBreakdownInvalid" />
+                    <input type="hidden" id="editIssueAttributes" name="IssueAttributes" />
+                    <input type="hidden" id="editRowVersion" name="RowVersion" /> <!-- 使用 RowVersion -->
+
+                    <!-- Dynamic QE dropdown -->
+                    <div class="form-group">                       
+                        <select id="editQEChoose" name="QE" class="form-control" required>
+                            <option value="">选择QE</option> <!-- 默认空选项 -->
+                        </select>
+                    </div>
+
+                    <!-- Save button -->
+                    <div style="text-align: center;">
+                        <button type="button" id="editQESubmit"  class="btn btn-outline-secondary mb-2" style="display: inline-block; margin-top: 2vh; margin-left: 2vh;">
+                            保存更改
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- 选项模态框 -->
 <!-- Modal -->
@@ -747,7 +816,6 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
             plotChart(xValues, yValues, zValues, textValues, zTickvals, zTicktext, yTickvals, yTicktext);
         }
 
-        // 绘制图表
         // 绘制图表
         function plotChart(xValues, yValues, zValues, textValues, zTickvals, zTicktext, yTickvals, yTicktext) {
 
@@ -1526,9 +1594,15 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
 
     </script> @* SIL逻辑 *@
     <script>
-             $(document).ready(function () { // 确保 DOM 加载完成后执行代码
+             $(document).ready(function () { // 确保 DOM 加载完成后执行代码,添加动态禁用按钮
 
-                function convertKeysToLowerCase(data) {
+                let role = '@ViewBag.Role';
+                 console.log("group is:"+role);
+                if (role === "D") {
+                    $('#editQEChange').prop('disabled', true).css('background-color', '#d3d3d3').css('cursor', 'not-allowed');
+                }
+                                 
+                 function convertKeysToLowerCase(data) {
                     const result = {};
                     for (const key in data) {
                         if (data.hasOwnProperty(key)) {
@@ -1590,6 +1664,126 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                     });
                 });
 
+            $("#editForm").on("click", "#editProblemChange", function (f) {
+                f.preventDefault();
+                console.log("这是一个问题变更方法");
+
+
+                $('#editServiceFaultIdentificationAccurate').val('');
+                $('#editIdentifiedFaultMode').val('');
+                $('#editIncludedInSIL').val('');
+                $('#editPQSNumber').val('');
+                $('#editBreakpointTime').val('');
+                $('#editStartTime').val('');
+                $('#editRemarks').val('问题变更');
+                $('#editProjectIdentifier').val('');
+                let formData = $("#editForm").serialize();
+                $.post("/RemoteEdit/Edit", formData, function (response) {
+
+                    if (response.success) {
+
+                        $("#ditModal").modal("hide");
+                        location.reload();
+                    }
+                    else {
+
+                    }
+                }).fail(function () { 
+                
+                    alert("提交变更失败");                
+                });
+            });
+            // $('#editQEChange').click(function () {
+            //     // 隐藏当前模态框
+            //     console.log("进入QE变更模态框");
+            //     $('#editModal').modal('hide');
+
+            //     // 显示QE变更模态框
+            //     $('#editQEChangeModal').modal('show');
+            // });//改变QE跳转页面
+
+            $("#editForm").on("click", "#editQEChange", function (f) {
+                f.preventDefault();
+                console.log("这是一个变更QE的方法");
+                $('#editModal').modal('hide');
+
+
+                $.get('/RemoteEdit/GetUserNamesForRoleD', function (data) {
+                    if (data.length > 0) {
+                        // 清空下拉菜单
+                        $("#editQEChoose").empty();
+                        // 默认选择一个空选项
+                        $("#editQEChoose").append('<option value="">选择QE</option>');
+
+                        // 动态添加所有用户 Name 到下拉菜单中
+                        data.forEach(function (name) {
+                            $("#editQEChoose").append('<option value="' + name + '">' + name + '</option>');
+                        });
+                    } else {
+                        alert("没有符合条件的QE用户！");
+                    }
+                }).fail(function () {
+                    alert("获取用户列表失败！");
+                });
+                // 显示QE变更模态框
+                $('#editQEChangeModal').modal('show');
+                // $('#editQE').val("魏成伟");
+                // $('#editServiceFaultIdentificationAccurate').val('');
+                // $('#editIdentifiedFaultMode').val('');
+                // $('#editIncludedInSIL').val('');
+                // $('#editPQSNumber').val('');
+                // $('#editBreakpointTime').val('');
+                // $('#editStartTime').val('');
+                // $('#editRemarks').val('');
+                // $('#editProjectIdentifier').val('');
+                // let formData = $("#editForm").serialize();
+                // $.post("/RemoteEdit/Edit", formData, function (response) {
+
+                //     if (response.success) {
+
+                //         $("#ditModal").modal("hide");
+                //         location.reload();
+                //     }
+                //     else {
+
+                //     }
+                // }).fail(function () {
+
+                //     alert("提交变更失败");
+                // });
+            });//改变QE提交表单
+
+
+                 $("#editForm").on("click", "#editQESubmit", function (h) {
+                h.preventDefault();
+                console.log("这是一个更改QE的表单");
+                $('#editQE').val("魏成伟");
+                $('#editServiceFaultIdentificationAccurate').val('');
+                $('#editIdentifiedFaultMode').val('');
+                $('#editIncludedInSIL').val('');
+                $('#editPQSNumber').val('');
+                $('#editBreakpointTime').val('');
+                $('#editStartTime').val('');
+                $('#editRemarks').val('');
+                $('#editProjectIdentifier').val('');
+                let formData = $("#editForm").serialize();
+                $.post("/RemoteEdit/Edit", formData, function (response) {
+
+                    if (response.success) {
+
+                        $("#ditModal").modal("hide");
+                        location.reload();
+                    }
+                    else {
+
+                    }
+                }).fail(function () {
+
+                    alert("提交变更失败");
+                });
+          
+
+                 })
              });
 
         </script>@*  即日质量问题编辑区域 *@
