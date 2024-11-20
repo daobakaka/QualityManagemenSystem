@@ -14,11 +14,13 @@ namespace WebWinMVC.Controllers
     public class RemoteAccessController : ControllerBase
     {
         private readonly JRZLWTDbContext _context;
+        private readonly ILogger<RemoteAccessController> _logger;
        // private readonly TaskCompletionSource<bool> _fdpCodesInitialized = new TaskCompletionSource<bool>();
 
-        public RemoteAccessController(JRZLWTDbContext context)
+        public RemoteAccessController(JRZLWTDbContext context, ILogger<RemoteAccessController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         [HttpGet("dailyqualitydata")]
@@ -30,11 +32,13 @@ namespace WebWinMVC.Controllers
             [FromQuery] string ManufacturingMonth = "",
             [FromQuery] string VehicleIdentification = "")
         {
+
+            _logger.LogError("++进入一页纸及查询方法");
             if (string.IsNullOrEmpty(OldMaterialCode))
             {
                 return BadRequest("Invalid OldMaterialCode");
             }
-             var _fdpCodes = new HashSet<string>();
+            var _fdpCodes = new HashSet<string>();
             _fdpCodes.Clear();
             var query = _context.DailyServiceReviewFormQueries
                 .Where(e => e.OldMaterialCode == OldMaterialCode)
@@ -44,9 +48,9 @@ namespace WebWinMVC.Controllers
                 .Where(e => e.MaterialType == "物料");
 
 
-           
+
             // 用于存储处理后的日期
-    
+
 
             if (!string.IsNullOrEmpty(ApprovalDate))
             {
@@ -119,7 +123,7 @@ namespace WebWinMVC.Controllers
                     return BadRequest("Invalid breakpointTime format. Expected format is YYMMDD.");
                 }
             }
-           //放到这里可以减少筛选量
+            //放到这里可以减少筛选量
 
             if (!string.IsNullOrEmpty(VehicleIdentification))
             {
@@ -161,7 +165,7 @@ namespace WebWinMVC.Controllers
                     Console.WriteLine("++++++start++is empty    to add HASEt" + fdpCode);
                 }
             }
-            var filteredInfo = await GetFilteredVehicleBasicInfoData(_fdpCodes,ManufacturingMonth);
+            var filteredInfo = await GetFilteredVehicleBasicInfoData(_fdpCodes, ManufacturingMonth);
             // 获取数据
             var data = await query
                 .Select(e => new
@@ -321,21 +325,29 @@ namespace WebWinMVC.Controllers
         }
 
 
-        [HttpGet("dailyqualitydataforsil")]
-        public async Task<IActionResult> GetDailyQualityDataForSIL(
-        [FromQuery] string OldMaterialCode,
-        [FromQuery] string VehicleIdentification,
-        [FromQuery] string ApprovalDate = "",
-        [FromQuery] string FaultMode = "",
-        [FromQuery] string FaultCode = "",
-        [FromQuery] string ManufacturingMonth = "")
+        [HttpPost("dailyqualitydataforsil")]
+        [ValidateAntiForgeryToken] // 添加防伪令牌验证
+        public async Task<IActionResult> PostDailyQualityDataForSIL(
+        [FromForm] string OldMaterialCode,
+        [FromForm] string VehicleIdentification,
+        [FromForm] string ApprovalDate = "",
+        [FromForm] string FaultMode = "",
+        [FromForm] string FaultCode = "",
+        [FromForm] string ManufacturingMonth = "")
         {
             // 验证输入
+        //    public async Task<IActionResult> GetDailyQualityData(
+        //[FromQuery] string OldMaterialCode,
+        //[FromQuery] string ApprovalDate = "",
+        //[FromQuery] string FaultMode = "",
+        //[FromQuery] string FaultCode = "",
+        //[FromQuery] string ManufacturingMonth = "",
+        //[FromQuery] string VehicleIdentification = "")
             if (string.IsNullOrEmpty(OldMaterialCode) || string.IsNullOrEmpty(VehicleIdentification))
             {
                 return BadRequest("Invalid input parameters.");
             }
-            Console.WriteLine("++++++++++++++++++++======================================" + VehicleIdentification);
+            _logger.LogError("++++++++++++++++++++进入POST生成SIL方法======================================" + VehicleIdentification);
             //casue the pre logic has changed,the code here would add filter that switch filterdVehicleType and shortCode
             var query = _context.DailyServiceReviewFormQueries
                 .Where(e => e.OldMaterialCode == OldMaterialCode)

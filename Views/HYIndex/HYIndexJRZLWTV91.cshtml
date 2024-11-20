@@ -316,13 +316,13 @@
                     <div class="form-group">
                         <input type="text" class="form-control" name="ProjectIdentifier" id="editProjectIdentifier" placeholder="VID" required style="margin-top: 1vh;" />
                     </div>
-                    <div style="text-align: center;">
-                        <button type="button" class="btn btn-outline-secondary mb-2" id="editProblemChange" style="display: inline-block; margin-top: 2vh; margin-left: 2vh;">
-                            问题变更
-                        </button>
+                    <div style="text-align: center;">                   
                         <button type="button" class="btn btn-outline-secondary mb-2" id="editQEChange"
                                 style="display: inline-block; margin-top: 2vh; margin-left: 2vh;">
                             QE变更
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary mb-2" id="editProblemChange" style="display: inline-block; margin-top: 2vh; margin-left: 2vh;">
+                            问题变更
                         </button>
                         <button type="submit" class="btn btn-outline-secondary mb-2" style="display: inline-block; margin-top: 2vh; margin-left: 2vh;">
                             保存更改
@@ -348,32 +348,10 @@
             </div>
             <div class="modal-body">
                 <form id="editForm" method="post">
-                    @Html.AntiForgeryToken()
-                    <!-- Hidden fields -->
-                    <input type="hidden" id="editId" name="ID" />
-                    <input type="hidden" id="editOldMaterialCode" name="OldMaterialCode" />
-                    <input type="hidden" id="editOldMaterialDescription" name="OldMaterialDescription" />
-                    <input type="hidden" id="editSupplierShortCode" name="SupplierShortCode" />
-                    <input type="hidden" id="editResponsibilitySourceSupplierName" name="ResponsibilitySourceSupplierName" />
-                    <input type="hidden" id="editFilteredVehicleModel" name="FilteredVehicleModel" />
-                    <input type="hidden" id="editCaseCount" name="CaseCount" />
-                    <input type="hidden" id="editMIS3" name="MIS3" />
-                    <input type="hidden" id="editMIS6" name="MIS6" />
-                    <input type="hidden" id="editMIS12" name="MIS12" />
-                    <input type="hidden" id="editMIS24" name="MIS24" />
-                    <input type="hidden" id="editMIS48" name="MIS48" />
-                    <input type="hidden" id="editSMT" name="SMT" />
-                    <input type="hidden" id="editLocationCode" name="LocationCode" />
-                    <input type="hidden" id="editFaultCode" name="FaultCode" />
-                    <input type="hidden" id="editQE" name="QE" />
-                    <input type="hidden" id="editBreakdownCount" name="BreakdownCount" />
-                    <input type="hidden" id="editIsBreakdownInvalid" name="IsBreakdownInvalid" />
-                    <input type="hidden" id="editIssueAttributes" name="IssueAttributes" />
-                    <input type="hidden" id="editRowVersion" name="RowVersion" /> <!-- 使用 RowVersion -->
-
+                    @Html.AntiForgeryToken()     
                     <!-- Dynamic QE dropdown -->
-                    <div class="form-group">                       
-                        <select id="editQEChoose" name="QE" class="form-control" required>
+                    <div class="form-group" style="margin-bottom :2vh">                       
+                        <select id="editQEChoose" name="QE" style="margin-top :2vh" class="form-control" required>
                             <option value="">选择QE</option> <!-- 默认空选项 -->
                         </select>
                     </div>
@@ -421,6 +399,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="serviceCenterFormOP">
+                    @Html.AntiForgeryToken()
                     <input type="text" class="form-control" id="caseNumberOPS" placeholder="输入案例数" required style="margin-top: 1vh;">
                     <input type="text" class="form-control" id="customerVehicleNumberOPS" placeholder="输入客户车辆数" required style="margin-top: 1vh;">
                     <input type="text" class="form-control" id="materialNumberOPS" placeholder="输入物料号" required style="margin-top: 1vh;">
@@ -451,6 +430,7 @@
                 <!-- Error message container -->
                 <!-- 对于纳入SIL系统，目前暂时拟定两个必须参数，物料号和车号，其他参数为可选-->
                 <form id="dailyQualityFormOP">
+                    @Html.AntiForgeryToken()
                     <input type="text" class="form-control" id="materialNumberOP" name="OldMaterialCode" placeholder="输入物料号(必填)" required style="margin-top: 1vh;">
                     <input type="text" class="form-control" id="queryDateOP" name="ApprovalDate" placeholder="审核通过日期(可选)" style="margin-top: 1vh;">
                     <input type="text" class="form-control" id="faultCodeOP" name="FaultCode" placeholder="输入故障码(可选)" style="margin-top: 1vh;">
@@ -1565,11 +1545,13 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
     <script>
         function submitToSIL() {
             let formData = $('#dailyQualityFormOP').serialize(); // 获取表单数据
-
+            console.log("使用SIL 方法");
+            
             // 发起 AJAX 请求
+           
             $.ajax({
                 url: '/queryAPI/RemoteAccess/dailyqualitydataforsil',
-                type: 'GET', // 或 'POST'，根据需要
+                type: 'POST', // 或 'POST'，根据需要
                 data: formData,
                 success: function (response) {
                     // 处理成功回调
@@ -1654,8 +1636,9 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                     console.log(formData);
                     $.post('/RemoteEdit/Edit', formData, function (response) {
                         if (response.success) {
-                            $('#editModal').modal('hide');
-                            location.reload();
+                            console.log("编辑成功");
+                            // $('#editModal').modal('hide');
+                            // location.reload();
                         } else {
                             alert(response.message);
                         }
@@ -1693,14 +1676,6 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                     alert("提交变更失败");                
                 });
             });
-            // $('#editQEChange').click(function () {
-            //     // 隐藏当前模态框
-            //     console.log("进入QE变更模态框");
-            //     $('#editModal').modal('hide');
-
-            //     // 显示QE变更模态框
-            //     $('#editQEChangeModal').modal('show');
-            // });//改变QE跳转页面
 
             $("#editForm").on("click", "#editQEChange", function (f) {
                 f.preventDefault();
@@ -1725,39 +1700,16 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                 }).fail(function () {
                     alert("获取用户列表失败！");
                 });
-                // 显示QE变更模态框
-                $('#editQEChangeModal').modal('show');
-                // $('#editQE').val("魏成伟");
-                // $('#editServiceFaultIdentificationAccurate').val('');
-                // $('#editIdentifiedFaultMode').val('');
-                // $('#editIncludedInSIL').val('');
-                // $('#editPQSNumber').val('');
-                // $('#editBreakpointTime').val('');
-                // $('#editStartTime').val('');
-                // $('#editRemarks').val('');
-                // $('#editProjectIdentifier').val('');
-                // let formData = $("#editForm").serialize();
-                // $.post("/RemoteEdit/Edit", formData, function (response) {
-
-                //     if (response.success) {
-
-                //         $("#ditModal").modal("hide");
-                //         location.reload();
-                //     }
-                //     else {
-
-                //     }
-                // }).fail(function () {
-
-                //     alert("提交变更失败");
-                // });
+                $('#editQEChangeModal').modal('show');             
             });//改变QE提交表单
 
 
-                 $("#editForm").on("click", "#editQESubmit", function (h) {
+            $('#editQEChangeModal').on("click", "#editQESubmit", function (h) {
                 h.preventDefault();
                 console.log("这是一个更改QE的表单");
-                $('#editQE').val("魏成伟");
+
+                let selectedQE = $('#editQEChoose').val();  // 获取选中的值
+                $('#editQE').val(selectedQE);  // 设置 #editQE 的值为选中的值
                 $('#editServiceFaultIdentificationAccurate').val('');
                 $('#editIdentifiedFaultMode').val('');
                 $('#editIncludedInSIL').val('');
@@ -1766,12 +1718,14 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                 $('#editStartTime').val('');
                 $('#editRemarks').val('');
                 $('#editProjectIdentifier').val('');
+
+
                 let formData = $("#editForm").serialize();
                 $.post("/RemoteEdit/Edit", formData, function (response) {
 
                     if (response.success) {
 
-                        $("#ditModal").modal("hide");
+                        $("#editQEChangeModal").modal("hide");
                         location.reload();
                     }
                     else {

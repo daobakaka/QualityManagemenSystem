@@ -10,7 +10,7 @@ namespace WebWinMVC
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            // 注册 DQIUpdateService 服务
+            // 注册 DQIUpdateService 服务,用于在其他控制中可以处理依赖
             builder.Services.AddScoped<DQIUpdateController>();
 
             builder.Services.AddDbContext<JRZLWTDbContext>(op => op.UseSqlServer(builder.Configuration.GetConnectionString("JRZLWTConnection")));

@@ -175,7 +175,7 @@ namespace WebWinMVC.Controllers
         public async Task<IActionResult> GetUserNamesForRoleD()
         {
             var usersWithRoleD = await _context.userAuthentications
-                .Where(u => u.Role == "D")
+                .Where(u => u.Role == "D"||u.Role=="C")
                 .Select(u => u.Name)
                 .ToListAsync();
 

@@ -321,21 +321,21 @@
     </div>
     <div class="card-body">
         <!-- 筛选并透视表单 -->
-        <form class="filter-pivot-form" method="get" action="/api/AutomaticDataChange/FilterAndPivot">
-            @Html.AntiForgeryToken()
+        <form class="filter-pivot-form" method="POST" action="/api/AutomaticDataChange/FilterAndPivot">
+            @Html.AntiForgeryToken() <!-- 防伪令牌 -->
 
             <div class="form-group">
                 <label for="ApprovalDate">输入审核日期（yyMMdd 或 yyMMdd-yyMMdd）：</label>
                 <input type="text" id="ApprovalDate" name="ApprovalDate" class="form-control" placeholder="例如：240901 或 240901-240903" required />
                 <label for="FilterDay">输入质量问题制造月筛选日期（yyMMdd）：</label>
                 <input type="text" id="FilterDay" name="FilterDay" class="form-control" placeholder="例如：240901" required />
-                <label for="FilterDay">输入制造月筛选范围,默认基础月范围12个月，输入+6(则代表实际范围为18个月)，输入-6(则代表实际范围为6个月)：</label>
+                <label for="MFmonth">输入制造月筛选范围，默认基础月范围12个月，输入+6（则代表实际范围为18个月），输入-6（则代表实际范围为6个月）：</label>
                 <input type="text" id="MFmonth" name="MFmonth" class="form-control" placeholder="例如：6" required />
                 <small class="form-text text-muted">请输入审核日期：支持单个日期或日期范围/质量问题制造月筛选日期/请输入制造月筛选范围</small>
             </div>
 
             <!-- 提交按钮 -->
-            <button type="submit" class="btn btn-outline-primary mb-2" style="width: 20%; margin-top:1.5vh">筛选并透视</button>
+            <button type="submit" class="btn btn-outline-primary mb-2" style="width: 20%; margin-top: 1.5vh">筛选并透视</button>
 
             <!-- 进度条 -->
             <div class="progress mt-3" style="display: none;">
@@ -344,6 +344,7 @@
         </form>
     </div>
 </div>
+
 <!-- 8. 传输 V91 数据模块 -->
 <div class="card mb-4">
     <div class="card-header">
@@ -351,7 +352,7 @@
     </div>
     <div class="card-body">
         <!-- 传输 V91 数据表单 -->
-        <form class="transfer-v91-data-form" method="get" action="/api/AutomaticDataChange/TransferV91Data">
+        <form class="transfer-v91-data-form" method="post" action="/api/AutomaticDataChange/TransferV91Data">
             @Html.AntiForgeryToken()
 
             <div class="form-group">
@@ -385,7 +386,7 @@
     </div>
     <div class="card-body">
         <!-- 传输 V91 查询数据表单 -->
-        <form class="transfer-v91-query-data-form" method="get" action="/api/AutomaticDataChange/TransferV91QueryData">
+        <form class="transfer-v91-query-data-form" method="post" action="/api/AutomaticDataChange/TransferV91QueryData">
             @Html.AntiForgeryToken()
 
             <div class="form-group">
@@ -553,23 +554,15 @@
                 const $submitButton = $form.find('button[type="submit"]');
                 $submitButton.prop('disabled', true).text('筛选中...');
 
-                // 发送 AJAX GET 请求
+                // 发送 AJAX POST 请求
                 $.ajax({
                     url: $form.attr('action'),
-                    type: 'GET',
-                    data: { ApprovalDate: approvalDate, FilterDay: filterDay, MFmonth: mFmonth },
-                    xhr: function () {
-                        const xhr = new window.XMLHttpRequest();
-                        // 监听请求进度
-                        xhr.addEventListener("progress", function (evt) {
-                            if (evt.lengthComputable) {
-                                const percentComplete = Math.round((evt.loaded / evt.total) * 100);
-                                $progressBar.css('width', percentComplete + '%')
-                                    .attr('aria-valuenow', percentComplete)
-                                    .text(percentComplete + '%');
-                            }
-                        }, false);
-                        return xhr;
+                    type: 'POST',
+                    data: {
+                        ApprovalDate: approvalDate,
+                        FilterDay: filterDay,
+                        MFmonth: mFmonth,
+                        __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() // 防伪令牌
                     },
                     success: function (response) {
                         console.log("筛选并透视成功:", response);
@@ -593,121 +586,128 @@
                     }
                 });
             });
+                // 处理 TransferV91QueryData 表单提交
+           
+                // 处理 TransferV91Data 表单提交
+                $('.transfer-v91-data-form').on('submit', function (e) {
+                    e.preventDefault(); // 阻止默认表单提交行为
+                    const $form = $(this);
+                    const operation = $form.find('input[name="operation"]:checked').val();
 
-            // 处理 TransferV91Data 表单提交
-            $('.transfer-v91-data-form').on('submit', function (e) {
-                e.preventDefault(); // 阻止默认表单提交行为
-                const $form = $(this);
-                const operation = $form.find('input[name="operation"]:checked').val();
+                    // 显示并初始化进度条
+                    const $progress = $form.find('.progress');
+                    const $progressBar = $form.find('.progress-bar');
+                    $progress.show();
+                    $progressBar.css('width', '0%').attr('aria-valuenow', 0).text('0%');
 
-                // 显示并初始化进度条
-                const $progress = $form.find('.progress');
-                const $progressBar = $form.find('.progress-bar');
-                $progress.show();
-                $progressBar.css('width', '0%').attr('aria-valuenow', 0).text('0%');
+                    // 禁用提交按钮，防止重复提交
+                    const $submitButton = $form.find('button[type="submit"]');
+                    $submitButton.prop('disabled', true).text('传输中...');
 
-                // 禁用提交按钮，防止重复提交
-                const $submitButton = $form.find('button[type="submit"]');
-                $submitButton.prop('disabled', true).text('传输中...');
-
-                // 发送 AJAX GET 请求
-                $.ajax({
-                    url: $form.attr('action'),
-                    type: 'GET',
-                    data: { operation: operation },
-                    xhr: function () {
-                        const xhr = new window.XMLHttpRequest();
-                        // 监听请求进度
-                        xhr.addEventListener("progress", function (evt) {
-                            if (evt.lengthComputable) {
-                                const percentComplete = Math.round((evt.loaded / evt.total) * 100);
-                                $progressBar.css('width', percentComplete + '%')
-                                    .attr('aria-valuenow', percentComplete)
-                                    .text(percentComplete + '%');
-                            }
-                        }, false);
-                        return xhr;
-                    },
-                    success: function (response) {
-                        console.log("数据传输成功:", response);
-                        alert("数据传输成功！");
-                        // 设置进度条为100%
-                        $progressBar.css('width', '100%').attr('aria-valuenow', 100).text('100%');
-                        setTimeout(function () {
-                            $progress.hide(); // 隐藏进度条
-                            $form[0].reset(); // 重置表单
-                            $submitButton.prop('disabled', false).text('传输数据'); // 恢复按钮状态
-                        }, 500);
-                    },
-                    error: function (xhr) {
-                        console.error("数据传输失败:", xhr);
-                        alert("数据传输失败: " + (xhr.responseJSON?.title || "未知错误"));
-                        // 重置进度条
-                        $progressBar.css('width', '0%').attr('aria-valuenow', 0).text('0%');
-                        $progress.hide();
-                        // 恢复提交按钮状态
-                        $submitButton.prop('disabled', false).text('传输数据');
-                    }
+                    // 发送 AJAX POST 请求
+                    $.ajax({
+                        url: $form.attr('action'),
+                        type: 'POST',
+                        data: {
+                            operation: operation,
+                            __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() // 防伪令牌
+                        },
+                        xhr: function () {
+                            const xhr = new window.XMLHttpRequest();
+                            // 监听请求进度
+                            xhr.addEventListener("progress", function (evt) {
+                                if (evt.lengthComputable) {
+                                    const percentComplete = Math.round((evt.loaded / evt.total) * 100);
+                                    $progressBar.css('width', percentComplete + '%')
+                                        .attr('aria-valuenow', percentComplete)
+                                        .text(percentComplete + '%');
+                                }
+                            }, false);
+                            return xhr;
+                        },
+                        success: function (response) {
+                            console.log("数据传输成功:", response);
+                            alert("数据传输成功！");
+                            // 设置进度条为100%
+                            $progressBar.css('width', '100%').attr('aria-valuenow', 100).text('100%');
+                            setTimeout(function () {
+                                $progress.hide(); // 隐藏进度条
+                                $form[0].reset(); // 重置表单
+                                $submitButton.prop('disabled', false).text('传输数据'); // 恢复按钮状态
+                            }, 500);
+                        },
+                        error: function (xhr) {
+                            console.error("数据传输失败:", xhr);
+                            alert("数据传输失败: " + (xhr.responseJSON?.title || "未知错误"));
+                            // 重置进度条
+                            $progressBar.css('width', '0%').attr('aria-valuenow', 0).text('0%');
+                            $progress.hide();
+                            // 恢复提交按钮状态
+                            $submitButton.prop('disabled', false).text('传输数据');
+                        }
+                    });
                 });
-            });
 
-            // 处理 TransferV91QueryData 表单提交
-            $('.transfer-v91-query-data-form').on('submit', function (e) {
-                e.preventDefault(); // 阻止默认表单提交行为
-                const $form = $(this);
-                const operation = $form.find('input[name="operation"]:checked').val();
+                // 处理 TransferV91QueryData 表单提交
+                $('.transfer-v91-query-data-form').on('submit', function (e) {
+                    e.preventDefault(); // 阻止默认表单提交行为
+                    const $form = $(this);
+                    const operation = $form.find('input[name="operation"]:checked').val();
 
-                // 显示并初始化进度条
-                const $progress = $form.find('.progress');
-                const $progressBar = $form.find('.progress-bar');
-                $progress.show();
-                $progressBar.css('width', '0%').attr('aria-valuenow', 0).text('0%');
+                    // 显示并初始化进度条
+                    const $progress = $form.find('.progress');
+                    const $progressBar = $form.find('.progress-bar');
+                    $progress.show();
+                    $progressBar.css('width', '0%').attr('aria-valuenow', 0).text('0%');
 
-                // 禁用提交按钮，防止重复提交
-                const $submitButton = $form.find('button[type="submit"]');
-                $submitButton.prop('disabled', true).text('传输中...');
+                    // 禁用提交按钮，防止重复提交
+                    const $submitButton = $form.find('button[type="submit"]');
+                    $submitButton.prop('disabled', true).text('传输中...');
 
-                // 发送 AJAX GET 请求
-                $.ajax({
-                    url: $form.attr('action'),
-                    type: 'GET',
-                    data: { operation: operation },
-                    xhr: function () {
-                        const xhr = new window.XMLHttpRequest();
-                        // 监听请求进度
-                        xhr.addEventListener("progress", function (evt) {
-                            if (evt.lengthComputable) {
-                                const percentComplete = Math.round((evt.loaded / evt.total) * 100);
-                                $progressBar.css('width', percentComplete + '%')
-                                    .attr('aria-valuenow', percentComplete)
-                                    .text(percentComplete + '%');
-                            }
-                        }, false);
-                        return xhr;
-                    },
-                    success: function (response) {
-                        console.log("数据传输成功:", response);
-                        alert("数据传输成功！");
-                        // 设置进度条为100%
-                        $progressBar.css('width', '100%').attr('aria-valuenow', 100).text('100%');
-                        setTimeout(function () {
-                            $progress.hide(); // 隐藏进度条
-                            $form[0].reset(); // 重置表单
-                            $submitButton.prop('disabled', false).text('传输数据'); // 恢复按钮状态
-                        }, 500);
-                    },
-                    error: function (xhr) {
-                        console.error("数据传输失败:", xhr);
-                        alert("数据传输失败: " + (xhr.responseJSON?.title || "未知错误"));
-                        // 重置进度条
-                        $progressBar.css('width', '0%').attr('aria-valuenow', 0).text('0%');
-                        $progress.hide();
-                        // 恢复提交按钮状态
-                        $submitButton.prop('disabled', false).text('传输数据');
-                    }
+                    // 发送 AJAX POST 请求
+                    $.ajax({
+                        url: $form.attr('action'),
+                        type: 'POST',
+                        data: {
+                            operation: operation,
+                            __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() // 防伪令牌
+                        },
+                        xhr: function () {
+                            const xhr = new window.XMLHttpRequest();
+                            // 监听请求进度
+                            xhr.addEventListener("progress", function (evt) {
+                                if (evt.lengthComputable) {
+                                    const percentComplete = Math.round((evt.loaded / evt.total) * 100);
+                                    $progressBar.css('width', percentComplete + '%')
+                                        .attr('aria-valuenow', percentComplete)
+                                        .text(percentComplete + '%');
+                                }
+                            }, false);
+                            return xhr;
+                        },
+                        success: function (response) {
+                            console.log("数据传输成功:", response);
+                            alert("数据传输成功！");
+                            // 设置进度条为100%
+                            $progressBar.css('width', '100%').attr('aria-valuenow', 100).text('100%');
+                            setTimeout(function () {
+                                $progress.hide(); // 隐藏进度条
+                                $form[0].reset(); // 重置表单
+                                $submitButton.prop('disabled', false).text('传输数据'); // 恢复按钮状态
+                            }, 500);
+                        },
+                        error: function (xhr) {
+                            console.error("数据传输失败:", xhr);
+                            alert("数据传输失败: " + (xhr.responseJSON?.title || "未知错误"));
+                            // 重置进度条
+                            $progressBar.css('width', '0%').attr('aria-valuenow', 0).text('0%');
+                            $progress.hide();
+                            // 恢复提交按钮状态
+                            $submitButton.prop('disabled', false).text('传输数据');
+                        }
+                    });
                 });
-            });
-        });
-    </script>
+        });            
+    </script>@* 数据清洗 *@
 
 }

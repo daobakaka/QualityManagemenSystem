@@ -64,6 +64,7 @@ namespace WebWinMVC.Controllers
 
         // 1. 上传 BreakpointAnalysisTable
         [HttpPost("uploadBreakpointAnalysisTable")]
+        [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> UploadBreakpointAnalysisTable(IFormFile file, [FromQuery] DataOperation operation)
         {
             return await UploadFile<BreakpointAnalysisTable>(file, operation, _dbContext.BreakpointAnalysisTables, new BreakpointAnalysisTableMapXLSX());
@@ -71,6 +72,7 @@ namespace WebWinMVC.Controllers
 
         // 2. 上传 DailyServiceReviewForm
         [HttpPost("uploadDailyServiceReviewForms")]
+        [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> UploadDailyServiceReviewForms(IFormFile file, [FromQuery] DataOperation operation)
         {
             return await UploadFile<DailyServiceReviewForm>(file, operation, _dbContext.DailyServiceReviewForms, new DailyServiceReviewFormMapXLSX());
@@ -78,6 +80,7 @@ namespace WebWinMVC.Controllers
 
         // 3. 上传 DailyServiceReviewFormQuery
         [HttpPost("uploadDailyServiceReviewFormQueries")]
+        [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> UploadDailyServiceReviewFormQueries(IFormFile file, [FromQuery] DataOperation operation)
         {
             return await UploadFile<DailyServiceReviewFormQuery>(file, operation, _dbContext.DailyServiceReviewFormQueries, new DailyServiceReviewFormQueryMapXLSX());
@@ -85,6 +88,7 @@ namespace WebWinMVC.Controllers
 
         // 4. 上传 DailyQualityIssueChecklistV91
         [HttpPost("uploadDailyQualityIssueChecklistV91s")]
+        [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> UploadDailyQualityIssueChecklistV91s(IFormFile file, [FromQuery] DataOperation operation)
         {
             return await UploadFile<DailyQualityIssueChecklistV91>(file, operation, _dbContext.DailyQualityIssueChecklistV91s, new DailyQualityIssueChecklistV91MapXLSX());
@@ -92,6 +96,7 @@ namespace WebWinMVC.Controllers
 
         // 5. 上传 DailyQualityIssueChecklistV91Query
         [HttpPost("uploadDailyQualityIssueChecklistV91Queries")]
+        [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> UploadDailyQualityIssueChecklistV91Queries(IFormFile file, [FromQuery] DataOperation operation)
         {
             return await UploadFile<DailyQualityIssueChecklistV91Query>(file, operation, _dbContext.DailyQualityIssueChecklistV91Queries, new DailyQualityIssueChecklistV91QueryMapXLSX());
@@ -99,11 +104,13 @@ namespace WebWinMVC.Controllers
 
         // 6. 上传 VehicleBasicInfo
         [HttpPost("uploadVehicleBasicInfos")]
+        [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> UploadVehicleBasicInfos(IFormFile file, [FromQuery] DataOperation operation)
         {
             return await UploadFile<VehicleBasicInfo>(file, operation, _dbContext.VehicleBasicInfos, new VehicleBasicInfoMapXLSX());
         }
         [HttpPost("uploadSeriesDescriptionTable")]
+        [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> UploadSeriesDescriptionTables(IFormFile file, [FromQuery] DataOperation operation)
         {
 

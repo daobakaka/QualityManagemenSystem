@@ -53,8 +53,9 @@ namespace WebWinMVC.Controllers
 
 
         }
-        [HttpGet("FilterAndPivot")]
-        public async Task<IActionResult> FilterAndPivot([FromQuery] string ApprovalDate, [FromQuery] string FilterDay, [FromQuery] int MFmonth=6)
+        [HttpPost("FilterAndPivot")]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> FilterAndPivot([FromForm] string ApprovalDate, [FromForm] string FilterDay, [FromForm] int MFmonth=6)
         { 
             try
             {
@@ -1205,8 +1206,9 @@ namespace WebWinMVC.Controllers
             }
         }
 
-        [HttpGet("TransferV91Data")]
-        public async Task<IActionResult> TransferV91Data([FromQuery] DataOperation operation)
+        [HttpPost("TransferV91Data")]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> TransferV91Data([FromForm] DataOperation operation)
         {
             var dbSetTemp = _context.dailyQualityIssueChecklistV91Temps;
             var dbSetPermanent = _context.DailyQualityIssueChecklistV91s;
@@ -1343,8 +1345,9 @@ namespace WebWinMVC.Controllers
         /// </summary>
         /// <param name="operation">操作类型：Replace（替换）或 Update（更新）。</param>
         /// <returns>操作结果。</returns>
-        [HttpGet("TransferV91QueryData")]
-        public async Task<IActionResult> TransferV91QueryData([FromQuery] DataOperation operation)
+        [HttpPost("TransferV91QueryData")]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> TransferV91QueryData([FromForm] DataOperation operation)
         {
             var dbSetTemp = _context.dailyQualityIssueChecklistV91QueryTemps;
             var dbSetPermanent = _context.DailyQualityIssueChecklistV91Queries;

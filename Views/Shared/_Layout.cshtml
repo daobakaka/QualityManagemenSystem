@@ -32,28 +32,28 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="HYIndex" asp-action="HYIndexJRZLWTV91">即日质量问题</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" style="@(ViewBag.IsLoggedIn != null && ((bool)ViewBag.IsLoggedIn&&ViewBag.Role=="A") ? "pointer-events: auto; opacity: 1;" : "pointer-events: none; opacity: 0.5;")">
                             <a class="nav-link text-dark" asp-area="" asp-controller="HYIndex" asp-action="HYIndexTOP">TOP问题</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" style="@(ViewBag.IsLoggedIn != null && ((bool)ViewBag.IsLoggedIn&&ViewBag.Role=="A") ? "pointer-events: auto; opacity: 1;" : "pointer-events: none; opacity: 0.5;")">
                             <a class="nav-link text-dark" asp-area="" asp-controller="HYIndex" asp-action="HYIndex24M">24小时会</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" style="@(ViewBag.IsLoggedIn != null && ((bool)ViewBag.IsLoggedIn&&ViewBag.Role=="A") ? "pointer-events: auto; opacity: 1;" : "pointer-events: none; opacity: 0.5;")">
                             <a class="nav-link text-dark" asp-area="" asp-controller="HYIndex" asp-action="HYIndexWM">质量周例会</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" style="@(ViewBag.IsLoggedIn != null && ((bool)ViewBag.IsLoggedIn&&ViewBag.Role=="A") ? "pointer-events: auto; opacity: 1;" : "pointer-events: none; opacity: 0.5;")">
                             <a class="nav-link text-dark" asp-area="" asp-controller="HYIndex" asp-action="HYIndexQMC">QMC会议</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="HYIndex" asp-action="HYIndexSIL">SIL管理</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" style="@(ViewBag.IsLoggedIn != null && ((bool)ViewBag.IsLoggedIn&&ViewBag.Role=="A") ? "pointer-events: auto; opacity: 1;" : "pointer-events: none; opacity: 0.5;")">
                             <a class="nav-link text-dark" asp-area="" asp-controller="HYIndex" asp-action="HYIndexOTHER">其他</a>
                         </li>
                         <li class="nav-item" style="@(ViewBag.IsLoggedIn != null && ((bool)ViewBag.IsLoggedIn&&ViewBag.Role=="A") ? "pointer-events: auto; opacity: 1;" : "pointer-events: none; opacity: 0.5;")">
                             <a class="nav-link text-dark" asp-area="" asp-controller="HYIndex" asp-action="HYIndexMANAGER">管理员</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" style="@(ViewBag.IsLoggedIn != null && ((bool)ViewBag.IsLoggedIn&&ViewBag.Role=="A") ? "pointer-events: auto; opacity: 1;" : "pointer-events: none; opacity: 0.5;")">
                             <a class="nav-link text-dark" asp-area="" asp-controller="HYIndex" asp-action="TESTPAGES">测试</a>
                         </li>
                     </ul>

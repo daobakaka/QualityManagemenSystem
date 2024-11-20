@@ -139,7 +139,7 @@
     "ContainingType": "WebWinMVC.Controllers.AutomaticDataChangeController",
     "Method": "FilterAndPivot",
     "RelativePath": "api/AutomaticDataChange/FilterAndPivot",
-    "HttpMethod": "GET",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -165,7 +165,7 @@
     "ContainingType": "WebWinMVC.Controllers.AutomaticDataChangeController",
     "Method": "TransferV91Data",
     "RelativePath": "api/AutomaticDataChange/TransferV91Data",
-    "HttpMethod": "GET",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -181,7 +181,7 @@
     "ContainingType": "WebWinMVC.Controllers.AutomaticDataChangeController",
     "Method": "TransferV91QueryData",
     "RelativePath": "api/AutomaticDataChange/TransferV91QueryData",
-    "HttpMethod": "GET",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -399,9 +399,9 @@
   },
   {
     "ContainingType": "WebWinMVC.Controllers.RemoteAccessController",
-    "Method": "GetDailyQualityDataForSIL",
+    "Method": "PostDailyQualityDataForSIL",
     "RelativePath": "queryAPI/RemoteAccess/dailyqualitydataforsil",
-    "HttpMethod": "GET",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
