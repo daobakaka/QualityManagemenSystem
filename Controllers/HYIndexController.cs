@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace WebWinMVC.Controllers
 {
     [Authorize]
+   // [Authorize(Policy = "JwtPolicy")] // 应用 JWT 认证策略 添加测试
     public class HYIndexController : Controller
     {
         private readonly ILogger<HYIndexController> _logger;

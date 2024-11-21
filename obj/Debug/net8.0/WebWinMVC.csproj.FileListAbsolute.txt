@@ -354,3 +354,5 @@ E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\tr-TR\Hangfire.Core.resources.dll
 E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\zh-TW\Hangfire.Core.resources.dll
 E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\zh\Hangfire.Core.resources.dll
 E:\C#\WebWinMVC\WebWinMVC\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll
+D:\个人文件\C#\QualityManagemenSystem\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\个人文件\C#\QualityManagemenSystem\bin\Debug\net8.0\BCrypt.Net-Next.dll

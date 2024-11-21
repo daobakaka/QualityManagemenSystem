@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebWinMVC.Data;
@@ -8,6 +9,7 @@ namespace WebWinMVC.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class DQIUpdateController : ControllerBase
     {
         private readonly JRZLWTDbContext _dbContext;

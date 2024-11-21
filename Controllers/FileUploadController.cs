@@ -12,17 +12,20 @@ using System;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 using System.Net.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebWinMVC.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class FileUploadController : ControllerBase
     {
         private readonly JRZLWTDbContext _dbContext;
         private readonly ILogger<FileUploadController> _logger;
         private readonly string _logFilePath;
         private readonly string _folderPath; // 新增字段
+        private readonly string _allowedApiKey;
         private readonly IConfiguration _configuration;
         private readonly DQIUpdateController _dquiUpdateController;
 
@@ -41,7 +44,8 @@ namespace WebWinMVC.Controllers
             _folderPath = _configuration["FileUpload:FolderPath"] ?? "C:\\ASP.NET\\Uploads"; // 您可以根据需要修改默认路径
             // 从配置中读取日志文件路径
             _logFilePath = _configuration["Logging:LogFilePath"] ?? "C:\\ASP.NET\\Logs\\DailyServerLogs.txt";
-
+            //从配置文件中读取外部开放密钥
+            _allowedApiKey = _configuration["ApiKeys:AllowedApiKey"] ?? "";
             // 确保上传目录存在
             if (!Directory.Exists(_folderPath))
             {
@@ -59,8 +63,74 @@ namespace WebWinMVC.Controllers
 
             _dquiUpdateController = dquiUpdateController;
         }
+        
+        // 添加所有对应的映射路由方法-----------------
+        //--curl方法，为IT 预留自动化脚本接口
+        [HttpPost("uploadDailyServiceReviewFormsCurl")]
+        [AllowAnonymous]
+        public async Task<IActionResult> UploadDailyServiceReviewFormsCurl(IFormFile file, [FromQuery] DataOperation operation)
+        {
+            
+            // 检查 API 密钥是否存在于请求头中
+            if (!Request.Headers.TryGetValue("X-API-KEY", out var providedApiKey))
+            {
+                _logger.LogError("API Key was not provided.");
+                return Unauthorized(new { Message = "API Key was not provided." });
+            }
 
-        // 添加所有对应的映射路由方法
+            // 验证提供的 API 密钥是否匹配预期的密钥
+            if (providedApiKey != _allowedApiKey||_allowedApiKey=="")
+            {
+                _logger.LogError($"Unauthorized client attempted to access the endpoint.the input:{providedApiKey}");
+                return Unauthorized(new { Message = "Unauthorized client" });
+            }
+            // 如果 API 密钥有效，继续执行文件上传逻辑
+            return await UploadDailyServiceReviewForms(file, operation);
+        }
+        [HttpPost("uploadVehicleBasicInfosCurl")]
+        [AllowAnonymous]
+        public async Task<IActionResult> UploadVehicleBasicInfosCurl(IFormFile file, [FromQuery] DataOperation operation)
+        {
+            ;
+            // 检查 API 密钥是否存在于请求头中
+            if (!Request.Headers.TryGetValue("X-API-KEY", out var providedApiKey))
+            {
+                _logger.LogError("API Key was not provided.");
+                return Unauthorized(new { Message = "API Key was not provided." });
+            }
+            // 验证提供的 API 密钥是否匹配预期的密钥
+            if (providedApiKey != _allowedApiKey || _allowedApiKey == "")
+            {
+                _logger.LogError("Unauthorized client attempted to access the endpoint.");
+                return Unauthorized(new { Message = "Unauthorized client." });
+            }
+            return await UploadVehicleBasicInfos( file, operation);
+        }
+
+        [HttpPost("uploadSeriesDescriptionTableCrul")]
+        [AllowAnonymous]
+        public async Task<IActionResult> UploadSeriesDescriptionTablesCurl(IFormFile file, [FromQuery] DataOperation operation)
+        {
+        
+            // 检查 API 密钥是否存在于请求头中
+            if (!Request.Headers.TryGetValue("X-API-KEY", out var providedApiKey))
+            {
+                _logger.LogError("API Key was not provided.");
+                return Unauthorized(new { Message = "API Key was not provided." });
+            }
+            // 验证提供的 API 密钥是否匹配预期的密钥
+            if (providedApiKey != _allowedApiKey || _allowedApiKey == "")
+            {
+                _logger.LogError("Unauthorized client attempted to access the endpoint.");
+                return Unauthorized(new { Message = "Unauthorized client." });
+            }
+
+            return await UploadSeriesDescriptionTables(file, operation );
+
+        }
+
+
+        //--------CURL 区域
 
         // 1. 上传 BreakpointAnalysisTable
         [HttpPost("uploadBreakpointAnalysisTable")]
@@ -109,6 +179,7 @@ namespace WebWinMVC.Controllers
         {
             return await UploadFile<VehicleBasicInfo>(file, operation, _dbContext.VehicleBasicInfos, new VehicleBasicInfoMapXLSX());
         }
+        //7.上传 SeriesDescriptionTables
         [HttpPost("uploadSeriesDescriptionTable")]
         [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> UploadSeriesDescriptionTables(IFormFile file, [FromQuery] DataOperation operation)

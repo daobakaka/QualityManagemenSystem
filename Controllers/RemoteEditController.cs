@@ -4,9 +4,11 @@ using WebWinMVC.Models; // 引用您的模型命名空间
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebWinMVC.Controllers
 {
+    [Authorize]
     public class RemoteEditController : Controller
     {
         private readonly JRZLWTDbContext _context;

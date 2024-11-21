@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Office.CustomUI;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -13,6 +14,7 @@ namespace WebWinMVC.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AutomaticDataChangeController : ControllerBase
     {
         private readonly JRZLWTDbContext _context;

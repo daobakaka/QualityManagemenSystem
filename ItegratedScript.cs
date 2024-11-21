@@ -1,6 +1,11 @@
-﻿using ClosedXML.Excel;
+﻿using Azure.Core;
+using ClosedXML.Excel;
 using CsvHelper.Configuration;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.Options;
 using System.Reflection;
+using System.Security.Claims;
+using System.Text.Encodings.Web;
 using WebWinMVC.Models;
 
 namespace WebWinMVC
@@ -15,6 +20,9 @@ namespace WebWinMVC
     public class ItegratedScript
     {
     }
+
+    
+
     public interface IExcelMapping<T>
     {
         Dictionary<string, string> GetColumnMappings();

@@ -3,11 +3,13 @@ using WebWinMVC.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebWinMVC.Controllers
 {
     [Route("queryAPI/[controller]")]
     [ApiController]
+    [Authorize]
     public class RemoteTooltipController : ControllerBase
     {
         private readonly JRZLWTDbContext _context;

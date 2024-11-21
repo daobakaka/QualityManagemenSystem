@@ -1,5 +1,21 @@
 [
   {
+    "ContainingType": "WebWinMVC.Controllers.AuthController",
+    "Method": "Login",
+    "RelativePath": "api/Auth/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "WebWinMVC.Controllers.LoginModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "WebWinMVC.Controllers.AutomaticDataCalculationController",
     "Method": "ProcessAndStoreResultsAsyncToQuery",
     "RelativePath": "api/AutomaticDataCalculation",
@@ -316,6 +332,27 @@
   },
   {
     "ContainingType": "WebWinMVC.Controllers.FileUploadController",
+    "Method": "UploadDailyServiceReviewFormsCurl",
+    "RelativePath": "api/FileUpload/uploadDailyServiceReviewFormsCurl",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "file",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "operation",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebWinMVC.Controllers.FileUploadController",
     "Method": "UploadSeriesDescriptionTables",
     "RelativePath": "api/FileUpload/uploadSeriesDescriptionTable",
     "HttpMethod": "POST",
@@ -337,8 +374,50 @@
   },
   {
     "ContainingType": "WebWinMVC.Controllers.FileUploadController",
+    "Method": "UploadSeriesDescriptionTablesCurl",
+    "RelativePath": "api/FileUpload/uploadSeriesDescriptionTableCrul",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "file",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "operation",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebWinMVC.Controllers.FileUploadController",
     "Method": "UploadVehicleBasicInfos",
     "RelativePath": "api/FileUpload/uploadVehicleBasicInfos",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "file",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "operation",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebWinMVC.Controllers.FileUploadController",
+    "Method": "UploadVehicleBasicInfosCurl",
+    "RelativePath": "api/FileUpload/uploadVehicleBasicInfosCurl",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,

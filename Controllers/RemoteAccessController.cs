@@ -6,11 +6,13 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection.Emit;
 using System.Diagnostics;
 using WebWinMVC.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebWinMVC.Controllers
 {
     [Route("queryAPI/[controller]")]
     [ApiController]
+    [Authorize]
     public class RemoteAccessController : ControllerBase
     {
         private readonly JRZLWTDbContext _context;
