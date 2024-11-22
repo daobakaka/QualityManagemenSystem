@@ -94,8 +94,10 @@
                                         </td>
                                         <td data-label="短代码"> @item.SupplierShortCode</td>
                                         <td data-label="供应商名称">@item.ResponsibilitySourceSupplierName</td>
-                                        <td data-label="车型">@item.FilteredVehicleModel</td>
-                                        <td data-label="问题属性">@item.IssueAttributes</td>
+                                        <td data-label="车型">@item.FilteredVehicleModel</td>                                    
+                                        <td data-label="问题属性">
+                                            <span data-toggle="tooltip" title="@item.IssueAttributes">@item.IssueAttributes</span>
+                                        </td>
                                         <td data-label="案例数">@item.CaseCount</td>
                                         <td data-label="3MIS">@item.MIS3</td>
                                         <td data-label="6MIS">@item.MIS6</td>
@@ -660,8 +662,6 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
     <script>
         let isWindowCreated = false;
         let floatingWindowDiv = null;
-
-
         // 创建悬浮窗口
         function createFloatingWindow() {
             if (isWindowCreated) return; // 防止重复创建窗口
@@ -768,9 +768,9 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                     x += noiseX;
                     y += noiseY;
                     z += noiseZ;
-                    // 处理 X 轴数据，保持在 0 到 50 的范围内
+                    // 处理 X 轴数据，保持在 -1 到 50 的范围内,捕捉未售卖的车辆
                     x = x > 50 ? 0 : x;
-                    x = mapToRange(x, 0, 50);
+                    x = mapToRange(x, -1.5, 50);
                     // 处理 Z 轴数据
                     return { x, y, z, original: item };
                 });
@@ -835,7 +835,18 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
             };
 
             // 示例立方体
-            const cubeTraces = [10, 30].map(zHeight => ({
+
+
+            // const cubeHeightsBasics = breakpointAnalysisTables
+            //     .filter(e =>
+            //         e.MaterialNumber === dataStore.tooltipContentCache[0].MaterialNumber &&
+            //         e.SupplierShortCode === dataStore.tooltipContentCache[0].SupplierShortCode &&
+            //         e.VehicleModel === dataStore.tooltipContentCache[0].VehicleModel
+            //     )
+            //     .map(e => e.BreakpointTime);
+
+            const cubeHeights = [5, 30, 45];
+            const cubeTraces = cubeHeights.map(zHeight => ({
                 type: 'mesh3d',
                 x: [0, 50, 50, 0, 0, 50, 50, 0],
                 y: [0, 0, 50, 50, 0, 0, 50, 50],

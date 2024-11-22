@@ -173,6 +173,11 @@
         "Name": "MFmonth",
         "Type": "System.Int32",
         "IsRequired": false
+      },
+      {
+        "Name": "MonthOffset",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using WebWinMVC.Data;
 using WebWinMVC.Models;
 
@@ -14,16 +15,30 @@ namespace WebWinMVC.Controllers
     {
         private readonly JRZLWTDbContext _dbContext;
         private readonly ILogger<DQIUpdateController> _logger;
-
-        public DQIUpdateController(ILogger<DQIUpdateController> logger, JRZLWTDbContext dbContext)
+        private readonly AutomaticDataChangeController _automaticDataChangeController;
+        private readonly IConfiguration _configuration;
+        private readonly int _MFmonth;
+        private readonly int _MonthOffset;
+        private readonly string _StartDay;
+        public DQIUpdateController(ILogger<DQIUpdateController> logger, JRZLWTDbContext dbContext, AutomaticDataChangeController automaticDataChangeController, IConfiguration configuration)
         {
             _logger = logger;
             _dbContext = dbContext;
+            _automaticDataChangeController = automaticDataChangeController;
+            _configuration = configuration;
+
+
+            _MFmonth = _configuration.GetValue<int>("FilterPar:MFmonth");//读取配置表中的筛选月数
+            _MonthOffset = _configuration.GetValue<int>("FilterPar:MonthOffset");
+            _StartDay = _configuration["FilterPar:StartDay"] ?? "240415";
         }
 
         [HttpGet("MakeDailyQualityQueryTable")]
         public async Task<IActionResult> MakeDailyQualityQueryTable([FromQuery] DataOperation operation)
         {
+            if (operation != DataOperation.Make && operation != DataOperation.AutoFlow)
+                return NotFound("操作参数不合符要求");
+            
             var dbDailyServiceReviewTable = _dbContext.DailyServiceReviewForms;
             var dbDailyServiceReviewQueryTable = _dbContext.dailyServiceReviewFormQueryTemps;
             var dbDailyServiceReviewTableSave = _dbContext.DailyServiceReviewFormQueries;
@@ -246,14 +261,34 @@ namespace WebWinMVC.Controllers
             }).ToList();
 
             await dbDailyServiceReviewTableSave.AddRangeAsync(queries);
+            _logger.LogInformation($"成功将 {dailyQualityQueryEntries.Count} 条记录插入到 DailyServiceReviewFormQueries 表中。");
+            if (operation == DataOperation.AutoFlow)
+            {
+
+
+                _logger.LogError("进入自动化流程");
+                DateTime today = DateTime.Now;
+                DateTime yesterday = today.AddDays(-1);
+
+                // 格式化为 "yyMMdd" 字符串
+                string FilterDay = yesterday.ToString("yyMMdd");
+
+                // 构建 approvalDate 为 "yyMMdd-filterDay"
+                string approvalDate = $"{_StartDay}-{FilterDay}";
+      
+                await _automaticDataChangeController.FilterAndPivot(approvalDate,FilterDay,_MFmonth,_MonthOffset);
+
+                await _automaticDataChangeController.TransferV91Data(DataOperation.Update);
+                await _automaticDataChangeController.TransferV91QueryData(DataOperation.Update); 
+            
+            }
+
 
             if (dbDailyServiceReviewTable.Any())
                 dbDailyServiceReviewTable.RemoveRange(dbDailyServiceReviewTable);
             await _dbContext.SaveChangesAsync();
-            //  await dbDailyServiceReviewTableSave.AddRangeAsync(dailyQualityQueryEntries);
-     
-
-            _logger.LogInformation($"成功将 {dailyQualityQueryEntries.Count} 条记录插入到 DailyServiceReviewFormQueriesTEMP 表中。");
+            //  await dbDailyServiceReviewTableSave.AddRangeAsync(dailyQualityQueryEntries);     
+          
 
             return Ok(new { Message = "数据更新成功", Count = dailyQualityQueryEntries.Count });
         }

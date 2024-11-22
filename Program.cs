@@ -17,6 +17,8 @@ namespace WebWinMVC
 
             // 注册 DQIUpdateService 服务,用于在其他控制中可以处理依赖
             builder.Services.AddScoped<DQIUpdateController>();
+            builder.Services.AddScoped<AutomaticDataChangeController>();
+            //--
             builder.Services.AddDbContext<JRZLWTDbContext>(op => op.UseSqlServer(builder.Configuration.GetConnectionString("JRZLWTConnection")));
             //添加各种安全认证----JWT 安全认证
             //var jwtSettings = builder.Configuration.GetSection("JwtSettings");

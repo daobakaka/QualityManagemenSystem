@@ -329,9 +329,11 @@
                 <input type="text" id="ApprovalDate" name="ApprovalDate" class="form-control" placeholder="例如：240901 或 240901-240903" required />
                 <label for="FilterDay">输入质量问题制造月筛选日期（yyMMdd）：</label>
                 <input type="text" id="FilterDay" name="FilterDay" class="form-control" placeholder="例如：240901" required />
-                <label for="MFmonth">输入制造月筛选范围，默认基础月范围12个月，输入+6（则代表实际范围为18个月），输入-6（则代表实际范围为6个月）：</label>
+                <label for="MFmonth">输入制造月筛选缩放范围，默认基础月范围12个月，输入6（则代表实际范围为18个月），输入-6（则代表实际范围为6个月）：</label>
                 <input type="text" id="MFmonth" name="MFmonth" class="form-control" placeholder="例如：6" required />
-                <small class="form-text text-muted">请输入审核日期：支持单个日期或日期范围/质量问题制造月筛选日期/请输入制造月筛选范围</small>
+                <label for="MonthOffset">输入制造月筛选偏移，默认基础偏移0个月，输入6（则代表，制造月在当前筛选日期往后偏移6个月），输入-6（则代表制造月在当前筛选日期往前追溯6个月）：</label>
+                <input type="text" id="MonthOffset" name="MonthOffset" class="form-control" placeholder="例如：6" required />
+               
             </div>
 
             <!-- 提交按钮 -->
@@ -542,7 +544,8 @@
                 const $form = $(this);
                 const approvalDate = $form.find('input[name="ApprovalDate"]').val();
                 const filterDay = $form.find('input[name="FilterDay"]').val();
-                const mFmonth = $form.find('input[name="MFmonth"]').val();
+                const mFmonth = $form.find('input[name="MFmonth"]').val()??0;
+                const monthOffset = $form.find('input[name="MonthOffset"]').val()??0;
 
                 // 显示并初始化进度条
                 const $progress = $form.find('.progress');
@@ -562,6 +565,7 @@
                         ApprovalDate: approvalDate,
                         FilterDay: filterDay,
                         MFmonth: mFmonth,
+                        MonthOffset:monthOffset,
                         __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() // 防伪令牌
                     },
                     success: function (response) {

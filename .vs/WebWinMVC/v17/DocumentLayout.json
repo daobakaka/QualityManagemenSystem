@@ -3,6 +3,22 @@
   "WorkspaceRootPath": "D:\\\u4E2A\u4EBA\u6587\u4EF6\\C#\\QualityManagemenSystem\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|d:\\\u4E2A\u4EBA\u6587\u4EF6\\c#\\qualitymanagemensystem\\views\\hyindex\\hyindexjrzlwtv91.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:views\\hyindex\\hyindexjrzlwtv91.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|d:\\\u4E2A\u4EBA\u6587\u4EF6\\c#\\qualitymanagemensystem\\views\\hyindex\\hyindexmanager.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:views\\hyindex\\hyindexmanager.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|d:\\\u4E2A\u4EBA\u6587\u4EF6\\c#\\qualitymanagemensystem\\controllers\\automaticdatachangecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:controllers\\automaticdatachangecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|d:\\\u4E2A\u4EBA\u6587\u4EF6\\c#\\qualitymanagemensystem\\controllers\\dqiupdatecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:controllers\\dqiupdatecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|d:\\\u4E2A\u4EBA\u6587\u4EF6\\c#\\qualitymanagemensystem\\controllers\\fileuploadcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:controllers\\fileuploadcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -11,28 +27,20 @@
       "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|d:\\\u4E2A\u4EBA\u6587\u4EF6\\c#\\qualitymanagemensystem\\controllers\\dqiupdatecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:controllers\\dqiupdatecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|d:\\\u4E2A\u4EBA\u6587\u4EF6\\c#\\qualitymanagemensystem\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|d:\\\u4E2A\u4EBA\u6587\u4EF6\\c#\\qualitymanagemensystem\\controllers\\automaticdatachangecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:controllers\\automaticdatachangecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|d:\\\u4E2A\u4EBA\u6587\u4EF6\\c#\\qualitymanagemensystem\\itegratedscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:itegratedscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|d:\\\u4E2A\u4EBA\u6587\u4EF6\\c#\\qualitymanagemensystem\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|d:\\\u4E2A\u4EBA\u6587\u4EF6\\c#\\qualitymanagemensystem\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|d:\\\u4E2A\u4EBA\u6587\u4EF6\\c#\\qualitymanagemensystem\\controllers\\jwtauthencontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:controllers\\jwtauthencontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|d:\\\u4E2A\u4EBA\u6587\u4EF6\\c#\\qualitymanagemensystem\\views\\hyindex\\hyindexjrzlwtv91.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:views\\hyindex\\hyindexjrzlwtv91.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|d:\\\u4E2A\u4EBA\u6587\u4EF6\\c#\\qualitymanagemensystem\\views\\hyindex\\_uploadform.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -55,10 +63,6 @@
       "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:views\\hyindex\\hyindex24m.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|d:\\\u4E2A\u4EBA\u6587\u4EF6\\c#\\qualitymanagemensystem\\views\\hyindex\\hyindexmanager.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:views\\hyindex\\hyindexmanager.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|d:\\\u4E2A\u4EBA\u6587\u4EF6\\c#\\qualitymanagemensystem\\controllers\\automaticdatacalculationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:controllers\\automaticdatacalculationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -77,10 +81,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|d:\\\u4E2A\u4EBA\u6587\u4EF6\\c#\\qualitymanagemensystem\\dymicalauthentication.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:dymicalauthentication.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|d:\\\u4E2A\u4EBA\u6587\u4EF6\\c#\\qualitymanagemensystem\\itegratedscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|solutionrelative:itegratedscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4AE93B37-CC4B-47CE-AA88-4B1DA66566C3}|WebWinMVC.csproj|d:\\\u4E2A\u4EBA\u6587\u4EF6\\c#\\qualitymanagemensystem\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -343,7 +343,7 @@
       "DocumentGroups": [
         {
           "DockedHeight": 477,
-          "SelectedChildIndex": 22,
+          "SelectedChildIndex": 18,
           "Children": [
             {
               "$type": "Bookmark",
@@ -351,7 +351,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "JWTAuthenController.cs",
               "DocumentMoniker": "D:\\\u4E2A\u4EBA\u6587\u4EF6\\C#\\QualityManagemenSystem\\Controllers\\JWTAuthenController.cs",
               "RelativeDocumentMoniker": "Controllers\\JWTAuthenController.cs",
@@ -359,12 +359,11 @@
               "RelativeToolTip": "Controllers\\JWTAuthenController.cs",
               "ViewState": "AgIAACQAAAAAAAAAAAAIwBsAAABJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-21T02:36:51.123Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-21T02:36:51.123Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 19,
               "Title": "DymicalAuthentication.cs",
               "DocumentMoniker": "D:\\\u4E2A\u4EBA\u6587\u4EF6\\C#\\QualityManagemenSystem\\DymicalAuthentication.cs",
               "RelativeDocumentMoniker": "DymicalAuthentication.cs",
@@ -372,8 +371,7 @@
               "RelativeToolTip": "DymicalAuthentication.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-21T01:56:04.491Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-21T01:56:04.491Z"
             },
             {
               "$type": "Document",
@@ -385,8 +383,7 @@
               "RelativeToolTip": "wwwroot\\js\\xlsx.full.min.js",
               "ViewState": "AgIAAAAAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2024-11-19T05:44:47.631Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-19T05:44:47.631Z"
             },
             {
               "$type": "Document",
@@ -398,8 +395,7 @@
               "RelativeToolTip": "Migrations\\20241114033212_Version1.2.cs",
               "ViewState": "AgIAABkAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-14T03:32:12.581Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-14T03:32:12.581Z"
             },
             {
               "$type": "Document",
@@ -411,8 +407,7 @@
               "RelativeToolTip": "Migrations\\20241114014007_ChangeSQL1.1.cs",
               "ViewState": "AgIAAA0AAAAAAAAAAAAAwCUAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-14T01:40:07.741Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-14T01:40:07.741Z"
             },
             {
               "$type": "Document",
@@ -424,8 +419,7 @@
               "RelativeToolTip": "Migrations\\20241113081422_Addedit.cs",
               "ViewState": "AgIAABYAAAAAAAAAAAAAwBAAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-13T08:14:23.871Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-13T08:14:23.871Z"
             },
             {
               "$type": "Document",
@@ -437,8 +431,7 @@
               "RelativeToolTip": "Migrations\\JRZLWTDbContextModelSnapshot.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-11T08:22:56.737Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-11T08:22:56.737Z"
             },
             {
               "$type": "Document",
@@ -450,8 +443,7 @@
               "RelativeToolTip": "Migrations\\20241111081453_AddSMSTable.cs",
               "ViewState": "AgIAAAoAAAAAAAAAAMBbwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-11T08:14:53.704Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-11T08:14:53.704Z"
             },
             {
               "$type": "Document",
@@ -463,8 +455,7 @@
               "RelativeToolTip": "Models\\SeriesDescriptionTable.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-11T08:04:57.302Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-11T08:04:57.302Z"
             },
             {
               "$type": "Document",
@@ -476,18 +467,17 @@
               "RelativeToolTip": "Models\\DailyServiceReviewFormQueryTemp.cs",
               "ViewState": "AgIAAC4AAAAAAAAAAAA2wDQAAABJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-11T03:33:37.301Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-11T03:33:37.301Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "DQIUpdateController.cs",
               "DocumentMoniker": "D:\\\u4E2A\u4EBA\u6587\u4EF6\\C#\\QualityManagemenSystem\\Controllers\\DQIUpdateController.cs",
               "RelativeDocumentMoniker": "Controllers\\DQIUpdateController.cs",
               "ToolTip": "D:\\\u4E2A\u4EBA\u6587\u4EF6\\C#\\QualityManagemenSystem\\Controllers\\DQIUpdateController.cs",
               "RelativeToolTip": "Controllers\\DQIUpdateController.cs",
-              "ViewState": "AgIAABEAAAAAAAAAAADwvwsAAAAPAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwBAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-11T02:13:42.2Z",
               "EditorCaption": ""
@@ -502,8 +492,7 @@
               "RelativeToolTip": "Migrations\\20241109162441_UpdateQueryTable.cs",
               "ViewState": "AgIAAAgAAAAAAAAAAADwvwgAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-09T16:24:42.958Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-09T16:24:42.958Z"
             },
             {
               "$type": "Document",
@@ -515,8 +504,7 @@
               "RelativeToolTip": "Migrations\\20241109053853_UpdateTemp91.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-09T05:38:54.75Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-09T05:38:54.75Z"
             },
             {
               "$type": "Document",
@@ -528,8 +516,7 @@
               "RelativeToolTip": "Migrations\\20241108051026_UpdateBKP.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-08T05:10:26.369Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-08T05:10:26.369Z"
             },
             {
               "$type": "Document",
@@ -541,8 +528,7 @@
               "RelativeToolTip": "Migrations\\20241108050502_UpdateBreakPointTable.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-08T05:05:02.934Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-08T05:05:02.934Z"
             },
             {
               "$type": "Document",
@@ -554,64 +540,63 @@
               "RelativeToolTip": "Migrations\\20241107061624_ChangeSQL.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAABIwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-07T06:16:25.162Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-07T06:16:25.162Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "appsettings.json",
               "DocumentMoniker": "D:\\\u4E2A\u4EBA\u6587\u4EF6\\C#\\QualityManagemenSystem\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
               "ToolTip": "D:\\\u4E2A\u4EBA\u6587\u4EF6\\C#\\QualityManagemenSystem\\appsettings.json",
               "RelativeToolTip": "appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAEAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAB8AAAALAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2024-11-07T06:07:44.631Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 0,
               "Title": "HYIndexJRZLWTV91.cshtml",
               "DocumentMoniker": "D:\\\u4E2A\u4EBA\u6587\u4EF6\\C#\\QualityManagemenSystem\\Views\\HYIndex\\HYIndexJRZLWTV91.cshtml",
               "RelativeDocumentMoniker": "Views\\HYIndex\\HYIndexJRZLWTV91.cshtml",
               "ToolTip": "D:\\\u4E2A\u4EBA\u6587\u4EF6\\C#\\QualityManagemenSystem\\Views\\HYIndex\\HYIndexJRZLWTV91.cshtml",
               "RelativeToolTip": "Views\\HYIndex\\HYIndexJRZLWTV91.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAGAAAAAAAAAA==",
+              "ViewState": "AgIAAIYCAAAAAAAAAAAAAFQDAAA5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-11-07T00:22:05.846Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 7,
               "Title": "ItegratedScript.cs",
               "DocumentMoniker": "D:\\\u4E2A\u4EBA\u6587\u4EF6\\C#\\QualityManagemenSystem\\ItegratedScript.cs",
               "RelativeDocumentMoniker": "ItegratedScript.cs",
               "ToolTip": "D:\\\u4E2A\u4EBA\u6587\u4EF6\\C#\\QualityManagemenSystem\\ItegratedScript.cs",
               "RelativeToolTip": "ItegratedScript.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAuwBcAAAAEAAAAAAAAAA==",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABgAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-07T01:55:21.087Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "AutomaticDataChangeController.cs",
               "DocumentMoniker": "D:\\\u4E2A\u4EBA\u6587\u4EF6\\C#\\QualityManagemenSystem\\Controllers\\AutomaticDataChangeController.cs",
               "RelativeDocumentMoniker": "Controllers\\AutomaticDataChangeController.cs",
               "ToolTip": "D:\\\u4E2A\u4EBA\u6587\u4EF6\\C#\\QualityManagemenSystem\\Controllers\\AutomaticDataChangeController.cs",
               "RelativeToolTip": "Controllers\\AutomaticDataChangeController.cs",
-              "ViewState": "AgIAAJ0AAAAAAAAAAAAUwBAAAAAEAAAAAAAAAA==",
+              "ViewState": "AgIAANwAAAAAAAAAAAAUwNcBAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-07T01:24:06.363Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "AutomaticDataCalculationController.cs",
               "DocumentMoniker": "D:\\\u4E2A\u4EBA\u6587\u4EF6\\C#\\QualityManagemenSystem\\Controllers\\AutomaticDataCalculationController.cs",
               "RelativeDocumentMoniker": "Controllers\\AutomaticDataCalculationController.cs",
@@ -619,25 +604,24 @@
               "RelativeToolTip": "Controllers\\AutomaticDataCalculationController.cs",
               "ViewState": "AgIAAAcAAAAAAAAAAAAAAA8AAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-07T00:26:59.096Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-07T00:26:59.096Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "FileUploadController.cs",
               "DocumentMoniker": "D:\\\u4E2A\u4EBA\u6587\u4EF6\\C#\\QualityManagemenSystem\\Controllers\\FileUploadController.cs",
               "RelativeDocumentMoniker": "Controllers\\FileUploadController.cs",
               "ToolTip": "D:\\\u4E2A\u4EBA\u6587\u4EF6\\C#\\QualityManagemenSystem\\Controllers\\FileUploadController.cs",
               "RelativeToolTip": "Controllers\\FileUploadController.cs",
-              "ViewState": "AgIAADwAAAAAAAAAAADwv0UAAAAYAAAAAAAAAA==",
+              "ViewState": "AgIAACAAAAAAAAAAAADwvy0AAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-07T00:24:48.203Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "RemoteAccessController.cs",
               "DocumentMoniker": "D:\\\u4E2A\u4EBA\u6587\u4EF6\\C#\\QualityManagemenSystem\\Controllers\\RemoteAccessController.cs",
               "RelativeDocumentMoniker": "Controllers\\RemoteAccessController.cs",
@@ -645,8 +629,7 @@
               "RelativeToolTip": "Controllers\\RemoteAccessController.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAAA4AAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-07T00:24:42.492Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-07T00:24:42.492Z"
             },
             {
               "$type": "Document",
@@ -661,7 +644,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "HYIndexController.cs",
               "DocumentMoniker": "D:\\\u4E2A\u4EBA\u6587\u4EF6\\C#\\QualityManagemenSystem\\Controllers\\HYIndexController.cs",
               "RelativeDocumentMoniker": "Controllers\\HYIndexController.cs",
@@ -669,8 +652,7 @@
               "RelativeToolTip": "Controllers\\HYIndexController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-03T09:47:39.417Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-03T09:47:39.417Z"
             },
             {
               "$type": "Document",
@@ -700,8 +682,7 @@
               "RelativeToolTip": "Models\\DailyQualityIssueChecklistV91Temp.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-07T14:29:55.703Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-07T14:29:55.703Z"
             },
             {
               "$type": "Document",
@@ -713,12 +694,11 @@
               "RelativeToolTip": "Models\\DailyQualityIssueChecklistV91QueryTemp.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAABGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-07T14:27:34.363Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-07T14:27:34.363Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "_UploadForm.cshtml",
               "DocumentMoniker": "D:\\\u4E2A\u4EBA\u6587\u4EF6\\C#\\QualityManagemenSystem\\Views\\HYIndex\\_UploadForm.cshtml",
               "RelativeDocumentMoniker": "Views\\HYIndex\\_UploadForm.cshtml",
@@ -726,8 +706,7 @@
               "RelativeToolTip": "Views\\HYIndex\\_UploadForm.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-10-03T06:49:59.674Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-03T06:49:59.674Z"
             },
             {
               "$type": "Document",
@@ -739,8 +718,7 @@
               "RelativeToolTip": "Models\\UploadFormModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-03T06:46:25.088Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-03T06:46:25.088Z"
             },
             {
               "$type": "Document",
@@ -752,8 +730,7 @@
               "RelativeToolTip": "wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\jquery.dataTables.min.css",
               "ViewState": "AgIAAHwBAAAAAAAAAAAcwKQBAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-09-30T05:16:19.076Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-30T05:16:19.076Z"
             },
             {
               "$type": "Document",
@@ -765,8 +742,7 @@
               "RelativeToolTip": "wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Scripts\\DataTables\\jquery.dataTables.min.js",
               "ViewState": "AgIAAIcAAAAAAAAAAAAkwJcAAADCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2024-09-30T04:35:17.982Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-30T04:35:17.982Z"
             },
             {
               "$type": "Document",
@@ -778,8 +754,7 @@
               "RelativeToolTip": "wwwroot\\lib\\jquery.datatables\\1.10.15\\Content\\Content\\DataTables\\css\\autoFill.dataTables.min.css",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-09-30T04:33:57.352Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-30T04:33:57.352Z"
             },
             {
               "$type": "Document",
@@ -791,8 +766,7 @@
               "RelativeToolTip": "appsettings.Development.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-09-22T09:13:05.927Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-22T09:13:05.927Z"
             },
             {
               "$type": "Document",
@@ -802,8 +776,7 @@
               "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
               "ViewState": "AgIAAH0UAAAAAAAAAAApwJUUAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
-              "WhenOpened": "2024-09-21T15:29:42.812Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-21T15:29:42.812Z"
             },
             {
               "$type": "Document",
@@ -815,8 +788,7 @@
               "RelativeToolTip": "Models\\UserAuthentication.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAA5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-20T15:16:41.718Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-20T15:16:41.718Z"
             },
             {
               "$type": "Document",
@@ -828,8 +800,7 @@
               "RelativeToolTip": "Models\\SILSimulationTable.cs",
               "ViewState": "AgIAAAIAAAAAAAAAAAAwwBMAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-19T07:18:15.5Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-19T07:18:15.5Z"
             },
             {
               "$type": "Document",
@@ -841,8 +812,7 @@
               "RelativeToolTip": "Views\\HYIndex\\HYIndexSIL.cshtml",
               "ViewState": "AgIAAGkAAAAAAAAAAABIwOgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-18T03:58:20.69Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-18T03:58:20.69Z"
             },
             {
               "$type": "Document",
@@ -854,8 +824,7 @@
               "RelativeToolTip": "Models\\DailyQualityIssueChecklist.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-14T16:21:12.821Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-14T16:21:12.821Z"
             },
             {
               "$type": "Document",
@@ -867,8 +836,7 @@
               "RelativeToolTip": "Models\\BreakpointAnalysisTable.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAABJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-14T13:09:39.092Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-14T13:09:39.092Z"
             },
             {
               "$type": "Document",
@@ -880,8 +848,7 @@
               "RelativeToolTip": "Models\\VehicleBasicInfo.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-13T17:47:24.482Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-13T17:47:24.482Z"
             },
             {
               "$type": "Document",
@@ -893,8 +860,7 @@
               "RelativeToolTip": "wwwroot\\js\\pptxgen.min.js",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2024-09-12T20:41:45.427Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-12T20:41:45.427Z"
             },
             {
               "$type": "Document",
@@ -906,8 +872,7 @@
               "RelativeToolTip": "Models\\ErrorViewModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-10T16:34:23.846Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-10T16:34:23.846Z"
             },
             {
               "$type": "Document",
@@ -919,12 +884,11 @@
               "RelativeToolTip": "Models\\DailyServiceReviewForm.cs",
               "ViewState": "AgIAACMAAAAAAAAAAAAwwAUAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-09T06:54:32.689Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-09T06:54:32.689Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 17,
               "Title": "RemoteEditController.cs",
               "DocumentMoniker": "D:\\\u4E2A\u4EBA\u6587\u4EF6\\C#\\QualityManagemenSystem\\Controllers\\RemoteEditController.cs",
               "RelativeDocumentMoniker": "Controllers\\RemoteEditController.cs",
@@ -932,8 +896,7 @@
               "RelativeToolTip": "Controllers\\RemoteEditController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-09T06:48:47.276Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-09T06:48:47.276Z"
             },
             {
               "$type": "Document",
@@ -945,8 +908,7 @@
               "RelativeToolTip": "Data\\JRZLWTDbContext.cs",
               "ViewState": "AgIAACMAAAAAAAAAAAAqwD0AAABdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-09T06:40:26.201Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-09T06:40:26.201Z"
             },
             {
               "$type": "Document",
@@ -958,8 +920,7 @@
               "RelativeToolTip": "Views\\HYIndex\\OTHER.cshtml",
               "ViewState": "AgIAABUAAAAAAAAAAABIwCUAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-08T15:54:40.002Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-08T15:54:40.002Z"
             },
             {
               "$type": "Document",
@@ -971,8 +932,7 @@
               "RelativeToolTip": "Views\\HYIndex\\TESTPAGES.cshtml",
               "ViewState": "AgIAAA8AAAAAAAAAAABIwA4AAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-08T09:46:26.808Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-08T09:46:26.808Z"
             },
             {
               "$type": "Document",
@@ -984,8 +944,7 @@
               "RelativeToolTip": "Views\\HYIndex\\HYIndexOTHER.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-08T09:40:28.08Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-08T09:40:28.08Z"
             },
             {
               "$type": "Document",
@@ -997,8 +956,7 @@
               "RelativeToolTip": "Views\\HYIndex\\RenderJRZLWT.cshtml",
               "ViewState": "AgIAAAMAAAAAAAAAAABIwFEBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-08T09:38:20.479Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-08T09:38:20.479Z"
             },
             {
               "$type": "Document",
@@ -1010,8 +968,7 @@
               "RelativeToolTip": "Models\\DailyQualityIssueChecklistV91Query.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAywBsAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-07T06:42:15.368Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-07T06:42:15.368Z"
             },
             {
               "$type": "Document",
@@ -1023,8 +980,7 @@
               "RelativeToolTip": "Models\\DailyQualityIssueChecklistV91.cs",
               "ViewState": "AgIAABMAAAAAAAAAAAA7wCIAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-07T05:29:57.401Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-07T05:29:57.401Z"
             },
             {
               "$type": "Document",
@@ -1036,8 +992,7 @@
               "RelativeToolTip": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
               "ViewState": "AgIAAE0QAAAAAAAAAAAuwKoQAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2024-09-07T03:48:33.032Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-07T03:48:33.032Z"
             },
             {
               "$type": "Document",
@@ -1049,8 +1004,7 @@
               "RelativeToolTip": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
               "ViewState": "AgIAAAAAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2024-09-07T03:48:29.656Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-07T03:48:29.656Z"
             },
             {
               "$type": "Document",
@@ -1062,8 +1016,7 @@
               "RelativeToolTip": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2024-09-07T03:20:55.604Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-07T03:20:55.604Z"
             },
             {
               "$type": "Document",
@@ -1075,8 +1028,7 @@
               "RelativeToolTip": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-09-07T03:20:02.092Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-07T03:20:02.092Z"
             },
             {
               "$type": "Document",
@@ -1088,8 +1040,7 @@
               "RelativeToolTip": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
               "ViewState": "AgIAAAAAAAAAAAAAAADwvwsAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-09-07T03:19:38.796Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-07T03:19:38.796Z"
             },
             {
               "$type": "Document",
@@ -1101,12 +1052,11 @@
               "RelativeToolTip": "Models\\DailyServiceReviewFormQuery.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-06T17:28:52.243Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-06T17:28:52.243Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 18,
               "Title": "RemoteTooltipController.cs",
               "DocumentMoniker": "D:\\\u4E2A\u4EBA\u6587\u4EF6\\C#\\QualityManagemenSystem\\Controllers\\RemoteTooltipController.cs",
               "RelativeDocumentMoniker": "Controllers\\RemoteTooltipController.cs",
@@ -1114,8 +1064,7 @@
               "RelativeToolTip": "Controllers\\RemoteTooltipController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-06T17:22:45.685Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-06T17:22:45.685Z"
             },
             {
               "$type": "Document",
@@ -1127,12 +1076,11 @@
               "RelativeToolTip": "wwwroot\\js\\site.js",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2024-09-06T14:46:32.824Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-06T14:46:32.824Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 8,
               "Title": "HomeController.cs",
               "DocumentMoniker": "D:\\\u4E2A\u4EBA\u6587\u4EF6\\C#\\QualityManagemenSystem\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
@@ -1140,8 +1088,7 @@
               "RelativeToolTip": "Controllers\\HomeController.cs",
               "ViewState": "AgIAACgAAAAAAAAAAAAQwDEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-03T10:20:16.96Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-03T10:20:16.96Z"
             },
             {
               "$type": "Document",
@@ -1153,8 +1100,7 @@
               "RelativeToolTip": "Views\\HYIndex\\HYIndexQMC.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-03T09:52:35.497Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-03T09:52:35.497Z"
             },
             {
               "$type": "Document",
@@ -1166,8 +1112,7 @@
               "RelativeToolTip": "Views\\HYIndex\\HYIndexTOP.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-03T09:52:34.763Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-03T09:52:34.763Z"
             },
             {
               "$type": "Document",
@@ -1179,8 +1124,7 @@
               "RelativeToolTip": "Views\\_ViewStart.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-03T09:52:02.962Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-03T09:52:02.962Z"
             },
             {
               "$type": "Document",
@@ -1192,8 +1136,7 @@
               "RelativeToolTip": "Views\\_ViewImports.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-03T09:51:55.208Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-03T09:51:55.208Z"
             },
             {
               "$type": "Document",
@@ -1205,18 +1148,17 @@
               "RelativeToolTip": "Views\\Shared\\_ValidationScriptsPartial.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-03T09:51:50.783Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-03T09:51:50.783Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 1,
               "Title": "HYIndexMANAGER.cshtml",
               "DocumentMoniker": "D:\\\u4E2A\u4EBA\u6587\u4EF6\\C#\\QualityManagemenSystem\\Views\\HYIndex\\HYIndexMANAGER.cshtml",
               "RelativeDocumentMoniker": "Views\\HYIndex\\HYIndexMANAGER.cshtml",
               "ToolTip": "D:\\\u4E2A\u4EBA\u6587\u4EF6\\C#\\QualityManagemenSystem\\Views\\HYIndex\\HYIndexMANAGER.cshtml",
               "RelativeToolTip": "Views\\HYIndex\\HYIndexMANAGER.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAAJIBAAAAAAAAAAAAAFEBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-09-03T09:51:21.387Z",
               "EditorCaption": ""
@@ -1231,8 +1173,7 @@
               "RelativeToolTip": "Views\\HYIndex\\HYIndexWM.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-03T09:51:02.269Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-03T09:51:02.269Z"
             },
             {
               "$type": "Document",
@@ -1244,18 +1185,17 @@
               "RelativeToolTip": "Models\\JRZLWTViewModel.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAywBMAAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-03T09:46:30.731Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-03T09:46:30.731Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\\u4E2A\u4EBA\u6587\u4EF6\\C#\\QualityManagemenSystem\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "D:\\\u4E2A\u4EBA\u6587\u4EF6\\C#\\QualityManagemenSystem\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAC4AAAAAAAAAAAAAwDQAAABMAAAAAAAAAA==",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABQAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-03T09:38:57.348Z",
               "EditorCaption": ""
@@ -1270,8 +1210,7 @@
               "RelativeToolTip": "Data\\JRZLWTDbContextInitializer.cs",
               "ViewState": "AgIAAD8AAAAAAAAAAAAIwB8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-03T08:41:59.758Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-03T08:41:59.758Z"
             },
             {
               "$type": "Document",
@@ -1283,12 +1222,11 @@
               "RelativeToolTip": "wwwroot\\css\\site.css",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAFcBAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-09-02T11:40:05.183Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-02T11:40:05.183Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "HYIndexJRZLWT.cshtml",
               "DocumentMoniker": "D:\\\u4E2A\u4EBA\u6587\u4EF6\\C#\\QualityManagemenSystem\\Views\\HYIndex\\HYIndexJRZLWT.cshtml",
               "RelativeDocumentMoniker": "Views\\HYIndex\\HYIndexJRZLWT.cshtml",
@@ -1296,12 +1234,11 @@
               "RelativeToolTip": "Views\\HYIndex\\HYIndexJRZLWT.cshtml",
               "ViewState": "AgIAAF0AAAAAAAAAAAAAADgAAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-02T11:20:44.447Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-02T11:20:44.447Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 14,
               "Title": "HYIndex24M.cshtml",
               "DocumentMoniker": "D:\\\u4E2A\u4EBA\u6587\u4EF6\\C#\\QualityManagemenSystem\\Views\\HYIndex\\HYIndex24M.cshtml",
               "RelativeDocumentMoniker": "Views\\HYIndex\\HYIndex24M.cshtml",
@@ -1309,8 +1246,7 @@
               "RelativeToolTip": "Views\\HYIndex\\HYIndex24M.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-02T11:20:37.602Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-02T11:20:37.602Z"
             },
             {
               "$type": "Document",
@@ -1322,12 +1258,11 @@
               "RelativeToolTip": "Views\\Home\\Privacy.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-02T11:20:36.708Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-02T11:20:36.708Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 13,
               "Title": "Index.cshtml",
               "DocumentMoniker": "D:\\\u4E2A\u4EBA\u6587\u4EF6\\C#\\QualityManagemenSystem\\Views\\Home\\Index.cshtml",
               "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
@@ -1335,8 +1270,7 @@
               "RelativeToolTip": "Views\\Home\\Index.cshtml",
               "ViewState": "AgIAACoAAAAAAAAAAAAAAEIAAABxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-02T11:20:34.541Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-02T11:20:34.541Z"
             },
             {
               "$type": "Document",
@@ -1348,8 +1282,7 @@
               "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
               "ViewState": "AgIAAA8AAAAAAAAAAABIwCIAAADRAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-08-24T07:17:11.271Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-24T07:17:11.271Z"
             },
             {
               "$type": "Document",

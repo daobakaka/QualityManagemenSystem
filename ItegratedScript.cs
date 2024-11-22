@@ -15,6 +15,7 @@ namespace WebWinMVC
         Replace,
         Update,
         Make,
+        AutoFlow,
     }
 
     public class ItegratedScript

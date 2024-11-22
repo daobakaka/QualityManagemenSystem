@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Office.CustomUI;
+﻿using DocumentFormat.OpenXml.Drawing;
+using DocumentFormat.OpenXml.Office.CustomUI;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -57,7 +58,7 @@ namespace WebWinMVC.Controllers
         }
         [HttpPost("FilterAndPivot")]
         [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> FilterAndPivot([FromForm] string ApprovalDate, [FromForm] string FilterDay, [FromForm] int MFmonth=6)
+        public async Task<IActionResult> FilterAndPivot([FromForm] string ApprovalDate, [FromForm] string FilterDay, [FromForm] int MFmonth = 0, [FromForm] int MonthOffset = 0)
         { 
             try
             {
@@ -118,20 +119,30 @@ namespace WebWinMVC.Controllers
                    
                 }
 
-                
-             if (!string.IsNullOrEmpty(FilterDay))
+
+                if (!string.IsNullOrEmpty(FilterDay))
                 {
-                    // 假设输入格式为 "yyyyMMdd"，例如 "20240916"
-                    if (DateTime.TryParseExact(FilterDay, "yyMMdd", null, System.Globalization.DateTimeStyles.None, out var filterday))
+                    Console.WriteLine("----这里没有问题");
+                    // 解析 "yyMMdd" 格式的日期
+                    if (DateTime.TryParseExact(FilterDay, "yyMMdd", null, System.Globalization.DateTimeStyles.None, out var changeday))
                     {
+                        // 减去 MonthOffset 月
+                        
+                        DateTime otherDay = changeday.AddMonths(-MonthOffset);
+                      
                         // 转换为 "yyyy-MM" 格式
-                        filterDay = filterday.ToString("yyyy-MM");
+                        filterDay = otherDay.ToString("yyyy-MM");
+                        Console.WriteLine("-----originalday:" + FilterDay + "+++++++++++++++++++Chnageday:" + changeday+"!!!!finalyday:"+filterDay);
                     }
                     else
                     {
-                        _logger.LogWarning($"无法解析的日期格式: {FilterDay}");
+                        _logger.LogWarning($"无法解析的日期格式: {filterDay}");
+                        return BadRequest(new { Message = $"无法解析的日期格式: {filterDay}" });
                     }
                 }
+
+             
+
                 _logger.LogError($"输入审核日期:{ApprovalDate};处理后开始日期：{startDateStr};处理后结束日期{endDateStr}" +
                                  $"输入筛选日期：{FilterDay};处理后的筛选日期，筛选月:{filterDay};经sub方法处理后的筛选月3mis:{SubtractMonths(filterDay,6)}" +
                                  $"经sub方法处理后的筛选月6mis:{SubtractMonths(filterDay,9)};经sub方法处理后的筛选月12mis:{SubtractMonths(filterDay,15)}" +
@@ -146,7 +157,7 @@ namespace WebWinMVC.Controllers
                 IQueryable<DailyServiceReviewFormQuery> stepDataQuery = query
                                                         .Where(q =>
                                                         (
-                                                        ((q.MISInterval == "0" || q.MISInterval == "3") &&
+                                                        ((q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "-1") &&
                                                          q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 6 + 6 + MFmonth)) >= 0 &&
                                                          q.ManufacturingMonth.CompareTo(filterDay) <= 0) ||
 
@@ -188,18 +199,18 @@ namespace WebWinMVC.Controllers
                                       SupplierShortCode = g.Key.SupplierShortCode,
                                       FilteredVehicleModel = g.Key.FilteredVehicleModel,
                                       // 根据当前 step 统计各 MIS 区间数量
-                                      MIS3 = step == 3 ? g.Count(q => q.MISInterval == "0" || q.MISInterval == "3") : 0,
-                                      MIS6 = step == 6 ? g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6") : 0,
-                                      MIS12 = step == 12 ? g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12") : 0,
-                                      MIS24 = step == 24 ? g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24") : 0,
-                                      MIS48 = step == 48 ? g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24" || q.MISInterval == "36" || q.MISInterval == "48") : 0,
+                                      MIS3 = step == 3 ? g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "-1") : 0,
+                                      MIS6 = step == 6 ? g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "-1") : 0,
+                                      MIS12 = step == 12 ? g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "-1") : 0,
+                                      MIS24 = step == 24 ? g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24" || q.MISInterval == "-1") : 0,
+                                      MIS48 = step == 48 ? g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24" || q.MISInterval == "36" || q.MISInterval == "48" || q.MISInterval == "-1") : 0,
 
                                       // 使用MIS3cal来计算
-                                      MIS3cal = g.Count(q => q.MISInterval == "0" || q.MISInterval == "3"),
-                                      MIS6cal = g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6"),
-                                      MIS12cal = g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12"),
-                                      MIS24cal = g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24"),
-                                      MIS48cal = g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24" || q.MISInterval == "36" || q.MISInterval == "48"),
+                                      MIS3cal = g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "-1"),
+                                      MIS6cal = g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "-1"),
+                                      MIS12cal = g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "-1"),
+                                      MIS24cal = g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24" || q.MISInterval == "-1"),
+                                      MIS48cal = g.Count(q => q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24" || q.MISInterval == "36" || q.MISInterval == "48" || q.MISInterval == "-1"),
                                   })
                                   .ToList();
 
@@ -263,7 +274,7 @@ namespace WebWinMVC.Controllers
                                 OldMaterialCode = item.OldMaterialCode,
                                 SupplierShortCode = item.SupplierShortCode,
                                 FilteredVehicleModel = item.FilteredVehicleModel,
-                                IssueAttributes=filterDay.ToString()+"**"+MFmonth.ToString(),
+                                IssueAttributes=FilterDay.ToString()+"**"+MFmonth.ToString()+"**"+MonthOffset+"**"+ ApprovalDate,//筛选范围+筛选日期+制造月缩放范围+日期偏移
 
                                 //---Store,里面添加相应的车型
                                 MIS3 = item.MIS3cal.ToString(),
@@ -505,7 +516,7 @@ namespace WebWinMVC.Controllers
                                     if (startDateStr1.CompareTo(manufactureMonth) >= 0)
                                     {
 
-                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
+                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3" || queryItem.MISInterval == "-1")
                                         {
                                             mis3++;
 
@@ -543,7 +554,7 @@ namespace WebWinMVC.Controllers
                                     //_logger.LogError("--++++++++进入断点分离，确认分离新产品-----------");
                                     if (startDateStr1.CompareTo(manufactureMonth) < 0)
                                     {
-                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
+                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3" || queryItem.MISInterval == "-1"  )
                                         {
 
 
@@ -593,7 +604,7 @@ namespace WebWinMVC.Controllers
                                     //断点时间大于等于制造月,断点前产品
                                     if (startDateStr1.CompareTo(manufactureMonth) >= 0)
                                     {
-                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
+                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3" || queryItem.MISInterval == "-1")
                                         {
 
 
@@ -636,7 +647,7 @@ namespace WebWinMVC.Controllers
                                 {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
                                     if (startDateStr1.CompareTo(manufactureMonth) < 0 && startDateStr2.CompareTo(manufactureMonth) >= 0)
                                     {
-                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
+                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3" || queryItem.MISInterval == "-1")
                                         {
 
 
@@ -731,7 +742,7 @@ namespace WebWinMVC.Controllers
                                     //断点时间大于等于制造月,断点前产品
                                     if (startDateStr1.CompareTo(manufactureMonth) >= 0)
                                     {
-                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
+                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3" || queryItem.MISInterval == "-1")
                                         {
 
 
@@ -816,7 +827,7 @@ namespace WebWinMVC.Controllers
                                 {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
                                     if (startDateStr2.CompareTo(manufactureMonth) < 0 && startDateStr3.CompareTo(manufactureMonth) >= 0)
                                     {
-                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
+                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3" || queryItem.MISInterval == "-1")
                                         {
 
 
@@ -913,7 +924,7 @@ namespace WebWinMVC.Controllers
                                     //断点时间大于等于制造月,断点前产品
                                     if (startDateStr1.CompareTo(manufactureMonth) >= 0)
                                     {
-                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
+                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3" || queryItem.MISInterval == "-1")
                                         {
 
 
@@ -998,7 +1009,7 @@ namespace WebWinMVC.Controllers
                                 {  // 1次断点时间小于制造月，2次断点时间大于制造月，介于1次断点到2次断点间的产品
                                     if (startDateStr2.CompareTo(manufactureMonth) < 0 && startDateStr3.CompareTo(manufactureMonth) >= 0)
                                     {
-                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
+                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3" || queryItem.MISInterval == "-1")
                                         {
 
 
@@ -1082,7 +1093,7 @@ namespace WebWinMVC.Controllers
                                 {
                                     if (startDateStr4.CompareTo(manufactureMonth) < 0)
                                     {
-                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3")
+                                        if (queryItem.MISInterval == "0" || queryItem.MISInterval == "3" || queryItem.MISInterval == "-1")
                                         {
 
                                              mis3++;

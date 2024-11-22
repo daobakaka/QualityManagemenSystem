@@ -68,6 +68,7 @@ namespace WebWinMVC.Controllers
         //--curl方法，为IT 预留自动化脚本接口
         [HttpPost("uploadDailyServiceReviewFormsCurl")]
         [AllowAnonymous]
+        //为单独的某个方取消类验证
         public async Task<IActionResult> UploadDailyServiceReviewFormsCurl(IFormFile file, [FromQuery] DataOperation operation)
         {
             
@@ -215,6 +216,7 @@ namespace WebWinMVC.Controllers
 
                 // 根据操作类型处理数据库
                 bool ifmake = false;
+                bool ifAutoMake = false;
                 switch (operation)
                 {
                     case DataOperation.Replace:
@@ -237,12 +239,20 @@ namespace WebWinMVC.Controllers
                             await _dbContext.SaveChangesAsync();
                         }
                         break;
+                    case DataOperation.AutoFlow:
+                        ifAutoMake = true;
+                        if (dbSet.Any())
+                        {
+                            dbSet.RemoveRange(dbSet);
+                            await _dbContext.SaveChangesAsync();
+                        }
+                        break;
                     default:
                         return BadRequest("无效的操作类型。");
                 }
 
                 // 处理上传的文件，例如更新数据库
-                await ProcessFile(filePath, file, dbSet, mapXLSX,ifmake);
+                await ProcessFile(filePath, file, dbSet, mapXLSX,ifmake,ifAutoMake);
 
                 return Ok("文件上传成功！");
             }
@@ -262,7 +272,7 @@ namespace WebWinMVC.Controllers
             }
         }
 
-        private async Task ProcessFile<T>(string filePath, IFormFile file, DbSet<T> dbSet, IExcelMapping<T> mapXLSX, bool ifmake=false) where T : class, new()
+        private async Task ProcessFile<T>(string filePath, IFormFile file, DbSet<T> dbSet, IExcelMapping<T> mapXLSX, bool ifmake=false,bool ifAutoMake=false) where T : class, new()
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
@@ -338,11 +348,13 @@ namespace WebWinMVC.Controllers
             await LogUploadDetails(file);
             if (ifmake)
             {
-
-                _logger.LogError("开始执行分布___，开始更新临时查询表操作方法");
+                _logger.LogError("开始执行分布制表流程，开始更新临时查询表操作方法");
                 await _dquiUpdateController.MakeDailyQualityQueryTable(DataOperation.Make);
-
-
+            }
+            if (ifAutoMake)
+            {
+                _logger.LogError("开始执行分布自动流程，开始更新临时查询表操作方法，进而执行每日数据自动清洗");
+                await _dquiUpdateController.MakeDailyQualityQueryTable(DataOperation.AutoFlow);
             }
             _logger.LogInformation("文件处理成功。");
         }
