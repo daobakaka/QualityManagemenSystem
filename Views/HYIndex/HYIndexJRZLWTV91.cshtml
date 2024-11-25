@@ -94,7 +94,7 @@
                                         </td>
                                         <td data-label="短代码"> @item.SupplierShortCode</td>
                                         <td data-label="供应商名称">@item.ResponsibilitySourceSupplierName</td>
-                                        <td data-label="车型">@item.FilteredVehicleModel</td>                                    
+                                        <td data-label="车型">@item.FilteredVehicleModel</td>
                                         <td data-label="问题属性">
                                             <span data-toggle="tooltip" title="@item.IssueAttributes">@item.IssueAttributes</span>
                                         </td>
@@ -106,7 +106,7 @@
                                         <td data-label="48MIS">@item.MIS48</td>
                                         <td data-label="SMT">@item.SMT</td>
                                         <td data-label="部位码">@item.LocationCode</td>
-                                        <td data-label="故障码">@item.FaultCode</td>                                                                   
+                                        <td data-label="故障码">@item.FaultCode</td>
                                         <td data-label="断点次数">@item.BreakdownCount</td>
                                         <td data-label="断点失效">@item.IsBreakdownInvalid</td>
                                         <td data-label="QE">@item.QE</td>
@@ -132,7 +132,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <button type ="submit" class="btn btn-success btn-sm edit-btn" data-id="@item.ID" data-bs-toggle="modal" data-bs-target="#editModal">编辑</button>
+                                                    <button type="submit" class="btn btn-success btn-sm edit-btn" data-id="@item.ID" data-bs-toggle="modal" data-bs-target="#editModal">编辑</button>
                                                 }
                                             }
                                         </td>
@@ -247,7 +247,7 @@
         </div>
 
 
-       
+
         <!-- 一键处理区域 -->
         <div class="col-md-2 d-flex justify-content-center align-items-center">
 
@@ -318,7 +318,7 @@
                     <div class="form-group">
                         <input type="text" class="form-control" name="ProjectIdentifier" id="editProjectIdentifier" placeholder="VID" required style="margin-top: 1vh;" />
                     </div>
-                    <div style="text-align: center;">                   
+                    <div style="text-align: center;">
                         <button type="button" class="btn btn-outline-secondary mb-2" id="editQEChange"
                                 style="display: inline-block; margin-top: 2vh; margin-left: 2vh;">
                             QE变更
@@ -338,7 +338,7 @@
             </div>
         </div>
     </div>
- </div>
+</div>
 
 @* QE更换区域 *@
 <div class="modal fade" id="editQEChangeModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
@@ -350,9 +350,9 @@
             </div>
             <div class="modal-body">
                 <form id="editForm" method="post">
-                    @Html.AntiForgeryToken()     
+                    @Html.AntiForgeryToken()
                     <!-- Dynamic QE dropdown -->
-                    <div class="form-group" style="margin-bottom :2vh">                       
+                    <div class="form-group" style="margin-bottom :2vh">
                         <select id="editQEChoose" name="QE" style="margin-top :2vh" class="form-control" required>
                             <option value="">选择QE</option> <!-- 默认空选项 -->
                         </select>
@@ -360,7 +360,7 @@
 
                     <!-- Save button -->
                     <div style="text-align: center;">
-                        <button type="button" id="editQESubmit"  class="btn btn-outline-secondary mb-2" style="display: inline-block; margin-top: 2vh; margin-left: 2vh;">
+                        <button type="button" id="editQESubmit" class="btn btn-outline-secondary mb-2" style="display: inline-block; margin-top: 2vh; margin-left: 2vh;">
                             保存更改
                         </button>
                     </div>
@@ -462,8 +462,11 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
 @section Scripts {
     <script>
         var dataStore = {
-            tooltipContentCache: ''
+            tooltipContentCache: '',
+            dataTooltipFilter: '',
         };
+
+        var cubeHeightsTotal = [];
         var editBodyName = JSON.stringify("@ViewBag.Name");
         var dataStoreOnePage = {
             problemDescription: [
@@ -515,7 +518,7 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
 
             $('.dynamic-tooltip').on('mouseenter', function () {
                 let $this = $(this);
-                let oldMaterialCode = $this.data('old-material-code');              
+                let oldMaterialCode = $this.data('old-material-code');
                 let row = $this.closest('tr');
                 let supplierShortCode = row.find('[data-label="短代码"]').text().trim();
                 let filteredVehicleModel = row.find('[data-label="车型"]').text().trim();
@@ -532,8 +535,8 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                     data: {
                         oldMaterialCode: oldMaterialCode,
                         dateRange: dateRange,
-                        supplierShortCode:supplierShortCode,
-                        filteredVehicleModel:filteredVehicleModel,
+                        supplierShortCode: supplierShortCode,
+                        filteredVehicleModel: filteredVehicleModel,
                     },
                     success: function (data) {
                         // console.log('Data type:', typeof data); // 检查数据类型
@@ -545,7 +548,7 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                             // 这里假设制造月是一个字符串形式的日期，格式是 'YYYYMM'
                             return b.manufacturingMonth.localeCompare(a.manufacturingMonth);
                         });
-                        let tooltipContent = data.map(item => `制造月：${item.manufacturingMonth} ；MIS区间：${item.misInterval}；VAN：${item.van}；MIS：${item.mis}；CODE：${item.faultCodeDescription}；供应商：${item.responsibilitySourceSupplierName}；车型：${item.filteredVehicleModel}；服务单号：${item.serviceOrder}；FDP：${item.fdp}；S.D：${item.salesDate}；故障描述：${item.faultDescription
+                        let tooltipContent = data.map(item => `制造月：${item.manufacturingMonth} ；MIS区间：${item.misInterval}；VAN：${item.van}；MIS：${item.mis}；CODE：${item.faultCodeDescription}；供应商：${item.responsibilitySourceSupplierName}；短代码：${item.supplierShortCode}；旧物料号：${item.oldMaterialCode}；车型：${item.filteredVehicleModel}；服务单号：${item.serviceOrder}；FDP：${item.fdp}；S.D：${item.salesDate}；故障描述：${item.faultDescription
                             }`).join('\n');
 
                         // 更新 tooltip 内容
@@ -581,30 +584,30 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                 ],
                 "info": true,
                 "searching": true,
-               "language": {
+                "language": {
                     "lengthMenu": "显示 _MENU_ 条记录", // 自定义每页显示条数的文本
-                "search": "查询:", // 自定义搜索框的标签
-                "info": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项", // 自定义表格信息的文本
-                "infoEmpty": "显示第 0 至 0 项结果，共 0 项", // 当表格为空时显示的文本
-                "infoFiltered": "(由 _MAX_ 项结果过滤)", // 当表格被过滤时显示的文本
-                "paginate": {
-                    "first": "首页", // 自定义“首页”按钮的文本
-                    "last": "末页", // 自定义“末页”按钮的文本
-                    "next": "下一页", // 自定义“下一页”按钮的文本
-                    "previous": "上一页" // 自定义“上一页”按钮的文本
+                    "search": "查询:", // 自定义搜索框的标签
+                    "info": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项", // 自定义表格信息的文本
+                    "infoEmpty": "显示第 0 至 0 项结果，共 0 项", // 当表格为空时显示的文本
+                    "infoFiltered": "(由 _MAX_ 项结果过滤)", // 当表格被过滤时显示的文本
+                    "paginate": {
+                        "first": "首页", // 自定义“首页”按钮的文本
+                        "last": "末页", // 自定义“末页”按钮的文本
+                        "next": "下一页", // 自定义“下一页”按钮的文本
+                        "previous": "上一页" // 自定义“上一页”按钮的文本
+                    },
+                    "zeroRecords": "没有匹配的记录", // 当搜索结果为空时显示的文本
+                    "emptyTable": "表中数据为空", // 当表格没有数据时显示的文本
+                    "loadingRecords": "加载中...", // 数据加载时显示的文本
+                    "processing": "处理中...", // 数据处理时显示的文本
+                    "aria": {
+                        "sortAscending": ": 以升序排列此列",
+                        "sortDescending": ": 以降序排列此列"
+                    }
                 },
-                "zeroRecords": "没有匹配的记录", // 当搜索结果为空时显示的文本
-                "emptyTable": "表中数据为空", // 当表格没有数据时显示的文本
-                "loadingRecords": "加载中...", // 数据加载时显示的文本
-                "processing": "处理中...", // 数据处理时显示的文本
-                "aria": {
-                    "sortAscending": ": 以升序排列此列",
-                    "sortDescending": ": 以降序排列此列"
-                }
-            },
                 "initComplete": function () {
                     let api = this.api();
-                   // api.column(12).search('@Html.Raw(ViewBag.Name)').draw(); // 这里的'默认值'可以替换为你想要的初始搜索条件
+                    // api.column(12).search('@Html.Raw(ViewBag.Name)').draw(); // 这里的'默认值'可以替换为你想要的初始搜索条件
                 }
 
             });
@@ -703,13 +706,14 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
             dragArea.style.borderRadius = '50%';
             windowDiv.appendChild(dragArea);
 
-            // 初始化拖拽功能
+            //------------------------------------- 初始化拖拽功能
             initializeDrag(dragArea, windowDiv);
 
-            // 处理数据并绘制图表
             plotData(dataStore.tooltipContentCache);
-        }
 
+
+
+        }
         // 销毁悬浮窗口
         function destroyFloatingWindow() {
             if (!isWindowCreated) return;
@@ -717,6 +721,60 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
             floatingWindowDiv = null;
             isWindowCreated = false;
         }
+        //--
+        function getBreakpointTimes(dataTooltipFilter) {
+            // 判断传入的参数是否为空
+            if (!dataTooltipFilter) {
+                console.log("Invalid input: Missing required parameters.");
+                return []; // 返回空数组，避免继续执行
+            }
+
+            // 提取数据
+            const oldMaterialCode = dataTooltipFilter.oldMaterialCode;
+            const filteredVehicleModel = dataTooltipFilter.filteredVehicleModel;
+            const supplierShortCode = dataTooltipFilter.supplierShortCode;
+
+            // 创建请求参数
+            const requestDataForBK = {
+                oldMaterialCode: oldMaterialCode,
+                supplierShortCode: supplierShortCode,
+                filteredVehicleModel: filteredVehicleModel,
+            };
+            let cubeHeightsTemp = [];  // 定义一个临时数组，初始化为空
+
+            // 发起 AJAX 请求到后端
+            $.ajax({
+                url: '/queryAPI/RemoteAccess/dataStoreFilter', // 你的后端 API 路径
+                method: 'GET',
+                data: requestDataForBK,
+                success: function (response) {
+                    // 假设返回的断点时间数组是 response.breakpointTimes
+                    const breakpointTimes = response.breakpointTimes;
+
+                    // 如果返回的断点时间为空，则直接返回
+                    if (!breakpointTimes || breakpointTimes.length === 0) {
+                        console.log("No breakpoint times found.");
+                        return;
+                    }
+
+                    //
+                    breakpointTimes.forEach(time => {
+                        cubeHeightsTemp.push(time);  // 将每个断点时间加入临时数组
+                    });
+
+                    console.log('Mapped Cube Heights:', cubeHeightsTemp);
+                },
+                error: function (error) {
+                    console.log('Error fetching breakpoint times:', error);
+                }
+            });
+
+            return cubeHeightsTemp;  // 返回数组（但是由于 AJAX 请求是异步的，实际值可能为空）
+        }
+
+
+
+
 
         // 处理数据并绘制图表
         function plotData(data) {
@@ -749,6 +807,14 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                 return mapToRange((year - yearOffset) / (maxYear - minYear) * 50, 0, 50); // 映射到 0 到 50 的范围
             };
 
+
+            const mapDateToRangeForFilter = (dateStr) => {
+                const year = parseInt(dateStr.substring(0, 4), 10);
+                const yearOffset = 2015;
+                const minYear = 2015;
+                const maxYear = 2026;
+                return mapToRange((year - yearOffset) / (maxYear - minYear) * 50, 0, 50);
+            };
 
             // 解析和处理数据
             const processedData = data
@@ -791,6 +857,35 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
             const yTickvals = Array.from({ length: 12 }, (_, i) => i * 4.16); // 根据需要调整范围
             const yTicktext = Array.from({ length: 12 }, (_, i) => 2015 + i).map(year => year.toString());
 
+            //-----
+            //----  建立新的遍历表
+            console.log("开始进行 传入断点分析表绘图的新方法");
+            for (let i = 0; i < dataStore.tooltipContentCache.length; i++) {
+                let item = dataStore.tooltipContentCache[i];
+                dataTooltipFilte = null;//将过滤器清空
+                // 判断条件是否满足
+                if (item.oldMaterialCode && item.filteredVehicleModel && item.supplierShortCode) {
+                    dataStore.dataTooltipFilter = item;  // 如果找到符合条件的项，赋值并退出循环
+                    console.log("找到符合条件的断点识别项原始:...." + item);
+                    console.log(dataStore.dataTooltipFilter);
+                            break;  // 找到一个符合条件的项后，跳出循环
+                }
+            }
+            // 如果找到符合条件的项，dataTooltipFilter 将会是该项
+
+            //生成临时表
+            let cubeHeightsTemp = getBreakpointTimes(dataStore.dataTooltipFilter);
+            console.log(cubeHeightsTemp);
+
+            if (cubeHeightsTemp.length>=1) {
+                console.log("存在断点,执行坐标转换步骤");
+                for (i = 0; i <= cubeHeightsTemp.length; i++) {
+                    cubeHeightsTotal[i] = mapDateToRangeForFilter(cubeHeightsTemp[i]);
+                    console.log(cubeHeightsTotal[i]);
+                }
+                //转换为断点图
+            }
+            //----------------------------------- 处理数据并绘制图表
 
             // 绘制图表
             plotChart(xValues, yValues, zValues, textValues, zTickvals, zTicktext, yTickvals, yTicktext);
@@ -833,34 +928,40 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                     }
                 }
             };
+            let cubeTraces;
 
-            // 示例立方体
-
-
-            // const cubeHeightsBasics = breakpointAnalysisTables
-            //     .filter(e =>
-            //         e.MaterialNumber === dataStore.tooltipContentCache[0].MaterialNumber &&
-            //         e.SupplierShortCode === dataStore.tooltipContentCache[0].SupplierShortCode &&
-            //         e.VehicleModel === dataStore.tooltipContentCache[0].VehicleModel
-            //     )
-            //     .map(e => e.BreakpointTime);
-
-            const cubeHeights = [5, 30, 45];
-            const cubeTraces = cubeHeights.map(zHeight => ({
-                type: 'mesh3d',
-                x: [0, 50, 50, 0, 0, 50, 50, 0],
-                y: [0, 0, 50, 50, 0, 0, 50, 50],
-                z: [zHeight, zHeight, zHeight, zHeight, zHeight, zHeight, zHeight, zHeight],
-                i: [0, 0, 1, 1, 4, 4, 5, 5],
-                j: [1, 2, 2, 3, 5, 6, 6, 7],
-                k: [2, 3, 3, 4, 6, 7, 7, 4],
-                opacity: 0.1,
-                color: 'rgba(0,0,255,0.2)', // 半透明蓝色
-                hoverinfo: 'none', // 取消鼠标提示
-                // text: [zHeight, zHeight, zHeight, zHeight, zHeight, zHeight, zHeight, zHeight].map(z => `Z: ${z}`),
-                // hoverinfo: 'text'
-                showlegend: false, // 不显示图例
-            }));
+            if (cubeHeightsTotal)
+                cubeTraces = cubeHeightsTotal.map(zHeight => ({
+                    type: 'mesh3d',
+                    x: [0, 50, 50, 0, 0, 50, 50, 0],
+                    y: [0, 0, 50, 50, 0, 0, 50, 50],
+                    z: [zHeight, zHeight, zHeight, zHeight, zHeight, zHeight, zHeight, zHeight],
+                    i: [0, 0, 1, 1, 4, 4, 5, 5],
+                    j: [1, 2, 2, 3, 5, 6, 6, 7],
+                    k: [2, 3, 3, 4, 6, 7, 7, 4],
+                    opacity: 0.1,
+                    color: 'rgba(0,0,255,0.2)', // 半透明蓝色
+                    hoverinfo: 'none', // 取消鼠标提示
+                    // text: [zHeight, zHeight, zHeight, zHeight, zHeight, zHeight, zHeight, zHeight].map(z => `Z: ${z}`),
+                    // hoverinfo: 'text'
+                    showlegend: false, // 不显示图例
+                }));
+            else
+                cubeTraces = [1].map(zHeight => ({
+                    type: 'mesh3d',
+                    x: [0, 50, 50, 0, 0, 50, 50, 0],
+                    y: [0, 0, 50, 50, 0, 0, 50, 50],
+                    z: [zHeight, zHeight, zHeight, zHeight, zHeight, zHeight, zHeight, zHeight],
+                    i: [0, 0, 1, 1, 4, 4, 5, 5],
+                    j: [1, 2, 2, 3, 5, 6, 6, 7],
+                    k: [2, 3, 3, 4, 6, 7, 7, 4],
+                    opacity: 0.1,
+                    color: 'rgba(0,0,255,0.2)', // 半透明蓝色
+                    hoverinfo: 'none', // 取消鼠标提示
+                    // text: [zHeight, zHeight, zHeight, zHeight, zHeight, zHeight, zHeight, zHeight].map(z => `Z: ${z}`),
+                    // hoverinfo: 'text'
+                    showlegend: false, // 不显示图例
+                }));
 
             // 图表布局
             const layout = {
@@ -1545,7 +1646,7 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                     errorMessage = '服务器错误，请稍后再试。';
                 }
                 alert(errorMessage);
-             
+
                 console.error('请求失败:', textStatus, errorThrown);
             });
 
@@ -1557,9 +1658,9 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
         function submitToSIL() {
             let formData = $('#dailyQualityFormOP').serialize(); // 获取表单数据
             console.log("使用SIL 方法");
-            
+
             // 发起 AJAX 请求
-           
+
             $.ajax({
                 url: '/queryAPI/RemoteAccess/dailyqualitydataforsil',
                 type: 'POST', // 或 'POST'，根据需要
@@ -1587,76 +1688,76 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
 
     </script> @* SIL逻辑 *@
     <script>
-             $(document).ready(function () { // 确保 DOM 加载完成后执行代码,添加动态禁用按钮
+        $(document).ready(function () { // 确保 DOM 加载完成后执行代码,添加动态禁用按钮
 
-                let role = '@ViewBag.Role';
-                 console.log("group is:"+role);
-                if (role === "D") {
-                    $('#editQEChange').prop('disabled', true).css('background-color', '#d3d3d3').css('cursor', 'not-allowed');
-                }
-                                 
-                 function convertKeysToLowerCase(data) {
-                    const result = {};
-                    for (const key in data) {
-                        if (data.hasOwnProperty(key)) {
-                            result[key.toLowerCase()] = data[key];
-                        }
+            let role = '@ViewBag.Role';
+            console.log("group is:" + role);
+            if (role === "D") {
+                $('#editQEChange').prop('disabled', true).css('background-color', '#d3d3d3').css('cursor', 'not-allowed');
+            }
+
+            function convertKeysToLowerCase(data) {
+                const result = {};
+                for (const key in data) {
+                    if (data.hasOwnProperty(key)) {
+                        result[key.toLowerCase()] = data[key];
                     }
-                    return result;
                 }
-                //事件绑定
+                return result;
+            }
+            //事件绑定
             $(document).on('click', '.edit-btn', function () {
-                    console.log("开始编辑");
-                    let id = $(this).data('id');
-                    $.get('/RemoteEdit/GetDetails', { id: id }, function (data) {
-                        data = convertKeysToLowerCase(data);
-                        if (data.success !== false) {
-                            $('#editId').val(data.id || "0");
-                            $('#editOldMaterialCode').val(data.oldmaterialcode || "0");
-                            $('#editOldMaterialDescription').val(data.oldmaterialdescription || "0");
-                            $('#editSupplierShortCode').val(data.suppliershortcode || "0");
-                            $('#editResponsibilitySourceSupplierName').val(data.responsibilitysourcesuppliername || "NA");
-                            $('#editFilteredVehicleModel').val(data.filteredvehiclemodel || "NA");
-                            $('#editCaseCount').val(data.casecount || "NA");
-                            $('#editMIS3').val(data.mis3 || "0");
-                            $('#editMIS6').val(data.mis6 || "0");
-                            $('#editMIS12').val(data.mis12 || "0");
-                            $('#editMIS24').val(data.mis24 || "0");
-                            $('#editMIS48').val(data.mis48 || "0");
-                            $('#editSMT').val(data.smt || "NA");
-                            $('#editLocationCode').val(data.locationcode || "NA");
-                            $('#editFaultCode').val(data.faultcode || "NA");
-                            $('#editQE').val(data.qe || "NA");
-                            $('#editBreakdownCount').val(data.breakdowncount || "NA");
-                            $('#editIsBreakdownInvalid').val(data.isbreakdowninvalid || "NA");
-                            $('#editIssueAttributes').val(data.issueattributes || "NA");
-                            $('#editRowVersion').val(data.rowversion || "NA"); // 填充 RowVersion
-                            // $('#editIdentifiedFaultCode').val(data.identifiedfaultcode || "NA");
-                            $('#editModal').modal('show');
-                        } else {
-                            alert(data.message);
-                        }
-                    }).fail(function () {
-                        alert('请求失败');
-                    });
+                console.log("开始编辑");
+                let id = $(this).data('id');
+                $.get('/RemoteEdit/GetDetails', { id: id }, function (data) {
+                    data = convertKeysToLowerCase(data);
+                    if (data.success !== false) {
+                        $('#editId').val(data.id || "0");
+                        $('#editOldMaterialCode').val(data.oldmaterialcode || "0");
+                        $('#editOldMaterialDescription').val(data.oldmaterialdescription || "0");
+                        $('#editSupplierShortCode').val(data.suppliershortcode || "0");
+                        $('#editResponsibilitySourceSupplierName').val(data.responsibilitysourcesuppliername || "NA");
+                        $('#editFilteredVehicleModel').val(data.filteredvehiclemodel || "NA");
+                        $('#editCaseCount').val(data.casecount || "NA");
+                        $('#editMIS3').val(data.mis3 || "0");
+                        $('#editMIS6').val(data.mis6 || "0");
+                        $('#editMIS12').val(data.mis12 || "0");
+                        $('#editMIS24').val(data.mis24 || "0");
+                        $('#editMIS48').val(data.mis48 || "0");
+                        $('#editSMT').val(data.smt || "NA");
+                        $('#editLocationCode').val(data.locationcode || "NA");
+                        $('#editFaultCode').val(data.faultcode || "NA");
+                        $('#editQE').val(data.qe || "NA");
+                        $('#editBreakdownCount').val(data.breakdowncount || "NA");
+                        $('#editIsBreakdownInvalid').val(data.isbreakdowninvalid || "NA");
+                        $('#editIssueAttributes').val(data.issueattributes || "NA");
+                        $('#editRowVersion').val(data.rowversion || "NA"); // 填充 RowVersion
+                        // $('#editIdentifiedFaultCode').val(data.identifiedfaultcode || "NA");
+                        $('#editModal').modal('show');
+                    } else {
+                        alert(data.message);
+                    }
+                }).fail(function () {
+                    alert('请求失败');
                 });
+            });
 
-                $('#editForm').on('submit', function (e) {
-                    e.preventDefault();
-                    let formData = $(this).serialize();
-                    console.log(formData);
-                    $.post('/RemoteEdit/Edit', formData, function (response) {
-                        if (response.success) {
-                            console.log("编辑成功");
-                            // $('#editModal').modal('hide');
-                            // location.reload();
-                        } else {
-                            alert(response.message);
-                        }
-                    }).fail(function () {
-                        alert('提交失败');
-                    });
+            $('#editForm').on('submit', function (e) {
+                e.preventDefault();
+                let formData = $(this).serialize();
+                console.log(formData);
+                $.post('/RemoteEdit/Edit', formData, function (response) {
+                    if (response.success) {
+                        console.log("编辑成功");
+                        // $('#editModal').modal('hide');
+                        // location.reload();
+                    } else {
+                        alert(response.message);
+                    }
+                }).fail(function () {
+                    alert('提交失败');
                 });
+            });
 
             $("#editForm").on("click", "#editProblemChange", function (f) {
                 f.preventDefault();
@@ -1682,9 +1783,9 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                     else {
 
                     }
-                }).fail(function () { 
-                
-                    alert("提交变更失败");                
+                }).fail(function () {
+
+                    alert("提交变更失败");
                 });
             });
 
@@ -1711,7 +1812,7 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                 }).fail(function () {
                     alert("获取用户列表失败！");
                 });
-                $('#editQEChangeModal').modal('show');             
+                $('#editQEChangeModal').modal('show');
             });//改变QE提交表单
 
 
@@ -1746,11 +1847,11 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
 
                     alert("提交变更失败");
                 });
-          
 
-                 })
-             });
 
-        </script>@*  即日质量问题编辑区域 *@
+            })
+        });
+
+    </script>@*  即日质量问题编辑区域 *@
 
 }

@@ -540,6 +540,32 @@
   },
   {
     "ContainingType": "WebWinMVC.Controllers.RemoteTooltipController",
+    "Method": "FindBreakpoints",
+    "RelativePath": "queryAPI/RemoteTooltip/dataStoreFilter",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "oldMaterialCode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "filteredVehicleModel",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "supplierShortCode",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebWinMVC.Controllers.RemoteTooltipController",
     "Method": "GetTooltipData",
     "RelativePath": "queryAPI/RemoteTooltip/tooltipdata",
     "HttpMethod": "GET",

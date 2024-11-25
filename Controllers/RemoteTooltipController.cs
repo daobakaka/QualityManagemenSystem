@@ -13,10 +13,11 @@ namespace WebWinMVC.Controllers
     public class RemoteTooltipController : ControllerBase
     {
         private readonly JRZLWTDbContext _context;
-
-        public RemoteTooltipController(JRZLWTDbContext context)
+        private readonly ILogger<RemoteTooltipController> _logger;
+        public RemoteTooltipController(JRZLWTDbContext context, ILogger<RemoteTooltipController> logger)
         {
             _context = context;
+            _logger = logger;
         }
         [HttpGet("tooltipdata")]
         public async Task<IActionResult> GetTooltipData(
@@ -101,6 +102,8 @@ namespace WebWinMVC.Controllers
                     e.ServiceOrder,
                     e.ResponsibilitySourceSupplierName,
                     e.FilteredVehicleModel,
+                    e.OldMaterialCode,
+                    e.SupplierShortCode,
                 })
                 .ToListAsync();
 
@@ -112,7 +115,27 @@ namespace WebWinMVC.Controllers
             return Ok(data);
         }
 
+        [HttpGet("dataStoreFilter")]
+        public IActionResult FindBreakpoints([FromQuery] string oldMaterialCode, [FromQuery] string filteredVehicleModel, [FromQuery] string supplierShortCode)
+        {
+
+            _logger.LogError("---进入断点表筛选相关断点");
+            // 假设你有一个数据库表 breakpointAnalysisTables
+            var breakpoints = _context.BreakpointAnalysisTables
+                .Where(e => e.MaterialCode == oldMaterialCode
+                            && e.FilteredVehicleModel == filteredVehicleModel
+                            && e.SupplierShortCode == supplierShortCode
+                            && e.BreakpointTime != null)
+                .Select(e => e.BreakpointTime)
+                .ToList();
+
+            // 返回断点时间
+            return Ok(new { breakpointTimes = breakpoints });
+        }
 
     }
+
+
+
 }
 
