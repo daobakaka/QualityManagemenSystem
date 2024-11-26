@@ -552,12 +552,12 @@
         "IsRequired": false
       },
       {
-        "Name": "filteredVehicleModel",
+        "Name": "supplierShortCode",
         "Type": "System.String",
         "IsRequired": false
       },
       {
-        "Name": "supplierShortCode",
+        "Name": "filteredVehicleModel",
         "Type": "System.String",
         "IsRequired": false
       }

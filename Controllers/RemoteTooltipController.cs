@@ -116,18 +116,19 @@ namespace WebWinMVC.Controllers
         }
 
         [HttpGet("dataStoreFilter")]
-        public IActionResult FindBreakpoints([FromQuery] string oldMaterialCode, [FromQuery] string filteredVehicleModel, [FromQuery] string supplierShortCode)
+        public async Task<IActionResult> FindBreakpoints([FromQuery] string oldMaterialCode, [FromQuery] string supplierShortCode, [FromQuery] string filteredVehicleModel)
         {
 
-            _logger.LogError("---进入断点表筛选相关断点");
+            _logger.LogError("---！！！！！！！！！！！！！进入断点表筛选相关断点！！！！！！！！！！！！");
             // 假设你有一个数据库表 breakpointAnalysisTables
-            var breakpoints = _context.BreakpointAnalysisTables
+
+            var breakpoints = await _context.BreakpointAnalysisTables
+        
                 .Where(e => e.MaterialCode == oldMaterialCode
                             && e.FilteredVehicleModel == filteredVehicleModel
                             && e.SupplierShortCode == supplierShortCode
                             && e.BreakpointTime != null)
-                .Select(e => e.BreakpointTime)
-                .ToList();
+                .Select(e => e.BreakpointTime).ToListAsync(); // 使用 ToListAsync() 进行异步查询
 
             // 返回断点时间
             return Ok(new { breakpointTimes = breakpoints });

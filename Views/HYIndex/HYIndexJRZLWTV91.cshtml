@@ -82,7 +82,7 @@
                                 {
                                     <tr>
                                         <td data-label="旧物料代码">
-                                            <span class="dynamic-tooltip"
+                                            <span class="dynamic-tooltipTest" 
                                                   data-old-material-code="@item.OldMaterialCode"
                                                   data-remote-tooltip="true" title="loading..">
                                                 @item.OldMaterialCode
@@ -211,8 +211,8 @@
                                     <tr>
                                         <td data-label="日期">@item.ApprovalDate</td>
                                         <td data-label="车型">@item.VehicleModel</td>
-                                        <td data-label="旧物料">
-                                            <span class="dynamic-tooltip"
+                                        <td data-label="旧物料" >
+                                            <span class="dynamic-tooltipTest" 
                                                   data-old-material-code="@item.OldMaterialCode"
                                                   data-remote-tooltip="true" title="loading..">
                                                 @item.OldMaterialCode
@@ -516,14 +516,14 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                 html: true
             });
 
-            $('.dynamic-tooltip').on('mouseenter', function () {
+            $(document).on('mouseenter', '.dynamic-tooltipTest', function () 
+                {
                 let $this = $(this);
                 let oldMaterialCode = $this.data('old-material-code');
                 let row = $this.closest('tr');
                 let supplierShortCode = row.find('[data-label="短代码"]').text().trim();
                 let filteredVehicleModel = row.find('[data-label="车型"]').text().trim();
-
-
+                console.log("get  old material code aready!");
                 let $loadingIndicator = $this.find('.loading-indicator');
                 let dateRange = $('#searchByDate').val(); // 获取输入框的值
 
@@ -569,6 +569,7 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
             }).on('mouseleave', function () {
                 $(this).tooltip('hide');
             });
+            
         });
     </script>@*  显示remote tooltip 执行事件 *@
     <script>
@@ -607,7 +608,7 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                 },
                 "initComplete": function () {
                     let api = this.api();
-                    // api.column(12).search('@Html.Raw(ViewBag.Name)').draw(); // 这里的'默认值'可以替换为你想要的初始搜索条件
+                    // api.column(12).search('@Html.Raw(ViewBag.Name)').draw(); // 这里的'默认值'可以替换为想要的初始搜索条件
                 }
 
             });
@@ -722,62 +723,100 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
             isWindowCreated = false;
         }
         //--
-        function getBreakpointTimes(dataTooltipFilter) {
-            // 判断传入的参数是否为空
-            if (!dataTooltipFilter) {
-                console.log("Invalid input: Missing required parameters.");
-                return []; // 返回空数组，避免继续执行
-            }
-
-            // 提取数据
-            const oldMaterialCode = dataTooltipFilter.oldMaterialCode;
-            const filteredVehicleModel = dataTooltipFilter.filteredVehicleModel;
-            const supplierShortCode = dataTooltipFilter.supplierShortCode;
-
-            // 创建请求参数
-            const requestDataForBK = {
-                oldMaterialCode: oldMaterialCode,
-                supplierShortCode: supplierShortCode,
-                filteredVehicleModel: filteredVehicleModel,
-            };
-            let cubeHeightsTemp = [];  // 定义一个临时数组，初始化为空
-
-            // 发起 AJAX 请求到后端
-            $.ajax({
-                url: '/queryAPI/RemoteAccess/dataStoreFilter', // 你的后端 API 路径
-                method: 'GET',
-                data: requestDataForBK,
-                success: function (response) {
-                    // 假设返回的断点时间数组是 response.breakpointTimes
-                    const breakpointTimes = response.breakpointTimes;
-
-                    // 如果返回的断点时间为空，则直接返回
-                    if (!breakpointTimes || breakpointTimes.length === 0) {
-                        console.log("No breakpoint times found.");
-                        return;
-                    }
-
-                    //
-                    breakpointTimes.forEach(time => {
-                        cubeHeightsTemp.push(time);  // 将每个断点时间加入临时数组
-                    });
-
-                    console.log('Mapped Cube Heights:', cubeHeightsTemp);
-                },
-                error: function (error) {
-                    console.log('Error fetching breakpoint times:', error);
+        function getBreakpointTimes() {
+            return new Promise((resolve, reject) => {
+                // 判断传入的参数是否为空
+                if (!dataStore.dataTooltipFilter) {
+                    console.log("Invalid input: Missing required parameters.");
+                    resolve([]); // 返回空数组，避免继续执行
                 }
-            });
 
-            return cubeHeightsTemp;  // 返回数组（但是由于 AJAX 请求是异步的，实际值可能为空）
+                // 提取数据
+                const oldMaterialCode = dataStore.dataTooltipFilter.oldMaterialCode;
+                const filteredVehicleModel = dataStore.dataTooltipFilter.filteredVehicleModel;
+                const supplierShortCode = dataStore.dataTooltipFilter.supplierShortCode;
+
+                // 创建请求参数
+                const requestDataForBK = {
+                    oldMaterialCode: oldMaterialCode,
+                    supplierShortCode: supplierShortCode,
+                    filteredVehicleModel: filteredVehicleModel,
+                };
+
+                let cubeHeightsTemp = [];  // 定义一个临时数组，初始化为空
+                console.log("+++++++方法参数传入数组");
+                console.log(requestDataForBK);
+
+                // 发起 AJAX 请求到后端
+                $.ajax({
+                    url: '/queryAPI/RemoteTooltip/dataStoreFilter', // 你的后端 API 路径
+                    method: 'GET',
+                    data: requestDataForBK,
+                    success: function (response) {
+                        // 假设返回的断点时间数组是 response.breakpointTimes
+                        const breakpointTimes = response.breakpointTimes;
+
+                        // 如果返回的断点时间为空，则直接返回
+                        if (!breakpointTimes || breakpointTimes.length === 0) {
+                            console.log("No breakpoint times found.");
+                            resolve([]); // 返回空数组
+                            return;
+                        }
+
+                        // 填充断点时间到临时数组
+                        breakpointTimes.forEach(time => {
+                            cubeHeightsTemp.push(time);  // 将每个断点时间加入临时数组
+                        });
+
+                        console.log('Mapped Cube Heights:', cubeHeightsTemp);
+                        resolve(cubeHeightsTemp); // 成功时解析返回数据
+                    },
+                    error: function (error) {
+                        console.log('Error fetching breakpoint times:', error);
+                        reject(error); // 失败时返回错误
+                    }
+                });
+            });
         }
 
+         async function handleBreakpointTimes() {
+            try {
+                // 假设此方法是处理断点时间的函数，确保完成异步操作后返回数据
+                 cubeHeightsTotal = [-1]; // 清空cubeHeightTemp 初始化为-1,为了图像立方体的比例固定，暂不知到原因
+                const mapDateToRangeForFilter = (dateStr) => {
+                    const year = parseInt(dateStr.substring(0, 4), 10);
+                    const yearOffset = 2018;
+                    const minYear = 2018;
+                    const maxYear = 2027;
+                    let result = (year - yearOffset) / (maxYear - minYear) * 50;
+                    result = parseFloat(result.toFixed(1)); // 保留一位小数并转换为浮动数值
+                    return mapToRange(result, 0, 50);
+                };
+                const mapToRange = (value, min, max) => {
+                    if (value < min) return min;
+                    if (value > max) return max;
+                    return value;
+                };
+                let cubeHeightsTemp = await getBreakpointTimes(); // 等待获取断点数据
 
-
-
+                // 检查 cubeHeightsTemp 是否是有效的数组
+                if (Array.isArray(cubeHeightsTemp) && cubeHeightsTemp.length >= 1) {
+                    console.log("存在断点,执行坐标转换步骤");
+                    for (let i = 0; i < cubeHeightsTemp.length; i++) {
+                        cubeHeightsTotal.push(mapDateToRangeForFilter(cubeHeightsTemp[i]));
+                        console.log(cubeHeightsTotal[i]);
+                    }
+                    // 在这里执行其他的操作，例如更新图表的数据等
+                } else {
+                    console.log("没有找到断点数据，跳过坐标转换步骤。");
+                }
+            } catch (error) {
+                console.error("处理断点数据时发生错误:", error);
+            }
+        }
 
         // 处理数据并绘制图表
-        function plotData(data) {
+        async function plotData(data) {
             // 定义函数将值映射到指定范围
             const mapToRange = (value, min, max) => {
                 if (value < min) return min;
@@ -788,16 +827,16 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
             // 定义函数将制造日期映射到 0 到 50 的范围
             const mapDateToRange = (dateStr) => {
                 const year = parseInt(dateStr.substring(0, 4), 10);
-                const yearOffset = 2015;
-                const minYear = 2015;
-                const maxYear = 2026;
+                const yearOffset = 2018;
+                const minYear = 2018;
+                const maxYear = 2027;
                 return mapToRange((year - yearOffset) / (maxYear - minYear) * 50, 0, 50);
             };
             const mapSalesDateToRange = (dateStr) => {
                 const year = parseInt(dateStr.substring(0, 4), 10); // 提取年份
-                const yearOffset = 2015; // 基准年份
-                const minYear = 2015; // 最小年份
-                const maxYear = 2026; // 最大年份
+                const yearOffset = 2018; // 基准年份
+                const minYear = 2018; // 最小年份
+                const maxYear = 2027; // 最大年份
 
                 // 检查年份是否在有效范围内
                 if (year < minYear || year > maxYear) {
@@ -805,22 +844,13 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                 }
 
                 return mapToRange((year - yearOffset) / (maxYear - minYear) * 50, 0, 50); // 映射到 0 到 50 的范围
-            };
-
-
-            const mapDateToRangeForFilter = (dateStr) => {
-                const year = parseInt(dateStr.substring(0, 4), 10);
-                const yearOffset = 2015;
-                const minYear = 2015;
-                const maxYear = 2026;
-                return mapToRange((year - yearOffset) / (maxYear - minYear) * 50, 0, 50);
-            };
+            };        
 
             // 解析和处理数据
             const processedData = data
                 .filter(item => {
                     const manufacturingYear = parseInt(item.manufacturingMonth.substring(0, 4), 10);
-                    return manufacturingYear >= 2015 && manufacturingYear <= 2026;
+                    return manufacturingYear >= 2018 && manufacturingYear <= 2027;
                 })
                 .map(item => {
                     let x = parseFloat(item.mis);
@@ -828,7 +858,7 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                     let z = mapDateToRange(item.manufacturingMonth);
                     let noiseX = (Math.random() - 0.5) * 2; // X方向噪声
                     let noiseY = (Math.random() - 0.5) * 2; // Y方向噪声
-                    let noiseZ = (Math.random() - 0.5) * 2; // Z方向噪声
+                    let noiseZ = (Math.random() - 0.8) * 1; // Z方向噪声
 
                     // 更新 X, Y, Z 值
                     x += noiseX;
@@ -850,16 +880,17 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
             // console.log('Y Values:', yValues);
             // console.log('Z Values:', zValues);
             // 计算 Z 轴的刻度值和标签
-            const zTickvals = Array.from({ length: 12 }, (_, i) => i * 4.16);
-            const zTicktext = Array.from({ length: 12 }, (_, i) => 2015 + i).map(year => year.toString());
+            const zTickvals = Array.from({ length: 10 }, (_, i) => i * 5);
+            const zTicktext = Array.from({ length: 10 }, (_, i) => 2018 + i).map(year => year.toString());
 
             // 计算 Y 轴的刻度值和标签
-            const yTickvals = Array.from({ length: 12 }, (_, i) => i * 4.16); // 根据需要调整范围
-            const yTicktext = Array.from({ length: 12 }, (_, i) => 2015 + i).map(year => year.toString());
+            const yTickvals = Array.from({ length: 10 }, (_, i) => i * 5); // 根据需要调整范围
+            const yTicktext = Array.from({ length: 10 }, (_, i) => 2018 + i).map(year => year.toString());
 
             //-----
             //----  建立新的遍历表
             console.log("开始进行 传入断点分析表绘图的新方法");
+            dataStore.dataTooltipFilter = []; //每次绘画之前先将数组内容进行清空。。
             for (let i = 0; i < dataStore.tooltipContentCache.length; i++) {
                 let item = dataStore.tooltipContentCache[i];
                 dataTooltipFilte = null;//将过滤器清空
@@ -871,20 +902,12 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                             break;  // 找到一个符合条件的项后，跳出循环
                 }
             }
+          await  handleBreakpointTimes();
+         // console.log(cubeHeightsTotal);
             // 如果找到符合条件的项，dataTooltipFilter 将会是该项
 
-            //生成临时表
-            let cubeHeightsTemp = getBreakpointTimes(dataStore.dataTooltipFilter);
-            console.log(cubeHeightsTemp);
-
-            if (cubeHeightsTemp.length>=1) {
-                console.log("存在断点,执行坐标转换步骤");
-                for (i = 0; i <= cubeHeightsTemp.length; i++) {
-                    cubeHeightsTotal[i] = mapDateToRangeForFilter(cubeHeightsTemp[i]);
-                    console.log(cubeHeightsTotal[i]);
-                }
-                //转换为断点图
-            }
+            //生成临时表,主要javaScript中数组元素赋值的要求
+             
             //----------------------------------- 处理数据并绘制图表
 
             // 绘制图表
@@ -928,9 +951,10 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                     }
                 }
             };
-            let cubeTraces;
-
-            if (cubeHeightsTotal)
+            let cubeTraces = null;
+            if (cubeHeightsTotal.length >= 1) {
+                console.log("+++++进入有值绘图");
+                console.log(cubeHeightsTotal);
                 cubeTraces = cubeHeightsTotal.map(zHeight => ({
                     type: 'mesh3d',
                     x: [0, 50, 50, 0, 0, 50, 50, 0],
@@ -946,8 +970,10 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                     // hoverinfo: 'text'
                     showlegend: false, // 不显示图例
                 }));
-            else
-                cubeTraces = [1].map(zHeight => ({
+            }
+            else {
+                console.log("+++++进入无值绘图");
+                cubeTraces = [-1].map(zHeight => ({
                     type: 'mesh3d',
                     x: [0, 50, 50, 0, 0, 50, 50, 0],
                     y: [0, 0, 50, 50, 0, 0, 50, 50],
@@ -962,12 +988,16 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                     // hoverinfo: 'text'
                     showlegend: false, // 不显示图例
                 }));
+            }
 
             // 图表布局
             const layout = {
                 title: '质量问题散点分析图',
                 scene: {
-                    xaxis: { title: 'MIS' },
+                    xaxis: { title: 'MIS',
+                             range: [0, 50] // 固定 X 轴范围
+                    
+                    },
                     yaxis: {
                         title: 'S.D',
                         tickvals: yTickvals,
@@ -978,7 +1008,8 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                         title: 'M.O.D',
                         tickvals: zTickvals,
                         ticktext: zTicktext,
-                        range: [0, 50] // 固定 Y 轴范围
+                        range: [0, 50] ,
+                  
                     },
                     camera: {
                         eye: { x: 1.25, y: 1.25, z: 1.25 }
