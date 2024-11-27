@@ -269,7 +269,7 @@
             </div>
         </div>
 
-        <!-- 6. 上传车系描述信息 -->
+        <!-- 7. 上传车系描述信息 -->
         <div class="card mb-4">
             <div class="card-header">
                 <h2 style="font-size: 18px;">上传车系描述信息</h2>
@@ -309,7 +309,46 @@
                 </form>
             </div>
         </div>
+        <!-- 8. 上传车系描述信息 -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h2 style="font-size: 18px;">上传部位码分工</h2>
+            </div>
+            <div class="card-body">
+                <!-- 上传表单 -->
+                <form class="upload-form" data-upload-type="QEIdentifies" enctype="multipart/form-data" method="post">
+                    @Html.AntiForgeryToken()
 
+                    <div class="form-group">
+                        <label>选择要上传的文件（车辆基本信息）：</label>
+                        <input type="file" class="file-input form-control-file" required />
+                        <small class="form-text text-muted">支持最大文件大小：200MB。</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>选择操作类型：</label>
+                        <div>
+                            <div class="form-check">
+                                <input type="radio" id="replace-QEIdentifies" name="operation-QEIdentifies" value="Replace" class="form-check-input" checked />
+                                <label class="form-check-label" for="replace-QEIdentifies">替换</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" id="update-QEIdentifies" name="operation-QEIdentifies" value="Update" class="form-check-input" />
+                                <label class="form-check-label" for="update-QEIdentifies">更新</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 上传文件按钮，初始禁用 -->
+                    <button type="button" class="submit-button btn btn-outline-secondary mb-2" style="width: 20%; margin-top:1.5vh" disabled>提交</button>
+
+                    <!-- 进度条 -->
+                    <div class="progress mt-3" style="display: none;">
+                        <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                    </div>
+                </form>
+            </div>
+        </div>
         <!-- 模块列表结束 -->
     </div>
 </div>
@@ -333,7 +372,6 @@
                 <input type="text" id="MFmonth" name="MFmonth" class="form-control" placeholder="例如：6" required />
                 <label for="MonthOffset">输入制造月筛选偏移，默认基础偏移0个月，输入6（则代表，制造月在当前筛选日期往后偏移6个月），输入-6（则代表制造月在当前筛选日期往前追溯6个月）：</label>
                 <input type="text" id="MonthOffset" name="MonthOffset" class="form-control" placeholder="例如：6" required />
-               
             </div>
 
             <!-- 提交按钮 -->
@@ -476,9 +514,8 @@
                     'DailyQualityIssueChecklistV91Queries': '/api/FileUpload/uploadDailyQualityIssueChecklistV91Queries',
                     'VehicleBasicInfos': '/api/FileUpload/uploadVehicleBasicInfos',
                     'SeriesDescriptionTable': '/api/FileUpload/uploadSeriesDescriptionTable',
-                   
+                    'QEIdentifies': '/api/FileUpload/uploadQEIdentifies',
                 };
-
                 const url = urlMap[uploadType] + `?operation=${operation}`;
 
                 const $progress = $form.find('.progress');

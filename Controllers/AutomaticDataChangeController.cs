@@ -158,7 +158,7 @@ namespace WebWinMVC.Controllers
                                                         .Where(q =>
                                                         (
                                                         ((q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "-1") &&
-                                                         q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 6 + 6 + MFmonth)) >= 0 &&
+                                                         q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 6 +6 + MFmonth)) >= 0 &&
                                                          q.ManufacturingMonth.CompareTo(filterDay) <= 0) ||
 
                                                         ((q.MISInterval == "6") &&

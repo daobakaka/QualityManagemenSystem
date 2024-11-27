@@ -191,6 +191,14 @@ namespace WebWinMVC.Controllers
         
         }
 
+        [HttpPost("uploadQEIdentifies")]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> UploadQEIdentifies(IFormFile file, [FromQuery] DataOperation operation)
+        {
+            _logger.LogError("开始执行上传QE分配表");
+            return await UploadFile<QEIdentify>(file, operation, _dbContext.QEIdentifies, new QEIdentifyMapXLSX());
+
+        }
         // 通用的 UploadFile 方法
         private async Task<IActionResult> UploadFile<T>(IFormFile file, DataOperation operation, DbSet<T> dbSet, IExcelMapping<T> mapXLSX) where T : class, new()
         {

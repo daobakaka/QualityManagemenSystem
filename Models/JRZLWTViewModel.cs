@@ -11,9 +11,9 @@
 
         public List<DailyServiceReviewFormQuery> DailyServiceReviewFormQueries { get; set; } = new List<DailyServiceReviewFormQuery>();
 
-        public List<VehicleBasicInfo> VehicleBasicInfos { get; set; } =new List<VehicleBasicInfo>();
-        public List<BreakpointAnalysisTable> BreakpointAnalysisTables { get; set; } = new List<BreakpointAnalysisTable>();       
+        public List<VehicleBasicInfo> VehicleBasicInfos { get; set; } = new List<VehicleBasicInfo>();
 
+        public List<BreakpointAnalysisTable> BreakpointAnalysisTables { get; set; } = new List<BreakpointAnalysisTable>();       
 
         public List<SILSimulationTable> SILSimulationTables { get; set; }= new List<SILSimulationTable>();
 

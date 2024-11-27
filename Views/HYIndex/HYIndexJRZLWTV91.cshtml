@@ -82,7 +82,7 @@
                                 {
                                     <tr>
                                         <td data-label="旧物料代码">
-                                            <span class="dynamic-tooltipTest" 
+                                            <span class="dynamic-tooltip" 
                                                   data-old-material-code="@item.OldMaterialCode"
                                                   data-remote-tooltip="true" title="loading..">
                                                 @item.OldMaterialCode
@@ -212,7 +212,7 @@
                                         <td data-label="日期">@item.ApprovalDate</td>
                                         <td data-label="车型">@item.VehicleModel</td>
                                         <td data-label="旧物料" >
-                                            <span class="dynamic-tooltipTest" 
+                                            <span class="dynamic-tooltip" 
                                                   data-old-material-code="@item.OldMaterialCode"
                                                   data-remote-tooltip="true" title="loading..">
                                                 @item.OldMaterialCode
@@ -516,8 +516,7 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                 html: true
             });
 
-            $(document).on('mouseenter', '.dynamic-tooltipTest', function () 
-                {
+            $(document).on('mouseenter', '.dynamic-tooltip', function () {
                 let $this = $(this);
                 let oldMaterialCode = $this.data('old-material-code');
                 let row = $this.closest('tr');
@@ -553,15 +552,15 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
 
                         // 更新 tooltip 内容
                         $this.attr('title', tooltipContent);
-                        $this.tooltip('update');
-
+                        //$this.tooltip('update');
+                        //这里是一个显示黑色tooltip 提示的框
                         // 隐藏加载指示器
                         $loadingIndicator.hide();
                     },
                     error: function () {
                         $this.attr('title', 'Error loading data');
-                        $this.tooltip('update');
-
+                       // $this.tooltip('update');
+                       
                         // 隐藏加载指示器
                         $loadingIndicator.hide();
                     }
@@ -578,6 +577,7 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
             $('#example').DataTable({
                 "paging": true,
                 "pageLength": 25, // 设置默认每页显示25条记录
+                "lengthMenu": [[25, 50, 100, 500, 1000], [25, 50, 100, 500, 1000]],
                 "ordering": true,
                 "order": [], // 禁用初始排序
                 "columnDefs": [
@@ -1291,7 +1291,8 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                 });
                 tempTable.appendChild(newTbody);
             }
-
+           
+          
             // 创建工作簿并添加工作表
             let wb = XLSX.utils.book_new();
             let ws = XLSX.utils.table_to_sheet(tempTable, { header: 1 }); // 确保表头被包含
@@ -1303,8 +1304,11 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
         function exportTableToExcelAnalyse() {
             console.log("start to download excel for QE");
             let wb = XLSX.utils.book_new(); // 确保这里是 XLSX
+    
             let ws = XLSX.utils.table_to_sheet(document.getElementById("example"));
+        
             XLSX.utils.book_append_sheet(wb, ws, "Sheet1"); // 确保这里是 XLSX
+            console.log("start to download excel for QE1.3");
             XLSX.writeFile(wb, "即日质量问题填报清单.xlsx"); // 确保这里是 XLSX
         }
 
@@ -1793,8 +1797,6 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
             $("#editForm").on("click", "#editProblemChange", function (f) {
                 f.preventDefault();
                 console.log("这是一个问题变更方法");
-
-
                 $('#editServiceFaultIdentificationAccurate').val('');
                 $('#editIdentifiedFaultMode').val('');
                 $('#editIncludedInSIL').val('');

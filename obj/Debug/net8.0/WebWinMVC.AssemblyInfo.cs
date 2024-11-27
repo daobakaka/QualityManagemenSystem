@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WebWinMVC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+30a84adfed38635d6296646bf427c747b606f521")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+66978da90fd891229a0f4b7187892bf17f62f637")]
 [assembly: System.Reflection.AssemblyProductAttribute("WebWinMVC")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WebWinMVC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

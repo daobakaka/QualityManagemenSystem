@@ -372,6 +372,16 @@ namespace WebWinMVC
             Map(m => m.VAN).Name("VIN");
         }
     }
+
+
+    public class QEIdentifyMap : ClassMap<QEIdentify>
+    {
+        public QEIdentifyMap()
+        {
+            Map(m => m.QEName).Name("姓名");
+            Map(m => m.LocationCode).Name("部位码");
+        }
+    }
     // 定义接口
 
     // 映射类实现
@@ -629,12 +639,23 @@ namespace WebWinMVC
             return new Dictionary<string, string>
             {
             {"VAN",nameof(SeriesDescriptionTable.VAN) },
-            { "VIN",nameof(SeriesDescriptionTable.VIN)},
+            {"VIN",nameof(SeriesDescriptionTable.VIN)},
             {"内部车型",nameof(SeriesDescriptionTable.InternalAnnouncemen)},
             {"FDP描述",nameof(SeriesDescriptionTable.SeriesDescription) },
 
            };
         }
     }
+    public class QEIdentifyMapXLSX : IExcelMapping<QEIdentify>
+    {
+        public Dictionary<string, string> GetColumnMappings()
+        {
+            return new Dictionary<string, string>
+            {
+            {"部位码",nameof(QEIdentify.LocationCode)},
+            { "姓名",nameof(QEIdentify.QEName)},
 
+           };
+        }
+    }
 }

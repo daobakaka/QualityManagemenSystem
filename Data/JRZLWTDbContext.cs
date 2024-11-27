@@ -34,12 +34,11 @@ namespace WebWinMVC.Data
 
         public DbSet<SeriesDescriptionTable>  seriesDescriptionTables { get; set; }
 
+        public DbSet<QEIdentify> QEIdentifies { get; set; }
         // Configure the model with explicit table names
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-
-
         {
-            modelBuilder.Entity<DailyQualityIssueChecklistV91>()
+         modelBuilder.Entity<DailyQualityIssueChecklistV91>()
          .Property(e => e.RowVersion)
          .IsRowVersion(); // 确保 RowVersion 被配置为行版本
 
@@ -60,6 +59,7 @@ namespace WebWinMVC.Data
             modelBuilder.Entity<DailyQualityIssueChecklistV91QueryTemp>().ToTable("dailyQualityIssueChecklistV91QueryTemps");
             modelBuilder.Entity<DailyServiceReviewFormQueryTemp>().ToTable("dailyServiceReviewFormQueryTemps");
             modelBuilder.Entity<SeriesDescriptionTable>().ToTable("seriesDescriptionTables");
+            modelBuilder.Entity<QEIdentify>().ToTable("QEIdentifies");
         }
     }
 
