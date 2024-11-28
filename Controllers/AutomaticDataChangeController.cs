@@ -180,7 +180,7 @@ namespace WebWinMVC.Controllers
 
                 var stepData = await stepDataQuery.ToListAsync();
                         _logger.LogError($"----筛选后记录数: {stepData.Count}");
-
+  
                         //foreach (var item in stepData)
                         //{
                         //    _logger.LogError($"mis--:{item.MIS},misInterval--:{item.MISInterval},vechelType--:{item.FilteredVehicleModel},MF--:{item.ManufacturingMonth}");
@@ -191,7 +191,7 @@ namespace WebWinMVC.Controllers
                         foreach (var step in misSteps)//这里重新按照分离之后的表进行筛选，(逻辑改为只要符合一次要求，就纳入HASH 表，每次分别判断，最终统一统计)
                         {
                             //这里的筛选数量是正确的，制造月的引入已完成，这里同时还可以引入车型！！！--------------
-                            var groupedDataToFilter = stepData
+                              var groupedDataToFilter = stepData
                                   .GroupBy(q => new { q.OldMaterialCode, q.SupplierShortCode, q.FilteredVehicleModel })
                                   .Select(g => new
                                   {
@@ -384,6 +384,8 @@ namespace WebWinMVC.Controllers
                             SMT = result.SMT,
                             LocationCode = result.LocationCode,
                             FilteredVehicleModel = result.FilteredVehicleModel,
+
+
                             FaultCode = result.FaultCode,
                             BreakPointNum = "0".ToString(),
                             BreakPointTime = "BFI", // 断点时间为"new"
@@ -1309,13 +1311,14 @@ namespace WebWinMVC.Controllers
                             ResponsibilitySourceSupplierName = temp.ResponsibilitySourceSupplierName ?? "NIL",
                             FilteredVehicleModel = temp.FilteredVehicleModel ?? "NIL",
                             IssueAttributes = temp.IssueAttributes??"NIL",
-                            CaseCount = temp.CaseCount ?? "0",
+                            CaseCount = temp.CaseCount ?? "0",  
                             MIS3 = temp.MIS3 ?? "0",
                             MIS6 = temp.MIS6 ?? "0",
                             MIS12 = temp.MIS12 ?? "0",
                             MIS24 = temp.MIS24 ?? "0",
                             MIS48 = temp.MIS48 ?? "0",
                             SMT = temp.SMT ?? "NIL",
+                            QE= temp.QE ?? "NIL",
                             LocationCode = temp.LocationCode ?? "NIL",
                             FaultCode = temp.FaultCode ?? "NIL",
                             PQSNumber = temp.PQSNumber ?? "NIL",
@@ -1493,6 +1496,8 @@ namespace WebWinMVC.Controllers
 
             foreach (var result in sortedResults)
             {
+               
+                             
                 var tempEntry = new DailyQualityIssueChecklistV91QueryTemp
                 {
                     OldMaterialCode = result.OldMaterialCode ?? "NIL",
@@ -1510,6 +1515,7 @@ namespace WebWinMVC.Controllers
                     MIS24 = result.MIS24 ?? "0",
                     MIS48 = result.MIS48 ?? "0",
                     SMT = result.SMT ?? "NIL",
+                    
                     LocationCode = result.LocationCode ?? "NIL",
                     FaultCode = result.FaultCode ?? "NIL",
                     PQSNumber = "NIL", // 没有对应的字段，设置为 "NIL"
@@ -1574,6 +1580,10 @@ namespace WebWinMVC.Controllers
 
             foreach (var result in sortedResults)
             {
+
+                var QEfinder = _context.QEIdentifies.Where(e => e.LocationCode == result.LocationCode).FirstOrDefault()?.QEName;
+                
+                _logger.LogError("+++++++QE++++++++++++++" + QEfinder);
                 string isBreakdownInvalid = (result.BreakPointNum == "0") ? "否" : "是";//这里可以根据之前定义的断点种子分别判断断点是否失效
                 string tempCount = (result.BreakPointNum == "0") ? result.BreakPointTotal : result.BreakPointNum;
                 var tempEntry = new DailyQualityIssueChecklistV91Temp
@@ -1594,7 +1604,7 @@ namespace WebWinMVC.Controllers
                     SMT = result.SMT ?? "NIL",
                     LocationCode = result.LocationCode ?? "NIL",
                     FaultCode = result.FaultCode ?? "NIL",
-                    QE = "NIL", // 没有对应的字段，设置为 "NIL"
+                    QE = QEfinder??"NIL", // 没有对应的字段，设置为 "NIL"
                     ServiceFaultIdentificationAccurate = "NIL", // 没有对应的字段，设置为 "NIL"
                     IdentifiedFaultMode = "NIL", // 没有对应的字段，设置为 "NIL"                
                     BreakdownCount = tempCount??"NQI",//为断点次数 为0 的情况下赋值之前定义的总次数                               
