@@ -119,6 +119,11 @@
         "Name": "resultsToStoreQuery",
         "Type": "System.Collections.Generic.IEnumerable\u00601[[WebWinMVC.PivotResult, WebWinMVC, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "IsRequired": true
+      },
+      {
+        "Name": "FirstTime",
+        "Type": "System.Boolean",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": [
@@ -141,6 +146,11 @@
         "Name": "resultsToStore",
         "Type": "System.Collections.Generic.IEnumerable\u00601[[WebWinMVC.PivotResult, WebWinMVC, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "IsRequired": true
+      },
+      {
+        "Name": "firstTime",
+        "Type": "System.Boolean",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": [

@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Drawing;
+﻿using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.Office.CustomUI;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -150,6 +151,7 @@ namespace WebWinMVC.Controllers
                 _logger.LogError($"初始筛选数量为：{initialCount}");
                 var misSteps = new List<int> { 3, 6, 12, 24, 48 };
                 HashSet<string> collectedMaterialCodes = new HashSet<string>();
+                
                 resultsToStore.Clear();//每次筛选不同车型的时候先清空内容
                                        // 筛选符合当前车型和MIS区间的记录,去除车型和步骤的单独筛选，累计到一起进行筛选，这里筛选制造月完全可以简化逻辑，现在这个表是就是符合要求的表
 
@@ -164,47 +166,42 @@ namespace WebWinMVC.Controllers
                             stepDataQuery = query
                                 .Where(q =>
                                     ((q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "-1") &&
-                                    q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 6 + 6 + MFmonth)) >= 0 &&
+                                    q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 6  + MFmonth)) >= 0 &&
                                     q.ManufacturingMonth.CompareTo(filterDay) <= 0)
                                 );
                             break;
-
                         case 6:
                             stepDataQuery = query
                                 .Where(q =>
                                     ((q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "-1" || q.MISInterval == "6") &&
-                                    q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 9 + 6 + MFmonth)) >= 0 &&
+                                    q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 9  + MFmonth)) >= 0 &&
                                     q.ManufacturingMonth.CompareTo(filterDay) <= 0)
                                 );
                             break;
-
                         case 12:
                             stepDataQuery = query
                                 .Where(q =>
                                     ((q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "-1" || q.MISInterval == "6" || q.MISInterval == "12") &&
-                                    q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 15 + 6 + MFmonth)) >= 0 &&
+                                    q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 15  + MFmonth)) >= 0 &&
                                     q.ManufacturingMonth.CompareTo(filterDay) <= 0)
                                 );
                             break;
-
                         case 24:
                             stepDataQuery = query
                                 .Where(q =>
                                     ((q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "-1" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24") &&
-                                    q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 27 + 6 + MFmonth)) >= 0 &&
+                                    q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 27  + MFmonth)) >= 0 &&
                                     q.ManufacturingMonth.CompareTo(filterDay) <= 0)
                                 );
                             break;
-
                         case 48:
                             stepDataQuery = query
                                 .Where(q =>
                                     ((q.MISInterval == "0" || q.MISInterval == "3" || q.MISInterval == "-1" || q.MISInterval == "6" || q.MISInterval == "12" || q.MISInterval == "24" || q.MISInterval == "48") &&
-                                    q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 54 + 6 + MFmonth)) >= 0 &&
+                                    q.ManufacturingMonth.CompareTo(SubtractMonths(filterDay, 54  + MFmonth)) >= 0 &&
                                     q.ManufacturingMonth.CompareTo(filterDay) <= 0)
                                 );
                             break;
-
                         default:
                             // 默认情况，如果需要处理其他步骤
                             break;
@@ -222,6 +219,11 @@ namespace WebWinMVC.Controllers
                     foreach (var stepmini in misSteps)//这里重新按照分离之后的表进行筛选，(逻辑改为只要符合一次要求，就纳入HASH 表，每次分别判断，最终统一统计)
                     {
                         //这里的筛选数量是正确的，制造月的引入已完成，这里同时还可以引入车型！！！--------------
+                        if (stepmini != step)
+                            continue;
+                        
+                        
+                        
                         var groupedDataToFilter = stepData
                             .GroupBy(q => new { q.OldMaterialCode, q.SupplierShortCode, q.FilteredVehicleModel })
                             .Select(g => new
@@ -1266,6 +1268,8 @@ namespace WebWinMVC.Controllers
         {
             var dbSetTemp = _context.dailyQualityIssueChecklistV91Temps;
             var dbSetPermanent = _context.DailyQualityIssueChecklistV91s;
+            HashSet<string> collectedMaterialCodes = new HashSet<string>();
+            var tempData = new List<DailyQualityIssueChecklistV91>();
 
             // 开始事务以确保数据一致性
             using var transaction = await _context.Database.BeginTransactionAsync();//避免数据回滚
@@ -1291,9 +1295,55 @@ namespace WebWinMVC.Controllers
                 }
 
                 // 从临时表中读取数据
-                var tempData = await dbSetTemp.ToListAsync();
-                _logger.LogInformation($"从 DailyQualityIssueChecklistV91Temp 读取到 {tempData.Count} 条记录。");
+                var tempDataOrigin = await dbSetTemp.ToListAsync();
+                var sortedData = dbSetTemp
+                        .OrderByDescending(q => q.CaseCount)  // 按 CaseCount 反向排序
+                        .ToList();
 
+                foreach (var item in sortedData)//构建临时的内存表，这里增加供应商筛选的逻辑,同时增加车型筛选的逻辑---！！，创建一个临时表
+                {
+                    // 创建一个唯一的标识字符串，由物料号和供应商短代码组成
+                    string uniqueKey = $"{item.OldMaterialCode}-{item?.SupplierShortCode}-{item?.FilteredVehicleModel}";
+
+                    // 将物料号和供应商短代码的组合加入到哈希集合
+                    if (collectedMaterialCodes.Add(uniqueKey)) // 将组合字符串加入hash集合,如果数据有重复，则HASH SET 自动排除，所以留下的都是唯一值
+                    {
+                       var originalData = sortedData
+                                            .Where(q => q.OldMaterialCode == item.OldMaterialCode &&
+                                                        q.SupplierShortCode == item.SupplierShortCode &&
+                                                        q.FilteredVehicleModel == item.FilteredVehicleModel)
+                                            
+                                            .FirstOrDefault();  // 获取排序后的第一个元素
+                        tempData.Add(new DailyQualityIssueChecklistV91
+                        {
+                            OldMaterialCode = item.OldMaterialCode ?? "NIL",
+                            OldMaterialDescription = item.OldMaterialDescription ?? "NIL",
+                            SupplierShortCode = item.SupplierShortCode ?? "NIL",
+                            ResponsibilitySourceSupplierName = item.ResponsibilitySourceSupplierName ?? "NIL",
+                            FilteredVehicleModel = item.FilteredVehicleModel ?? "NIL",
+                            IssueAttributes = item.IssueAttributes ?? "NIL",
+                            CaseCount = item.CaseCount ?? "0",
+                            MIS3 = item.MIS3 ?? "0",
+                            MIS6 = item.MIS6 ?? "0",
+                            MIS12 = item.MIS12 ?? "0",
+                            MIS24 = item.MIS24 ?? "0",
+                            MIS48 = item.MIS48 ?? "0",
+                            SMT = item.SMT ?? "NIL",
+                            QE = item.QE ?? "NIL",
+                            LocationCode = item.LocationCode ?? "NIL",
+                            FaultCode = item.FaultCode ?? "NIL",
+                            PQSNumber = item.PQSNumber ?? "NIL",
+                            BreakdownCount = item.BreakdownCount ?? "NIL",
+                            IsBreakdownInvalid = item.IsBreakdownInvalid ?? "NIL",
+                            BreakpointTime = item.BreakpointTime ?? "NIL",
+                        });//
+                    }
+                }
+            
+
+
+
+                _logger.LogInformation($"从 DailyQualityIssueChecklistV91Temp 处理后的数据读取到 {tempData.Count} 条记录。");
                 // 从永久表中读取现有数据
                 var originData = await dbSetPermanent.ToListAsync();
                 _logger.LogInformation($"从 DailyQualityIssueChecklistV91s 读取到 {originData.Count} 条记录。");
@@ -1406,6 +1456,8 @@ namespace WebWinMVC.Controllers
         {
             var dbSetTemp = _context.dailyQualityIssueChecklistV91QueryTemps;
             var dbSetPermanent = _context.DailyQualityIssueChecklistV91Queries;
+            var tempData = new List<DailyQualityIssueChecklistV91Query>();
+            HashSet<string> collectedMaterialCodes = new HashSet<string>();
 
             switch (operation)
             {
@@ -1427,7 +1479,50 @@ namespace WebWinMVC.Controllers
             }
 
             // 从临时表中读取数据
-            var tempData = await dbSetTemp.ToListAsync();
+            var tempDataOrigin = await dbSetTemp.ToListAsync();
+            var sortedData = dbSetTemp
+                      .OrderByDescending(q => q.CaseCount)  // 按 CaseCount 反向排序
+                      .ToList();
+
+            foreach (var item in sortedData)//构建临时的内存表，这里增加供应商筛选的逻辑,同时增加车型筛选的逻辑---！！，创建一个临时表
+            {
+                // 创建一个唯一的标识字符串，由物料号和供应商短代码组成
+                string uniqueKey = $"{item.OldMaterialCode}-{item?.SupplierShortCode}-{item?.VehicleModel}";
+
+                // 将物料号和供应商短代码的组合加入到哈希集合
+                if (collectedMaterialCodes.Add(uniqueKey)) // 将组合字符串加入hash集合,如果数据有重复，则HASH SET 自动排除，所以留下的都是唯一值
+                {
+                    var originalData = sortedData
+                                             .Where(q => q.OldMaterialCode == item.OldMaterialCode &&
+                                                         q.SupplierShortCode == item.SupplierShortCode &&
+                                                         q.VehicleModel == item.VehicleModel)                                         
+                                             .FirstOrDefault();  // 获取排序后的第一个元素
+                    tempData.Add(new DailyQualityIssueChecklistV91Query
+                    {
+                        OldMaterialCode = item?.OldMaterialCode ?? "NIL",
+                        ApprovalDate = item?.ApprovalDate ?? "NIL",
+                        VehicleModel = item?.VehicleModel ?? "NIL",
+                        OldMaterialDescription = item?.OldMaterialDescription ?? "NIL",
+                        SupplierShortCode = item?.SupplierShortCode ?? "NIL",
+                        ResponsibilitySourceSupplierName = item?.ResponsibilitySourceSupplierName ?? "NIL",
+                        CaseCount = item?.CaseCount ?? "NIL",
+                        BreakPointNum = item?.BreakPointNum ?? "NIL",
+                        IssueAttributes = item?.IssueAttributes ?? "NIL",
+                        MIS3 = item?.MIS3 ?? "0",
+                        MIS6 = item?.MIS6 ?? "0",
+                        MIS12 = item?.MIS12 ?? "0",
+                        MIS24 = item?.MIS24 ?? "0",
+                        MIS48 = item?.MIS48 ?? "0",
+                        SMT = item?.SMT ?? "NIL",
+                        LocationCode = item?.LocationCode ?? "NIL",
+                        FaultCode = item?.FaultCode ?? "NIL",
+                        PQSNumber = item?.PQSNumber ?? "NIL",
+                        VAN = item?.VAN ?? "NIL",
+                        VIN = item?.VIN ?? "NIL"
+                    });//
+                }
+            }
+
 
             //从原有表中记录数据
             var originData = await dbSetPermanent.ToListAsync();
@@ -1571,13 +1666,15 @@ namespace WebWinMVC.Controllers
             {
                 try
                 {
-                    _logger.LogError("开始清空 DailyQualityIssueChecklistV91QueryTemps 表。");
+                    _logger.LogError("开始清空 DailyQualityIssueChecklistV91QueryTemps表。");
 
                     // 方法1：使用 RemoveRange 删除所有记录
-                    if(FirstTime)
-                    _context.dailyQualityIssueChecklistV91QueryTemps.RemoveRange(_context.dailyQualityIssueChecklistV91QueryTemps);
+                    if (FirstTime)
+                    { _context.dailyQualityIssueChecklistV91QueryTemps.RemoveRange(_context.dailyQualityIssueChecklistV91QueryTemps);
+                        _logger.LogError("成功清空 DailyQualityIssueChecklistV91QueryTemps表。");
+                    }
                     await _context.SaveChangesAsync();
-                    _logger.LogError("成功清空 DailyQualityIssueChecklistV91QueryTemps 表。");
+                  
 
                     // 或者使用原生 SQL 命令（方法2：使用 ExecuteSqlRawAsync）
                     // await _context.Database.ExecuteSqlRawAsync("DELETE FROM [YourSchema].[DailyQualityIssueChecklistV91QueryTemps]");
@@ -1622,7 +1719,7 @@ namespace WebWinMVC.Controllers
 
                 var QEfinder = _context.QEIdentifies.Where(e => e.LocationCode == result.LocationCode).FirstOrDefault()?.QEName;
 
-                _logger.LogError("+++++++QE++++++++++++++" + QEfinder);
+                //_logger.LogError("+++++++QE++++++++++++++" + QEfinder);
                 string isBreakdownInvalid = (result.BreakPointNum == "0") ? "否" : "是";//这里可以根据之前定义的断点种子分别判断断点是否失效
                 string tempCount = (result.BreakPointNum == "0") ? result.BreakPointTotal : result.BreakPointNum;
                 var tempEntry = new DailyQualityIssueChecklistV91Temp
@@ -1667,11 +1764,14 @@ namespace WebWinMVC.Controllers
                 try
                 {
                     // 清空表（方法1：使用 RemoveRange 删除所有记录）
-                    if(firstTime)
-                    _context.dailyQualityIssueChecklistV91Temps.RemoveRange(_context.dailyQualityIssueChecklistV91Temps);
+                    if (firstTime)
+                    {
+                        _context.dailyQualityIssueChecklistV91Temps.RemoveRange(_context.dailyQualityIssueChecklistV91Temps);
+                        _logger.LogError("成功清空 DailyQualityIssueChecklistV91Temps 表。");
+                    }
                     //循环4次的首次录入应该清空临时表
                     await _context.SaveChangesAsync();
-                    _logger.LogError("成功清空 DailyQualityIssueChecklistV91Temps 表。");
+                   
 
                     // 或者使用原生 SQL 命令（方法2：使用 ExecuteSqlRawAsync）
                     // await _context.Database.ExecuteSqlRawAsync("DELETE FROM [JRZKWTWebWinMVC].[dbo].[DailyQualityIssueChecklistV91Temps]");

@@ -9,91 +9,91 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = WebWinMVC
 build_property.RootNamespace = WebWinMVC
-build_property.ProjectDir = E:\C#\WebWinMVC\WebWinMVC\
+build_property.ProjectDir = D:\个人文件\C#\QualityManagemenSystem\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = E:\C#\WebWinMVC\WebWinMVC
+build_property.MSBuildProjectDirectory = D:\个人文件\C#\QualityManagemenSystem
 build_property._RazorSourceGeneratorDebug = 
 
-[E:/C\#/WebWinMVC/WebWinMVC/Views/Home/Index.cshtml]
+[D:/个人文件/C\#/QualityManagemenSystem/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/C\#/WebWinMVC/WebWinMVC/Views/Home/Privacy.cshtml]
+[D:/个人文件/C\#/QualityManagemenSystem/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/C\#/WebWinMVC/WebWinMVC/Views/HYIndex/HYIndex24M.cshtml]
+[D:/个人文件/C\#/QualityManagemenSystem/Views/HYIndex/HYIndex24M.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSFlJbmRleFxIWUluZGV4MjRNLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/C\#/WebWinMVC/WebWinMVC/Views/HYIndex/HYIndexJRZLWT.cshtml]
+[D:/个人文件/C\#/QualityManagemenSystem/Views/HYIndex/HYIndexJRZLWT.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSFlJbmRleFxIWUluZGV4SlJaTFdULmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/C\#/WebWinMVC/WebWinMVC/Views/HYIndex/HYIndexJRZLWTV91.cshtml]
+[D:/个人文件/C\#/QualityManagemenSystem/Views/HYIndex/HYIndexJRZLWTV91.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSFlJbmRleFxIWUluZGV4SlJaTFdUVjkxLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/C\#/WebWinMVC/WebWinMVC/Views/HYIndex/HYIndexMANAGER.cshtml]
+[D:/个人文件/C\#/QualityManagemenSystem/Views/HYIndex/HYIndexMANAGER.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSFlJbmRleFxIWUluZGV4TUFOQUdFUi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/C\#/WebWinMVC/WebWinMVC/Views/HYIndex/HYIndexOTHER.cshtml]
+[D:/个人文件/C\#/QualityManagemenSystem/Views/HYIndex/HYIndexOTHER.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSFlJbmRleFxIWUluZGV4T1RIRVIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/C\#/WebWinMVC/WebWinMVC/Views/HYIndex/HYIndexQMC.cshtml]
+[D:/个人文件/C\#/QualityManagemenSystem/Views/HYIndex/HYIndexQMC.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSFlJbmRleFxIWUluZGV4UU1DLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/C\#/WebWinMVC/WebWinMVC/Views/HYIndex/HYIndexSIL.cshtml]
+[D:/个人文件/C\#/QualityManagemenSystem/Views/HYIndex/HYIndexSIL.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSFlJbmRleFxIWUluZGV4U0lMLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/C\#/WebWinMVC/WebWinMVC/Views/HYIndex/HYIndexTOP.cshtml]
+[D:/个人文件/C\#/QualityManagemenSystem/Views/HYIndex/HYIndexTOP.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSFlJbmRleFxIWUluZGV4VE9QLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/C\#/WebWinMVC/WebWinMVC/Views/HYIndex/HYIndexWM.cshtml]
+[D:/个人文件/C\#/QualityManagemenSystem/Views/HYIndex/HYIndexWM.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSFlJbmRleFxIWUluZGV4V00uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/C\#/WebWinMVC/WebWinMVC/Views/HYIndex/OTHER.cshtml]
+[D:/个人文件/C\#/QualityManagemenSystem/Views/HYIndex/OTHER.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSFlJbmRleFxPVEhFUi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/C\#/WebWinMVC/WebWinMVC/Views/HYIndex/RenderJRZLWT.cshtml]
+[D:/个人文件/C\#/QualityManagemenSystem/Views/HYIndex/RenderJRZLWT.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSFlJbmRleFxSZW5kZXJKUlpMV1QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/C\#/WebWinMVC/WebWinMVC/Views/HYIndex/TESTPAGES.cshtml]
+[D:/个人文件/C\#/QualityManagemenSystem/Views/HYIndex/TESTPAGES.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSFlJbmRleFxURVNUUEFHRVMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/C\#/WebWinMVC/WebWinMVC/Views/HYIndex/_UploadForm.cshtml]
+[D:/个人文件/C\#/QualityManagemenSystem/Views/HYIndex/_UploadForm.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSFlJbmRleFxfVXBsb2FkRm9ybS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/C\#/WebWinMVC/WebWinMVC/Views/Shared/Error.cshtml]
+[D:/个人文件/C\#/QualityManagemenSystem/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/C\#/WebWinMVC/WebWinMVC/Views/Shared/_ValidationScriptsPartial.cshtml]
+[D:/个人文件/C\#/QualityManagemenSystem/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/C\#/WebWinMVC/WebWinMVC/Views/_ViewImports.cshtml]
+[D:/个人文件/C\#/QualityManagemenSystem/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/C\#/WebWinMVC/WebWinMVC/Views/_ViewStart.cshtml]
+[D:/个人文件/C\#/QualityManagemenSystem/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/C\#/WebWinMVC/WebWinMVC/Views/Shared/_Layout.cshtml]
+[D:/个人文件/C\#/QualityManagemenSystem/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-yoskmrpjai
