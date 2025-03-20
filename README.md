@@ -1,21 +1,58 @@
+# 企业WEB开发项目
+
 基于企业实际应用的WEB开发项目，针对大量生产统计数据，进行自动化处理，提取关键数据，配合一键化质量分析、生产分析、供应分析，提升工作处理效率。
-所用基本框架
-    前端：
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/lib/jquery.datatables/1.10.15/Content/Scripts/DataTables/jquery.dataTables.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/js/xlsx.full.min.js" asp-append-version="true"></script>
-    <script src="~/js/jszip.min.js" asp-append-version="true"></script>
-    <script src="~/js/pptxgen.min.js" asp-append-version="true"></script>
-    <script src="~/js/plotly.min.js" asp-append-version="true"></script>
-    后端：
-     "BCrypt.Net-Next": "4.0.3",
-      "ClosedXML": "0.104.1",
-      "CsvHelper": "33.0.1",
-      "DocumentFormat.OpenXml": "3.1.1",
-      "EPPlus": "7.4.2",
-      "jquery.datatables": "1.10.15",
-      "runtimepack.Microsoft.NETCore.App.Runtime.win-x64": "8.0.6",
-    基本登录界面：
-    ![登录页面](https://github.com/user-attachments/assets/18403d38-251f-4a6b-bea0-53574e72c3bd)
+
+## 所用基本框架
+
+### 前端
+
+- **jQuery**
+- **Bootstrap**: 
+- **jQuery DataTables**: 
+- **xlsx**: 
+- **JSZip**:
+- **PptxGenJS**: 
+- **Plotly**:
+
+### 后端
+
+- **BCrypt.Net-Next**: 4.0.3
+- **ClosedXML**: 0.104.1
+- **CsvHelper**: 33.0.1
+- **DocumentFormat.OpenXml**: 3.1.1
+- **EPPlus**: 7.4.2
+- **jquery.datatables**: 1.10.15
+- **runtimepack.Microsoft.NETCore.App.Runtime.win-x64**: 8.0.6
+
+## 基本界面
+![登录页面](https://github.com/user-attachments/assets/18403d38-251f-4a6b-bea0-53574e72c3bd)
+执行基本登录操作，对接企业CRM系统，数据独立
+
+## 主要交互
+![立项状况](https://github.com/user-attachments/assets/0e09e943-8f22-487b-b0ea-4174f49cb08a)
+根据实际生产销售数据，后端自动计算基于年度、季度、、车型、区域、问题复杂度、问题类型、供应商、风险等级、问题频次等多种参数作用下的产品问题，生成工作任务自动配到对应工程师手中。
+
+## 问题分析
+![问题散点图](https://github.com/user-attachments/assets/5646ab8a-6c55-4b33-8a89-4a3c42c01cf4)
+QE或者SQE根据不同的问题，通过数据图形化方式进行快速立项调查，编辑处理相关问题，自动化生产报表、自动化纳入PSQ系统，并且并入CRM母系统，
+
+
+## 质量问题识别原则
+- **多维度准入条件**  
+  以“车型、物料号、故障频次、MIS（使用月数）”为核心构建筛选机制。  
+  - 车型：聚焦不同车型的特性与潜在故障模式  
+  - 物料号：定位具体零部件，以便甄别重复或批量性问题  
+  - 频次：同一零部件在同一车型下的重复出现次数，超过设定值即视为高风险  
+  - MIS：在 3mis、6mis、12mis、24mis 等关键使用时段进行监测，若故障集中爆发则需重点关注
+- **阈值触发与自动识别**  
+  当「车型 + 物料号 + 频次 + MIS」四项指标综合达到预设门槛，系统会将问题标记为“需 100% 处理”，并直接进入质量分析或立项流程；若尚未达标，则保留在数据池中，以便后续追溯与观察。
+- **新旧问题区分**  
+  对符合触发条件的问题先比对历史问题库（如 SIL 清单）：  
+  - 若已存在则合并处理，避免重复立项  
+  - 若未记录则判定为新问题，开立新项目或新 SIL 进行深度分析
+- **动态预警机制**  
+  对特定 MIS 阶段（如 3mis ≥ 8 条）设定重点监控阈值，一旦超出即进入每日 24 小时会议讨论，确保严重或高频问题能及时获知与响应；阈值可根据车型、批次及企业策略进行动态调整。
+- **持续跟踪与升级**  
+  一旦识别为新问题，纳入质量跟踪流程（如周例会、专项会议等），并在后续使用月份（6mis、12mis 等）持续监控；若故障频次上升或范围扩大，则迅速升级处理优先级，调配更多资源完成根因分析与改进闭环。
+
+
