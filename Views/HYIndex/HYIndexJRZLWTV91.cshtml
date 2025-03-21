@@ -505,7 +505,7 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                 SERVICE_CENTER: '服务中心问题',
                 OTHER_ISSUES: '其他问题'
             },
-            contentOPCache: {}, // 修正了这里的错误
+            contentOPCache: {}, // 修正了的错误
         };
 
     </script>@* 全局变量模块 *@
@@ -544,7 +544,7 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                         console.log(dataStore.tooltipContentCache);
                         // 数据是一个数组，迭代所有记录来生成内容
                         data.sort((a, b) => {
-                            // 这里假设制造月是一个字符串形式的日期，格式是 'YYYYMM'
+                            // 制造月是一个字符串形式的日期，格式是 'YYYYMM'
                             return b.manufacturingMonth.localeCompare(a.manufacturingMonth);
                         });
                         let tooltipContent = data.map(item => `制造月：${item.manufacturingMonth} ；MIS区间：${item.misInterval}；VAN：${item.van}；MIS：${item.mis}；CODE：${item.faultCodeDescription}；供应商：${item.responsibilitySourceSupplierName}；短代码：${item.supplierShortCode}；旧物料号：${item.oldMaterialCode}；车型：${item.filteredVehicleModel}；服务单号：${item.serviceOrder}；FDP：${item.fdp}；S.D：${item.salesDate}；故障描述：${item.faultDescription
@@ -553,7 +553,7 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                         // 更新 tooltip 内容
                         $this.attr('title', tooltipContent);
                         //$this.tooltip('update');
-                        //这里是一个显示黑色tooltip 提示的框
+                        //是一个显示黑色tooltip 提示的框
                         // 隐藏加载指示器
                         $loadingIndicator.hide();
                     },
@@ -608,7 +608,7 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                 },
                 "initComplete": function () {
                     let api = this.api();
-                    // api.column(12).search('@Html.Raw(ViewBag.Name)').draw(); // 这里的'默认值'可以替换为想要的初始搜索条件
+                    // api.column(12).search('@Html.Raw(ViewBag.Name)').draw(); // 的'默认值'可以替换为想要的初始搜索条件
                 }
 
             });
@@ -749,7 +749,7 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
 
                 // 发起 AJAX 请求到后端
                 $.ajax({
-                    url: '/queryAPI/RemoteTooltip/dataStoreFilter', // 你的后端 API 路径
+                    url: '/queryAPI/RemoteTooltip/dataStoreFilter', // 后端 API 路径
                     method: 'GET',
                     data: requestDataForBK,
                     success: function (response) {
@@ -806,7 +806,7 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                         cubeHeightsTotal.push(mapDateToRangeForFilter(cubeHeightsTemp[i]));
                         console.log(cubeHeightsTotal[i]);
                     }
-                    // 在这里执行其他的操作，例如更新图表的数据等
+                    // 执行其他的操作，例如更新图表的数据等
                 } else {
                     console.log("没有找到断点数据，跳过坐标转换步骤。");
                 }
@@ -1303,13 +1303,13 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
         }
         function exportTableToExcelAnalyse() {
             console.log("start to download excel for QE");
-            let wb = XLSX.utils.book_new(); // 确保这里是 XLSX
+            let wb = XLSX.utils.book_new(); // 确保是 XLSX
     
             let ws = XLSX.utils.table_to_sheet(document.getElementById("example"));
         
-            XLSX.utils.book_append_sheet(wb, ws, "Sheet1"); // 确保这里是 XLSX
+            XLSX.utils.book_append_sheet(wb, ws, "Sheet1"); // 确保是 XLSX
             console.log("start to download excel for QE1.3");
-            XLSX.writeFile(wb, "即日质量问题填报清单.xlsx"); // 确保这里是 XLSX
+            XLSX.writeFile(wb, "即日质量问题填报清单.xlsx"); // 确保是 XLSX
         }
 
 
@@ -1664,7 +1664,7 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                 console.log(dataStoreOnePage.problemDescription); // 查看更新后的 problemDescription 数组
                 console.log(dataStoreOnePage.failureSituation); // 查看更新后的 failureSituation 数组
                 console.log('Vehicle Basic Info Data:', vehicleInfo);
-                // 可以在这里处理 vehicleInfo 数据，比如更新页面或其他操作
+                // 可以在处理 vehicleInfo 数据，比如更新页面或其他操作
                 //生成一页纸报告
 
                 generatePPTOnePage(dataStoreOnePage.problemDescription[1], modalOP, dataStoreOnePage.problemDescription, dataStoreOnePage.failureSituation)
@@ -1704,7 +1704,7 @@ z-index: 9999; color: blue; font-weight: normal; padding: 10px; background-color
                     // 处理成功回调
                     console.log('成功纳入SIL:', response);
                     alert("成功纳入SIL");
-                    // 在这里可以执行其他操作，例如显示成功消息等
+                    // 在可以执行其他操作，例如显示成功消息等
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     let errorMessage = '请求失败，请稍后再试。';
